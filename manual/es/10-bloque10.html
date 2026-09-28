@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 10</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-10" data-pestana="10" data-orden="10" style="--acento: var(--b10)">
+  <div class="cap-apertura">
+    <div class="cap-num">10</div>
+    <div class="cap-etiqueta">Capítulo diez · Bloque 10</div>
+    <h1>Biogeografía histórica</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un rango geográfico también es un carácter, pero con una diferencia que lo cambia todo: cuando un linaje se divide, el rango <b>se reparte</b> entre las dos hijas, y cómo se reparte es justamente lo que separa a unos modelos de otros. Este bloque ajusta seis, reconstruye dónde estuvo cada linaje —incluidas las esquinas que casi nadie dibuja— y convierte las probabilidades en cuentas de dispersiones, extinciones y divisiones.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">10.1</span>El carácter que se parte en dos</li>
+      <li><span class="n">10.2</span>Las áreas y quién vive en cuáles</li>
+      <li><span class="n">10.3</span>Cuántos rangos puede tener un linaje</li>
+      <li><span class="n">10.4</span>Los seis modelos</li>
+      <li><span class="n">10.5</span>Por qué +J casi siempre gana</li>
+      <li><span class="n">10.6</span>Dónde estuvo cada linaje, y las esquinas</li>
+      <li><span class="n">10.7</span>Cuántas veces pasó cada cosa</li>
+      <li><span class="n">10.8</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">10.9</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.1 -->
+  <h2 id="s10-1"><span class="num">10.1</span>El carácter que se parte en dos</h2>
+
+  <p>En el Bloque 9 un carácter discreto cambia a lo largo de una rama y, al llegar a un nodo, las dos hijas heredan lo mismo que tenía el padre. Un rango geográfico no se comporta así. Si el ancestro vivía en las islas A, B y C, y el linaje se divide, lo normal <b>no</b> es que las dos hijas hereden las tres islas: lo normal es que una se quede con A y la otra con BC, o que una se quede con todo y la otra con una sola.</p>
+
+  <p>Eso obliga a dos cosas a la vez. Primero, los <b>estados</b> del modelo no son las áreas, sino los <b>subconjuntos</b> de áreas. Segundo, hace falta describir dos procesos distintos: qué le pasa al rango <b>a lo largo de una rama</b> y qué le pasa <b>en el nodo</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 10.1.</b> Los dos procesos y sus parámetros.</caption>
+    <thead><tr><th style="width:30%">Cuándo</th><th>Qué pasa</th></tr></thead>
+    <tbody>
+      <tr><td><b>A lo largo de una rama</b><br>(anagénesis)</td><td>Con tasa <b>d</b>, el rango <b>gana</b> un área: dispersión. Con tasa <b>e</b>, la <b>pierde</b>: extinción local. Un rango de una sola área que la pierde <b>desaparece</b>, y por eso el rango nulo es un estado y es absorbente.</td></tr>
+      <tr><td><b>En el nodo</b><br>(cladogénesis)</td><td>El rango ancestral se reparte entre las dos hijas. <b>Qué repartos están permitidos</b> es lo único que distingue a los tres modelos base.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Primero necesitas un árbol, y conviene que esté fechado</div>
+    <p>Las tasas de dispersión y de extinción se estiman <b>por unidad de tiempo</b>. Sobre un filograma medido en sustituciones no significan lo que dicen. El panel te manda al Bloque 7 si aún no tienes cronograma, y con razón: una d de 0.035 sólo quiere decir algo si el eje del árbol son millones de años.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.2 -->
+  <h2 id="s10-2"><span class="num">10.2</span>Las áreas y quién vive en cuáles</h2>
+
+  <p>El programa lee el <b>formato de LAGRANGE</b>, que es el mismo que usa BioGeoBEARS: una línea de encabezado con el número de taxones, el de áreas y sus nombres entre paréntesis, y luego una fila por especie con ceros y unos.</p>
+
+  <p>También acepta una <b>tabla separada por comas</b> con una columna por área, que es más cómoda de armar en una hoja de cálculo, y exporta en formato LAGRANGE por si quieres llevar los mismos datos a otro programa. El ejemplo incluido es de <i>Bursera</i>, y sirve para recorrer el bloque entero sin traer nada propio.</p>
+
+  <p>Los nombres tienen que casar con las puntas del árbol. El bloque dice con cuántas especies se quedó y cuáles no encontró, en vez de seguir adelante en silencio.</p>
+
+  <!-- ----------------------------------------------------------------- 10.3 -->
+  <h2 id="s10-3"><span class="num">10.3</span>Cuántos rangos puede tener un linaje</h2>
+
+  <p>Con <i>n</i> áreas hay 2<sup><i>n</i></sup> subconjuntos. Con cinco áreas son 32 estados; con ocho, 256. La matriz de transición crece con el cuadrado de eso, y ahí es donde el análisis se vuelve imposible.</p>
+
+  <p>El remedio es el <b>tamaño máximo del rango</b>. Si ninguna especie viva ocupa más de tres áreas, limitar los estados a rangos de tres áreas o menos recorta el problema muchísimo.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El tope no es un ajuste técnico: es un supuesto</div>
+    <p>Un linaje que estuvo en cinco de seis áreas <b>no se puede reconstruir</b> si pusiste el tope en tres. Has decidido de antemano que eso no ocurrió. Con frecuencia es razonable —los rangos muy amplios son raros—, pero es una decisión biológica y hay que reportarla junto con los resultados.</p>
+  </div>
+
+  <h3>El rango nulo</h3>
+  <p>Viene activado. Es el estado al que llega un linaje que perdió su única área, y es <b>absorbente</b>: no se sale de él. Tenerlo es lo que permite que la extinción sea un proceso real dentro del modelo y no sólo una etiqueta.</p>
+
+  <h3>Los multiplicadores de dispersión</h3>
+  <p>La matriz de multiplicadores entre áreas es, de todo el bloque, lo que más se parece a hacer biogeografía de verdad. Cada casilla multiplica la tasa de dispersión <i>de</i> un área <i>a</i> otra: un 0 la prohíbe, un 0.1 la vuelve difícil, un 1 la deja como las demás. <b>Ahí entra un istmo que se cerró, un puente de tierra que se abrió o un océano que nunca se cruzó.</b> Se edita haciendo clic en la casilla, y hay un botón para fijar los dos sentidos a la vez y otro para devolverlo todo a uno.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Geografía que cambia con el tiempo</div>
+    <p>El motor sabe trabajar con <b>estratos temporales</b> —una rama que cruza un límite recibe el producto de las matrices de los periodos que atraviesa, cada uno con sus propios multiplicadores y sus propias áreas existentes—, pero la interfaz de este bloque todavía <b>no expone</b> esos controles. Lo que puedes editar hoy es una sola matriz, constante para todo el árbol.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.4 -->
+  <h2 id="s10-4"><span class="num">10.4</span>Los seis modelos</h2>
+
+  <p>Tres modelos base, cada uno con y sin <b>+J</b>. Los tres comparten d y e; lo que cambia es qué repartos permiten en el nodo.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 10.2.</b> Los tres modelos base y qué reparto permiten al dividirse un linaje.</caption>
+    <thead><tr><th style="width:24%">Modelo</th><th>Repartos permitidos</th></tr></thead>
+    <tbody>
+      <tr><td><b>DEC</b><br>Ree y Smith 2008</td><td>Simpatría estrecha (un ancestro de una sola área se copia en las dos hijas), simpatría de subconjunto (una hija se queda con todo el rango y la otra con una sola área) y <b>vicarianza estrecha</b>: el rango se corta en dos, pero una de las hijas se queda con <b>una sola</b> área.</td></tr>
+      <tr><td><b>DIVALIKE</b></td><td>Sólo vicarianza, pero <b>de cualquier corte</b>: el rango se parte en dos mitades complementarias del tamaño que sean. No hay simpatría de subconjunto.</td></tr>
+      <tr><td><b>BAYAREALIKE</b></td><td>Ninguna de las dos: <b>las dos hijas heredan el rango entero</b>. La división geográfica no ocurre en el nodo; si ocurre, es después, por dispersión y extinción a lo largo de las ramas.</td></tr>
+      <tr><td><b>+J</b><br>Matzke 2013</td><td>Se añade a cualquiera de los tres: el <b>salto fundador</b>, una hija que se marcha a una sola área <b>fuera</b> del rango del ancestro. Es el modelo de la colonización a larga distancia.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Puedes ajustar los seis, sólo los tres sin J, o sólo DEC y DEC+J. Se comparan por <b>AICc con pesos de Akaike</b>, y cada +J lleva además una razón de verosimilitudes contra el modelo que contiene.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Si e sale cero</div>
+    <p>El panel lo dice con todas sus letras: una tasa de extinción estimada en cero <b>no significa que no hubo extinción</b>; significa que en este árbol no quedó ninguna huella de ella. Con árboles pequeños es lo habitual.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.5 -->
+  <h2 id="s10-5"><span class="num">10.5</span>Por qué +J casi siempre gana</h2>
+
+  <p>Es el punto más delicado del bloque, y el programa no lo esconde: <b>siempre que gana un modelo +J, el panel explica por qué eso es lo esperable y no es prueba de nada por sí solo.</b></p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>La objeción de Ree y Sanmartín (2018)</div>
+    <p>La comparación no es limpia. El parámetro <b>j compra probabilidad en la cladogénesis</b>, que es un evento instantáneo y no cuesta nada a lo largo de las ramas; <b>d y e la pagan</b> integrando por todo el tiempo del árbol. No están compitiendo en las mismas condiciones.</p>
+    <p>El dato que cierra el argumento: en los casos que ellos examinaron, <b>+J ganaba incluso sobre datos simulados sin ningún salto</b>.</p>
+  </div>
+
+  <p>Lo que sí se puede afirmar, y es lo que el bloque pone en la tabla, es <b>cuánto</b> gana y <b>sobre qué modelo</b>. La razón de verosimilitudes se reporta con la advertencia de que <b>j queda en el borde del espacio de parámetros</b>, y una p calculada así es conservadora.</p>
+
+  <!-- ----------------------------------------------------------------- 10.6 -->
+  <h2 id="s10-6"><span class="num">10.6</span>Dónde estuvo cada linaje, y las esquinas</h2>
+
+  <p>Elegido un modelo, se reconstruyen los rangos ancestrales <b>marginales</b>. Cada nodo lleva un pastel con los rangos que tienen alguna probabilidad; todo lo que no llega al umbral —0.05 de entrada, y se puede cambiar— se junta en una rebanada gris, para que el dibujo no se vuelva ilegible con treinta rangos de probabilidad 0.001.</p>
+
+  <h3>Las esquinas</h3>
+  <p>Ésta es la parte que muchas figuras publicadas no traen. Un pastel sobre el nodo dice qué rango tenía el <b>ancestro</b>; no dice <b>con qué se quedó cada hija</b>, que es justo el evento biogeográfico. Las cajitas pequeñas sobre las dos ramas hijas —las <b>esquinas</b>— muestran el rango con el que cada una arranca inmediatamente después de la división.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>La mitad de la historia que se suele perder</div>
+    <p>Saber que el ancestro estaba en ABC no dice si hubo vicarianza AB|C, simpatría de subconjunto ABC|A o un salto a D. Esa distinción <b>está en las esquinas</b>, y es lo que se cuenta en el artículo. Vienen activadas; déjalas activadas.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.7 -->
+  <h2 id="s10-7"><span class="num">10.7</span>Cuántas veces pasó cada cosa</h2>
+
+  <p>Una probabilidad por nodo no dice cuántas dispersiones hubo ni cuántas veces se partió un rango. El <b>mapeo estocástico biogeográfico</b> sortea historias completas —un rango para cada nodo, una división para cada bifurcación y los movimientos a lo largo de cada rama— condicionadas a lo que se ve en las puntas, y al repetirlo convierte la reconstrucción en <b>cuentas de eventos</b>, que es de lo que está hecha una historia biogeográfica. Quinientas réplicas de entrada.</p>
+
+  <p>Lo que se reporta, promediado sobre las historias, son seis cantidades:</p>
+
+  <ul class="lista">
+    <li><b>Dispersiones</b> y <b>extinciones locales</b> a lo largo de las ramas.</li>
+    <li>Los nodos internos repartidos entre los <b>cuatro tipos de división</b>: simpatría, simpatría de subconjunto, vicarianza y salto fundador.</li>
+  </ul>
+
+  <p>Y con ellas, dos avisos que conviene leer. Si la <b>desviación</b> de las dispersiones es grande frente a su media, los datos no fijan cuántas hubo: sólo el orden de magnitud. Y si en alguna rama el sorteo agotó sus intentos, el panel dice <b>en cuántas ocasiones</b> pasó y advierte que eso subestima un poco las cuentas —suele ocurrir con ramas largas y muchas áreas—, en vez de devolver un número limpio que estaría mal.</p>
+
+  <p>Todo sale en cuatro archivos: la tabla de modelos, los rangos ancestrales, los eventos del mapeo y las áreas en formato LAGRANGE.</p>
+
+  <!-- ----------------------------------------------------------------- 10.8 -->
+  <h2 id="s10-8"><span class="num">10.8</span>Qué tan bien lo hace, medido</h2>
+
+  <p>Se validó contra <b>BioGeoBEARS 1.1.3</b> sobre las <i>Psychotria</i> de Hawái: el conjunto de datos que LAGRANGE y BioGeoBEARS distribuyen, y el que vuelve a analizar cada artículo que discute DEC+J. <b>41 comprobaciones</b> y ningún desacuerdo.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 10.3.</b> Log-verosimilitudes de los seis modelos en las <i>Psychotria</i> de Hawái.</caption>
+    <thead><tr><th>Modelo</th><th>PhylogenyPro</th><th>BioGeoBEARS 1.1.3</th></tr></thead>
+    <tbody>
+      <tr><td>DEC</td><td>−34.54195625</td><td>−34.54195758</td></tr>
+      <tr><td>DEC+J</td><td>−20.94758871</td><td>−20.94758855</td></tr>
+      <tr><td>DIVALIKE</td><td>−33.14967582</td><td>−33.14967538</td></tr>
+      <tr><td>DIVALIKE+J</td><td>−21.08620942</td><td>−21.08620912</td></tr>
+      <tr><td>BAYAREALIKE</td><td>−40.33442556</td><td>−40.33442795</td></tr>
+      <tr><td>BAYAREALIKE+J</td><td>−21.55262993</td><td>−21.55262941</td></tr>
+    </tbody>
+  </table>
+
+  <p>Las tasas d y e coinciden hasta cerca de 1·10⁻⁵ (en DEC, 0.03505 y 0.02831 frente a 0.03505 y 0.02836), y los <b>rangos ancestrales</b> coinciden hasta <b>1.75·10⁻⁸</b> en los dieciocho nodos internos cuando ambos se evalúan con los mismos parámetros; la raíz sale en KO con 0.51655966 frente a 0.51655968.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>El convenio de la raíz</div>
+    <p>LAGRANGE y BioGeoBEARS pesan por uno cada rango permitido en la raíz, y eso es lo que significa <b>toda log-verosimilitud DEC publicada</b>. Un prior plano de verdad difiere por exactamente el logaritmo del número de rangos —aquí, <b>2.708050</b>—. Es la misma constante para todos los modelos sobre las mismas áreas, así que ninguna comparación cambia; pero el número que un lector coteja con un artículo, sí. El programa informa el convenio de BioGeoBEARS y lo dice.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Lo que apareció al validar</div>
+    <p><b>La referencia estaba mal antes que el código.</b> DIVALIKE discrepaba por 0.033, y la causa estaba en el guion de R: BioGeoBEARS lee el parámetro <code>mx01v</code>, no <code>maxent01v</code>. Poner el segundo no hace absolutamente nada y deja a DIVALIKE sin sus vicarianzas 2–2, que es tanto como no ser DIVALIKE.</p>
+    <p><b>El mensaje que subía en la reconstrucción incluía la verosimilitud de la propia hija</b>, contándola dos veces. El síntoma es el que hay que recordar: reconstrucciones <b>demasiado seguras</b> y sesgadas hacia rangos amplios —un nodo al 0.96 para KOMH donde lo cierto era 0.11—. El mensaje que baja a una hija tiene que llevar todo <b>menos</b> el subárbol de esa hija; la probabilidad de la esquina, que es la que se lee, sí usa todos los datos. Son dos cantidades distintas y ahora se calculan las dos.</p>
+    <p><b>Y velocidad, tres veces.</b> Ajustar un modelo tardaba 7.4 s. Reutilizar los búferes dentro de la exponencial de matrices lo bajó a 0.3 s —el recolector de basura estaba haciendo casi todo el trabajo—; atar los valores iniciales del optimizador a la profundidad del árbol quitó casi todas las iteraciones restantes; y sustituir la exponencial por rama por <b>uniformización</b> lo dejó en <b>0.1 s, unas setenta veces más rápido</b>, sin que cambiara un solo dígito. Como todos los términos de esa suma son no negativos, además ya no puede producir las probabilidades ligeramente negativas que la serie de Taylor sí producía.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.9 -->
+  <h2 id="s10-9"><span class="num">10.9</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concluir «hubo dispersión a larga distancia» porque ganó +J</div>
+    <p>Es el error central de este bloque, y por eso el panel lo advierte solo. +J gana casi siempre, incluso con datos simulados sin un solo salto. Reporta cuánto gana y sobre qué modelo; no lo conviertas en una conclusión biogeográfica.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Poner un tope de rango bajo y no decirlo</div>
+    <p>El tope decide de antemano que ningún linaje estuvo en más áreas que ésas. Es un supuesto fuerte y barato de reportar: basta una frase en los métodos.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Correrlo sobre un filograma</div>
+    <p>d y e son tasas por unidad de tiempo. Sobre un árbol en sustituciones por sitio los números salen, pero no significan dispersiones por millón de años. Usa el cronograma del Bloque 7.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publicar sólo los pasteles de los nodos</div>
+    <p>El nodo dice dónde estaba el ancestro; la <b>esquina</b> dice qué le tocó a cada hija, que es el evento. Sin las esquinas, la figura no distingue una vicarianza de una simpatría de subconjunto.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leer un pastel repartido como un fracaso</div>
+    <p>Como en el Bloque 9: un nodo con cinco rangos al 0.2 <b>es</b> el resultado. La rebanada gris no es ruido que estorba, es la parte del espacio de rangos que los datos no descartan.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Dejar todos los multiplicadores en uno y llamarlo modelo</div>
+    <p>Con la matriz plana estás afirmando que moverse entre dos islas vecinas cuesta lo mismo que cruzar un océano. A veces es la hipótesis nula que quieres; casi nunca es la historia que quieres contar.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

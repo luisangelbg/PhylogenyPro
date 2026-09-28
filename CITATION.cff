@@ -1,0 +1,58 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "PhylogenyPro: a browser-based platform for molecular phylogenetics, from the alignment to the dated tree"
+abstract: >-
+  PhylogenyPro is a self-contained web application that carries a set of sequences through a
+  whole phylogenetic study in the browser, with no installation and no server-side computation.
+  It reads FASTA, PHYLIP, NEXUS, Clustal, MEGA and GenBank files and morphological matrices,
+  aligns them with a progressive aligner that can work on codons, and lets the alignment be
+  trimmed and edited by hand. Each partition declares its genome — chloroplast, mitochondrion,
+  nuclear ribosomal or low-copy nuclear — and that declaration is carried into every later step.
+  It selects among 56 DNA models, twelve empirical amino-acid matrices and Mk/Mkv for
+  morphology by AIC, AICc and BIC, and finds partition schemes by greedy merging; infers trees
+  by parsimony, distance methods, maximum likelihood with NNI and SPR search, and
+  Metropolis-coupled Bayesian MCMC, both of the last two running in Web Workers; measures
+  support by bootstrap, ultrafast bootstrap, SH-aLRT, aBayes and posterior probabilities, and
+  compares topologies with the KH, SH and AU tests. It then tests the molecular clock, dates the
+  tree by least squares, penalised likelihood or a relaxed clock with fossil calibrations on the
+  geological time scale; fits models of diversification; reconstructs continuous and discrete
+  ancestral characters with stochastic mapping, BM/OU/EB, independent contrasts, PGLS,
+  Blomberg's K and Pagel's lambda; reconstructs ancestral areas with DEC, DIVALIKE and
+  BAYAREALIKE with and without founder-event speciation; and compares trees by five distances,
+  concordance factors, quartets, split networks and ABBA-BABA. Throughout, an interpretation
+  guide places each computed number on its own scale, and a calibration assistant turns a
+  fossil, a geological event or a known rate into a prior and says what it means in years.
+  It ends in a tree studio with pictures of the OTUs and clades and a cut into k groups, a
+  figure studio that restyles every figure in the twelve blocks at once, figures at any
+  resolution, a methods section written from what was actually run, and a reproducible package
+  the program writes itself. Every block is checked against an independent implementation in R.
+type: software
+authors:
+  - given-names: "Luis Ángel"
+    family-names: "Barrera-Guzmán"
+    email: lbarrerag@chapingo.mx
+    orcid: "https://orcid.org/0000-0001-8057-2583"
+version: "1.4.0"
+date-released: "2026-09-25"
+# Cuando se deposite en Zenodo, agregar aqui el DOI de concepto:
+#   doi: 10.5281/zenodo.XXXXXXX
+#   identifiers:
+#     - type: doi
+#       value: 10.5281/zenodo.XXXXXXX
+#       description: "Concept DOI — always resolves to the latest version. Cite this one."
+repository-code: "https://github.com/luisangelbg/PhylogenyPro"
+url: "https://luisangelbg.github.io/PhylogenyPro/"
+license: GPL-3.0-or-later
+keywords:
+  - phylogenetics
+  - molecular systematics
+  - maximum likelihood
+  - Bayesian inference
+  - substitution models
+  - molecular clock
+  - divergence time estimation
+  - ancestral state reconstruction
+  - historical biogeography
+  - diversification
+  - multiple sequence alignment
+  - plant systematics

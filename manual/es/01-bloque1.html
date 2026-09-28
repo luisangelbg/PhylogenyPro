@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-1" data-pestana="1" data-orden="1" style="--acento: var(--b1)">
+  <div class="cap-apertura">
+    <div class="cap-num">1</div>
+    <div class="cap-etiqueta">Capítulo uno · Bloque 1</div>
+    <h1>La portada: lo que hay que creer antes de empezar</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El primer bloque no calcula tu árbol: te prepara para calcularlo. Trae la ruta completa del estudio, el catálogo de lo que la aplicación sabe hacer, una comparación franca de los cuatro criterios de inferencia, una tabla de tamaños <b>medidos</b> y —lo más importante— dos laboratorios que calculan filogenia de verdad en la página, para que dos de las ideas más difíciles de la disciplina dejen de ser una advertencia y se vuelvan algo que viste ocurrir.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">1.1</span>Para qué sirve una portada que calcula</li>
+      <li><span class="n">1.2</span>La ruta del estudio en siete pasos</li>
+      <li><span class="n">1.3</span>Laboratorio 1: la zona de Felsenstein</li>
+      <li><span class="n">1.4</span>Laboratorio 2: saturación y corrección</li>
+      <li><span class="n">1.5</span>Qué puedes analizar, y con qué marcador</li>
+      <li><span class="n">1.6</span>Los cuatro criterios, comparados sin rodeos</li>
+      <li><span class="n">1.7</span>Hasta dónde llega, y hasta dónde no</li>
+      <li><span class="n">1.8</span>La galería de métodos y las referencias</li>
+      <li><span class="n">1.9</span>Las nueve secciones de teoría</li>
+      <li><span class="n">1.10</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.1 -->
+  <h2 id="s1-1"><span class="num">1.1</span>Para qué sirve una portada que calcula</h2>
+
+  <p>Casi todas las portadas de los programas científicos son un folleto: dicen lo que el programa hace y te invitan a empezar. Ésta hace otra cosa. Además de presentar la ruta, <b>calcula</b>: dos laboratorios corren filogenia real —probabilidades exactas, simulación, inferencia por tres métodos— cada vez que mueves un control. Nada de lo que verás ahí es una animación.</p>
+
+  <p>La razón de ese diseño es pedagógica y tiene que ver con la idea 3 de la introducción. Se puede advertir mil veces que «más datos no arreglan un modelo equivocado», y la advertencia resbala. Ver, en tu propia pantalla, cómo la parsimonia recupera el árbol falso <b>con más frecuencia conforme aumentas el número de sitios</b>, no resbala: eso ya no se olvida.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Qué se decide en este bloque</div>
+    <p>Nada, técnicamente: no produce ningún resultado que los demás bloques usen. Lo que se decide aquí es <b>qué esperas del estudio que estás a punto de hacer</b> y qué vas a creerle. Es el único bloque que conviene leer entero antes de cargar datos, y el único al que vale la pena volver cuando un resultado no cuadra.</p>
+  </div>
+
+  <p>Las seis tarjetas de la cabecera resumen las condiciones en que trabajarás: todo corre en el navegador, tus datos no salen de tu computadora, acepta ADN, proteínas, codones y morfología, trata por separado el cloroplasto, la mitocondria y el núcleo, está en español e inglés, y exporta figuras hasta 900 ppp.</p>
+
+  <!-- ------------------------------------------------------------------ 1.2 -->
+  <h2 id="s1-2"><span class="num">1.2</span>La ruta del estudio en siete pasos</h2>
+
+  <p>La franja «Cómo funciona» agrupa los doce bloques en los siete pasos que tiene un estudio filogenético de verdad, en el orden en que se hace:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 1.1.</b> Los siete pasos de la franja y los bloques que los realizan.</caption>
+    <thead><tr><th style="width:9%">Paso</th><th style="width:22%">Se llama</th><th style="width:40%">Qué ocurre</th><th>Bloques</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>Alinear</b></td><td>Secuencias, recorte de bloques ambiguos, particiones</td><td><span class="chip k2">2</span></td></tr>
+      <tr><td>2</td><td><b>Elegir modelo</b></td><td>Saturación, AIC y BIC</td><td><span class="chip k3">3</span></td></tr>
+      <tr><td>3</td><td><b>Inferir</b></td><td>Parsimonia, máxima verosimilitud y bayesiano</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>4</td><td><b>Medir el soporte</b></td><td>Bootstrap y probabilidades posteriores</td><td><span class="chip k5">5</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>5</td><td><b>Fechar</b></td><td>Reloj, fósiles, escala geológica</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>6</td><td><b>Interpretar</b></td><td>Caracteres, áreas, diversificación</td><td><span class="chip k8">8</span> <span class="chip k9">9</span> <span class="chip k10">10</span> <span class="chip k11">11</span></td></tr>
+      <tr><td>7</td><td><b>Publicar</b></td><td>Figura, informe y paquete ZIP</td><td><span class="chip k12">12</span></td></tr>
+    </tbody>
+  </table>
+
+  <p>Debajo, las doce tarjetas de bloque dicen qué hace cada uno. <b>Cada tarjeta corresponde a un capítulo de este manual, con el mismo número.</b> Pulsando una tarjeta se salta al bloque; si sus requisitos no están listos, el bloque lo dirá en vez de calcular algo sin sentido.</p>
+
+  <!-- ------------------------------------------------------------------ 1.3 -->
+  <h2 id="s1-3"><span class="num">1.3</span>Laboratorio 1: la zona de Felsenstein</h2>
+
+  <p>Éste es, probablemente, el rincón más importante del programa entero. Ilustra el resultado de Felsenstein (1978) que fundó la crítica moderna a la parsimonia, y lo hace calculando, no contando.</p>
+
+  <h3>Qué muestra</h3>
+  <p>Un árbol de <b>cuatro taxones</b> con la forma que hace daño: dos ramas largas que <b>no</b> son hermanas, separadas por ramas cortas. Con cuatro taxones sólo hay tres topologías sin raíz posibles, y con cuatro estados posibles por sitio hay 256 patrones; pero por simetría esos 256 se reducen a las <b>15 particiones del conjunto {A, B, C, D}</b>, de modo que la probabilidad de cada patrón bajo Jukes–Cantor se puede calcular <b>exactamente</b>, sin simular nada.</p>
+
+  <p>El panel usa esa exactitud para responder la pregunta con datos infinitos: ¿qué patrón informativo es el más probable? Si el patrón que más probabilidad acumula es el que agrupa a las dos ramas largas, entonces la parsimonia, con suficientes sitios, elegirá <b>con toda seguridad el árbol equivocado</b>. Eso es ser <i>inconsistente</i>: converger a la respuesta falsa.</p>
+
+  <h3>Los controles</h3>
+  <ul class="lista">
+    <li><span class="ui">Ramas largas</span> y <span class="ui">Ramas cortas</span>: las dos longitudes que definen el escenario, en sustituciones por sitio.</li>
+    <li><span class="ui">Sitios</span>: cuántos sitios tiene cada alineamiento simulado.</li>
+    <li><span class="ui">Réplicas</span>: cuántos alineamientos se simulan para medir con qué frecuencia acierta cada método.</li>
+    <li><span class="ui">↻ Otras réplicas</span>: vuelve a simular con otra semilla.</li>
+  </ul>
+
+  <h3>Qué leer</h3>
+  <p>Tres cosas, en este orden:</p>
+  <ol class="pasos">
+    <li><b>El árbol verdadero</b> y <b>Dónde falla la parsimonia</b>: el panel calcula por bisección la <b>frontera</b> del escenario, es decir el punto exacto donde la rama larga se vuelve demasiado larga y la parsimonia empieza a equivocarse. Mover los deslizadores a un lado y otro de esa frontera es la lección entera.</li>
+    <li><b>Los tres patrones informativos</b> y su probabilidad exacta. Cuando el patrón «largas juntas» supera al patrón verdadero, ya está: la parsimonia perdió, por muchos datos que le des.</li>
+    <li><b>Veces que cada método recuperó el árbol verdadero</b>, sobre las réplicas simuladas, con parsimonia, con unión de vecinos sobre distancias corregidas por Jukes–Cantor, y con máxima verosimilitud optimizando las longitudes en cada una de las tres topologías.</li>
+  </ol>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El experimento que hay que hacer</div>
+    <p>Pon un escenario dentro de la zona —ramas largas de 0.6 y cortas de 0.03, por ejemplo— y luego <b>sube los sitios</b> de 100 a 2 000. La verosimilitud mejora, como uno esperaría. La parsimonia <b>empeora</b>: con más datos acierta menos, porque cada sitio nuevo refuerza la señal falsa. Ésa es la diferencia entre un método consistente y uno que no lo es, y es la idea 3 de la introducción vista en directo.</p>
+  </div>
+
+  <p>El panel «Por qué importa en tus datos» lo traduce: un género con una especie de evolución acelerada, un grupo externo muy lejano o un marcador saturado producen exactamente esta geometría sin que nadie la haya buscado. Si tu árbol junta el grupo externo con el taxón más divergente, sospecha de esto antes que de la biología.</p>
+
+  <!-- ------------------------------------------------------------------ 1.4 -->
+  <h2 id="s1-4"><span class="num">1.4</span>Laboratorio 2: saturación y corrección de distancias</h2>
+
+  <p>El segundo laboratorio hace visible la idea 2: un sitio que cambió varias veces sólo enseña el último cambio.</p>
+
+  <p>Dos secuencias divergen bajo el modelo de Kimura de dos parámetros, con tasas que varían entre sitios según una distribución gamma. El panel dibuja la <b>distancia estimada contra la distancia real</b>, con tres curvas superpuestas: las <b>diferencias crudas</b> (la proporción de posiciones distintas), la corrección del modelo, y la línea del <b>estimador perfecto</b>, que es la diagonal.</p>
+
+  <p>Lo que se ve es inmediato: las diferencias crudas empiezan pegadas a la diagonal y se despegan cada vez más, hasta aplanarse. Ésa es la saturación. La corrección las devuelve a la diagonal, pero sólo hasta donde tiene solución; más allá, la fórmula se rompe y el panel lo muestra.</p>
+
+  <h3>Los controles</h3>
+  <ul class="lista">
+    <li><span class="ui">Divergencia máxima</span>: hasta dónde se dejan separar las dos secuencias.</li>
+    <li><span class="ui">Razón ts/tv</span>: cuántas transiciones hay por cada transversión. Súbela y verás que las transiciones se saturan mucho antes.</li>
+    <li><span class="ui">Forma de Γ</span>: la desigualdad de velocidades entre sitios. Valores bajos —unos pocos sitios rapidísimos y muchos casi congelados— adelantan la saturación.</li>
+    <li><span class="ui">Sitios</span>: cuántas posiciones tiene cada secuencia; con pocos, el ruido domina.</li>
+    <li><span class="ui">tasas variables entre sitios (+Γ)</span>: apaga y enciende la heterogeneidad para ver cuánto cambia.</li>
+  </ul>
+
+  <p>La segunda gráfica, <b>Transiciones y transversiones</b>, es la que usarás con tus propios datos en el Bloque 3. La regla se lee sola en la pantalla: <b>cuando la curva de transiciones deja de subir y empieza a bajar, el marcador está saturado</b>. No es una metáfora: las transiciones acumuladas se pierden porque los sitios vuelven a cambiar.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Saturado no es inservible</div>
+    <p>Un marcador saturado sigue resolviendo bien los nodos recientes; lo que no se puede es usarlo para los nodos profundos <b>y creerle su apoyo</b>. La solución habitual no es tirar el gen: es quitar la tercera posición del codón, pasar a aminoácidos, o buscar un marcador más lento para la parte profunda del árbol.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.5 -->
+  <h2 id="s1-5"><span class="num">1.5</span>Qué puedes analizar, y con qué marcador</h2>
+
+  <p>La sección «Qué puedes analizar» enumera los tipos de dato que el mismo motor de verosimilitud maneja: ADN, proteínas, codones y morfología. No son cuatro programas por dentro, sino uno que trabaja con cuatro, veinte o los estados que haga falta.</p>
+
+  <p>Enseguida viene la lista de marcadores, y ahí conviene detenerse, porque es la que evita el error más caro de un estudio de plantas: <b>tratar todos los genes como si contaran la misma historia</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 1.2.</b> Los marcadores que la aplicación reconoce por su nombre, con su genoma y su carácter.</caption>
+    <thead><tr><th style="width:15%">Genoma</th><th style="width:30%">Marcadores</th><th>Qué esperar</th></tr></thead>
+    <tbody>
+      <tr><td><b>Cloroplasto</b></td><td>rbcL</td><td>El caballo de batalla: lento, fácil de amplificar, bueno de familia hacia arriba.</td></tr>
+      <tr><td><b>Cloroplasto</b></td><td>matK</td><td>Más variable que rbcL; el otro marcador del código de barras de plantas.</td></tr>
+      <tr><td><b>Cloroplasto</b></td><td>trnL-F</td><td>Espaciador no codificante: resuelve entre especies cercanas.</td></tr>
+      <tr><td><b>Cloroplasto</b></td><td>trnH-psbA</td><td>El espaciador más variable del cloroplasto; con muchos indeles.</td></tr>
+      <tr><td><b>Cloroplasto</b></td><td>ndhF, atpB, rpl16, rps16, ycf1</td><td>El resto del repertorio habitual en sistemática de plantas.</td></tr>
+      <tr><td><b>Nuclear ribosomal</b></td><td>ITS, ITS2, ETS</td><td>Rápido y muy usado, pero con copias divergentes y evolución concertada incompleta.</td></tr>
+      <tr><td><b>Nuclear de copia baja</b></td><td>waxy, PHYC, LEAFY, G3pdh</td><td>Biparentales: son los que <b>detectan hibridación</b>.</td></tr>
+      <tr><td><b>Mitocondria</b></td><td>matR, nad1, cox1, atp1</td><td>Los más lentos de la planta; útiles en filogenias profundas.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Por qué el genoma no es un adorno</div>
+    <p>El cloroplasto y la mitocondria de una planta se heredan <b>por un solo progenitor</b> —en la mayoría de las angiospermas, por la madre— y <b>no recombinan</b>: todo el genoma es un solo linaje, con una sola historia. El núcleo se hereda de los dos y sí recombina. Por eso un árbol de cloroplasto y uno nuclear <b>pueden discrepar sin que ninguno esté mal</b>: la captura de cloroplasto tras una hibridación antigua deja exactamente esa firma. Declarar el genoma de cada partición en el Bloque 2 es lo que permite que los bloques siguientes traten ese desacuerdo como información y no como ruido.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.6 -->
+  <h2 id="s1-6"><span class="num">1.6</span>Los cuatro criterios, comparados sin rodeos</h2>
+
+  <p>La tabla comparativa de la portada es deliberadamente franca: <b>no hay un método que gane siempre</b>. Ésta es su versión impresa.</p>
+
+  <table class="tabla comparacion">
+    <caption><b>Tabla 1.3.</b> Los cuatro criterios de inferencia, lo que optimizan y dónde se rompen.</caption>
+    <thead><tr><th style="width:21%">&nbsp;</th><th>Distancias (NJ)</th><th>Parsimonia</th><th>Máxima verosimilitud</th><th>Bayesiano</th></tr></thead>
+    <tbody>
+      <tr><td><b>Qué optimiza</b></td><td>Ajuste a una matriz de distancias</td><td>El menor número de cambios</td><td>La probabilidad de los datos dado el árbol</td><td>La probabilidad del árbol dados los datos</td></tr>
+      <tr><td><b>Usa un modelo</b></td><td>Sí, al corregir las distancias</td><td>No, o sólo pesos</td><td>Sí, explícito</td><td>Sí, explícito y con previas</td></tr>
+      <tr><td><b>Consistente con ramas largas desiguales</b></td><td>Depende de la corrección</td><td><b>No: zona de Felsenstein</b></td><td>Sí, bajo el modelo correcto</td><td>Sí, bajo el modelo correcto</td></tr>
+      <tr><td><b>Longitudes en sustituciones</b></td><td>Sí</td><td>En pasos, no en sustituciones</td><td>Sí</td><td>Sí, con intervalo</td></tr>
+      <tr><td><b>Permite fechar</b></td><td>Sólo con métodos aproximados</td><td>No</td><td>Sí (reloj, LSD)</td><td>Sí, con incertidumbre</td></tr>
+      <tr><td><b>Costo</b></td><td>Segundos</td><td>Segundos a minutos</td><td>Minutos</td><td>De minutos a horas</td></tr>
+      <tr><td><b>Para qué sirve mejor</b></td><td>Un primer vistazo y el árbol de arranque</td><td>Morfología y datos con pocos cambios</td><td><b>El árbol que se publica</b></td><td>Incertidumbre, fechas y modelos complejos</td></tr>
+    </tbody>
+  </table>
+
+  <p>Obsérvese que el renglón decisivo es el tercero, y que es exactamente lo que el laboratorio 1 deja ver. La parsimonia no es «peor»: es <b>inconsistente bajo una geometría concreta</b>, y sigue siendo la herramienta adecuada para morfología, donde no hay modelo de sustitución que valga y los cambios son pocos.</p>
+
+  <!-- ------------------------------------------------------------------ 1.7 -->
+  <h2 id="s1-7"><span class="num">1.7</span>Hasta dónde llega, y hasta dónde no</h2>
+
+  <p>La tabla de límites de la portada no es una promesa comercial: son <b>tiempos medidos</b> en una computadora de escritorio común, no estimaciones optimistas. Conviene mirarla antes de cargar una matriz grande.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 1.4.</b> Tamaños que la aplicación maneja, medidos. «Cómodo» es lo que se hace sin pensarlo; «al límite» es lo que se puede hacer teniendo paciencia.</caption>
+    <thead><tr><th style="width:40%">Análisis</th><th style="width:16%">Cómodo</th><th style="width:16%">Al límite</th><th>Tiempo</th></tr></thead>
+    <tbody>
+      <tr><td>Distancias, NJ, parsimonia</td><td>≤ 300 taxones</td><td>≤ 1 000</td><td>Segundos</td></tr>
+      <tr><td>Verosimilitud + bootstrap ultrarrápido</td><td>≤ 120</td><td>≤ 300</td><td>Minutos</td></tr>
+      <tr><td>Verosimilitud + bootstrap clásico</td><td>≤ 60</td><td>≤ 120</td><td>Minutos, con varios hilos</td></tr>
+      <tr><td>Bayesiano (MC³)</td><td>≤ 50</td><td>≤ 100</td><td>De minutos a horas</td></tr>
+      <tr><td>Datación por mínimos cuadrados</td><td>≤ 500</td><td>≤ 1 000</td><td>Segundos</td></tr>
+      <tr><td>Datación bayesiana</td><td>≤ 60</td><td>≤ 120</td><td>De minutos a horas</td></tr>
+      <tr><td>Biogeografía DEC</td><td>≤ 8 áreas</td><td>≤ 10 áreas</td><td>Minutos</td></tr>
+    </tbody>
+  </table>
+
+  <p>El límite de la biogeografía es distinto de los demás y merece una nota: no depende del número de taxones sino del de <b>áreas</b>, porque el número de rangos posibles crece como 2 elevado al número de áreas. Con ocho áreas ya hay 256 estados; con doce, más de cuatro mil.</p>
+
+  <p>Bajo la tabla, la portada dice en una línea lo que hay que decir: para filogenómica de cientos de taxones y millones de sitios, sigue usando IQ-TREE o RAxML. Esto es JavaScript, y la diferencia con C no la arregla ninguna optimización.</p>
+
+  <!-- ------------------------------------------------------------------ 1.8 -->
+  <h2 id="s1-8"><span class="num">1.8</span>La galería de métodos y las referencias</h2>
+
+  <p>La galería lista <b>todo</b> lo que la aplicación calcula, agrupado por familia —datos, modelos, inferencia, soporte, tiempos, caracteres, biogeografía, comparación—, con un filtro para ver una sola familia. Sirve para dos cosas: comprobar de un vistazo si el método que necesitas está, y encontrar en qué bloque vive.</p>
+
+  <p>Al final de la portada hay <b>94 referencias</b>, también agrupadas por familia. No están de adorno: cada método que la aplicación implementa cita el artículo en que se publicó, y el informe del Bloque 12 arma su bibliografía tomando de esa misma lista <b>sólo lo que efectivamente se usó</b> en tu corrida.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Citar el método, no sólo el programa</div>
+    <p>Cuando publiques, cita el programa <b>y</b> los artículos originales de los métodos que usaste. Un revisor con experiencia notará la diferencia entre «se usó el programa X» y «se ajustó un modelo GTR+Γ (Yang 1994) con búsqueda SPR y apoyo por bootstrap ultrarrápido (Minh et al. 2013)». La sección de métodos que escribe el Bloque 12 ya viene con esas citas puestas.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.9 -->
+  <h2 id="s1-9"><span class="num">1.9</span>Las nueve secciones de teoría</h2>
+
+  <p>La portada cierra con nueve secciones desplegables que son, en la práctica, un curso corto. Valen la pena aunque ya sepas el tema, porque fijan el vocabulario que usa el resto del programa.</p>
+
+  <ol class="lista numerada">
+    <li><b>Qué es un árbol filogenético (y qué no es).</b> Topología, longitudes de rama, raíz; por qué un árbol sin raíz no tiene «ancestros».</li>
+    <li><b>El alineamiento es una hipótesis de homología.</b> La idea 1 de la introducción, desarrollada.</li>
+    <li><b>Los cambios que no se ven: modelos de sustitución.</b> Por qué hace falta corregir, y qué corrige cada modelo.</li>
+    <li><b>Parsimonia, verosimilitud y bayes: en qué se diferencian de verdad.</b> Más allá del eslogan de «el árbol más simple».</li>
+    <li><b>Qué significa realmente un valor de soporte.</b> La idea 4, con las escalas de cada medida.</li>
+    <li><b>El reloj molecular y las calibraciones.</b> La idea 5.</li>
+    <li><b>Cloroplasto, mitocondria y núcleo: tres historias en el mismo organismo.</b> Lo que hace que el Bloque 11 exista.</li>
+    <li><b>Áreas ancestrales: cómo se reconstruye una historia biogeográfica.</b> El armazón del Bloque 10.</li>
+    <li><b>Los ocho errores que más se ven en un manuscrito.</b> La sección que conviene leer <i>antes</i> de escribir, no después de que la rechacen.</li>
+  </ol>
+
+  <!-- ------------------------------------------------------------------ 1.10 -->
+  <h2 id="s1-10"><span class="num">1.10</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Saltarse la portada</div>
+    <p>Es el error que hace todo el mundo, incluidos los que llevan años haciendo filogenia. Los dos laboratorios tardan diez minutos y cambian la forma de mirar los resultados de los once bloques siguientes. Si sólo tienes tiempo para uno, que sea el de la zona de Felsenstein.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leer la tabla de límites como una promesa</div>
+    <p>Los tiempos se midieron en una computadora concreta con un alineamiento concreto. Tu máquina y tus datos son otros. La tabla sirve para saber si estás en el orden de magnitud correcto, no para planear una fecha de entrega.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concluir que «la parsimonia es mala»</div>
+    <p>El laboratorio 1 no demuestra eso. Demuestra que la parsimonia es <b>inconsistente bajo una geometría concreta</b> de ramas. Fuera de esa geometría se comporta bien, es rapidísima, y para matrices morfológicas —donde no hay un modelo de sustitución creíble— sigue siendo la herramienta correcta. El capítulo 4 vuelve sobre esto.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Elegir el marcador por costumbre del laboratorio</div>
+    <p>«Siempre usamos ITS» no es un argumento. ITS es rápido y resuelve entre especies cercanas, pero tiene copias divergentes y evolución concertada incompleta, y para un nodo profundo dará una respuesta segura y equivocada. La lista de marcadores de la portada dice, para cada uno, en qué rango de profundidad es informativo.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

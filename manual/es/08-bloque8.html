@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-8" data-pestana="8" data-orden="8" style="--acento: var(--b8)">
+  <div class="cap-apertura">
+    <div class="cap-num">8</div>
+    <div class="cap-etiqueta">Capítulo ocho · Bloque 8</div>
+    <h1>Diversificación</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un cronograma no sólo dice cuándo: la forma en que se reparten sus tiempos de ramificación dice a qué ritmo se diversificó el grupo, y si ese ritmo cambió. Este capítulo explica la curva de linajes, el estadístico γ y la trampa que lo acompaña —<b>faltar especies imita exactamente una desaceleración</b>—, los cinco modelos que se comparan, los estimadores que funcionan con una sola edad y una riqueza, y por qué las tasas de extinción de un árbol de especies vivas no son de fiar.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k8"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">8.1</span>Qué se lee en los tiempos de ramificación</li>
+      <li><span class="n">8.2</span>Linajes en el tiempo y el estadístico γ</li>
+      <li><span class="n">8.3</span>La trampa del muestreo incompleto</li>
+      <li><span class="n">8.4</span>Los cinco modelos</li>
+      <li><span class="n">8.5</span>λ, μ, r y ε: qué se puede creer</li>
+      <li><span class="n">8.6</span>Cuando sólo hay una edad y una riqueza</li>
+      <li><span class="n">8.7</span>Una tasa para cada especie: el DR</li>
+      <li><span class="n">8.8</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">8.9</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.1 -->
+  <h2 id="s8-1"><span class="num">8.1</span>Qué se lee en los tiempos de ramificación</h2>
+
+  <p>Todo este bloque se lee sobre los <b>tiempos de ramificación</b> del cronograma, así que hace falta haber pasado por el Bloque 7. Sin fechas no hay nada que analizar: las longitudes en sustituciones no dicen a qué ritmo apareció la diversidad.</p>
+
+  <p>La pregunta que se responde es una sola, con muchas formas: ¿el grupo se diversificó siempre al mismo ritmo, o hubo una explosión inicial que se frenó, o una aceleración reciente? Y detrás de ella, la incómoda: ¿cuánta extinción hubo, y se puede saber?</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El árbol que se analiza es el de los supervivientes</div>
+    <p>Un cronograma de especies vivas es un <b>árbol reconstruido</b>: los linajes que se extinguieron no dejaron puntas y no están. De esa amputación viene casi toda la dificultad del bloque, y explica por qué la diversificación neta se estima bien y la extinción, mal.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.2 -->
+  <h2 id="s8-2"><span class="num">8.2</span>Linajes en el tiempo y el estadístico γ</h2>
+
+  <p>La curva de <b>linajes en el tiempo</b> cuenta cuántos linajes existían en cada momento del pasado. Dibujada en <b>escala logarítmica</b>, una tasa constante da una <b>recta</b>: ésa es la referencia contra la que se mira todo lo demás.</p>
+
+  <ul class="lista">
+    <li>Si la curva <b>se dobla hacia abajo</b> cerca del presente, los nodos se acumularon temprano: el grupo se diversificó pronto y luego se frenó.</li>
+    <li>Si se dobla hacia arriba, ocurrió lo contrario.</li>
+  </ul>
+
+  <p>El estadístico <b>γ</b> de Pybus y Harvey (2000) pone un número a eso. Compara dónde caen los nodos respecto de dónde caerían con tasa constante. Bajo tasa constante γ se distribuye normal estándar, de modo que:</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Cómo se lee γ</div>
+    <p><b>γ &lt; −1.645</b> rechaza la tasa constante a favor de una <b>desaceleración</b>, con una cola, al 5 %.<br>
+    Entre −1.645 y 1.645, compatible con tasa constante.<br>
+    Por encima de 1.645, aceleración hacia el presente.</p>
+  </div>
+
+  <p>Si hay varios árboles —de un bootstrap o de un posterior—, el panel dibuja además una <b>banda</b> sobre la muestra, que es mucho más informativa que la curva de un solo árbol.</p>
+
+  <!-- ------------------------------------------------------------------ 8.3 -->
+  <h2 id="s8-3"><span class="num">8.3</span>La trampa del muestreo incompleto</h2>
+
+  <p>Ésta es la sección que salva artículos.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Faltar especies imita <i>exactamente</i> una desaceleración</div>
+    <p>Cuando no se muestrea todo el grupo, las especies que faltan son sobre todo <b>de los nodos recientes</b>, porque los clados jóvenes tienen pocas especies y basta perder una para borrar un nodo. El resultado es una curva que se aplana cerca del presente — indistinguible de una desaceleración real. Con un muestreo del 60 %, γ saldrá negativo aunque la tasa haya sido perfectamente constante.</p>
+  </div>
+
+  <p>Por eso existe la <b>prueba MCCR</b> (Monte Carlo constant rates). En vez de comparar γ contra la normal estándar, simula árboles de tasa constante <b>con el mismo muestreo incompleto que los datos</b>, mide su γ, y compara el γ observado contra esa distribución. El panel pide:</p>
+
+  <ul class="lista">
+    <li><span class="ui">especies en el grupo (en total, no las del árbol)</span>: el número real de especies descritas, que es el dato que hay que buscar en la literatura.</li>
+    <li><span class="ui">réplicas</span>: cuántos árboles se simulan para construir la distribución nula.</li>
+  </ul>
+
+  <p>El resultado es un <b>valor crítico al 5 %</b> que será <b>más negativo</b> que −1.645, y cuánto más lo sea dice cuánta desaceleración explicaba el muestreo por sí solo. Si tu γ observado no cruza ese valor crítico, no hay desaceleración que reportar.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Dar mal el número total de especies</div>
+    <p>La prueba entera depende de esa cifra. Si pones las del árbol en vez de las del grupo, la prueba corrige de menos y volverás a «encontrar» la desaceleración falsa. Si exageras el total, corrige de más y perderás una desaceleración real.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.4 -->
+  <h2 id="s8-4"><span class="num">8.4</span>Los cinco modelos</h2>
+
+  <p>El botón <span class="ui">Ajustar los cinco modelos</span> compara sobre los mismos tiempos de ramificación:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 8.1.</b> Los cinco modelos de diversificación.</caption>
+    <thead><tr><th style="width:30%">Modelo</th><th>Qué supone</th></tr></thead>
+    <tbody>
+      <tr><td><b>Nacimiento puro</b> (Yule)</td><td>Una sola tasa de especiación y <b>ninguna extinción</b>.</td></tr>
+      <tr><td><b>Nacimiento–muerte</b></td><td>Especiación y extinción constantes, con la verosimilitud de Nee et al. para el árbol reconstruido.</td></tr>
+      <tr><td><b>Dependiente de la densidad, logístico</b></td><td>La tasa baja conforme se llenan los nichos, hacia una capacidad de carga (Rabosky &amp; Lovette 2008).</td></tr>
+      <tr><td><b>Dependiente de la densidad, exponencial</b></td><td>Lo mismo, con un decaimiento exponencial en vez de logístico.</td></tr>
+      <tr><td><b>Dos tasas</b></td><td>La tasa cambia una vez, en un momento que <b>se estima</b> a partir de los datos.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Se comparan por AIC con pesos de Akaike, como en el Bloque 3: lo que se lee es la diferencia con el mejor y el peso del ganador, no el valor absoluto.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El modelo de dos tasas estima dónde está el cambio</div>
+    <p>Y por eso tiene una ventaja injusta: siempre encontrará el mejor sitio posible para poner el salto, incluso en datos generados con tasa constante. El AIC castiga el parámetro de más, pero no el hecho de haberlo buscado. Un peso alto de este modelo es una pista, no una demostración.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.5 -->
+  <h2 id="s8-5"><span class="num">8.5</span>λ, μ, r y ε: qué se puede creer</h2>
+
+  <p>El modelo de nacimiento–muerte estima cuatro cantidades relacionadas:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 8.2.</b> Los cuatro parámetros, y cuánto se les puede creer.</caption>
+    <thead><tr><th style="width:14%">Símbolo</th><th style="width:34%">Qué es</th><th>Fiabilidad</th></tr></thead>
+    <tbody>
+      <tr><td><b>λ</b></td><td>Tasa de especiación</td><td>Razonable.</td></tr>
+      <tr><td><b>μ</b></td><td>Tasa de extinción</td><td><b>Muy poco fiable</b> con árboles sólo de especies vivas.</td></tr>
+      <tr><td><b>r</b> = λ − μ</td><td>Diversificación neta</td><td>La que mejor se estima y la que conviene reportar.</td></tr>
+      <tr><td><b>ε</b> = μ/λ</td><td>Recambio</td><td>Se estima mal, y con frecuencia sale 0.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Una ε estimada en cero no significa que no hubo extinción</div>
+    <p>Significa que <b>el árbol de los supervivientes no puede verla</b>. Es el mismo problema que la e de la biogeografía en el capítulo 10: los linajes que desaparecieron no dejaron rastro en las puntas. Con fósiles, la estimación cambia por completo. Reportar r con confianza y ε con reservas es lo honesto.</p>
+  </div>
+
+  <p>El panel ofrece además el <b>tiempo de duplicación</b>, ln(2)/r: cuánto tarda el grupo en duplicar su número de linajes a la tasa estimada. Es la misma información que r, dicha en unidades que se pueden imaginar — y comparada con la edad del grupo, dice enseguida si la tasa explica la diversidad actual.</p>
+
+  <!-- ------------------------------------------------------------------ 8.6 -->
+  <h2 id="s8-6"><span class="num">8.6</span>Cuando sólo hay una edad y una riqueza</h2>
+
+  <p>A veces no hay árbol del grupo: sólo se sabe su edad y cuántas especies tiene. Los estimadores de <b>Magallón y Sanderson (2001)</b> bastan con eso, y son los que se usan para comparar cientos de clados a la vez.</p>
+
+  <p>El panel pide el número de <span class="ui">especies</span>, la edad, y —crucial— si <span class="ui">la edad es de</span> la <b>corona</b> o del <b>tallo</b>.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confundir corona con tallo</div>
+    <p>La <b>corona</b> es el ancestro común más reciente de las especies vivas del grupo; el <b>tallo</b> es su divergencia respecto del grupo hermano, y siempre es más viejo. Con el tallo, la misma riqueza se reparte en más tiempo y <b>la tasa sale menor</b>. Los dos estimadores son distintos y el programa pide explícitamente cuál es. Una «edad del grupo» sin apellido, tomada de otro artículo, no se puede reutilizar.</p>
+  </div>
+
+  <p>El estimador necesita además un valor de ε supuesto, precisamente porque no se puede estimar: la costumbre es reportar el resultado con ε = 0 y con ε = 0.9, para enseñar cuánto depende del supuesto.</p>
+
+  <!-- ------------------------------------------------------------------ 8.7 -->
+  <h2 id="s8-7"><span class="num">8.7</span>Una tasa para cada especie: el DR</h2>
+
+  <p>Los modelos anteriores dan una tasa para todo el grupo. El estadístico <b>DR</b> (Jetz et al. 2012) reparte una tasa entre las <b>puntas</b>: para cada especie pesa las ramas del camino hasta la raíz, dando más peso a las recientes.</p>
+
+  <p>Se lee <b>en relativo</b>: qué puntas tienen DR alto frente a las demás <b>del mismo árbol</b>. Los valores absolutos dependen de la escala del árbol y no se comparan entre estudios.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El DR no es una tasa de diversificación por especie</div>
+    <p>Aunque se use así muy a menudo. Se ha demostrado que estima mejor la <b>especiación</b> que la diversificación neta, y que se comporta mal cuando la extinción es alta (Title &amp; Rabosky 2019). Como medida descriptiva para ordenar puntas es útil; como estimador de r, no.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.8 -->
+  <h2 id="s8-8"><span class="num">8.8</span>Qué tan bien lo hace, medido</h2>
+
+  <p>Comprobado contra <i>ape</i> y <i>geiger</i>, con los resultados en la carpeta de validación:</p>
+
+  <ul class="lista">
+    <li>El estadístico <b>γ</b> da <b>0.44734655</b>, idéntico al de <code>ape::gammaStat</code>.</li>
+    <li>El modelo de <b>nacimiento puro</b> reproduce λ, su error estándar y su log-verosimilitud idénticos a <code>ape::yule</code>.</li>
+    <li>El de <b>nacimiento–muerte</b> da 0.24684678 contra 0.24684645 de <code>ape::birthdeath</code>, y r = 0.20638381 contra 0.20638489, con la misma log-verosimilitud.</li>
+    <li>Los estimadores de <b>Magallón y Sanderson</b> coinciden con <code>geiger::bd.ms</code> a 10⁻⁷, y los tiempos de ramificación a 1.2·10⁻⁹.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Un error que sólo se veía en el sesgo</div>
+    <p>El simulador de árboles, usado por la prueba MCCR, dejaba dentro los linajes extintos —con lo que salían más puntas de las pedidas y árboles no ultramétricos— y, peor, <b>paraba el reloj justo en la última especiación</b> en vez de sortear un presente. Eso último sesgaba γ: daba una media de <b>+0.32</b> sobre árboles de tasa constante, donde debería dar 0, y habría torcido toda prueba de Monte Carlo en la misma dirección. Con el presente sorteado bien, γ da media −0.066 y desviación 0.9999, contra los 0.073 y 0.952 de <code>ape::rphylo</code>.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.9 -->
+  <h2 id="s8-9"><span class="num">8.9</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reportar un γ negativo sin la prueba MCCR</div>
+    <p>Es el error más común del bloque y el más fácil de evitar. Si no muestreaste el 100 % del grupo, tu γ negativo puede ser enteramente artefacto del muestreo. La prueba MCCR está a dos clics.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Interpretar μ o ε como cantidades biológicas</div>
+    <p>De un árbol de especies vivas, la tasa de extinción no se estima: se supone. Reporta r, di qué ε supusiste, y enseña cómo cambia el resultado con otro.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparar DR entre estudios</div>
+    <p>Depende de la escala del árbol y del muestreo. Sirve para ordenar las puntas de <b>tu</b> árbol, no para decir que tu género diversifica más rápido que el del vecino.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Analizar un cronograma cuyas fechas no se sostienen</div>
+    <p>Todo este bloque hereda la incertidumbre del Bloque 7. Si las edades tienen intervalos del ancho del árbol, γ y los cinco modelos están describiendo ruido. Antes de interpretar una desaceleración, mira los intervalos de las edades que la producen.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Contar una desaceleración como «radiación adaptativa»</div>
+    <p>Una curva que se aplana es compatible con la saturación de nichos, pero también con muestreo incompleto, con extinción reciente y con un cronograma mal calibrado. El patrón no identifica el proceso, y el bloque mide el patrón.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>PhylogenyPro — tests</title>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
+<style>
+  body { padding: 20px; }
+  .t { font-family: var(--mono); font-size: .8rem; padding: 2px 0; }
+  .ok { color: var(--success); } .bad { color: var(--danger); font-weight: 700; }
+  h2 { margin: 18px 0 4px; font-size: 1rem; }
+</style>
+</head>
+<body>
+<h1>PhylogenyPro · <span id="sum">…</span></h1>
+<div id="out"></div>
+<script src="../js/core.js"></script>
+<script src="../js/art.js"></script>
+<script src="../js/playground.js"></script>
+<script src="../js/seqio.js"></script>
+<script src="../js/align.js"></script>
+<script src="../js/trim.js"></script>
+<script src="../js/alnview.js"></script>
+<script src="../js/examples.js"></script>
+<script src="../js/block2.js"></script>
+<script src="../js/aamodels.js"></script>
+<script src="../js/tree.js"></script>
+<script src="../js/dist.js"></script>
+<script src="../js/like.js"></script>
+<script src="../js/models.js"></script>
+<script src="../js/plots3.js"></script>
+<script src="../js/block3.js"></script>
+<script src="../js/pars.js"></script>
+<script src="../js/treeview.js"></script>
+<script src="../js/groups.js"></script>
+<script src="../js/otuimg.js"></script>
+<script src="../js/help.js"></script>
+<script src="../js/block4.js"></script>
+<script src="../js/mlsearch.js"></script>
+<script src="../js/mcmc.js"></script>
+<script src="../js/clock.js"></script>
+<script src="../js/calibhelp.js"></script>
+<script src="../js/diversify.js"></script>
+<script src="../js/geotime.js"></script>
+<script src="../js/plots6.js"></script>
+<script src="../js/plots7.js"></script>
+<script src="../js/plots8.js"></script>
+<script src="../js/pool.js"></script>
+<script src="../js/block5.js"></script>
+<script src="../js/block6.js"></script>
+<script src="../js/block7.js"></script>
+<script src="../js/block8.js"></script>
+<script src="../js/traits.js"></script>
+<script src="../js/plots9.js"></script>
+<script src="../js/block9.js"></script>
+<script src="../js/biogeo.js"></script>
+<script src="../js/plots10.js"></script>
+<script src="../js/block10.js"></script>
+<script src="../js/treecmp.js"></script>
+<script src="../js/plots11.js"></script>
+<script src="../js/block11.js"></script>
+<script src="../js/exportfmt.js"></script>
+<script src="../js/figstyle.js"></script>
+<script src="../js/report.js"></script>
+<script src="../js/block12.js"></script>
+<script>
+/* Unit tests for Block 1. Open this page (double click or through the server) —
+   every line must be green.
+
+   The numerical references come from three places, all of them independent of
+   the code being tested:
+     · closed forms worked out by hand (Jukes–Cantor, K80, the four-point
+       condition, the number of set partitions of four taxa);
+     · R 4.4.2 with ape 5.8.1 and phangorn 2.12.1, in validation/block1;
+     · properties that must hold whatever the implementation (probabilities that
+       sum to one, P(0) = I, reversibility, monotonicity).
+   The run of validation/block1/validate_block1.R that these values come from is
+   dated 2026-09-22 and reported 17 agreements and no mismatches. */
+
+let pass = 0, fail = 0;
+const out = document.getElementById('out');
+function sec(title) { out.appendChild(mk('h2', null, title)); }
+function t(name, cond, info) {
+  const okv = !!cond;
+  okv ? pass++ : fail++;
+  out.appendChild(mk('div', { class: 't ' + (okv ? 'ok' : 'bad') },
+    (okv ? '✔ ' : '✘ ') + name + (info != null && !okv ? '  →  ' + info : '')));
+}
+function near(name, a, b, tol) {
+  tol = tol == null ? 1e-9 : tol;
+  const d = Math.abs(a - b);
+  t(name + '  (' + (+a).toPrecision(9) + ' vs ' + (+b).toPrecision(9) + ')', d <= tol, 'diff ' + d.toExponential(2));
+}
+
+const P = window.Playground;
+
+/* ================================================================
+   1 · core helpers
+   ================================================================ */
+sec('1 · Utilidades básicas (core.js)');
+near('jcDistance(0) = 0', jcDistance(0), 0);
+near('jcDistance(0.3) contra ape::dist.dna JC69', jcDistance(0.3), 0.38311922, 1e-7);
+near('jcDistance(0.5) contra ape::dist.dna JC69', jcDistance(0.5), 0.82395922, 1e-7);
+t('jcDistance(0.75) no está definida (secuencias saturadas)', jcDistance(0.75) === null);
+t('jcDistance(0.9) no está definida', jcDistance(0.9) === null);
+t('jcDistance crece con p', jcDistance(0.4) > jcDistance(0.2));
+near('k2pDistance(0.2, 0.1) contra ape::dist.dna K80', k2pDistance(0.2, 0.1), 0.40235948, 1e-7);
+near('k2p con Q = 0 y P = 0 es 0', k2pDistance(0, 0), 0);
+t('k2p no está definida cuando 1 − 2P − Q ≤ 0', k2pDistance(0.45, 0.2) === null);
+t('isTransition reconoce A↔G', isTransition(BASE_IDX.A, BASE_IDX.G) && isTransition(BASE_IDX.G, BASE_IDX.A));
+t('isTransition reconoce C↔T', isTransition(BASE_IDX.C, BASE_IDX.T));
+t('A↔C es transversión', !isTransition(BASE_IDX.A, BASE_IDX.C));
+t('el generador con la misma semilla repite la secuencia', (() => {
+  const a = rng(42), b = rng(42);
+  for (let i = 0; i < 50; i++) if (a() !== b()) return false;
+  return true;
+})());
+t('el generador con semillas distintas no coincide', rng(1)() !== rng(2)());
+t('fmtLnL usa el signo menos tipográfico', fmtLnL(-1234.5) === '−1234.500');
+
+/* ================================================================
+   2 · the 15 pattern classes
+   ================================================================ */
+sec('2 · Las clases de patrones de cuatro taxones');
+t('hay 15 clases (número de Bell B₄ = 15)', P.CLASSES.length === 15);
+t('las multiplicidades suman 256 = 4⁴', P.CLASSES.reduce((s, c) => s + c.mult, 0) === 256);
+t('exactamente 3 clases son informativas para la parsimonia',
+  P.CLASSES.filter(c => c.informs != null).length === 3);
+t('cada topología tiene su propia clase informativa',
+  [0, 1, 2].every(k => P.CLASSES.filter(c => c.informs === k).length === 1));
+t('la clase informativa de cada topología vale 12 patrones concretos',
+  P.CLASSES.filter(c => c.informs != null).every(c => c.mult === 12));
+t('la clase con los cuatro taxones iguales tiene multiplicidad 4',
+  P.CLASSES.find(c => c.k === 1).mult === 4);
+t('la clase con los cuatro distintos tiene multiplicidad 24',
+  P.CLASSES.find(c => c.k === 4).mult === 24);
+
+/* ================================================================
+   3 · Jukes–Cantor transition probabilities
+   ================================================================ */
+sec('3 · Probabilidades de transición de Jukes–Cantor');
+near('P(0): quedarse = 1', P.jcP(0).same, 1);
+near('P(0): cambiar = 0', P.jcP(0).diff, 0);
+near('las filas de P(t) suman 1', P.jcP(0.37).same + 3 * P.jcP(0.37).diff, 1);
+near('P(∞) tiende a 1/4', P.jcP(50).same, 0.25, 1e-9);
+t('P(t) decrece con t', P.jcP(0.1).same > P.jcP(0.5).same);
+
+/* ================================================================
+   4 · pattern probabilities on a four-taxon tree
+   ================================================================ */
+sec('4 · Probabilidad de los patrones sobre el árbol de cuatro taxones');
+const lensTrue = [0.5, 0.05, 0.5, 0.05, 0.05];
+const probs = P.classProbs(0, lensTrue);
+near('las 15 clases suman 1', probs.reduce((a, b) => a + b, 0), 1, 1e-12);
+t('ninguna probabilidad es negativa', probs.every(v => v >= 0));
+/* the values below were reproduced in R with eigen-decomposition of Q */
+near('clase 0000 (todos iguales) contra R', probs[0], 0.3476926748, 1e-9);
+near('clase 0101 (AC|BD) contra R', probs[6], 0.0387419001, 1e-9);
+near('clase 0011 (AB|CD) contra R', probs[3], 0.0246867282, 1e-9);
+near('clase 0110 (AD|BC) contra R', probs[8], 0.0074913147, 1e-9);
+t('con ramas iguales las tres clases informativas son iguales', (() => {
+  const p = P.classProbs(0, [0.2, 0.2, 0.2, 0.2, 1e-9]);
+  const f = [0, 0, 0];
+  P.CLASSES.forEach((c, i) => { if (c.informs != null) f[c.informs] += p[i]; });
+  return Math.abs(f[0] - f[1]) < 1e-8 && Math.abs(f[1] - f[2]) < 1e-8;
+})());
+t('con rama interna larga domina el patrón verdadero', (() => {
+  const f = P.expectedInformative(0.05, 0.05);
+  return f[0] > f[1] && f[0] > f[2];
+})());
+t('la topología no importa si todas las ramas son iguales', (() => {
+  const a = P.classProbs(0, [0.3, 0.3, 0.3, 0.3, 0.3]).reduce((s, v) => s + v, 0);
+  const b = P.classProbs(1, [0.3, 0.3, 0.3, 0.3, 0.3]).reduce((s, v) => s + v, 0);
+  return Math.abs(a - b) < 1e-12;
+})());
+
+/* ================================================================
+   5 · the Felsenstein zone
+   ================================================================ */
+sec('5 · La zona de Felsenstein');
+const fz = P.expectedInformative(0.5, 0.05);
+near('frecuencia esperada AB|CD (verdadera) contra R', fz[0], 0.02468673, 1e-8);
+near('frecuencia esperada AC|BD (equivocada) contra R', fz[1], 0.03874190, 1e-8);
+near('frecuencia esperada AD|BC contra R', fz[2], 0.00749131, 1e-8);
+t('con p = 0.5 y q = 0.05 la parsimonia es inconsistente', fz[1] > fz[0]);
+const fzSafe = P.expectedInformative(0.1, 0.1);
+t('con ramas parejas la parsimonia es consistente', fzSafe[0] > fzSafe[1]);
+near('frontera de la zona en q = 0.05 contra uniroot en R', P.zoneBoundary(0.05), 0.3940482, 1e-5);
+t('la frontera sube cuando la rama interna es más larga', P.zoneBoundary(0.12) > P.zoneBoundary(0.03));
+t('las dos clases informativas equivocadas nunca superan a la verdadera con ramas iguales',
+  (() => { const f = P.expectedInformative(0.15, 0.15); return f[0] >= f[1] && f[0] >= f[2]; })());
+
+/* ================================================================
+   6 · likelihood and topology choice
+   ================================================================ */
+sec('6 · Verosimilitud y elección de topología');
+/* the fixed data set used in validation/block1 (seed 12345, 500 sites) */
+const counts = P.simulate(P.classProbs(0, lensTrue), 500, rng(12345));
+t('la simulación reparte exactamente 500 sitios', counts.reduce((a, b) => a + b, 0) === 500);
+t('la misma semilla da la misma simulación',
+  P.simulate(P.classProbs(0, lensTrue), 500, rng(12345)).join() === counts.join());
+const fits = [0, 1, 2].map(k => P.fitTopology(counts, k, 10));
+near('lnL de ((A,B),(C,D)) contra phangorn::optim.pml', fits[0].lnL, -2018.471135, 1e-4);
+near('lnL de ((A,C),(B,D)) contra phangorn::optim.pml', fits[1].lnL, -2019.358821, 1e-4);
+near('lnL de ((A,D),(B,C)) contra phangorn::optim.pml', fits[2].lnL, -2020.833686, 1e-4);
+t('la verosimilitud elige la topología verdadera', P.mlChoice(counts).win === 0);
+t('todas las longitudes optimizadas son no negativas', fits.every(f => f.lens.every(v => v >= 0)));
+t('en la topología equivocada la rama interna colapsa', fits[2].lens[4] < 1e-4);
+t('la parsimonia se equivoca con estos datos', P.mpChoice(counts) !== 0);
+/* En esta réplica concreta las distancias también fallan: con p = 0.5 el
+   vecino más cercano acierta cerca del 89 % de las veces, y ésta cae en el 11 %
+   restante. Lo que debe cumplirse siempre no es el resultado de una réplica
+   sino el orden de los tres métodos sobre muchas. */
+t('NJ también se equivoca en esta réplica (cae en su 11 %)',
+  P.njChoice(P.pairDistances(counts, 500)) !== 0);
+t('sobre 60 réplicas en la zona: ML > NJ > parsimonia', (() => {
+  const r = rng(99), pr = P.classProbs(0, [0.55, 0.05, 0.55, 0.05, 0.05]);
+  let ml = 0, nj = 0, mp = 0;
+  for (let i = 0; i < 60; i++) {
+    const c = P.simulate(pr, 500, r);
+    if (P.mlChoice(c).win === 0) ml++;
+    if (P.njChoice(P.pairDistances(c, 500)) === 0) nj++;
+    if (P.mpChoice(c) === 0) mp++;
+  }
+  return ml >= nj && nj > mp && ml > 0.8 * 60 && mp < 0.2 * 60;
+})());
+t('la verosimilitud del árbol verdadero es la mayor', fits[0].lnL > fits[1].lnL && fits[0].lnL > fits[2].lnL);
+/* with plenty of sites and even branches every criterion must agree */
+const easy = P.simulate(P.classProbs(0, [0.1, 0.1, 0.1, 0.1, 0.1]), 2000, rng(7));
+t('con datos fáciles la parsimonia acierta', P.mpChoice(easy) === 0);
+t('con datos fáciles NJ acierta', P.njChoice(P.pairDistances(easy, 2000)) === 0);
+t('con datos fáciles la verosimilitud acierta', P.mlChoice(easy).win === 0);
+
+/* ================================================================
+   7 · distances and the four-point condition
+   ================================================================ */
+sec('7 · Distancias por pares y condición de los cuatro puntos');
+const d = P.pairDistances(counts, 500);
+t('hay las seis distancias por pares', Object.keys(d).length === 6);
+t('todas las distancias son positivas', Object.values(d).every(v => v > 0));
+t('las ramas largas dan la mayor distancia (A–C)', d['02'] === Math.max(...Object.values(d)));
+t('la condición de los cuatro puntos elige una sola topología',
+  [0, 1, 2].indexOf(P.njChoice(d)) >= 0);
+t('con distancias de un árbol exacto NJ recupera la topología', (() => {
+  /* additive distances built by hand on ((A,B),(C,D)) with a=0.1, b=0.2, i=0.05 */
+  const dd = { '01': 0.3, '02': 0.45, '03': 0.45, '12': 0.45, '13': 0.45, '23': 0.3 };
+  return P.njChoice(dd) === 0;
+})());
+
+/* ================================================================
+   8 · K80, gamma rates and saturation
+   ================================================================ */
+sec('8 · K80, tasas gamma y saturación');
+/* expectedPQ lee los ajustes del laboratorio; se fijan aquí para que las
+   pruebas no dependan de dónde quedaron los deslizadores */
+P.S.kappa = 4; P.S.alpha = 0.5; P.S.gamma = false;
+near('K80 en t = 0 no da cambios', P.k80Probs(0, 4).P + P.k80Probs(0, 4).Q, 0);
+near('K80 en t = 0.5, κ = 4: transiciones contra R', P.k80Probs(0.5, 4).P, 0.21183372, 1e-7);
+near('K80 en t = 0.5, κ = 4: transversiones contra R', P.k80Probs(0.5, 4).Q, 0.14173434, 1e-7);
+near('K80 en el infinito: P + Q tiende a 3/4', P.k80Probs(80, 4).P + P.k80Probs(80, 4).Q, 0.75, 1e-9);
+near('K80 con κ = 1 es Jukes–Cantor', P.k80Probs(0.3, 1).P, P.jcP(0.3).diff, 1e-12);
+near('la tasa media de las categorías gamma es 1',
+  P.gammaRates(0.5, 4).reduce((a, b) => a + b, 0) / 4, 1);
+near('categoría 1 con α = 0.5 contra qgamma en R', P.gammaRates(0.5, 4)[0], 0.02907775, 1e-7);
+near('categoría 4 con α = 0.5 contra qgamma en R', P.gammaRates(0.5, 4)[3], 2.76543464, 1e-7);
+near('categoría 1 con α = 1 contra qgamma en R', P.gammaRates(1, 4)[0], 0.14578436, 1e-7);
+t('α pequeña reparte las tasas más desigualmente',
+  P.gammaRates(0.2, 4)[3] > P.gammaRates(2, 4)[3]);
+t('con α grande todas las tasas tienden a 1',
+  P.gammaRates(200, 4).every(v => Math.abs(v - 1) < 0.2));
+near('lgamma(5) = log(4!)', P.lgamma(5), Math.log(24), 1e-9);
+near('cuantil de Gamma(0.5, 0.5) en 0.125 contra qgamma en R', P.invGamma(0.125, 0.5), 0.02474665, 1e-7);
+near('cuantil de Gamma(2, 2) en 0.875 contra qgamma en R', P.invGamma(0.875, 2), 1.80351177, 1e-7);
+t('las diferencias observadas se saturan por debajo de 3/4', (() => {
+  const e = P.expectedPQ(10);
+  return e.P + e.Q < 0.75 && e.P + e.Q > 0.6;
+})());
+const peakOf = () => {
+  let peak = 0, peakT = 0;
+  for (let t2 = 0.05; t2 <= 8; t2 += 0.05) { const e = P.expectedPQ(t2); if (e.P > peak) { peak = e.P; peakT = t2; } }
+  return { peak, peakT };
+};
+t('sin Γ la curva de transiciones baja después de su máximo (saturación)', (() => {
+  const { peak, peakT } = peakOf();
+  return peakT > 0.5 && peakT < 3 && P.expectedPQ(6).P < peak;
+})());
+/* Con tasas muy heterogéneas los sitios lentos siguen aportando transiciones
+   nuevas mucho después, así que el máximo se corre y la saturación tarda en
+   verse: es un resultado real del modelo, no un defecto del dibujo. */
+t('con Γ (α = 0.5) el máximo se retrasa más allá de la escala del laboratorio', (() => {
+  const sinG = peakOf().peakT;
+  P.S.gamma = true;
+  const conG = peakOf().peakT;
+  P.S.gamma = false;
+  return conG > sinG;
+})());
+
+/* ================================================================
+   9 · illustrations
+   ================================================================ */
+sec('9 · Ilustraciones');
+const artNames = Object.keys(Art).filter(k => typeof Art[k] === 'function');
+t('hay al menos 60 ilustraciones registradas', artNames.length >= 60, artNames.length + ' registradas');
+let bad = [];
+artNames.forEach(k => {
+  try {
+    const s = Art[k]();
+    if (typeof s !== 'string' || s.indexOf('<svg') !== 0 || s.length < 80 || /NaN|undefined/.test(s)) bad.push(k);
+  } catch (e) { bad.push(k + ' (' + e.message + ')'); }
+});
+t('todas devuelven un SVG válido, sin NaN', bad.length === 0, bad.join(', '));
+t('el árbol usa colores del tema, no valores fijos', /var\(--/.test(Art.tree({ n: 6, seed: 1 })));
+t('el árbol ultramétrico termina todas las puntas juntas', (() => {
+  const s = Art.tree({ n: 8, seed: 3, ultra: true, raw: true });
+  const xs = [...s.matchAll(/<circle cx="([\d.]+)"/g)].map(m => +m[1]);
+  return xs.length >= 8 && Math.max(...xs) - Math.min(...xs) < 0.6;
+})());
+
+/* ================================================================
+   10 · the app's map
+   ================================================================ */
+sec('10 · El mapa de la app');
+t('hay doce bloques declarados', STEPS.length === 12);
+t('el Bloque 1 está listo', STEPS[0].ready === true);
+t('cada bloque tiene nombre en los dos idiomas', STEPS.every(s => s.es && s.en));
+t('los números de bloque van del 1 al 12 sin huecos', STEPS.every((s, i) => s.n === i + 1));
+
+</script>
+<script src="block2.js"></script>
+<script src="block3.js"></script>
+<script src="block4.js"></script>
+<script src="block5.js"></script>
+<script src="block6.js"></script>
+<script src="block7.js"></script>
+<script src="block8.js"></script>
+<script src="block9.js"></script>
+<script src="block10.js"></script>
+<script src="block11.js"></script>
+<script src="block12.js"></script>
+<script src="studio.js"></script>
+<script src="help.js"></script>
+<script src="figstyle.js"></script>
+<script src="calibhelp.js"></script>
+<script>
+document.getElementById("sum").innerHTML = fail === 0
+  ? `<span class="ok">${pass} pruebas, todas pasan</span>`
+  : `<span class="bad">${fail} fallan</span> de ${pass + fail}`;
+</script>
+</body>
+</html>

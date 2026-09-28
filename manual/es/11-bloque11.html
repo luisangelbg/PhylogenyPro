@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 11</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-11" data-pestana="11" data-orden="11" style="--acento: var(--b11)">
+  <div class="cap-apertura">
+    <div class="cap-num">11</div>
+    <div class="cap-etiqueta">Capítulo once · Bloque 11</div>
+    <h1>Comparar árboles</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Cada bloque anterior produce un árbol. Éste pregunta qué hacer cuando dos de ellos no son el mismo, que con datos reales es siempre. Mide distancias que no se rompen igual, dibuja el desacuerdo en vez de esconderlo, separa <b>estar bien estimada</b> de <b>estar bien respaldada</b>, arma un árbol de especies con los cuartetos y distingue —hasta donde se puede— la clasificación incompleta de linajes de la introgresión.</p>
+    <div class="cap-franja"><span class="k5"></span><span class="k6"></span><span class="k11"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">11.1</span>Los árboles que se van a comparar</li>
+      <li><span class="n">11.2</span>Cuánto se parecen</li>
+      <li><span class="n">11.3</span>El tanglegrama, y su trampa</li>
+      <li><span class="n">11.4</span>Concordancia no es apoyo</li>
+      <li><span class="n">11.5</span>Un árbol de especies con los cuartetos</li>
+      <li><span class="n">11.6</span>Dibujar el conflicto en vez de resolverlo</li>
+      <li><span class="n">11.7</span>La prueba ABBA-BABA</li>
+      <li><span class="n">11.8</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">11.9</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.1 -->
+  <h2 id="s11-1"><span class="num">11.1</span>Los árboles que se van a comparar</h2>
+
+  <p>Sirve cualquier combinación: los que hicieron los Bloques 4, 5, 6 y 7, y los que pegues en Newick, uno por línea —los de cada gen por separado, los de un colega, los de un artículo—. Hacen falta al menos dos.</p>
+
+  <p>Todos tienen que tener los mismos nombres de punta, y lo que no case <b>se dice por su nombre</b>. Es una de esas comprobaciones que parecen burocracia hasta el día en que un guion bajo de más te hace comparar quince especies creyendo que comparas dieciséis.</p>
+
+  <!-- ----------------------------------------------------------------- 11.2 -->
+  <h2 id="s11-2"><span class="num">11.2</span>Cuánto se parecen</h2>
+
+  <p>El menú ofrece seis medidas, todas sobre el árbol <b>no enraizado</b>, y el bloque las calcula para cada par y las pone en una tabla y en un mapa de calor.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 11.1.</b> Las medidas de distancia entre árboles.</caption>
+    <thead><tr><th style="width:36%">Medida</th><th>Qué cuenta</th></tr></thead>
+    <tbody>
+      <tr><td><b>Robinson–Foulds</b></td><td>Cuántas divisiones tiene uno y no el otro. Sólo topología.</td></tr>
+      <tr><td><b>Robinson–Foulds normalizada</b></td><td>La misma, dividida por su máximo posible, para poder comparar árboles de tamaños distintos.</td></tr>
+      <tr><td><b>Cuartetos discrepantes</b></td><td>De todos los grupos de cuatro puntas, cuántos se resuelven de manera distinta en un árbol y en el otro.</td></tr>
+      <tr><td><b>Robinson–Foulds pesada</b></td><td>Como la primera, pero cada división pesa lo que mida su rama.</td></tr>
+      <tr><td><b>Puntaje de rama</b><br>Kuhner y Felsenstein</td><td>La diferencia entre las longitudes de rama de las divisiones compartidas, sumada en cuadrado.</td></tr>
+      <tr><td><b>Diferencia de caminos</b><br>Steel y Penny</td><td>Cuánto cambia la distancia entre cada par de puntas al pasar de un árbol al otro.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>No se rompen igual, y el bloque lo dice al lado</div>
+    <p><b>Una sola punta mal colocada puede llevar la Robinson–Foulds a su máximo</b>, mientras la distancia de cuartetos apenas se mueve. Cuando eso pasa, el desacuerdo <b>es una punta, no una historia</b>, y confundir las dos cosas es el error más caro de esta sección.</p>
+    <p>La lectura práctica: si RF sale enorme y la de cuartetos pequeña, busca el taxón saltarín antes de escribir que los dos análisis dan historias distintas.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.3 -->
+  <h2 id="s11-3"><span class="num">11.3</span>El tanglegrama, y su trampa</h2>
+
+  <p>Dos árboles enfrentados con una línea por punta. Las líneas se cruzan justo donde los árboles discrepan, así que la figura enseña <b>dónde</b> está el desacuerdo y no sólo cuánto hay.</p>
+
+  <p>Antes de leer nada hay que <b>desenredar</b>, y viene activado. Desenredar es <b>rotar ramas</b> alrededor de sus nodos hasta que las líneas se crucen lo menos posible. Una rotación <b>no cambia ninguno de los dos árboles</b>: es la misma topología dibujada de otra manera. Sin ese paso, un tanglegrama de dos árboles idénticos puede parecer un ovillo.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Un tanglegrama sin cruces no significa que los árboles sean iguales</div>
+    <p>Es la advertencia que casi ningún programa imprime, y va en el bloque. Una rotación puede alinear <b>dos topologías distintas</b>: las líneas salen paralelas y el ojo concluye «son el mismo árbol». Para eso están las distancias de la sección anterior. El tanglegrama dice <b>dónde</b>; el número dice <b>cuánto</b>.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.4 -->
+  <h2 id="s11-4"><span class="num">11.4</span>Concordancia no es apoyo</h2>
+
+  <p>El apoyo de arranque dice con qué seguridad <b>esos datos</b> sostienen una rama. No dice cuántos genes la ven. Son dos preguntas distintas, y con genomas completos la segunda suele importar más.</p>
+
+  <p>Los <b>factores de concordancia</b> de Minh y colaboradores (2020) responden la segunda, rama por rama:</p>
+
+  <ul class="lista">
+    <li><b>gCF</b>: qué porcentaje de los <b>árboles de genes</b> contiene esa rama.</li>
+    <li><b>sCF</b>: qué porcentaje de los <b>sitios</b> del alineamiento la apoya, estimado sobre cuartetos tomados al azar alrededor de la rama —cien por rama de entrada—.</li>
+  </ul>
+
+  <p>Se dibujan como barras apiladas contra el tercio que daría el <b>puro azar</b>, que es la referencia correcta cuando hay tres resoluciones posibles, y como una dispersión de gCF frente a sCF.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Bien estimada y mal respaldada a la vez</div>
+    <p>Una rama con <b>100 % de arranque y 35 % de concordancia</b> no es una contradicción: quiere decir que los datos que tienes la sostienen sin dudar <b>y</b> que dos de cada tres genes ven otra cosa. Está bien estimada y mal respaldada al mismo tiempo, y las dos mitades de esa frase tienen que aparecer en el artículo. El bloque lo repite donde hace falta.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>La rama más profunda</div>
+    <p>Una rama que cuelga directamente de una raíz bifurcante <b>no tiene nada «arriba»</b>: la raíz no es un nodo del árbol no enraizado. Los cuatro grupos que rodean la rama se forman entonces con las hijas de la hermana. Es un caso fácil de pasar por alto —y lo pasamos por alto, como cuenta la §11.8—, pero el conteo de hoy lo contempla, y por eso la tabla de concordancia trae <b>todas</b> las ramas internas y no todas menos la más profunda. Vale la pena mirarla: la rama más profunda suele ser la que separa los dos grandes grupos del estudio, es decir, justo la que se discute en el resumen del artículo.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.5 -->
+  <h2 id="s11-5"><span class="num">11.5</span>Un árbol de especies con los cuartetos</h2>
+
+  <p>Cuando los genes discrepan por <b>clasificación incompleta de linajes</b>, concatenarlos no arregla nada: puede dar con mucha confianza un árbol que ningún gen sostiene. La salida es trabajar con los cuartetos.</p>
+
+  <ol class="pasos">
+    <li>De cada grupo de cuatro especies hay <b>tres</b> resoluciones posibles. Se cuenta con qué frecuencia aparece cada una entre los árboles de genes.</li>
+    <li>Cada árbol candidato recibe un <b>puntaje</b>: cuántos cuartetos de los observados es capaz de explicar.</li>
+    <li>Se busca el mejor con una búsqueda de vecinos más cercanos, empezando desde el árbol que elijas.</li>
+  </ol>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Es una heurística, y se llama a sí misma heurística</div>
+    <p>La búsqueda puede quedarse en un óptimo local. <b>No es el programa exacto de ASTRAL</b>, y el bloque no finge que lo sea. Para un artículo sobre discordancia de genes, usa ASTRAL; esto sirve para ver el problema, entenderlo y comparar con lo que ya tienes.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.6 -->
+  <h2 id="s11-6"><span class="num">11.6</span>Dibujar el conflicto en vez de resolverlo</h2>
+
+  <p>Un consenso tiene que <b>tirar</b> las divisiones que se contradicen. Una red las <b>conserva todas</b> y las dibuja como cajas: cuanto más ancha la caja, más peso tiene el conflicto. Dos caminos:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 11.2.</b> Las dos redes que construye el bloque.</caption>
+    <thead><tr><th style="width:34%">Construcción</th><th>De qué parte y qué enseña</th></tr></thead>
+    <tbody>
+      <tr><td><b>Red de consenso</b><br>de los árboles</td><td>Toma las divisiones que aparecen en bastantes árboles —el umbral viene en 0.3— y las dibuja todas. Los pares <b>incompatibles</b> se encuentran y se marcan en color: ésas son las cajas.</td></tr>
+      <tr><td><b>Descomposición circular</b><br>de las distancias</td><td>Parte de una matriz de distancias en vez de árboles. Si le das las distancias de un árbol, <b>devuelve ese árbol exactamente</b>; si le das cualquier otra cosa, la diferencia se ve como anchura.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Por qué vale la pena dibujar el conflicto</div>
+    <p>Un consenso con politomías dice «aquí no sé». Una red dice «aquí hay <b>dos</b> señales, y éstas son». Es mucha más información, y es honesta: no obliga a escoger antes de tiempo.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.7 -->
+  <h2 id="s11-7"><span class="num">11.7</span>La prueba ABBA-BABA</h2>
+
+  <p>Con el árbol (((P1,P2),P3),O), un sitio en el que <b>P2 y P3</b> comparten el estado derivado —<b>ABBA</b>— y otro en el que lo comparten <b>P1 y P3</b> —<b>BABA</b>— son igual de incongruentes con ese árbol. Y bajo clasificación incompleta de linajes son <b>igual de probables</b>.</p>
+
+  <p>Ahí está toda la idea: la clasificación incompleta de linajes es simétrica, y la introgresión no. Que uno de los dos patrones sea mucho más frecuente que el otro es la huella de la hibridación. La <b>D de Patterson</b> mide ese desequilibrio, y el bloque le pone un intervalo del 95 % por <b>jackknife por bloques</b> —veinte bloques de entrada—, porque los sitios vecinos no son independientes y una desviación estándar calculada sitio a sitio sale demasiado pequeña.</p>
+
+  <p>Se puede probar un trío concreto o barrer <b>todos</b> los tríos contra un exogrupo.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>D ≠ 0 tiene tres explicaciones y sólo una es introgresión</div>
+    <p>El mismo desequilibrio lo producen un <b>exogrupo mal elegido</b>, <b>tasas de evolución muy desiguales</b> entre P1 y P2, y un <b>error de alineamiento</b>. Los tres hay que descartarlos antes de escribir «hibridación». El panel lo dice cada vez, no una sola vez en la ayuda.</p>
+  </div>
+
+  <p>Todo se lleva en cinco archivos: la matriz de distancias, la concordancia por rama, las divisiones de la red, el ABBA-BABA y todos los árboles juntos en <code>.tre</code>.</p>
+
+  <!-- ----------------------------------------------------------------- 11.8 -->
+  <h2 id="s11-8"><span class="num">11.8</span>Qué tan bien lo hace, medido</h2>
+
+  <p>Se comprobó contra <b>ape 5.8.1</b> y <b>phangorn 2.12.1</b>: <b>25 comprobaciones</b> y ningún desacuerdo.</p>
+
+  <ul class="lista">
+    <li><b>Las distancias sobre 36 pares cada una</b>, 216 números: RF y RF normalizada <b>exactas</b>; la RF pesada hasta 4.5·10⁻¹⁰, el puntaje de rama hasta 1.5·10⁻¹⁰, la diferencia de caminos hasta 5·10⁻¹⁴ y su forma pesada hasta 8·10⁻¹⁰.</li>
+    <li><b>La distancia de cuartetos</b> contra un conteo por fuerza bruta sobre los 1820 cuartetos de dieciséis taxones, podando los dos árboles a cada uno: 1767/53, 1691/129 y 1820/0, <b>exacta</b>.</li>
+    <li><b>gCF</b> contra la misma definición recalculada en R sobre las trece ramas internas, con diferencia <b>cero</b>.</li>
+    <li><b>La red de consenso</b> división por división contra <code>phangorn::consensusNet</code>: las trece divisiones no triviales, idénticas.</li>
+    <li><b>La D de Patterson</b> contra la definición calculada en R sobre un alineamiento de 60 000 sitios con 15 % de introgresión: ABBA 1089, BABA 753, D 0.18241042, error estándar del jackknife 0.07884390 y z 2.31356419, <b>cada dígito</b>.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Cuando no hay paquete contra el cual comparar</div>
+    <p>Para la <b>descomposición circular</b> no hay ninguno instalado, así que se comprobó contra una <b>identidad</b>: alimentada con las distancias de caminos de un árbol de dieciséis taxones devuelve exactamente sus 13 divisiones internas y sus 16 terminales, con las longitudes de rama hasta 3·10⁻¹⁶ y las distancias reconstruidas hasta 9·10⁻¹⁶, sin recortar nada; y el ciclo exterior de la red cierra sobre sí mismo hasta 3·10⁻¹⁶. Una identidad que tiene que cumplirse es una prueba tan buena como un paquete, y a veces mejor.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Lo que apareció al validar</div>
+    <p><b>Las medidas pesadas leían media rama.</b> Un árbol enraizado tiene dos aristas bajo su raíz, y son <b>una sola</b> arista del árbol no enraizado; tomar la longitud del nodo que el mapa de divisiones hubiera conservado la partía por la mitad. Todas las comparaciones pesadas heredaban el error: la RF pesada salía 2.54 donde phangorn dice 3.78. Ahora las longitudes se acumulan <b>por división</b>, no se leen de un nodo.</p>
+    <p><b>La diferencia de caminos contaba la raíz.</b> Medido en aristas, el camino entre dos puntas depende de dónde esté la raíz, y dos árboles idénticos enraizados distinto salían a 7.94 en vez de 0. La medida es del árbol no enraizado, así que ahora lo primero que se hace es quitar la raíz.</p>
+    <p><b>Un árbol enraizado en una sola punta criaba una rama interna de más.</b> La rama sobre su hermana contiene n−1 puntas, y la prueba de «trivial» sólo miraba el lado de abajo. Uno de los árboles de ejemplo de la propia app mostraba 16 divisiones internas donde hay 15, lo que infla en uno cada comparación con un árbol enraizado en otro sitio. <b>Apareció corriendo el bloque sobre salida real</b>, no en el banco, cuyos árboles de referencia nunca se enraízan así.</p>
+    <p><b>Los cuatro grupos alrededor de una rama eran tres bajo la raíz</b>, por lo dicho en la §11.4: faltaba exactamente una rama, siempre la más profunda, en cada tabla de concordancia. Doce ramas donde hay trece.</p>
+    <p><b>La descomposición circular tenía sus cuatro términos emparejados al revés.</b> El peso de una división es una diferencia de cuatro puntos a través de los <b>dos huecos</b> que la limitan, y emparejar las distancias por hueco en vez de por extremo da un número que parece un peso y no lo es: 91 divisiones donde un árbol de dieciséis taxones tiene 29, y distancias que no podía reproducir.</p>
+    <p>Y uno pequeño con moraleja grande: <code>opts.minSites || 20</code> convertía un cero deliberado en veinte, así que pedir el barrido de todos los tríos no devolvía ninguno.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.9 -->
+  <h2 id="s11-9"><span class="num">11.9</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reportar una Robinson–Foulds grande como «historias distintas»</div>
+    <p>Mira antes la distancia de cuartetos. Si ésa es pequeña, lo que tienes es <b>una punta inestable</b>, no dos hipótesis en conflicto. Reportar las dos medidas cuesta una línea y evita la conclusión equivocada.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leer un tanglegrama sin cruces como prueba de igualdad</div>
+    <p>Una rotación puede alinear dos topologías distintas. El tanglegrama enseña dónde discrepan; quien dice si discrepan es el número.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confundir concordancia con apoyo</div>
+    <p>100 % de arranque y 35 % de gCF describen cosas distintas y las dos son verdad. Publicar sólo la primera da una idea muy optimista de lo que sabes.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concatenarlo todo cuando los genes discrepan de verdad</div>
+    <p>Bajo clasificación incompleta de linajes, la concatenación puede dar con altísima confianza un árbol que <b>ningún gen</b> sostiene. Ahí es donde hacen falta los cuartetos.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Anunciar hibridación con una D significativa y nada más</div>
+    <p>Descarta primero el exogrupo, las tasas desiguales y el alineamiento. Una D significativa es el <b>principio</b> de la investigación, no su conclusión.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Presentar el árbol de cuartetos como si fuera ASTRAL</div>
+    <p>Es una búsqueda heurística y puede quedarse en un óptimo local. Dilo en los métodos, o corre ASTRAL.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

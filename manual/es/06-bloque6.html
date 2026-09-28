@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-6" data-pestana="6" data-orden="6" style="--acento: var(--b6)">
+  <div class="cap-apertura">
+    <div class="cap-num">6</div>
+    <div class="cap-etiqueta">Capítulo seis · Bloque 6</div>
+    <h1>Inferencia bayesiana</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">No «el mejor árbol», sino la probabilidad de cada árbol dados los datos <b>y lo que se supuso antes de verlos</b>. Ese segundo término es lo que distingue al método y lo que obliga a escribir los supuestos que en los demás quedan implícitos. Este capítulo explica los priors, la cadena y su acoplamiento, las cuatro cifras que dicen si convergió, cómo se leen las probabilidades posteriores —que no son bootstrap— y los factores de Bayes.</p>
+    <div class="cap-franja"><span class="k6"></span><span class="k7"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">6.1</span>Qué cambia respecto de la verosimilitud</li>
+      <li><span class="n">6.2</span>Lo que se supone antes de ver los datos</li>
+      <li><span class="n">6.3</span>La cadena y su acoplamiento</li>
+      <li><span class="n">6.4</span>¿Convergió? Las cuatro cifras</li>
+      <li><span class="n">6.5</span>Las probabilidades posteriores</li>
+      <li><span class="n">6.6</span>Factores de Bayes</li>
+      <li><span class="n">6.7</span>Llevarse el resultado</li>
+      <li><span class="n">6.8</span>Cómo se comprobó que el muestreador es correcto</li>
+      <li><span class="n">6.9</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.1 -->
+  <h2 id="s6-1"><span class="num">6.1</span>Qué cambia respecto de la verosimilitud</h2>
+
+  <p>La máxima verosimilitud pregunta: <i>¿qué árbol hace más probables estos datos?</i> La inferencia bayesiana pregunta lo contrario: <i>¿qué tan probable es cada árbol, dados estos datos?</i> Para poder responder eso hace falta algo más: una <b>distribución previa</b> que diga qué se creía antes de mirar los datos.</p>
+
+  <p>El resultado no es un árbol sino una <b>distribución</b> sobre árboles, longitudes y parámetros. De ella salen las probabilidades posteriores de cada clado y los intervalos de credibilidad de cada edad, que es lo que hace de este bloque el compañero natural del Bloque 7.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>El prior no es una debilidad del método: es una obligación de escribirlo</div>
+    <p>Quien critica el bayesiano por «depender de supuestos» suele olvidar que la verosimilitud también supone —el modelo, la independencia entre sitios, la homogeneidad de composición—, sólo que no obliga a declararlo. Aquí hay que escribirlo, y eso es una ventaja: los supuestos quedan a la vista y se pueden discutir.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.2 -->
+  <h2 id="s6-2"><span class="num">6.2</span>Lo que se supone antes de ver los datos</h2>
+
+  <p>La primera sección del panel es la lista de priors. El botón <span class="ui">Usar el modelo del Bloque 5</span> copia el modelo ya elegido; los tres campos siguientes fijan las previas:</p>
+
+  <ul class="lista">
+    <li><span class="ui">longitud media de rama (exponencial)</span>: la media de la exponencial sobre cada longitud de rama.</li>
+    <li><span class="ui">media de α (exponencial)</span>: la previa sobre la forma de la gamma.</li>
+    <li><span class="ui">media de las tasas (exponencial)</span>: la previa sobre las tasas del modelo de sustitución.</li>
+  </ul>
+
+  <p>Además, el programa usa una <b>uniforme sobre topologías</b> —todas igual de probables antes de ver los datos— y una <b>Dirichlet</b> sobre las frecuencias de base.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>La previa de las ramas no es inocua</div>
+    <p>Es el supuesto que más silenciosamente tuerce un resultado. Con la exponencial de media 0.1 —la de MrBayes por omisión— y datos <b>divergentes</b>, el posterior de la longitud total del árbol sale <b>a la mitad</b> de la del árbol de máxima verosimilitud: el prior tira de las ramas hacia abajo y gana. Está documentado (Brown et al. 2010; Marshall 2010) y el panel lo avisa antes de correr, comparando la previa con la longitud que midió el Bloque 5.</p>
+    <p>La solución no es quitar la previa —no se puede—, sino <b>elegirla a conciencia</b> y comprobar que el resultado no cambia con otra razonable.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.3 -->
+  <h2 id="s6-3"><span class="num">6.3</span>La cadena y su acoplamiento</h2>
+
+  <p>El muestreador es Metropolis–Hastings sobre topologías, longitudes y parámetros del modelo. En cada paso propone un cambio y lo acepta o lo rechaza según una regla que garantiza que, a la larga, la frecuencia con que visita cada árbol sea su probabilidad posterior.</p>
+
+  <p>Los controles son seis:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 6.1.</b> Los controles de la cadena.</caption>
+    <thead><tr><th style="width:28%">Control</th><th>Qué es</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">generaciones</span></td><td>Cuántos pasos da cada cadena. Más es mejor y más lento.</td></tr>
+      <tr><td><span class="ui">descarte inicial</span></td><td>La <b>quema</b>: las primeras generaciones, mientras la cadena sube desde donde la soltaron, se tiran.</td></tr>
+      <tr><td><span class="ui">muestrear cada</span></td><td>Cada cuántos pasos se guarda una muestra. Guardarlas todas no añade información, porque están correlacionadas.</td></tr>
+      <tr><td><span class="ui">corridas</span></td><td>Cuántas cadenas <b>independientes</b>, arrancadas por separado. Con menos de dos no se puede comprobar la convergencia.</td></tr>
+      <tr><td><span class="ui">cadenas por corrida</span></td><td>Las cadenas acopladas (MC³) de cada corrida.</td></tr>
+      <tr><td><span class="ui">calentamiento</span></td><td>Cuánto se «aplana» el posterior de las cadenas calientes.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Para qué sirve el acoplamiento (MC³)</div>
+    <p>Una sola cadena puede quedarse atrapada en un pico del posterior y no salir nunca, porque para llegar a otro pico tendría que atravesar un valle de baja probabilidad. El acoplamiento corre varias cadenas a la vez: una <b>fría</b>, que es la que muestrea, y varias <b>calientes</b> que ven un posterior aplanado y se mueven con mucha más libertad. Cada tanto, dos cadenas intercambian su posición. Así la fría puede saltar a un pico que la caliente encontró, sin dejar de muestrear la distribución correcta.</p>
+  </div>
+
+  <p>Cada corrida se ejecuta en su propio hilo del navegador, así que cuatro corridas aprovechan cuatro núcleos.</p>
+
+  <!-- ------------------------------------------------------------------ 6.4 -->
+  <h2 id="s6-4"><span class="num">6.4</span>¿Convergió? Las cuatro cifras</h2>
+
+  <p>El programa pone los diagnósticos <b>antes</b> que el árbol, y no por capricho: un árbol bayesiano de una cadena que no convergió es un dibujo bonito de nada.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 6.2.</b> Las cuatro cifras de convergencia y su umbral.</caption>
+    <thead><tr><th style="width:16%">Cifra</th><th style="width:16%">Se busca</th><th>Qué dice</th></tr></thead>
+    <tbody>
+      <tr><td><b>ESS</b></td><td><b>≥ 200</b></td><td>Cuántas muestras <b>independientes</b> equivalen a las que la cadena tomó. Diez mil muestras correlacionadas pueden valer por treinta.</td></tr>
+      <tr><td><b>PSRF</b> (R̂)</td><td><b>&lt; 1.01</b></td><td>Compara la varianza dentro de cada cadena con la varianza entre cadenas independientes. Si todas exploran lo mismo, tiende a 1.</td></tr>
+      <tr><td><b>ASDSF</b></td><td><b>&lt; 0.01</b></td><td>Cuánto se contradicen dos corridas sobre el apoyo de cada rama. Es la cifra que MrBayes imprime mientras corre.</td></tr>
+      <tr><td><b>La traza</b></td><td>—</td><td>El dibujo del logaritmo de la verosimilitud contra la generación. Donde deja de subir y empieza a oscilar, ahí acaba la quema.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confiar en una traza plana</div>
+    <p>Una traza plana no prueba convergencia: puede ser una cadena <b>atascada</b>, que lleva un millón de generaciones sin moverse de un óptimo local. Por eso hacen falta <b>varias corridas independientes</b> y el PSRF, que compara entre ellas. Y el PSRF necesita que las corridas empiecen en sitios <b>distintos</b>: arrancadas todas del mismo árbol pueden dar 1.00 y estar todas igual de equivocadas.</p>
+  </div>
+
+  <p>Un ESS alto tampoco basta por sí solo: dice que la cadena <b>mezcló bien donde estuvo</b>, no que haya recorrido todo el espacio.</p>
+
+  <!-- ------------------------------------------------------------------ 6.5 -->
+  <h2 id="s6-5"><span class="num">6.5</span>Las probabilidades posteriores</h2>
+
+  <p>El árbol que se reporta es el <b>consenso de mayoría</b> de las muestras, con la frecuencia de cada clado como probabilidad posterior. El umbral convencional de apoyo es <b>0.95</b>.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Una posterior no es un bootstrap</div>
+    <p>Son escalas distintas y no se comparan. Para una misma rama, la probabilidad posterior suele ser <b>bastante más alta</b> que el bootstrap: no es que el bayesiano «apoye más», es que responde otra pregunta. Además, la posterior es conocida por ser <b>demasiado segura</b> cuando el modelo está mal especificado: puede dar 1.00 a una rama que el bootstrap apoya al 60 %. Un 1.00 no es una garantía; es una afirmación condicionada al modelo y a los priors.</p>
+  </div>
+
+  <p>El panel muestra además el <b>conjunto creíble</b> de árboles: cuántos árboles distintos hacen falta para acumular el 95 % del posterior. Si hacen falta tres, el resultado es firme; si hacen falta ochocientos, la topología está lejos de resolverse, por más que el consenso salga bien apoyado en algunas ramas.</p>
+
+  <!-- ------------------------------------------------------------------ 6.6 -->
+  <h2 id="s6-6"><span class="num">6.6</span>Factores de Bayes</h2>
+
+  <p>El AIC y el BIC comparan modelos con un atajo: castigan el número de parámetros. El factor de Bayes los compara <b>integrando sobre todos los valores posibles de esos parámetros</b> según el prior, que es más costoso y más correcto.</p>
+
+  <p>La cantidad que se integra es la <b>verosimilitud marginal</b>, y el programa la estima por <b>piedras de paso</b> (Xie et al. 2011): una serie de distribuciones intermedias entre el prior y el posterior, con los controles <span class="ui">escalones</span> y <span class="ui">generaciones por escalón</span>. Nunca por la media armónica, que es notoriamente mala.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 6.3.</b> La escala de Kass y Raftery sobre 2·ln(BF).</caption>
+    <thead><tr><th style="width:22%">2·ln(BF)</th><th>Evidencia a favor del mejor modelo</th></tr></thead>
+    <tbody>
+      <tr><td>menos de 2</td><td>Nada que decir.</td></tr>
+      <tr><td>2 a 6</td><td>Positiva.</td></tr>
+      <tr><td>6 a 10</td><td>Fuerte.</td></tr>
+      <tr><td>más de 10</td><td>Muy fuerte.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparar factores de Bayes calculados con priors distintos</div>
+    <p>La verosimilitud marginal es <b>mucho más sensible al prior</b> que el posterior, porque integra sobre él. Dos personas con el mismo modelo y priors distintos pueden obtener factores de Bayes opuestos. Y la estimación tiene su propio error: repetirla con otra semilla dice cuánto, y conviene hacerlo antes de publicar un 2·ln(BF) de 7.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.7 -->
+  <h2 id="s6-7"><span class="num">6.7</span>Llevarse el resultado</h2>
+
+  <p>El bloque exporta el árbol de consenso con sus probabilidades posteriores y un <b>registro compatible con Tracer</b>, de modo que los diagnósticos se pueden revisar con la herramienta que la comunidad usa. El árbol pasa al Bloque 7 igual que el de máxima verosimilitud, y para datar es a menudo el preferible, porque el reloj relajado bayesiano da una distribución por nodo en vez de un punto.</p>
+
+  <!-- ------------------------------------------------------------------ 6.8 -->
+  <h2 id="s6-8"><span class="num">6.8</span>Cómo se comprobó que el muestreador es correcto</h2>
+
+  <p>Un muestreador MCMC es difícil de validar: no hay un número de referencia contra el que comparar, porque el resultado es una distribución. Este bloque se comprobó de tres maneras distintas, y las tres están en la carpeta de validación.</p>
+
+  <h3>1 · Apagar la verosimilitud</h3>
+  <p>Si se desconecta la verosimilitud, el muestreador <b>debe reproducir exactamente su propio prior</b>, porque ya no hay datos que lo desvíen. Es la prueba más severa que se le puede hacer, y la pasa. En la corrida registrada —400 000 generaciones; el banco es estocástico, así que otra corrida da los últimos decimales distintos—:</p>
+
+  <ul class="lista">
+    <li>Las <b>tres topologías</b> sin raíz de cuatro taxones salen a 0.3374, 0.3335 y 0.3292, contra 1/3 esperado.</li>
+    <li>Con seis taxones se visitan <b>las 105</b> topologías posibles, con frecuencia media 0.00952, contra 1/105 = 0.00952.</li>
+    <li>Las longitudes de rama dan media 0.10060 contra la exponencial de media 0.1, y la longitud total del árbol 0.50302 contra los 0.5 de la Gamma(5, 0.1) que le corresponde.</li>
+  </ul>
+
+  <h3>2 · Comparar los diagnósticos con <i>coda</i></h3>
+  <p>El HPD y el PSRF se calculan sobre una serie que R y el navegador construyen igual, y salen <b>idénticos</b> a los de <code>coda</code>, que es la implementación de referencia.</p>
+
+  <h3>3 · Auditar la cadena movimiento a movimiento</h3>
+  <p>Una auditoría compara la verosimilitud que la cadena lleva apuntada —calculada de forma incremental, por velocidad— con un cálculo desde cero, en cada movimiento. El desajuste es <b>cero</b> en todos.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Un hallazgo que sólo el muestreador podía destapar</div>
+    <p>Durante esas pruebas la cadena daba verosimilitudes <b>treinta unidades por encima</b> del supuesto máximo del Bloque 5. No era un error: la cadena <b>estima las frecuencias de base</b>, mientras que el ajuste de máxima verosimilitud las mantenía fijas en las empíricas. De ahí salió la casilla <b>+F</b> del Bloque 5, que ahora permite estimarlas también allí.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.9 -->
+  <h2 id="s6-9"><span class="num">6.9</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Mirar el árbol antes que los diagnósticos</div>
+    <p>El panel los pone en ese orden a propósito. Con ESS por debajo de 200, PSRF por encima de 1.01 o ASDSF por encima de 0.01, el árbol no se mira: se alarga la corrida.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Correr una sola cadena</div>
+    <p>Sin al menos dos corridas independientes no hay PSRF ni ASDSF, y por tanto no hay forma de saber si convergió. Una sola cadena con una traza preciosa puede llevar un millón de generaciones atascada.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reportar una posterior como si fuera un bootstrap</div>
+    <p>«Apoyo del 95 %» sin decir de qué medida es, invita a que el lector lo lea en la escala equivocada. Se escribe «probabilidad posterior de 0.95», y si también hay bootstrap, se dan los dos por separado.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Dejar la previa de las ramas por omisión sin mirarla</div>
+    <p>Con datos divergentes, la exponencial de media 0.1 puede reducir a la mitad la longitud del árbol. El panel compara la previa con lo que midió el Bloque 5 y avisa <b>antes</b> de correr: ese aviso hay que leerlo.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Descartar el 25 % por costumbre</div>
+    <p>Descartar un cuarto de las generaciones es la convención, pero <b>mirar la traza es mejor que la convención</b>. A veces la quema acaba en el 2 % y se están tirando datos buenos; a veces no ha acabado en el 50 %.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

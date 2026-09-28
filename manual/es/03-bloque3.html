@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-3" data-pestana="3" data-orden="3" style="--acento: var(--b3)">
+  <div class="cap-apertura">
+    <div class="cap-num">3</div>
+    <div class="cap-etiqueta">Capítulo tres · Bloque 3</div>
+    <h1>Modelos de sustitución</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un sitio que cambió dos veces sólo enseña el último cambio. Este bloque se ocupa de eso: primero pone a prueba los supuestos que todos los modelos dan por buenos —composición homogénea y señal no saturada—, y luego ajusta 56 modelos de ADN, doce matrices de proteína o Mk y Mkv para morfología, y deja que los criterios de información elijan. No es un trámite: el modelo elegido determina las longitudes de rama, el apoyo y, en los casos difíciles, la topología misma.</p>
+    <div class="cap-franja"><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">3.1</span>Qué se decide en este bloque</li>
+      <li><span class="n">3.2</span>Qué traen tus datos</li>
+      <li><span class="n">3.3</span>Los supuestos, puestos a prueba</li>
+      <li><span class="n">3.4</span>El catálogo de modelos</li>
+      <li><span class="n">3.5</span>Cómo se elige: AIC, AICc, BIC y pesos</li>
+      <li><span class="n">3.6</span>Leer el modelo ganador</li>
+      <li><span class="n">3.7</span>Las pruebas jerárquicas de razón de verosimilitud</li>
+      <li><span class="n">3.8</span>El esquema de particiones</li>
+      <li><span class="n">3.9</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 3.1 -->
+  <h2 id="s3-1"><span class="num">3.1</span>Qué se decide en este bloque</h2>
+
+  <p>Las diferencias que se observan entre dos secuencias <b>subestiman</b> los cambios que de verdad ocurrieron, porque un sitio que cambió de A a G y luego a T se cuenta como un cambio, no como dos, y si volvió a A no se cuenta ninguno. Un modelo de sustitución es la herramienta que convierte lo observado en una estimación de lo ocurrido.</p>
+
+  <p>Elegirlo bien importa tanto como elegir el método de inferencia. Un modelo demasiado simple subestima las ramas largas —y con ello alimenta la atracción de ramas largas del capítulo 1—; uno demasiado complejo gasta parámetros que los datos no pueden estimar y aumenta la varianza sin quitar sesgo.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Por qué no basta con «usar siempre GTR+I+G»</div>
+    <p>Es lo que hace mucha gente, y con miles de sitios rara vez sale mal. Pero con pocos datos el GTR+I+G tiene ocho parámetros libres más las longitudes de rama, y estimarlos todos sobre doscientas posiciones produce estimaciones muy imprecisas. Además, <b>+I y +G compiten por explicar lo mismo</b>: juntos suelen dar valores extremos de ambos que no significan lo que parecen. Este bloque existe para que la elección sea del ajuste y no de la costumbre.</p>
+  </div>
+
+  <p>El bloque trabaja sobre <b>una partición alineada</b> a la vez, que se elige en el menú <span class="ui">partición</span>. Si tienes varias, la sección 4 del panel busca además cómo agruparlas.</p>
+
+  <!-- ------------------------------------------------------------------ 3.2 -->
+  <h2 id="s3-2"><span class="num">3.2</span>Qué traen tus datos</h2>
+
+  <p>La primera sección resume la partición antes de tocar nada: cuántos taxones, cuántos sitios, cuántas columnas son <b>constantes</b>, cuántas <b>variables</b> y cuántas <b>informativas</b>, el contenido de G+C y la proporción de huecos.</p>
+
+  <p>La frase que encabeza la sección dice algo que conviene entender bien: <i>los sitios constantes no informan de la topología pero sí del modelo</i>. Una columna donde todos los taxones tienen A no elige entre topologías, pero sí dice que en ese sitio no hubo cambios, y eso es información directa sobre las tasas y sobre la proporción de sitios invariables. Por eso <b>quitar los sitios constantes «porque no aportan» sesga las longitudes de rama hacia arriba</b>: el modelo cree que hubo más cambio del que hubo.</p>
+
+  <!-- ------------------------------------------------------------------ 3.3 -->
+  <h2 id="s3-3"><span class="num">3.3</span>Los supuestos, puestos a prueba</h2>
+
+  <p>Antes de elegir modelo, el bloque comprueba los dos supuestos que <b>ningún</b> modelo de la lista relaja.</p>
+
+  <h3>Composición por secuencia</h3>
+  <p>Todos los modelos habituales suponen que la composición de bases es la misma en todas las secuencias y en todo el árbol. La gráfica muestra la composición de cada secuencia, y una prueba χ² contrasta cada una contra la media.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Qué hacer si la composición es heterogénea</div>
+    <p>Lo que <b>no</b> funciona es cambiar de modelo de sustitución: ninguno de los 56 lo arregla, porque todos comparten ese supuesto. Dos secuencias con composición parecida se atraen en el árbol aunque no sean parientes, y el apoyo será alto. Las salidas reales son tres: <b>quitar la tercera posición del codón</b>, que suele ser la culpable; <b>pasar a aminoácidos</b>, cuya composición varía menos; o <b>recodificar</b> los nucleótidos en purinas y pirimidinas. La ficha de ayuda de la prueba χ² lo dice también en pantalla.</p>
+  </div>
+
+  <h3>Saturación</h3>
+  <p>La segunda gráfica es la que practicaste en el laboratorio 2 del capítulo 1, ahora sobre tus datos: transiciones y transversiones contra la distancia corregida. La regla se lee igual: <b>mientras la nube siga una recta, el marcador informa; cuando se dobla y se aplana, está saturado</b>. Las transiciones se saturan antes que las transversiones, y la tercera posición del codón antes que la primera y la segunda.</p>
+
+  <p>Recuerda lo que saturado significa y lo que no significa: el marcador sigue resolviendo bien los nodos recientes; lo que no puede es sostener los nodos profundos <b>y su apoyo</b>.</p>
+
+  <!-- ------------------------------------------------------------------ 3.4 -->
+  <h2 id="s3-4"><span class="num">3.4</span>El catálogo de modelos</h2>
+
+  <p>Para ADN, el catálogo se construye combinando tres cosas: siete <b>esquemas de tasas</b>, dos formas de tratar las <b>frecuencias de base</b> y cuatro <b>variantes de variación entre sitios</b>. Siete por dos por cuatro son <b>56 modelos</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 3.1.</b> Los siete esquemas de tasas. El nombre de la izquierda es el que lleva con frecuencias iguales; el de la derecha, con frecuencias empíricas.</caption>
+    <thead><tr><th style="width:20%">Frec. iguales</th><th style="width:20%">Frec. empíricas</th><th style="width:12%">Tasas libres</th><th>Qué distingue</th></tr></thead>
+    <tbody>
+      <tr><td>JC</td><td>F81</td><td>0</td><td>Todos los cambios a la misma tasa.</td></tr>
+      <tr><td>K80</td><td>HKY</td><td>1</td><td>Transiciones y transversiones a tasas distintas: el parámetro κ.</td></tr>
+      <tr><td>TrNef</td><td>TrN</td><td>2</td><td>Las dos clases de transición se separan.</td></tr>
+      <tr><td>K81</td><td>K81uf</td><td>2</td><td>Dos clases de transversión.</td></tr>
+      <tr><td>TIMef</td><td>TIM</td><td>3</td><td>Transiciones separadas y transversiones separadas.</td></tr>
+      <tr><td>TVMef</td><td>TVM</td><td>4</td><td>Todas las transversiones libres, transiciones iguales.</td></tr>
+      <tr><td>SYM</td><td><b>GTR</b></td><td>5</td><td>Las seis tasas libres: el más general.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Y las cuatro variantes, que se aplican a cualquiera de los catorce:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 3.2.</b> Las cuatro variantes de variación de tasas entre sitios.</caption>
+    <thead><tr><th style="width:16%">Variante</th><th>Qué añade</th></tr></thead>
+    <tbody>
+      <tr><td><b>(ninguna)</b></td><td>Todos los sitios cambian a la misma velocidad. Casi nunca es cierto.</td></tr>
+      <tr><td><b>+I</b></td><td>Una proporción de sitios <b>incapaces</b> de cambiar, no simplemente sitios que no cambiaron.</td></tr>
+      <tr><td><b>+G</b></td><td>Las velocidades se reparten según una gamma discreta (Yang 1994), con forma α. Es la variante que más suele importar.</td></tr>
+      <tr><td><b>+I+G</b></td><td>Las dos a la vez. Compiten por explicar lo mismo; véase el aviso de la sección 3.6.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Para <b>proteínas</b>, el catálogo son doce matrices empíricas —LG, WAG, JTT, Dayhoff, cpREV, mtREV24, VT, RtREV, Blosum62, FLU, HIVb y mtmam—, también con las cuatro variantes. El conjunto <span class="ui">rápido</span> prueba seis (LG, WAG, JTT, cpREV, Dayhoff y VT) y el <span class="ui">estándar</span> las doce. <b>cpREV está ahí por una razón concreta</b>: se estimó con proteínas codificadas por el cloroplasto, que es de donde vienen la mayoría de los marcadores de sistemática vegetal.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>De dónde salen esas doce matrices</div>
+    <p>Son las matrices publicadas en sus artículos originales, cada una citada en el código junto a sus números, y verificadas valor por valor contra cinco distribuciones canónicas independientes —PAML, IQ-TREE, MrBayes, RAxML y el archivo que los propios autores de WAG pusieron en el EBI—. El archivo <span class="ui">PROCEDENCIA.md</span> documenta la comprobación.</p>
+  </div>
+
+  <p>Para <b>morfología</b>, el modelo es <b>Mk</b> (Lewis 2001): un modelo de <i>k</i> estados con todas las tasas iguales. Su variante <b>Mkv</b> añade la corrección para el hecho de que las matrices morfológicas casi nunca incluyen caracteres constantes —nadie codifica el carácter «tiene células»—, y sin esa corrección las ramas salen infladas.</p>
+
+  <h3>Los controles</h3>
+  <ul class="lista">
+    <li><span class="ui">conjunto</span>: <span class="ui">rápido</span> o <span class="ui">estándar</span>, según cuántos candidatos quieras probar.</li>
+    <li><span class="ui">criterio</span>: AIC, AICc o BIC, que es el que ordena la tabla.</li>
+    <li><span class="ui">categorías de Γ</span>: en cuántas clases discretas se parte la gamma. Cuatro es lo habitual y lo que casi todo el mundo reporta.</li>
+    <li><span class="ui">árbol de partida</span>: <span class="ui">BIONJ, optimizado por ML</span>, <span class="ui">vecino más cercano</span> o <span class="ui">UPGMA</span>. Todos los candidatos se ajustan <b>sobre el mismo árbol</b>, que es lo que hace comparable la comparación.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 3.5 -->
+  <h2 id="s3-5"><span class="num">3.5</span>Cómo se elige: AIC, AICc, BIC y pesos</h2>
+
+  <p>Un modelo con más parámetros <b>siempre</b> da mejor verosimilitud, aunque los parámetros de más no sirvan de nada. Por eso no se compara la lnL a secas, sino una cantidad que premia el ajuste y castiga los parámetros:</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Las tres fórmulas</div>
+    <p><b>AIC</b> = −2·lnL + 2<i>k</i> &nbsp;·&nbsp; <b>AICc</b> = AIC + 2<i>k</i>(<i>k</i>+1)/(<i>n</i>−<i>k</i>−1) &nbsp;·&nbsp; <b>BIC</b> = −2·lnL + <i>k</i>·ln(<i>n</i>)</p>
+    <p>donde <i>k</i> es el número de parámetros y <i>n</i> el de sitios. En los tres, <b>menor es mejor</b>. AICc corrige para muestras pequeñas y se acerca a AIC cuando <i>n</i> es grande. BIC castiga más fuerte y por eso suele elegir modelos más simples.</p>
+  </div>
+
+  <p>Lo que se lee en la tabla no es el valor absoluto sino la <b>diferencia con el mejor</b>, ΔAIC. La convención de Burnham y Anderson: por debajo de 2, el modelo es prácticamente indistinguible del ganador; entre 4 y 10, claramente peor; por encima de 10, descartado.</p>
+
+  <p>La columna de <b>pesos de Akaike</b> convierte esas diferencias en probabilidades que suman uno: el peso de un modelo es la probabilidad de que sea el mejor <b>del conjunto comparado</b>. Un ganador con peso 0.9 zanja la cuestión; varios modelos repartiéndose el peso significa que los datos no distinguen entre ellos, y entonces conviene comprobar que el árbol no cambia según cuál se use.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>«El mejor del conjunto» no es «bueno»</div>
+    <p>Si todos los candidatos son malos para estos datos —por ejemplo, porque la composición es heterogénea y ninguno lo modela—, el peso 0.99 se lo lleva el menos malo. Elegir el modelo no es el análisis, y un GTR+Γ ajustado sobre un alineamiento torcido sigue siendo un GTR+Γ ajustado sobre un alineamiento torcido.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 3.6 -->
+  <h2 id="s3-6"><span class="num">3.6</span>Leer el modelo ganador</h2>
+
+  <p>Elegido el modelo, el programa lo <b>reajusta en serio</b>, con todas las ramas optimizadas, y muestra sus piezas.</p>
+
+  <h3>La matriz de tasas</h3>
+  <p>Las seis tasas de intercambiabilidad entre pares de bases y las cuatro frecuencias de equilibrio. Vale la pena mirar la razón entre transiciones y transversiones: en ADN nuclear y de cloroplasto lo normal ronda 2, y un valor cercano a 1 en un gen que debería tener más es una señal de saturación —las transiciones, que se saturan primero, ya se borraron—.</p>
+
+  <h3>La forma de la gamma (α)</h3>
+  <p>Describe cuán desigual es el reparto de velocidades entre sitios. Por debajo de 1 la heterogeneidad es fuerte: unos pocos sitios muy rápidos y muchos casi congelados. Por encima de 3, las velocidades son casi iguales y +G apenas aporta. La gráfica <b>Tasas entre sitios</b> dibuja las categorías discretas con su velocidad relativa.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Interpretar α y la proporción de invariables por separado en un +I+G</div>
+    <p>+I y +G explican el mismo fenómeno por dos caminos, y cuando se ajustan juntos se reparten el trabajo de forma inestable: es corriente obtener una proporción de invariables alta <b>y</b> una α baja, y que ninguno de los dos valores signifique lo que parece. Muchos autores recomiendan usar +G sola. Si necesitas reportar I y α, hazlo diciendo que provienen de un ajuste conjunto.</p>
+  </div>
+
+  <h3>El veredicto en palabras</h3>
+  <p>Bajo las tablas, el panel escribe en prosa qué modelo ganó, por cuánto, y qué significan sus parámetros. Es el texto que se puede llevar casi tal cual a la sección de métodos, y es el que el Bloque 12 reutiliza al escribir el informe.</p>
+
+  <!-- ------------------------------------------------------------------ 3.7 -->
+  <h2 id="s3-7"><span class="num">3.7</span>Las pruebas jerárquicas de razón de verosimilitud</h2>
+
+  <p>La otra manera de elegir, anterior a los criterios de información y todavía muy pedida por los revisores. Compara modelos <b>anidados</b> —uno es caso particular del otro— con el estadístico 2ΔlnL contra una χ² con tantos grados de libertad como parámetros de diferencia, y encadena las pruebas hasta quedarse con el modelo más simple que no se rechaza.</p>
+
+  <p>El programa la ofrece porque se sigue pidiendo, y al mismo tiempo dice por qué los criterios de información son la vía preferida hoy:</p>
+
+  <ul class="lista">
+    <li>El resultado <b>depende del orden</b> en que se encadenan las pruebas, y no hay un orden canónico.</li>
+    <li>Sólo compara modelos anidados, de modo que deja fuera comparaciones perfectamente sensatas.</li>
+    <li>La χ² es una aproximación asintótica y <b>no vale cuando un parámetro queda en el borde de su rango</b>, que es exactamente el caso de +I: la proporción de invariables se prueba contra cero, que es su límite.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 3.8 -->
+  <h2 id="s3-8"><span class="num">3.8</span>El esquema de particiones</h2>
+
+  <p>Con varias particiones la pregunta no es sólo qué modelo, sino <b>cuántos modelos distintos hacen falta</b>. Dar a cada gen el suyo es lo más flexible y lo más caro en parámetros; darles uno solo a todos es lo más barato y puede ser falso.</p>
+
+  <p><span class="ui">Buscar el esquema</span> hace una <b>fusión codiciosa</b> al estilo de PartitionFinder: empieza con una partición por gen, prueba en cada paso la fusión de dos que mejore el criterio de información, y se detiene cuando ninguna fusión mejora. El resultado dice qué particiones comparten modelo y cuáles merecen el suyo.</p>
+
+  <p>Con un gen partido por posición de codón, el resultado típico es que la primera y la segunda posición se fusionan y la tercera se queda sola, que es exactamente lo que la biología predice.</p>
+
+  <p>El botón <span class="ui">Exportar el modelo elegido</span> guarda el esquema y el modelo para llevarlos a otro programa o para dejar constancia.</p>
+
+  <!-- ------------------------------------------------------------------ 3.9 -->
+  <h2 id="s3-9"><span class="num">3.9</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Elegir el modelo sin mirar antes los supuestos</div>
+    <p>Las dos gráficas de la sección 2 del panel son más importantes que toda la tabla de modelos. Si la composición es heterogénea o el marcador está saturado, el modelo ganador será el menos malo de una lista de modelos inadecuados, y su peso de Akaike de 0.99 no dirá nada al respecto.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reportar sólo el nombre del modelo</div>
+    <p>«Se usó GTR+I+G» es la mitad de la información. Faltan el criterio con que se eligió, el número de categorías de la gamma, y —si hubo particiones— el esquema. El informe del Bloque 12 lo escribe completo.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Quitar los sitios constantes</div>
+    <p>No informan de la topología, pero sí del modelo. Quitarlos infla las longitudes de rama. La única situación en que se quitan es cuando el modelo lo sabe y lo corrige, que es lo que hace Mkv en morfología.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Creer que elegir bien el modelo arregla el árbol</div>
+    <p>Mejora las longitudes de rama, el apoyo y, en los casos difíciles, la topología. No arregla un alineamiento malo, ni una composición heterogénea, ni un muestreo de taxones que deja una rama larga sola. El orden de importancia es: datos, alineamiento, muestreo, modelo.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

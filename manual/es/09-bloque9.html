@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-9" data-pestana="9" data-orden="9" style="--acento: var(--b9)">
+  <div class="cap-apertura">
+    <div class="cap-num">9</div>
+    <div class="cap-etiqueta">Capítulo nueve · Bloque 9</div>
+    <h1>Evolución de caracteres</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Dos especies hermanas no son dos observaciones independientes: comparten casi toda su historia. Todo este bloque sale de esa frase. Ajusta tres modelos de evolución continua, mide la señal filogenética de dos maneras que no preguntan lo mismo, compara una regresión ordinaria con la que corrige el parentesco, y reconstruye estados ancestrales discretos con sus pasteles y con historias completas sorteadas sobre el árbol.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">9.1</span>Por qué las especies no son datos independientes</li>
+      <li><span class="n">9.2</span>La tabla de caracteres</li>
+      <li><span class="n">9.3</span>Tres modelos para un carácter continuo</li>
+      <li><span class="n">9.4</span>Cuánta señal filogenética hay</li>
+      <li><span class="n">9.5</span>Dos caracteres, una relación</li>
+      <li><span class="n">9.6</span>Un carácter discreto: el modelo Mk</li>
+      <li><span class="n">9.7</span>Estados ancestrales y mapeo estocástico</li>
+      <li><span class="n">9.8</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">9.9</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.1 -->
+  <h2 id="s9-1"><span class="num">9.1</span>Por qué las especies no son datos independientes</h2>
+
+  <p>Supón que mides el tamaño de la semilla en cuarenta especies y lo relacionas con la altura de la planta. Una regresión ordinaria trata esas cuarenta especies como cuarenta observaciones independientes. No lo son: si treinta pertenecen al mismo género y heredaron de su ancestro común tanto la semilla grande como la altura, lo que tienes no son treinta datos sino, en el fondo, <b>uno</b> repetido treinta veces.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>La consecuencia práctica</div>
+    <p>Ignorar el parentesco <b>infla la significancia</b>: los valores p salen mucho más pequeños de lo que corresponde, y se publican relaciones que no resisten. Los métodos de este bloque no son un refinamiento estadístico: son la corrección de un error de conteo.</p>
+  </div>
+
+  <p>Se trabaja sobre un árbol, preferiblemente el <b>fechado</b> del Bloque 7, porque los modelos hablan de tasas por unidad de tiempo.</p>
+
+  <!-- ------------------------------------------------------------------ 9.2 -->
+  <h2 id="s9-2"><span class="num">9.2</span>La tabla de caracteres</h2>
+
+  <p>Una fila por especie y una columna por carácter, separadas por comas, punto y coma o tabuladores. El programa deduce el tipo de cada columna —continua o discreta—, reconoce los datos ausentes y empareja los nombres con el árbol <b>perdonando la diferencia entre <code>Bursera_palmeri</code> y <code>Bursera palmeri</code></b>, que es la que más tiempo hace perder.</p>
+
+  <p>Lo que no cuadra se <b>lista</b>, no se traga en silencio. Y cada análisis <b>poda el árbol</b> a las puntas que tienen el carácter que necesita, y dice con cuántas se quedó.</p>
+
+  <!-- ------------------------------------------------------------------ 9.3 -->
+  <h2 id="s9-3"><span class="num">9.3</span>Tres modelos para un carácter continuo</h2>
+
+  <table class="tabla">
+    <caption><b>Tabla 9.1.</b> Los tres modelos, en la parametrización de <i>geiger</i>.</caption>
+    <thead><tr><th style="width:26%">Modelo</th><th>Qué proceso describe</th></tr></thead>
+    <tbody>
+      <tr><td><b>Movimiento browniano</b> (BM)</td><td>Deriva pura: el carácter se aleja al azar, y la varianza entre dos especies crece con el tiempo que llevan separadas. Un solo parámetro, σ².</td></tr>
+      <tr><td><b>Ornstein–Uhlenbeck</b> (OU)</td><td>Una fuerza, α, que jala el carácter hacia un óptimo. Es el modelo de la selección estabilizadora.</td></tr>
+      <tr><td><b>Estallido temprano</b> (EB)</td><td>La tasa <b>decae</b> con el tiempo: mucho cambio al principio y poco después. Es el modelo de la radiación adaptativa.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Se comparan por AIC con pesos de Akaike, y el panel escribe el veredicto en palabras.</p>
+
+  <h3>La vida media, en vez de α</h3>
+  <p>El parámetro α del OU no se interpreta bien a ojo. El programa reporta la <b>vida media</b>, ln(2)/α: el tiempo que tarda el carácter en recorrer la mitad del camino hacia su óptimo. Y se lee <b>comparándola con la profundidad del árbol</b>:</p>
+
+  <ul class="lista">
+    <li>Vida media mucho menor que la profundidad: selección estabilizadora fuerte, y el árbol casi no importa para predecir el valor de una especie.</li>
+    <li>Vida media mayor que la profundidad: el OU es <b>indistinguible</b> de un browniano, y su α no significa nada.</li>
+  </ul>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Dos advertencias sobre el OU</div>
+    <p>Primera: el OU y el estallido temprano <b>suponen puntas contemporáneas</b>. Sobre un filograma no ultramétrico sus parámetros no significan lo que dicen, y el bloque mide la dispersión de las alturas de las puntas y avisa.</p>
+    <p>Segunda: con menos de cincuenta especies el OU se prefiere a menudo por razones <b>estadísticas y no biológicas</b>. Es un modelo muy hábil para ajustar ruido, y ganar por AIC no es lo mismo que describir un proceso real (Cooper et al. 2016).</p>
+  </div>
+
+  <p>Cuando α toca el límite del rango explorado, la ficha no imprime un número: escribe «—» y dice que α quedó en el límite, porque un número ahí sería una invención.</p>
+
+  <h3>El traitgram</h3>
+  <p>La figura que pone el carácter y el árbol <b>en el mismo plano</b>: el tiempo en un eje, el valor del carácter en el otro, y las ramas del árbol dibujadas entre los valores reconstruidos. Es la mejor forma de ver de un vistazo si hubo convergencia, y las etiquetas de las puntas se reparten para no encimarse.</p>
+
+  <!-- ------------------------------------------------------------------ 9.4 -->
+  <h2 id="s9-4"><span class="num">9.4</span>Cuánta señal filogenética hay</h2>
+
+  <p>«Señal filogenética» es cuánto se parecen los parientes más de lo que cabría esperar por azar. Las dos medidas usuales <b>no preguntan lo mismo</b>, y por eso pueden parecer contradictorias sin serlo.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 9.2.</b> Las dos medidas de señal filogenética.</caption>
+    <thead><tr><th style="width:20%">Medida</th><th style="width:26%">Qué manipula</th><th>Cómo se lee</th></tr></thead>
+    <tbody>
+      <tr><td><b>λ de Pagel</b></td><td>La <b>forma</b> del árbol: multiplica las covarianzas entre especies sin tocar las varianzas.</td><td>λ = 1 es browniano puro; λ = 0, un carácter repartido como si la filogenia no existiera. Se prueba contra 0 y contra 1 con una razón de verosimilitudes.</td></tr>
+      <tr><td><b>K de Blomberg</b></td><td>La <b>magnitud</b> de la varianza: compara la observada con la que el browniano predice sobre ese árbol.</td><td>K = 1 es exactamente browniano; K &gt; 1, los parientes se parecen <b>más</b> de lo que el browniano espera. Va con una prueba de permutación.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>K &lt; 1 con λ ≈ 1 no es una contradicción</div>
+    <p>Son preguntas distintas sobre los mismos datos: λ mira la <b>forma</b> del árbol y K la <b>magnitud</b> de la varianza. Un carácter puede repartirse exactamente como el árbol predice —λ = 1— y a la vez variar menos entre especies de lo que el browniano esperaba —K &lt; 1—. El panel lo explica cuando ocurre, porque es una de las lecturas que más desconcierta.</p>
+  </div>
+
+  <p>La gráfica de <b>K bajo la hipótesis nula</b> dibuja la distribución de K cuando los valores se barajan entre especies, y sitúa el observado sobre ella. Sin ese dibujo, un K de 0.8 no dice si es mucho o poco.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Señal es patrón, no proceso</div>
+    <p>λ = 1 <b>no demuestra</b> deriva neutra, y un λ bajo puede deberse a error de medición y no a la biología. Con menos de veinte especies, además, ambas medidas se estiman con muy poca precisión.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.5 -->
+  <h2 id="s9-5"><span class="num">9.5</span>Dos caracteres, una relación</h2>
+
+  <p>El panel ajusta <b>tres</b> regresiones sobre los mismos dos caracteres y las pone lado a lado:</p>
+
+  <ol class="pasos">
+    <li>La <b>ordinaria</b>, que cuenta cada especie como un dato nuevo.</li>
+    <li>Los <b>contrastes independientes</b> de Felsenstein: convierten los valores de <i>n</i> especies en <i>n</i>−1 diferencias entre nodos hermanos, cada una escalada por sus longitudes de rama. Esas diferencias <b>sí</b> son independientes, y su regresión se ajusta <b>forzada por el origen</b>, porque el signo de un contraste es arbitrario y una ordenada al origen no significaría nada.</li>
+    <li><b>PGLS</b>, que resuelve lo mismo por otro camino: una regresión generalizada cuya matriz de covarianzas es la del árbol.</li>
+  </ol>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>La identidad de Garland e Ives</div>
+    <p>Los contrastes y el PGLS <b>no son dos aproximaciones parecidas</b>: bajo movimiento browniano dan <b>exactamente la misma pendiente</b>. El programa lo comprueba en la propia interfaz y lo muestra: la pendiente de los contrastes por el origen y la del PGLS con λ = 1 tienen que ser el mismo número. Cuando no lo son, algo está mal, y es una comprobación que conviene mirar.</p>
+  </div>
+
+  <p>Comparar el valor p de la regresión ordinaria con el del PGLS enseña, en un solo vistazo, cuánto se estaba exagerando la significancia.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Creer que PGLS arregla otras cosas</div>
+    <p>Corrige la <b>no independencia</b>. No corrige la causalidad, ni una variable omitida, ni un error de medición. Y si la señal filogenética del residuo resulta nula, PGLS y mínimos cuadrados dan lo mismo: la corrección no siempre cambia la conclusión, y eso también es un resultado.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.6 -->
+  <h2 id="s9-6"><span class="num">9.6</span>Un carácter discreto: el modelo Mk</h2>
+
+  <p>El modelo Mk de Lewis (2001) trata los estados de un carácter como el modelo de sustitución trata los nucleótidos: una matriz de tasas de paso entre estados. Tres variantes:</p>
+
+  <ul class="lista">
+    <li><b>ER</b>: una sola tasa para todos los cambios.</li>
+    <li><b>SYM</b>: la tasa de <i>i</i> a <i>j</i> igual que la de <i>j</i> a <i>i</i>.</li>
+    <li><b>ARD</b>: todas distintas. Con <i>k</i> estados son <i>k</i>(<i>k</i>−1) parámetros: con cuatro estados, doce.</li>
+  </ul>
+
+  <p>Se comparan por AIC. Con pocas especies casi siempre gana ER, y no porque la biología sea simple: porque no hay datos para estimar más.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>No mirar si la tasa se disparó</div>
+    <p>Una tasa que se va a infinito es el síntoma de un carácter <b>saturado</b>: ha cambiado tantas veces que el árbol ya no guarda memoria de su historia. Los nodos salen todos al 0.5 y la reconstrucción no dice nada. Eso no es un fallo del programa: es el dato diciendo que no sabe.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Un convenio que conviene conocer</div>
+    <p>La log-verosimilitud que reporta <code>ape::ace</code> es la de <code>phytools::fitMk</code> <b>más log(k)</b>, y toda la diferencia es el prior plano en la raíz. No es que uno esté mal: son dos convenios. El programa informa las dos, para que se pueda comparar con cualquiera de los dos paquetes sin sobresaltos.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.7 -->
+  <h2 id="s9-7"><span class="num">9.7</span>Estados ancestrales y mapeo estocástico</h2>
+
+  <h3>Los pasteles</h3>
+  <p>Cada nodo interno lleva un pastel con la probabilidad de cada estado. La versión que se reporta es la <b>marginal</b>, que integra sobre todo lo demás del árbol. Un pastel casi de un solo color es una reconstrucción firme; uno repartido significa que <b>los datos no saben</b>, y ese reparto <b>es el resultado</b>, no un defecto del dibujo.</p>
+
+  <p>El programa dibuja los pasteles a propósito, en vez de escribir el estado ganador: así un nodo al 55 % <b>se ve</b> como lo que es. La incertidumbre crece hacia la raíz, que suele ser justo el nodo que interesa.</p>
+
+  <h3>El mapeo estocástico</h3>
+  <p>En vez de dar una probabilidad por nodo, sortea <b>historias completas</b> del carácter sobre el árbol —dónde y cuándo ocurrió cada cambio— coherentes con las puntas y con el modelo (Huelsenbeck et al. 2003). Quinientas historias en menos de un segundo.</p>
+
+  <p>Lo que se reporta es el <b>promedio sobre las historias</b>: el número esperado de cambios, cuánto tiempo pasó el árbol en cada estado, y con qué frecuencia cada rama contiene un cambio. Eso es bastante más informativo que un solo estado por nodo: convierte «el ancestro probablemente era amarillo» en «el linaje pasó el 70 % de su historia en amarillo y hubo unos cuatro cambios».</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Las historias son tan buenas como el Mk que las genera</div>
+    <p>Si las tasas están mal estimadas, <b>todas</b> las historias lo estarán en la misma dirección, y el promedio no lo revela. La dispersión entre historias mide la incertidumbre <i>dentro</i> del modelo, no la del modelo.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.8 -->
+  <h2 id="s9-8"><span class="num">9.8</span>Qué tan bien lo hace, medido</h2>
+
+  <p>Este bloque es el que más implementaciones de referencia tiene enfrente, y se comprobó contra las cuatro: <b>geiger</b>, <b>ape</b>, <b>nlme</b> y <b>phytools</b>, con <b>42 comprobaciones</b> y ningún desacuerdo.</p>
+
+  <ul class="lista">
+    <li>Los <b>contrastes independientes</b> reproducen <code>ape::pic</code>.</li>
+    <li>El <b>PGLS</b> es idéntico a <code>nlme::gls</code> en pendiente, error estándar, t y p.</li>
+    <li>Su pendiente coincide con la de los contrastes por el origen, tal como exige la <b>identidad de Garland e Ives</b>.</li>
+    <li>Los <b>estados marginales</b> coinciden con <code>ape::ace</code> y con <code>phytools::ancr</code>, que a su vez concuerdan entre sí.</li>
+    <li>Los tres modelos continuos reproducen la parametrización de <code>geiger::fitContinuous</code>.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Tres errores que la validación destapó</div>
+    <p><b>El estallido temprano perdía todas sus cifras</b> cuando el parámetro era pequeño: la expresión (e<sup>a·s</sup>−1)/a se calculaba tal cual, y para |a| diminuta eso es restar dos números casi iguales. Se sustituyó por la función que existe justo para eso.</p>
+    <p><b>La función de distribución t salía simétrica respecto de cero</b>, porque la beta incompleta sólo ve t². Los valores p eran correctos de milagro, porque siempre se la llamaba con |t|.</p>
+    <p><b>La α del OU estaba acotada entre números fijos</b> en vez de relativos a la profundidad del árbol, y llegó a informar una vida media de <b>691 179 sustituciones</b> en un árbol de 0.08 de profundidad. Ahora el límite es relativo, y si α lo toca, la ficha lo dice en vez de imprimir la cifra.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.9 -->
+  <h2 id="s9-9"><span class="num">9.9</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publicar una regresión ordinaria entre especies</div>
+    <p>Sigue apareciendo en revistas. Si los datos son especies y hay una filogenia disponible, la regresión ordinaria cuenta mal y su valor p es demasiado pequeño. El panel enseña las tres regresiones juntas precisamente para que la diferencia se vea.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Ajustar OU sobre un árbol no ultramétrico</div>
+    <p>El OU y el estallido temprano suponen que todas las puntas son contemporáneas. Sobre un filograma, sus parámetros no significan lo que dicen. El bloque avisa; hay que leer el aviso.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concluir «selección estabilizadora» porque ganó el OU</div>
+    <p>Con pocas especies el OU gana con frecuencia por razones estadísticas. Mira la <b>vida media</b> frente a la profundidad del árbol: si es mayor, el OU es indistinguible de un browniano y no hay nada que concluir.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reportar el estado ancestral ganador sin su probabilidad</div>
+    <p>«El ancestro era amarillo» es muy distinto de «el ancestro era amarillo con probabilidad 0.55». Los pasteles están dibujados para que esa diferencia no se pueda esconder, y la figura completa es lo que se publica.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Olvidar que el árbol se podó</div>
+    <p>Cada análisis usa sólo las puntas que tienen el carácter que necesita. Si de ochenta especies sólo cuarenta tienen medida la semilla, tu λ se estimó sobre cuarenta. El panel lo dice; conviene reportarlo también.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

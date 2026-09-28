@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 12</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-12" data-pestana="12" data-orden="12" style="--acento: var(--b12)">
+  <div class="cap-apertura">
+    <div class="cap-num">12</div>
+    <div class="cap-etiqueta">Capítulo doce · Bloque 12</div>
+    <h1>Figuras e informe</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un resultado que no puede salir del programa no es un resultado. Aquí se arma la figura —con todas sus decisiones a la vista y reversibles—, se escriben los métodos con los números de la corrida y no con los de una plantilla, y se empaqueta todo para que otra persona pueda repetirlo. Es el bloque que entrega el trabajo.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k7"></span><span class="k12"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">12.1</span>El estudio de árboles</li>
+      <li><span class="n">12.2</span>Cortar el árbol en grupos</li>
+      <li><span class="n">12.3</span>Imágenes de las OTU y de los clados</li>
+      <li><span class="n">12.4</span>Etiquetas que no se encimen</li>
+      <li><span class="n">12.5</span>Los tres formatos de árbol</li>
+      <li><span class="n">12.6</span>El estudio de figuras</li>
+      <li><span class="n">12.7</span>La resolución que pida la revista</li>
+      <li><span class="n">12.8</span>Los métodos, escritos con los números de la corrida</li>
+      <li><span class="n">12.9</span>El paquete reproducible</li>
+      <li><span class="n">12.10</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">12.11</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.1 -->
+  <h2 id="s12-1"><span class="num">12.1</span>El estudio de árboles</h2>
+
+  <p>La figura de un árbol tiene más decisiones de las que parece, y <b>casi todas cambian lo que el lector entiende</b>: si se dibuja con longitudes de rama o sin ellas, qué apoyo se muestra y desde qué umbral, dónde va la raíz, en qué orden se escalonan las ramas. Todas se cambian aquí y el dibujo se rehace al momento.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 12.1.</b> Las decisiones que más cambian la lectura de la figura.</caption>
+    <thead><tr><th style="width:30%">Control</th><th>Por qué importa</th></tr></thead>
+    <tbody>
+      <tr><td><b>Cladograma</b> (sin longitudes)</td><td>Un cladograma sólo afirma el parentesco. Un filograma afirma además <b>cuánto cambio</b> hubo en cada rama. Dibujar uno y hablar del otro es el malentendido más común de una figura filogenética.</td></tr>
+      <tr><td><b>Apoyo y umbral</b></td><td>Esconder los apoyos bajos de la figura es legítimo si se dice; esconderlos y no decirlo convierte un árbol dudoso en uno firme a la vista.</td></tr>
+      <tr><td><b>Raíz y exogrupo</b></td><td>La raíz no sale de los datos: se pone. Cambiarla cambia qué grupo es hermano de cuál, y es la decisión con más consecuencias del dibujo entero.</td></tr>
+      <tr><td><b>Escalonar</b></td><td>Ordena las ramas por tamaño. Es puramente estético —no cambia el árbol— y hace legible una figura que sin ello parece un desorden.</td></tr>
+      <tr><td><b>Barra de escala</b></td><td>Sin ella, un filograma no dice en qué unidades está. Con un cronograma, el eje ya lo dice.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Lo demás es acabado: ancho, alto de fila, letra de las puntas y su grosor, cursivas para los nombres científicos, título, alineación de los nombres con su guía punteada, y color para los clados que marques a mano.</p>
+
+  <!-- ----------------------------------------------------------------- 12.2 -->
+  <h2 id="s12-2"><span class="num">12.2</span>Cortar el árbol en grupos</h2>
+
+  <p>Se pide un número de grupos, <i>k</i>, y el programa corta el árbol de una de tres maneras:</p>
+
+  <ul class="lista">
+    <li>Por las <b>ramas más largas</b>, que sirve en cualquier árbol.</li>
+    <li>Por <b>profundidad</b>, que sólo tiene sentido en un árbol ultramétrico: si el tuyo no lo es, <b>lo dice y cambia de método</b> en vez de devolver un corte sin significado.</li>
+    <li>A partir de <b>clados</b> o a mano.</li>
+  </ul>
+
+  <p>El color se puede llevar a las ramas, a los nombres, a una franja lateral o a bandas suaves de fondo, con su leyenda y con los nombres de grupo que tú pongas.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Dice si cada grupo es realmente un clado</div>
+    <p>Junto a los tamaños, el panel informa de la <b>monofilia</b> de cada grupo. Colorear un grupo parafilético y no decir nada es una de las maneras más limpias de que una figura engañe: el lector ve un color y entiende «linaje», cuando lo que hay es un corte por conveniencia.</p>
+    <p>Y las bandas de fondo sólo se dibujan para los grupos cuyas puntas quedan <b>seguidas</b> en la figura, porque una banda que abarcara puntas de otro grupo estaría afirmando que le pertenecen.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.3 -->
+  <h2 id="s12-3"><span class="num">12.3</span>Imágenes de las OTU y de los clados</h2>
+
+  <p>Se pueden colgar fotografías o dibujos de cada punta, de cada grupo o de los clados que marques, en el tamaño que quieras, como círculos, cuadros o cuadros de esquinas suaves, con marco o sin él. Las imágenes se arrastran al gestor, y <b>un archivo que se llama como su taxón encuentra su sitio solo</b>.</p>
+
+  <p>Cada imagen tiene su recorte, su acercamiento, su giro y sus ajustes de brillo, contraste, saturación, temperatura y nitidez, además de un <b>quitafondos</b> que inunda desde el borde hacia dentro —así las zonas claras <i>dentro</i> del objeto sobreviven, cosa que un umbral de brillo destruiría—. Cada una lleva su crédito y su licencia.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Nada se dibuja hasta que confirmas que la foto es de esa especie</div>
+    <p>Es una casilla deliberada y no se puede saltar. <b>Una fotografía colgada de la rama equivocada es una afirmación, no un adorno</b>, y es una afirmación que el lector va a creer sin comprobarla.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Dónde viven y adónde viajan</div>
+    <p>Las imágenes se guardan en el navegador —en IndexedDB, separadas por conjunto de datos— y <b>no salen de tu computadora</b>. Al exportar, viajan <b>dentro</b> del SVG, así que la figura no depende de ningún archivo suelto que se quede atrás al mandar el artículo.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.4 -->
+  <h2 id="s12-4"><span class="num">12.4</span>Etiquetas que no se encimen</h2>
+
+  <p>Dos cosas hace el programa cuando las etiquetas se estorban. La primera es <b>separarlas</b>: empujarlas a lo largo de un eje hasta que ninguna quede más cerca de otra que la separación pedida, sin salirse del marco. La segunda, cuando ya no cabe ninguna más, es <b>quitar las menos importantes</b> y quedarse con las que más dicen.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Y avisa de cuántas quitó</div>
+    <p>Ésa es la parte que importa. Perder etiquetas en silencio es peor que no dibujarlas: el lector no sabe que faltan. El panel dice <b>cuántas escondió y dónde encontrarlas</b> —siempre están en la tabla y en el paquete— y qué cambiar si las quieres todas.</p>
+    <p>En el diseño no enraizado nada impide que dos puntas caigan una junto a otra, así que ahí se descartan las que sigan chocando y se conservan las más periféricas, otra vez con la cuenta a la vista.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.5 -->
+  <h2 id="s12-5"><span class="num">12.5</span>Los tres formatos de árbol</h2>
+
+  <table class="tabla">
+    <caption><b>Tabla 12.2.</b> Los tres formatos y para qué sirve cada uno.</caption>
+    <thead><tr><th style="width:22%">Formato</th><th>Qué carga</th></tr></thead>
+    <tbody>
+      <tr><td><b>Newick</b></td><td>Universal y estrecho. Lo lee todo, y por eso es el que se manda cuando sólo hace falta el árbol.</td></tr>
+      <tr><td><b>NEXUS</b></td><td>Con su bloque <code>TRANSLATE</code> y el bloque que <b>FigTree</b> lee.</td></tr>
+      <tr><td><b>phyloXML</b></td><td>El único de los tres que puede llevar a la vez el <b>apoyo</b> de un nodo, su <b>edad</b> y su <b>intervalo de confianza</b>, que es justo lo que producen los Bloques 5, 6 y 7. Si tu árbol está fechado, es el formato que no pierde nada.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Se elige si van las longitudes de rama, si van los valores de apoyo, con cuántos decimales, y si se escribe sólo el árbol elegido o todos. Se descarga o se copia al portapapeles.</p>
+
+  <!-- ----------------------------------------------------------------- 12.6 -->
+  <h2 id="s12-6"><span class="num">12.6</span>El estudio de figuras</h2>
+
+  <p>Lo que se cambie aquí vale para <b>todas las figuras de los doce bloques</b>, no sólo para el árbol: paleta, familia y tamaño de letra, grosor del trazo y fondo. Los diez colores se pueden editar uno por uno —son los que usan los grupos del árbol, las series de las curvas, los estados de un carácter y las áreas de la biogeografía—, y aparte van los del texto, los ejes y los apoyos.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Por qué basta una regla</div>
+    <p>Ninguna figura de este programa escribe un color literal: todas dibujan a través de propiedades de CSS, y su texto a través de dos o tres clases. Eso se hizo para que las figuras siguieran el tema claro y el oscuro, y tiene una segunda consecuencia que valía la pena aprovechar: <b>redefinir esas propiedades restila la aplicación entera de una vez</b>. El estudio escribe <b>una sola regla</b>, y ningún módulo de dibujo sabe que existe. La regla se limita a los <code>svg</code> a propósito: las etiquetas de colores de la interfaz usan los mismos tokens, y una paleta de figuras no tiene por qué recolorear los menús.</p>
+  </div>
+
+  <p>Las <b>nueve paletas</b> incluyen la propia del programa, <b>Okabe–Ito</b> (segura para daltonismo), viridis, tierra, frías, cálidas, pasteles, alto contraste y <b>escala de grises</b>, que está ahí para una pregunta muy concreta: si la revista cobra por el color, ¿tu figura se sigue entendiendo?</p>
+
+  <p>Las <b>siete familias de letra</b> están todas en cualquier computadora normal: no se descarga ninguna de la red, porque una figura que en la máquina del revisor cae en otra tipografía es una figura que no diseñaste. El tamaño va de 0.7 a 1.6 veces, el trazo de 0.5 a 3, y hay cuatro fondos, entre ellos transparente y blanco. Un botón devuelve todo al original.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Lo que se exporta es lo que se ve</div>
+    <p>Un SVG cargado como imagen <b>no tiene hoja de estilo</b>, así que al exportar hay que resolver los colores a mano. El estudio se engancha ahí: sus colores ganan sobre el tema, su tipografía sustituye a la que va escrita en el código, y el fondo elegido se escribe como un rectángulo debajo de todo. Se comprobó exportando un árbol y <b>buscando el azul de Okabe y el fondo blanco en los píxeles del PNG</b>.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.7 -->
+  <h2 id="s12-7"><span class="num">12.7</span>La resolución que pida la revista</h2>
+
+  <p>Todas las figuras del programa son <b>SVG</b>, que no tiene resolución: se imprime a cualquier tamaño sin perder nada, y es lo que conviene mandar cuando la revista lo acepta.</p>
+
+  <p>Cuando pide PNG a tantos puntos por pulgada, lo que pide en realidad es <b>un número concreto de píxeles</b>. El bloque hace esa cuenta <b>antes</b> de generar nada y la enseña: a 900 ppp una figura de media página son varios miles de píxeles por lado. Y si la cifra pasa de lo que un navegador puede dibujar, <b>lo dice y explica por qué</b>, en vez de devolver una imagen en blanco que parece un error del programa.</p>
+
+  <!-- ----------------------------------------------------------------- 12.8 -->
+  <h2 id="s12-8"><span class="num">12.8</span>Los métodos, escritos con los números de la corrida</h2>
+
+  <p>La sección de métodos es la parte del artículo que permite a otra persona llegar al mismo resultado, y es la que se escribe al final, de memoria, semanas después. Aquí la escribe el programa a partir de lo que <b>realmente corrió</b>:</p>
+
+  <ul class="lista">
+    <li>Un bloque que no se usó <b>no deja párrafo</b>.</li>
+    <li>Un apoyo que no se calculó <b>no se menciona</b>.</li>
+    <li>El número de réplicas viene de la corrida, <b>no de una plantilla</b>.</li>
+    <li>La bibliografía se arma con lo que se citó y con nada más: el programa conoce 52 obras y sólo aparecen las que usó.</li>
+  </ul>
+
+  <p>Se elige idioma, título y autoría, y si se incluyen las figuras. El informe es <b>un solo archivo HTML autocontenido</b>: sin hoja de estilo que buscar, sin tipografía que descargar, sin guion que ejecutar. Se ve en cualquier navegador y se imprime a PDF desde ahí.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Un borrador honesto, no un método terminado</div>
+    <p>Lo que el programa no puede escribir es <b>por qué</b> elegiste lo que elegiste: por qué ese exogrupo, por qué ese fósil en ese nodo, por qué ese tope de rango. Eso lo pones tú. El informe te ahorra los parámetros y las citas, que es donde se cometen los errores de transcripción, no el criterio.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.9 -->
+  <h2 id="s12-9"><span class="num">12.9</span>El paquete reproducible</h2>
+
+  <p>Un archivo con todo: los datos tal como entraron, los árboles en los tres formatos, las figuras en SVG con sus colores ya resueltos, las tablas en CSV, el informe, y un archivo de texto que dice <b>qué es cada cosa y con qué parámetros se hizo</b>. Se elige qué partes incluir.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>El ZIP lo escribe el propio programa</div>
+    <p>Byte por byte, sin biblioteca externa y sin red. Por eso funciona igual con la app abierta por doble clic, sin servidor y sin conexión —que es como la vas a usar el día que la necesites en una computadora ajena.</p>
+  </div>
+
+  <!-- ---------------------------------------------------------------- 12.10 -->
+  <h2 id="s12-10"><span class="num">12.10</span>Qué tan bien lo hace, medido</h2>
+
+  <p>Este bloque no calcula: <b>entrega</b>. Así que se validó haciendo que R hiciera lo que haría quien reciba el paquete —abrirlo y leerlo con sus propias herramientas—. <b>38 comprobaciones</b> y ningún desacuerdo.</p>
+
+  <ul class="lista">
+    <li><b>El ZIP</b>: la función <code>unzip()</code> de R lista y extrae todos los archivos, <b>comprobando cada CRC32 por el camino</b>, y los tamaños extraídos son los declarados.</li>
+    <li><b>Newick y NEXUS</b>: leídos por <code>ape::read.tree</code> y <code>ape::read.nexus</code>, las mismas 18 puntas, distancia topológica <b>0</b> entre ambos y longitudes de rama idénticas hasta 10⁻⁶.</li>
+    <li><b>phyloXML</b>: analizado por <code>xml2</code>; sus nombres de punta son los del árbol y sus longitudes de rama suman lo que suma el Newick (2.446035 contra 2.446036).</li>
+    <li><b>El alineamiento</b>: leído por <code>ape::read.dna</code> en 18 × 1711, con los taxones del árbol.</li>
+    <li><b>El informe</b>: un archivo sin <code>&lt;link&gt;</code>, sin <code>&lt;script&gt;</code> y sin <code>&lt;img&gt;</code>, con sus figuras como SVG en línea; y, en un paquete armado sólo con un árbol de distancias, <b>sin citar reloj, ni biogeografía, ni MCMC</b>, porque ninguno corrió.</li>
+    <li><b>Las figuras</b>: XML bien formado y sin ningún <code>var(--…)</code> sin resolver, que en Illustrator sería una línea negra.</li>
+    <li><b>El CRC32</b> contra el valor que la propia especificación del ZIP nombra para la cadena «123456789»: <code>0xCBF43926</code>.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Lo que apareció al validar</div>
+    <p><b>El módulo del informe dependía del traductor de la página</b>, lo que lo rompía fuera de la app y, peor, producía un documento <b>a medio traducir</b>: los fragmentos que iba pegando —«arranque no paramétrico (100 réplicas)», «por exogrupo», «verosimilitud penalizada»— se resolvían <b>una vez</b>, en el idioma en que estuviera la interfaz, y luego se metían en el párrafo español <b>y</b> en el inglés. Ahora cada fragmento se guarda como pareja, y el módulo ya no sabe en qué idioma está la página.</p>
+    <p>Y uno que da risa y enseña: el genoma de una partición se guarda como un código de dos letras, cosa razonable en un menú y absurda en una sección de métodos. Decía «<b>los genomas representados son: nu</b>».</p>
+    <p>Del estudio de figuras salieron otros dos. <b>La clase <code>.art-ink</code> se usaba y nunca se había definido</b> en la hoja de estilo —los nombres de las puntas del cronograma caían a negro, invisible en el tema oscuro—; y <b>el estudio parcheaba la exportación antes de que existiera lo que iba a parchear</b>, porque su archivo se cargaba <i>antes</i> del que envuelve. Lo destapó la página de pruebas, que exporta sin esperar a que el documento esté listo.</p>
+  </div>
+
+  <!-- ---------------------------------------------------------------- 12.11 -->
+  <h2 id="s12-11"><span class="num">12.11</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publicar un cladograma y hablar de él como de un filograma</div>
+    <p>Sin longitudes, la figura no dice nada sobre cuánto cambio hubo. Si el texto habla de ramas largas o de evolución acelerada, la figura tiene que llevarlas.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Subir el umbral del apoyo y no decirlo</div>
+    <p>Un árbol del que se han borrado los apoyos bajos parece mucho más firme de lo que es. Decir «se muestran los apoyos ≥ 70» cuesta seis palabras.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Colorear un grupo parafilético sin avisar</div>
+    <p>El panel te dice cuáles lo son. Un color en una figura se lee como «linaje»; si no lo es, hay que escribirlo en el pie.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Poner una foto sin comprobar de qué especie es</div>
+    <p>Por eso hay una casilla que no se puede saltar. La foto va a ser lo primero que mire el lector y lo último que dude.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Mandar un PNG cuando aceptan SVG</div>
+    <p>El SVG no tiene resolución y se imprime a cualquier tamaño. Un PNG a 300 ppp que luego se amplía en maqueta llega borroso a la imprenta.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Entregar el informe tal cual</div>
+    <p>Trae los parámetros y las citas correctas; no trae tus razones. Añade por qué ese exogrupo, ese fósil y ese modelo antes de mandarlo.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Guardar sólo la figura</div>
+    <p>El paquete pesa poco y contiene los datos como entraron, los árboles en tres formatos y el índice de qué es cada cosa. Es lo que te va a salvar cuando el revisor pregunte, seis meses después, con qué parámetros se hizo.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-5" data-pestana="5" data-orden="5" style="--acento: var(--b5)">
+  <div class="cap-apertura">
+    <div class="cap-num">5</div>
+    <div class="cap-etiqueta">Capítulo cinco · Bloque 5</div>
+    <h1>Máxima verosimilitud</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El árbol que se publica. Bajo un modelo explícito, la verosimilitud busca la topología y las longitudes que hacen más probables los datos observados, y —a diferencia de la parsimonia— es <b>consistente</b> mientras el modelo sea razonable. Este capítulo explica la búsqueda, el ajuste con un modelo por partición, las <b>cuatro</b> medidas de apoyo con sus cuatro umbrales distintos, y cómo poner formalmente a prueba la hipótesis de otro autor.</p>
+    <div class="cap-franja"><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k11"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">5.1</span>Qué optimiza, y por qué importa</li>
+      <li><span class="n">5.2</span>El modelo y el árbol inicial</li>
+      <li><span class="n">5.3</span>La búsqueda: NNI, SPR y el radio</li>
+      <li><span class="n">5.4</span>Leer el resultado</li>
+      <li><span class="n">5.5</span>Un modelo por partición</li>
+      <li><span class="n">5.6</span>Las cuatro medidas de apoyo</li>
+      <li><span class="n">5.7</span>Poner a prueba una hipótesis</li>
+      <li><span class="n">5.8</span>Los hilos, y por qué tarda lo que tarda</li>
+      <li><span class="n">5.9</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">5.10</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.1 -->
+  <h2 id="s5-1"><span class="num">5.1</span>Qué optimiza, y por qué importa</h2>
+
+  <p>La verosimilitud de un árbol es la probabilidad de haber observado <b>estos datos</b> si ese árbol y ese modelo fueran ciertos. El árbol de máxima verosimilitud es el que hace esa probabilidad más alta. Se reporta como logaritmo, siempre negativo, y menos negativo es mejor.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Una lnL sola no significa nada</div>
+    <p>Su valor absoluto depende del número de sitios y de taxones. Sólo tiene sentido <b>comparar</b> verosimilitudes calculadas sobre exactamente los mismos datos. Una lnL de −18 674 no es «mala» ni «buena»: es la de estos datos bajo este modelo, y sólo sirve frente a otra del mismo alineamiento.</p>
+  </div>
+
+  <p>La ventaja decisiva sobre la parsimonia es la del capítulo 1: bajo el modelo correcto, la verosimilitud es <b>consistente</b>, es decir, con suficientes datos converge al árbol verdadero incluso cuando hay ramas largas desiguales. La parsimonia, en esa misma geometría, converge con seguridad creciente al árbol falso.</p>
+
+  <p>La condición «bajo el modelo correcto» no es retórica. Si el modelo está mal especificado —composición heterogénea sin modelar, saturación no corregida—, la verosimilitud también se equivoca, y con más datos se equivoca con más confianza. Por eso el Bloque 3 va antes que éste.</p>
+
+  <!-- ------------------------------------------------------------------ 5.2 -->
+  <h2 id="s5-2"><span class="num">5.2</span>El modelo y el árbol inicial</h2>
+
+  <p>La primera fila de controles fija el modelo: <span class="ui">modelo</span> (GTR, HKY, LG…), <span class="ui">+Γ con</span> tantas <span class="ui">categorías</span>, <span class="ui">+I</span>, y las <span class="ui">frecuencias</span>, que pueden ser <span class="ui">empíricas</span> —contadas en el alineamiento— o <span class="ui">iguales</span>. El botón <span class="ui">Usar el modelo elegido en el Bloque 3</span> copia lo que ganó allí, que es lo que conviene hacer casi siempre.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>La casilla <span class="ui">estimarlas (+F)</span></div>
+    <p>Por omisión las frecuencias de base se toman <b>contadas</b> del alineamiento, que es lo que hace <code>phangorn::optim.pml</code> sin <code>optBf</code>, y por eso los resultados del programa coinciden con los suyos. Activando <b>+F</b> se estiman por máxima verosimilitud junto con todo lo demás, lo que suele dar una lnL algo mejor. Está apagada por omisión para conservar esa comparabilidad, no porque sea peor.</p>
+  </div>
+
+  <p>El <span class="ui">árbol inicial</span> puede ser el de <span class="ui">parsimonia (Bloque 4)</span>, el de <span class="ui">distancias (Bloque 4)</span>, BIONJ, o uno <span class="ui">al azar</span>. No es un detalle menor: la búsqueda es heurística, y de dónde parte determina en qué óptimo local puede quedarse. Probar dos puntos de partida distintos y llegar a la misma lnL es la mejor prueba de que la búsqueda fue suficiente.</p>
+
+  <!-- ------------------------------------------------------------------ 5.3 -->
+  <h2 id="s5-3"><span class="num">5.3</span>La búsqueda: NNI, SPR y el radio</h2>
+
+  <p>La búsqueda parte del árbol inicial y prueba reordenamientos: primero <b>NNI</b>, que intercambia ramas vecinas, y después <b>SPR</b>, que corta una rama entera y la vuelve a pegar en otro sitio. El menú <span class="ui">reordenamientos</span> permite usar sólo NNI o NNI + SPR.</p>
+
+  <p>Dos controles gobiernan el costo:</p>
+  <ul class="lista">
+    <li><span class="ui">radio del SPR</span>: a qué distancia máxima, en número de ramas, se permite reinjertar. Un radio pequeño es rápido y explora poco; uno grande explora mucho y tarda. Cinco es un punto de equilibrio razonable.</li>
+    <li><span class="ui">rondas máx.</span>: cuántas pasadas completas de reordenamientos se hacen antes de parar.</li>
+  </ul>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Por qué la búsqueda es rápida sin ser tramposa</div>
+    <p>Puntuar cada candidato reoptimizando el árbol entero sería inviable. El programa hace lo que hacen PhyML y RAxML: para cada movimiento, <b>reoptimiza sólo las ramas que el movimiento tocó</b>, apoyándose en el cálculo incremental del motor de verosimilitud. El SPR va además en <b>dos pasadas</b>: primero se puntúan todos los candidatos con las longitudes heredadas —el «SPR perezoso» de RAxML—, y después sólo la docena mejor se vuelve a puntuar con su vecindario reoptimizado. El árbol ganador se reajusta entero al final.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.4 -->
+  <h2 id="s5-4"><span class="num">5.4</span>Leer el resultado</h2>
+
+  <p>Los mosaicos resumen la corrida: la <b>log-verosimilitud</b>, el número de <b>parámetros</b> (ramas más modelo), <b>AIC</b> y <b>BIC</b>, cuántas <b>rondas</b> hicieron falta y cuántas topologías se evaluaron, el <b>tiempo</b>, y los parámetros estimados del modelo —la <b>α</b> de la gamma y la <b>κ</b> o las tasas relativas—.</p>
+
+  <p>Bajo los mosaicos, el panel escribe en prosa qué significan. Conviene fijarse en dos cosas:</p>
+
+  <ul class="lista">
+    <li>El número de <b>rondas</b>. Si la búsqueda terminó en una sola ronda, quizá no exploró nada; si agotó el máximo, probablemente aún mejoraba y conviene subirlo.</li>
+    <li>La <b>α</b>. Por debajo de 1 hay heterogeneidad fuerte entre sitios, y no modelarla habría deformado las ramas largas.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 5.5 -->
+  <h2 id="s5-5"><span class="num">5.5</span>Un modelo por partición</h2>
+
+  <p>Un gen de cloroplasto y el ITS nuclear no evolucionan al mismo ritmo ni con la misma composición. El ajuste particionado reconoce eso sin romper el árbol: todas las particiones <b>comparten la topología y las proporciones de las ramas</b>, pero cada una tiene su propio modelo y un <b>multiplicador de velocidad</b>, normalizado a media uno pesada por sitios.</p>
+
+  <p>Así, una partición con multiplicador 0.3 evoluciona a un tercio de la velocidad media, y una con 2.5, dos veces y media más rápido.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Por qué el ajuste arranca «atado»</div>
+    <p>Soltar todas las particiones desde el primer momento hacía que la búsqueda cayera en un óptimo peor. El programa arranca con todas compartiendo un mismo modelo durante las primeras pasadas y las va soltando después. Es un detalle de implementación, pero explica por qué el resultado particionado nunca queda por debajo del modelo único que lo contiene.</p>
+  </div>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Particionar no resuelve un conflicto real</div>
+    <p>Dar a cada gen su velocidad no lo libera de <b>compartir el árbol</b>. Si dos genes tienen historias genuinamente distintas —captura de cloroplasto, hibridación—, el análisis particionado las promedia con más elegancia, pero las promedia igual. Destaparlas es el trabajo del Bloque 11.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.6 -->
+  <h2 id="s5-6"><span class="num">5.6</span>Las cuatro medidas de apoyo</h2>
+
+  <p>Ésta es la sección del capítulo que más errores evita. El programa calcula cuatro medidas, y <b>no significan lo mismo ni se leen con el mismo umbral</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 5.1.</b> Las cuatro medidas de apoyo, con su umbral convencional.</caption>
+    <thead><tr><th style="width:23%">Medida</th><th style="width:13%">Umbral</th><th>Qué mide</th></tr></thead>
+    <tbody>
+      <tr><td><b>Bootstrap clásico</b></td><td><b>≥ 70</b></td><td>En qué porcentaje de alineamientos remuestreados con reemplazo reaparece la rama. Conservador: 70 ya es bastante apoyo.</td></tr>
+      <tr><td><b>Bootstrap ultrarrápido</b> (UFBoot)</td><td><b>≥ 95</b></td><td>Una aproximación por RELL, construida para ser <b>casi insesgada</b>. Su escala no es la del bootstrap clásico.</td></tr>
+      <tr><td><b>SH-aLRT</b></td><td><b>≥ 80</b></td><td>Compara la verosimilitud del árbol con la de las dos reorganizaciones NNI de esa rama. Otra pregunta, no otra versión de la misma.</td></tr>
+      <tr><td><b>aBayes</b></td><td>—</td><td>Una aproximación bayesiana rápida sobre la misma comparación local.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>El error más frecuente con el UFBoot</div>
+    <p>Leerlo con el umbral del bootstrap clásico. Como el UFBoot es casi insesgado, es <b>menos conservador</b>: un 90 % de UFBoot no equivale a un 90 % de bootstrap sino a bastante <b>menos</b> apoyo. Por eso su umbral es 95 y no 70. El encabezado de la tabla en pantalla lleva el umbral escrito, precisamente para que no se confundan.</p>
+  </div>
+
+  <p>La costumbre en la literatura reciente es exigir <b>las dos cosas</b>: SH-aLRT ≥ 80 <b>y</b> UFBoot ≥ 95. Son información distinta —una mide si la rama mejora la verosimilitud, la otra si la señal se sostiene al remuestrear— y una rama que pasa ambas está mucho mejor sostenida que una que pasa sólo una.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Lo que ninguna de las cuatro mide</div>
+    <p>Si el árbol es correcto. Las cuatro miden la <b>consistencia interna</b> de la señal bajo el método y el modelo empleados. Si el modelo está mal, las cuatro apoyarán la rama equivocada, y con más datos la apoyarán más. El apoyo alto es necesario, no suficiente.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.7 -->
+  <h2 id="s5-7"><span class="num">5.7</span>Poner a prueba una hipótesis</h2>
+
+  <p>Aquí el bloque deja de describir y empieza a contrastar. La pregunta es: ¿<b>rechazan</b> mis datos el árbol que propone otro autor, o el que propone mi hipótesis?</p>
+
+  <p>Se hace en dos pasos:</p>
+  <ol class="pasos">
+    <li>Seleccionar los <span class="ui">taxones del grupo que se pone a prueba</span> y pulsar <span class="ui">Buscar el mejor árbol con esa restricción</span>: el programa busca el mejor árbol <b>obligando</b> a que ese grupo sea monofilético. Ése es el mejor caso posible para la hipótesis.</li>
+    <li>Pulsar <span class="ui">Comparar los árboles (KH, SH, AU)</span>: las tres pruebas contrastan el árbol restringido contra el sin restricción, usando réplicas RELL.</li>
+  </ol>
+
+  <p>Un valor p por debajo de 0.05 rechaza el árbol alternativo. De las tres, la prueba <b>AU</b> es la que mejor corrige el sesgo de selección y es la que conviene reportar; KH y SH están porque se siguen pidiendo.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>«No rechazado» no es «igual de bueno»</div>
+    <p>Con pocos datos no se rechaza casi nada, y con muchos se rechaza casi todo. Un resultado no significativo dice que <b>tus datos no alcanzan para descartar</b> esa hipótesis, no que sea correcta. Y el conjunto de árboles a comparar hay que fijarlo <b>antes</b> de mirar los resultados: elegir después qué comparar es exactamente el sesgo que la prueba AU trata de corregir.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.8 -->
+  <h2 id="s5-8"><span class="num">5.8</span>Los hilos, y por qué tarda lo que tarda</h2>
+
+  <p>El bootstrap y las cadenas bayesianas se reparten en <b>hilos</b> del navegador, construidos a partir del propio código del programa. Dos cosas medidas que conviene saber:</p>
+
+  <ul class="lista">
+    <li>Un hilo recién creado <b>corre interpretado</b> y sólo alcanza el código optimizado tras unos segundos de repetir los mismos bucles. Por eso <b>16 réplicas en 16 hilos tardan más que las mismas 16 en seis</b>: cada hilo paga su calentamiento entero y lo tira. El programa nunca reparte menos de tres trabajos por hilo.</li>
+    <li>Cien réplicas de bootstrap por máxima verosimilitud tardan minutos. Es JavaScript, no C, y la página lo dice antes de empezar, con una estimación y un botón de cancelar.</li>
+  </ul>
+
+  <p>Si el navegador no permite hilos —algunas configuraciones los bloquean—, el trabajo se hace en la página, más lento pero sin fallar.</p>
+
+  <!-- ------------------------------------------------------------------ 5.9 -->
+  <h2 id="s5-9"><span class="num">5.9</span>Qué tan bien lo hace, medido</h2>
+
+  <p>La validación de este bloque contrasta contra <i>phangorn</i> sobre el mismo alineamiento de rbcL. El resultado, que está en la carpeta de validación y se puede reproducir:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 5.2.</b> La búsqueda de máxima verosimilitud comparada con phangorn 2.12.1, sobre rbcL.</caption>
+    <thead><tr><th style="width:44%">Búsqueda</th><th style="width:26%">lnL alcanzada</th><th>Comentario</th></tr></thead>
+    <tbody>
+      <tr><td><code>phangorn::optim.pml</code> con NNI</td><td>−7126.989550</td><td>La búsqueda estándar del paquete.</td></tr>
+      <tr><td><code>phangorn</code>, búsqueda estocástica</td><td>−7108.802104</td><td>Su búsqueda más exhaustiva.</td></tr>
+      <tr><td><b>PhylogenyPro</b>, NNI + SPR, 52 s</td><td><b>−7108.800752</b></td><td>Mejor que la NNI por 18 unidades, y algo mejor que la estocástica.</td></tr>
+    </tbody>
+  </table>
+
+  <p>La diferencia con la búsqueda NNI —dieciocho unidades de log-verosimilitud— no es un matiz: es la diferencia entre quedarse en un óptimo local y salir de él, y es exactamente lo que el SPR compra.</p>
+
+  <!-- ------------------------------------------------------------------ 5.10 -->
+  <h2 id="s5-10"><span class="num">5.10</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leer el UFBoot con el umbral del bootstrap</div>
+    <p>Ya dicho, y se repite porque es el más común: 70 para el bootstrap clásico, <b>95</b> para el ultrarrápido, 80 para SH-aLRT. Tres medidas, tres umbrales.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Buscar una sola vez, desde un solo árbol inicial</div>
+    <p>La búsqueda es heurística y no garantiza el óptimo. Si dos puntos de partida distintos llegan a lnL distintas, la mayor manda y la búsqueda no había terminado. Que lleguen a la misma es la única evidencia razonable de que sí.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparar lnL entre alineamientos distintos</div>
+    <p>Quitar tres columnas cambia la lnL, y no porque el árbol sea peor. Las verosimilitudes sólo se comparan sobre exactamente los mismos datos: mismo alineamiento, mismas columnas, mismos taxones.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Presentar un árbol restringido como «el árbol»</div>
+    <p>El árbol con restricción es el mejor caso <b>para la hipótesis que se pone a prueba</b>, no una estimación. Se calcula para compararlo, y lo que se publica es la comparación —la lnL de los dos y el valor p de la prueba AU—, no el árbol restringido a secas.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Creer que el apoyo alto valida el modelo</div>
+    <p>Es al revés: el apoyo se calcula <b>suponiendo</b> el modelo. Si el Bloque 3 avisó de composición heterogénea o de saturación, un UFBoot de 100 no lo desmiente; lo repite con más seguridad.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

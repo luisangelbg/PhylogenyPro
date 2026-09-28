@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-7" data-pestana="7" data-orden="7" style="--acento: var(--b7)">
+  <div class="cap-apertura">
+    <div class="cap-num">7</div>
+    <div class="cap-etiqueta">Capítulo siete · Bloque 7</div>
+    <h1>El reloj molecular y los tiempos</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un filograma mide cambio; un cronograma mide tiempo. Pasar de uno al otro necesita tres cosas que los datos moleculares <b>no</b> contienen: una raíz, un modelo de cómo varía la velocidad, y al menos una calibración externa. Este capítulo recorre esos tres pasos en orden, explica el asistente que revisa las calibraciones antes de usarlas, y termina insistiendo en lo único que nunca debe faltar en una fecha publicada: su intervalo.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k8"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">7.1</span>Lo que el reloj no puede darte solo</li>
+      <li><span class="n">7.2</span>La raíz</li>
+      <li><span class="n">7.3</span>¿Se sostiene el reloj?</li>
+      <li><span class="n">7.4</span>Las calibraciones</li>
+      <li><span class="n">7.5</span>El asistente de calibración</li>
+      <li><span class="n">7.6</span>Los tres métodos de datación</li>
+      <li><span class="n">7.7</span>Leer el cronograma</li>
+      <li><span class="n">7.8</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">7.9</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.1 -->
+  <h2 id="s7-1"><span class="num">7.1</span>Lo que el reloj no puede darte solo</h2>
+
+  <p>Las ramas del árbol que produjeron los bloques 5 y 6 están medidas en <b>sustituciones por sitio</b>. No en años. Una rama de 0.08 puede ser un millón de años de evolución rápida o cincuenta de evolución lenta, y las secuencias, por sí solas, <b>no distinguen</b> esos dos casos.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>La confusión entre tasa y tiempo</div>
+    <p>Lo que una rama mide es <b>tasa × tiempo</b>. Con un solo número observado y dos incógnitas, hace falta información de fuera para separarlas. Ésa es toda la dificultad de la datación molecular, y explica por qué una fecha depende más de sus calibraciones que de cualquier refinamiento estadístico.</p>
+  </div>
+
+  <p>El bloque pide, por eso, tres cosas en este orden: <b>raíz</b>, porque sin ella no hay dirección ni edades; una respuesta a <b>¿se sostiene el reloj?</b>, que decide qué método usar; y al menos una <b>calibración</b>, sin la cual las edades salen en proporciones de la profundidad del árbol y no en años.</p>
+
+  <!-- ------------------------------------------------------------------ 7.2 -->
+  <h2 id="s7-2"><span class="num">7.2</span>La raíz</h2>
+
+  <p>Un árbol sin raíz no tiene dirección y por tanto no tiene edades. El menú <span class="ui">enraizar por</span> ofrece cuatro caminos:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 7.1.</b> Las cuatro formas de poner la raíz.</caption>
+    <thead><tr><th style="width:27%">Método</th><th>Cuándo y con qué cuidado</th></tr></thead>
+    <tbody>
+      <tr><td><b>grupo externo</b></td><td>La forma honesta cuando se tiene uno. Es una hipótesis, y se puede equivocar: un grupo externo demasiado lejano introduce una rama larga y puede atraer al taxón más divergente del grupo interno.</td></tr>
+      <tr><td><b>punto medio</b></td><td>Pone la raíz en el centro del camino más largo. Cómodo, pero <b>supone reloj</b> — justo lo que se va a poner a prueba. Úsalo para explorar, no para publicar.</td></tr>
+      <tr><td><b>fechas de las puntas</b></td><td>Cuando las puntas tienen fechas distintas —virus, ADN antiguo, fósiles datados—, los propios datos dicen dónde va la raíz. Se escribe una fecha por taxón, una por línea.</td></tr>
+      <tr><td><b>dejarlo como está</b></td><td>Si el árbol ya venía enraizado de otro bloque o de un archivo.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>La regresión raíz–punta</h3>
+  <p>Con fechas en las puntas, el programa dibuja la distancia desde la raíz hasta cada punta contra su fecha. Si hay reloj, las dos suben juntas en línea recta y <b>la pendiente es la tasa</b>. El r² dice cuánta de la variación explica el tiempo.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El r² de esta regresión es optimista</div>
+    <p>Las distancias raíz–punta de dos taxones hermanos <b>no son independientes</b>: comparten casi todo el camino. Por eso el r² sale más alto de lo que corresponde y <b>no debe usarse como una prueba formal</b> de reloj. Sirve para mirar, para detectar puntas raras y para estimar una tasa aproximada.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.3 -->
+  <h2 id="s7-3"><span class="num">7.3</span>¿Se sostiene el reloj?</h2>
+
+  <p>La prueba compara dos ajustes del <b>mismo árbol</b>: uno con las ramas libres, una longitud por rama, y otro forzado a ser <b>ultramétrico</b>, donde todas las puntas quedan a la misma altura. La diferencia de log-verosimilitud, multiplicada por dos, se contrasta contra una χ² con <i>n</i>−2 grados de libertad.</p>
+
+  <p>Un valor p pequeño rechaza el reloj estricto y manda usar un reloj relajado.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leer «no rechazado» como «hay reloj»</div>
+    <p>No lo demuestra. La prueba tiene <b>poca potencia con pocos taxones</b>: con doce especies no rechaza casi nada. Y al revés, con muchos sitios rechaza casi siempre, porque detecta desviaciones diminutas y sin importancia práctica. El panel lo dice con esas palabras cuando el resultado no es significativo.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.4 -->
+  <h2 id="s7-4"><span class="num">7.4</span>Las calibraciones</h2>
+
+  <p>Sin al menos una, las edades no existen: las sustituciones por sitio y los millones de años son dos escalas distintas y nada las une. El programa acepta cuatro fuentes de años y cuatro formas de prior.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 7.2.</b> Las cuatro formas de prior y lo que afirman.</caption>
+    <thead><tr><th style="width:26%">Forma</th><th>Qué dice del nodo</th></tr></thead>
+    <tbody>
+      <tr><td><b>edad fija</b></td><td>Tiene exactamente esta edad, sin incertidumbre. Casi nunca es cierto en biología.</td></tr>
+      <tr><td><b>intervalo uniforme</b></td><td>Está entre estas dos edades, sin preferir ningún punto. La forma de un acontecimiento geológico.</td></tr>
+      <tr><td><b>lognormal desplazada</b></td><td>No es más joven que el desplazamiento, con una cola larga hacia atrás. La forma de un fósil.</td></tr>
+      <tr><td><b>exponencial desplazada</b></td><td>Igual, con la masa más concentrada cerca del desplazamiento.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Un fósil da la edad <i>mínima</i>, no la edad</div>
+    <p>Es la idea que hay que llevarse de este capítulo. Cuando ese individuo murió, el linaje <b>ya existía</b>, y pudo existir mucho antes: lo que el fósil demuestra es que el nodo no es más joven que él. Por eso se usan priors asimétricos y desplazados, que permiten que el nodo sea mucho más viejo pero no más joven. Poner la edad del fósil como <b>edad fija</b> afirma que el linaje nació justo cuando ese individuo murió, y comprime todo el árbol hacia el presente.</p>
+  </div>
+
+  <p>Para seleccionar el nodo se eligen los <span class="ui">taxones del clado</span> —ninguno significa la raíz—. Si esos taxones no forman un clado en el árbol, el programa lo dice en vez de calibrar algo distinto de lo que se pidió.</p>
+
+  <!-- ------------------------------------------------------------------ 7.5 -->
+  <h2 id="s7-5"><span class="num">7.5</span>El asistente de calibración</h2>
+
+  <p>Sobre los controles de la calibración hay un asistente cuyo propósito es que nadie tenga que adivinar qué significan M y S. <b>No decide nada</b>: dice lo que acabas de escribir.</p>
+
+  <h3>Propone la forma según de dónde viene la edad</h3>
+  <p>Se elige en <span class="ui">la edad viene de</span> y el programa explica por qué esa procedencia pide esa forma:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 7.3.</b> Lo que el asistente propone según la procedencia.</caption>
+    <thead><tr><th style="width:30%">La edad viene de</th><th style="width:24%">Propone</th><th>Porque</th></tr></thead>
+    <tbody>
+      <tr><td>Un fósil asignado al clado</td><td>lognormal desplazada</td><td>Es una cota mínima, no un punto.</td></tr>
+      <tr><td>Un acontecimiento geológico</td><td>intervalo uniforme</td><td>Es una ventana con principio y fin.</td></tr>
+      <tr><td>Una edad tomada de otro estudio</td><td>normal</td><td>Arrastra la incertidumbre de aquel trabajo, y conviene <b>ensancharla</b>, no estrecharla.</td></tr>
+      <tr><td>Una edad conocida con certeza</td><td>edad fija</td><td>Sólo para fijar una escala de referencia.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Dice, en años, lo que el prior afirma</h3>
+  <p>Ésta es la parte más útil. «Lognormal desplazada, M = 1.6, S = 0.7, desplazamiento 20» no le dice nada a casi nadie; bajo los controles aparece la traducción, recalculada con cada tecla:</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">→</span>Lo que se lee en pantalla</div>
+    <p><i>Este prior dice que la edad del nodo está, con 95 % de probabilidad, entre <b>21.3</b> y <b>39.7</b> Ma, con mediana <b>25.0</b> Ma, y no puede ser más joven que 20 Ma.</i></p>
+  </div>
+
+  <h3>Y avisa de los errores que arruinan una datación</h3>
+  <ul class="lista">
+    <li>Un <b>fósil puesto como edad fija</b>, o con un prior normal simétrico, que permitiría un nodo más joven que el fósil.</li>
+    <li>Un <b>desplazamiento en cero</b>, que no impone ninguna edad mínima: permite que el nodo sea de ayer.</li>
+    <li>Una <b>normal cuya cola inferior llega al futuro</b>, es decir a edades negativas.</li>
+    <li>Un prior <b>tan ancho que apenas informa</b>, o tan estrecho que finge una certeza que nadie tiene.</li>
+    <li>La confusión de <b>corona y tallo</b>: los taxones que seleccionas calibran el nodo de corona —el ancestro común más reciente del grupo—. Si tu fósil es <b>hermano</b> del grupo y no un miembro suyo, lo que calibra es el <b>tallo</b>, que es más viejo, y para eso hay que seleccionar también al grupo hermano.</li>
+    <li>Que ésta vaya a ser la <b>única</b> calibración, y por tanto que toda la escala del árbol dependa de ella.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Por qué no hay una base de fósiles</div>
+    <p>Y no la habrá. Asignar un fósil a un nodo es un juicio taxonómico sobre los caracteres de ese fósil y sobre de qué clado es hermano: es la parte que se discute en los artículos y la que un revisor examina. Una tabla de consulta invitaría a publicar una fecha que nadie miró. El programa ayuda con todo lo que rodea a ese juicio; el juicio es tuyo.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.6 -->
+  <h2 id="s7-6"><span class="num">7.6</span>Los tres métodos de datación</h2>
+
+  <p>Tres caminos, del más rápido al más honesto con la incertidumbre.</p>
+
+  <h3>Mínimos cuadrados</h3>
+  <p>Ajusta las edades minimizando una función de mínimos cuadrados sobre las longitudes de rama (To et al. 2016). Da una estimación puntual en segundos, incluso con quinientos taxones. Es lo que se usa para ver el orden de magnitud, o cuando el árbol es demasiado grande para lo demás.</p>
+
+  <h3>Verosimilitud penalizada</h3>
+  <p>Permite que la tasa cambie entre ramas pero <b>penaliza</b> los cambios bruscos (Sanderson 2002). El parámetro <span class="ui">suavizado λ</span> controla cuánto: λ grande se acerca a un reloj estricto, λ pequeña deja que cada rama tenga su tasa.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>λ no se elige a ojo</div>
+    <p>Se elige por <b>validación cruzada</b>, quitando una rama a la vez y viendo qué λ predice mejor. El botón <span class="ui">elegirlo por validación cruzada</span> hace justo eso y dibuja la curva. Si el mínimo de esa curva cae en un extremo del rango probado, el rango era demasiado estrecho y hay que ampliarlo.</p>
+  </div>
+
+  <h3>Reloj relajado bayesiano</h3>
+  <p>Un reloj lognormal no correlacionado (Drummond et al. 2006): cada rama toma su tasa de una lognormal, de forma independiente de su vecina. Es el más lento y el único que devuelve una <b>distribución por nodo</b> en vez de un punto, que es lo que se debería publicar cuando las calibraciones son inciertas — es decir, casi siempre.</p>
+
+  <!-- ------------------------------------------------------------------ 7.7 -->
+  <h2 id="s7-7"><span class="num">7.7</span>Leer el cronograma</h2>
+
+  <p>Los mosaicos resumen: la <b>edad de la raíz</b>, el <b>método</b>, el <b>tiempo</b> de cómputo, la <b>tasa media</b> en sustituciones por sitio y por unidad de tiempo, y la <b>variación de la tasa</b>, un coeficiente de variación que dice cuánto se aparta el árbol de un reloj estricto: cerca de 0, prácticamente había reloj; por encima de 0.5, las tasas son muy desiguales y un reloj estricto habría dado fechas equivocadas.</p>
+
+  <p>El cronograma se dibuja sobre la <b>escala de tiempo geológico</b> —las franjas de la Carta Cronoestratigráfica Internacional— con barras de incertidumbre por nodo.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publicar una edad sin su intervalo</div>
+    <p>Un nodo fechado en 30 Ma con un intervalo de 28 a 32 está bien determinado; el mismo 30 Ma con un intervalo de 8 a 70 no dice casi nada, aunque la media se vea igual de redonda. <b>Una edad sin intervalo no es un resultado.</b> Y el intervalo sólo recoge la incertidumbre <i>dentro</i> del modelo y de las calibraciones que diste: no incluye el error de haber elegido mal una calibración, que suele ser el mayor de todos.</p>
+  </div>
+
+  <p>Sin ninguna calibración, el panel fija la raíz en 1 y avisa de que las edades son <b>proporciones de la profundidad del árbol</b>, no años: sirven para comparar nodos entre sí, no para escribir «hace X millones de años».</p>
+
+  <!-- ------------------------------------------------------------------ 7.8 -->
+  <h2 id="s7-8"><span class="num">7.8</span>Qué tan bien lo hace, medido</h2>
+
+  <p>Comprobado contra <i>ape</i> y <i>phangorn</i>, con los resultados en la carpeta de validación:</p>
+
+  <ul class="lista">
+    <li><b>El enraizado por fechas de las puntas reproduce <code>ape::rtt</code></b>: pendiente −0.00158106 contra −0.00158106, con una diferencia de 3·10⁻⁹, y r² 0.783919 contra 0.783919.</li>
+    <li><b>La verosimilitud penalizada coincide con <code>ape::chronos</code></b>: sobre 15 clados, la diferencia máxima de edad es 0.0382 con la raíz en 1, y la correlación entre las dos series de edades es r² = 0.9906.</li>
+    <li>En la prueba del reloj, el ajuste ultramétrico propio es <b>mejor que el de <code>optim.pml(optRooted = TRUE)</code> por 11.8 unidades</b> de log-verosimilitud sobre el mismo árbol enraizado, y ambos rechazan el reloj.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Un error que la validación destapó</div>
+    <p>La búsqueda del enraizado filtraba por el <b>signo</b> de la pendiente, suponiendo que la distancia raíz–punta crece con la fecha. Crece con fechas de calendario y <b>decrece</b> con edades hacia atrás, así que el filtro descartaba todos los enraizados correctos: daba r² de 0.006 donde ape llega a 0.784. Ahora el signo sólo indica qué convención siguen las fechas, y la tasa es el valor absoluto de la pendiente.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.9 -->
+  <h2 id="s7-9"><span class="num">7.9</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Usar el punto medio y luego probar el reloj</div>
+    <p>El enraizado por punto medio <b>supone</b> reloj. Probar el reloj sobre un árbol enraizado así es preguntarle al método lo que el método ya dio por hecho. Con grupo externo, la prueba es legítima.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Una sola calibración</div>
+    <p>Toda la escala del árbol cuelga de ella y su error se propaga a cada nodo sin nada que lo contrapese. Dos o tres calibraciones repartidas son mucho mejores que una, por buena que sea, porque además se contrastan entre sí.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Calibrar con una edad secundaria sin ensanchar su incertidumbre</div>
+    <p>Una edad tomada de otro estudio arrastra el árbol, el modelo y las calibraciones de aquel trabajo. Copiar su intervalo tal cual finge que esa incertidumbre no existe. El asistente propone una desviación del 12 % y recomienda ampliarla, no reducirla.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confundir la edad de corona con la de tallo</div>
+    <p>La corona es el ancestro común más reciente de las especies vivas del grupo; el tallo, su divergencia respecto del grupo hermano, y siempre es más viejo. Las tasas de diversificación del Bloque 8 se calculan con una u otra y <b>dan resultados distintos</b>. Hay que decir cuál se usó.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reportar la tasa de otro estudio como si fuera un dato</div>
+    <p>Una tasa publicada para «el mismo marcador» se estimó en otro grupo, con otro muestreo y otras calibraciones. Es la fuente de error más grande de una datación y la que menos se reporta.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

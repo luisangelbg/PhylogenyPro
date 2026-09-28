@@ -1,0 +1,3 @@
+DNA, rbcL = 1-621
+DNA, trnLF = 622-1088
+DNA, ITS = 1089-1711

@@ -1,0 +1,35 @@
+{
+  "title": "PhylogenyPro: a browser-based platform for molecular phylogenetics, from the alignment to the dated tree",
+  "description": "<p>PhylogenyPro is a self-contained web application that carries a set of sequences through a whole phylogenetic study in the browser, with no installation and no server-side computation. It reads FASTA, PHYLIP, NEXUS, Clustal, MEGA and GenBank files and morphological matrices, aligns them with a progressive aligner that can work on codons, and lets the alignment be trimmed and edited by hand. Each partition declares its genome &mdash; chloroplast, mitochondrion, nuclear ribosomal or low-copy nuclear &mdash; and that declaration is carried into every later step. It selects among 56 DNA models, twelve empirical amino-acid matrices and Mk/Mkv for morphology by AIC, AICc and BIC, and finds partition schemes by greedy merging; infers trees by parsimony, distance methods, maximum likelihood with NNI and SPR search, and Metropolis-coupled Bayesian MCMC, both of the last two running in Web Workers; measures support by bootstrap, ultrafast bootstrap, SH-aLRT, aBayes and posterior probabilities, and compares topologies with the KH, SH and AU tests. It then tests the molecular clock, dates the tree by least squares, penalised likelihood or a relaxed clock with fossil calibrations on the geological time scale; fits models of diversification; reconstructs continuous and discrete ancestral characters with stochastic mapping, BM/OU/EB, independent contrasts, PGLS, Blomberg's K and Pagel's lambda; reconstructs ancestral areas with DEC, DIVALIKE and BAYAREALIKE with and without founder-event speciation; and compares trees by five distances, concordance factors, quartets, split networks and ABBA-BABA.</p><p>Throughout, an interpretation guide places each computed number on its own scale, and a calibration assistant turns a fossil, a geological event or a known rate into a prior and says what it means in years. It ends in a tree studio with pictures of the OTUs and clades and a cut into k groups, a figure studio that restyles every figure in the twelve blocks at once, figures at any resolution, a methods section written from what was actually run, and a reproducible package the program writes itself.</p><p>Every block is checked against an independent implementation in R: 1116 unit tests and 258 numerical agreements with ape, phangorn, geiger, phytools, nlme, BioGeoBEARS and xml2, with no mismatch. The archive includes simulated example data sets and a user manual in Spanish (HTML and PDF, 112 pages).</p>",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Barrera-Guzmán, Luis Ángel",
+      "orcid": "0000-0001-8057-2583"
+    }
+  ],
+  "license": "gpl-3.0-or-later",
+  "access_right": "open",
+  "language": "eng",
+  "keywords": [
+    "phylogenetics",
+    "molecular systematics",
+    "multiple sequence alignment",
+    "substitution models",
+    "maximum likelihood",
+    "Bayesian inference",
+    "MCMC",
+    "bootstrap",
+    "molecular clock",
+    "divergence time estimation",
+    "fossil calibration",
+    "diversification",
+    "ancestral state reconstruction",
+    "stochastic mapping",
+    "historical biogeography",
+    "DEC",
+    "concordance factors",
+    "ABBA-BABA",
+    "plant systematics"
+  ]
+}

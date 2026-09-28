@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-4" data-pestana="4" data-orden="4" style="--acento: var(--b4)">
+  <div class="cap-apertura">
+    <div class="cap-num">4</div>
+    <div class="cap-etiqueta">Capítulo cuatro · Bloque 4</div>
+    <h1>Parsimonia y distancias</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Los árboles rápidos: los que salen en segundos y sirven de punto de partida para la verosimilitud y de contraste para todo lo demás. Un árbol de distancias no es una hipótesis débil si el modelo que corrige las distancias es el adecuado, y la parsimonia sigue siendo la herramienta correcta para morfología. Este capítulo explica los dos, sus índices, cómo se mide el soporte de una rama y qué dice un consenso cuando hay muchos árboles igual de cortos.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k5"></span><span class="k11"></span><span class="k12"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">4.1</span>Para qué sirven los árboles rápidos</li>
+      <li><span class="n">4.2</span>Árboles de distancia</li>
+      <li><span class="n">4.3</span>Máxima parsimonia</li>
+      <li><span class="n">4.4</span>La búsqueda: NNI, SPR y TBR</li>
+      <li><span class="n">4.5</span>Los índices: CI, RI, RC y HI</li>
+      <li><span class="n">4.6</span>El soporte de las ramas</li>
+      <li><span class="n">4.7</span>Consensos y comparación</li>
+      <li><span class="n">4.8</span>La figura</li>
+      <li><span class="n">4.9</span>Qué tan bien lo hace, medido</li>
+      <li><span class="n">4.10</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.1 -->
+  <h2 id="s4-1"><span class="num">4.1</span>Para qué sirven los árboles rápidos</h2>
+
+  <p>Este bloque produce árboles en segundos, y eso hace fácil menospreciarlos. No conviene. Tienen tres usos legítimos:</p>
+
+  <ul class="lista">
+    <li><b>Punto de partida.</b> La búsqueda de máxima verosimilitud del Bloque 5 necesita un árbol inicial, y cuanto mejor sea, menos riesgo hay de quedarse en un óptimo local.</li>
+    <li><b>Contraste.</b> Si el árbol de distancias, el de parsimonia y el de verosimilitud coinciden en los clados principales, eso es información. Si discrepan, también, y hay que entender por qué antes de publicar cualquiera de ellos.</li>
+    <li><b>La herramienta adecuada para morfología.</b> Con caracteres discretos y pocos cambios, la parsimonia no es una aproximación barata a la verosimilitud: es el método que la disciplina usa, y con razón.</li>
+  </ul>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Un árbol de distancias no es una hipótesis débil</div>
+    <p>Lo es cuando las distancias están mal corregidas, que es distinto. Con el modelo adecuado, la unión de vecinos es un <b>estimador consistente</b>: con suficientes datos converge al árbol verdadero. Su mala fama viene de usarlo con distancias sin corregir, que es lo que sí falla en cuanto hay saturación.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.2 -->
+  <h2 id="s4-2"><span class="num">4.2</span>Árboles de distancia</h2>
+
+  <p>El método consta de dos decisiones: <b>cómo se mide la distancia</b> entre cada par de secuencias y <b>cómo se construye el árbol</b> a partir de la matriz.</p>
+
+  <h3>Las distancias</h3>
+  <table class="tabla">
+    <caption><b>Tabla 4.1.</b> Las distancias que ofrece el menú <span class="ui">distancia</span>.</caption>
+    <thead><tr><th style="width:26%">Distancia</th><th>Qué corrige y cuándo usarla</th></tr></thead>
+    <tbody>
+      <tr><td><b>sin corregir (p)</b></td><td>La proporción de posiciones distintas. Útil sólo para ver cuánto corrige el resto; no para inferir.</td></tr>
+      <tr><td><b>JC69</b></td><td>Cambios múltiples, suponiendo que todos los cambios son igual de probables.</td></tr>
+      <tr><td><b>K80</b></td><td>Separa transiciones de transversiones. El mínimo razonable para ADN.</td></tr>
+      <tr><td><b>F81</b></td><td>Admite frecuencias de base desiguales.</td></tr>
+      <tr><td><b>TN93</b></td><td>Frecuencias desiguales <i>y</i> dos clases de transición. El más completo de la lista.</td></tr>
+      <tr><td><b>LogDet (Lockhart)</b></td><td>El único que <b>tolera composición heterogénea</b> entre secuencias. Si la prueba χ² del Bloque 3 salió mal, ésta es la distancia a usar.</td></tr>
+      <tr><td><b>paralineal (Lake)</b></td><td>Pariente cercana de LogDet, con las frecuencias observadas.</td></tr>
+      <tr><td><b>Poisson</b> y <b>Kimura</b></td><td>Para proteínas: la primera sin corrección de composición, la segunda con la aproximación clásica de Kimura.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Dos nombres para dos fórmulas distintas</div>
+    <p>Lo que <i>ape</i> llama <code>logdet</code> es la distancia de Lockhart et al. (1994); la fórmula con las frecuencias observadas es la <b>paralineal</b> de Lake. Se confunden con frecuencia porque comparten el apodo. Aquí aparecen por separado y con su nombre, para que se pueda reportar cuál se usó.</p>
+  </div>
+
+  <p>Dos casillas modifican el cálculo. <span class="ui">corregir con Γ</span> aplica la corrección gamma con la α que estimó el Bloque 3, y <span class="ui">borrado completo</span> decide qué hacer con los huecos: activada, quita toda columna que tenga algún hueco antes de calcular cualquier par; desactivada, cada par usa las columnas que ambos tienen. Con muchos datos faltantes, el borrado completo puede dejarte con muy pocas columnas.</p>
+
+  <h3>Los métodos</h3>
+  <p>El menú <span class="ui">método</span> ofrece <b>unión de vecinos (NJ)</b>, <b>BIONJ</b>, <b>UPGMA</b> y <b>mínima evolución</b>.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>UPGMA supone un reloj molecular</div>
+    <p>Y la mayoría de los datos no lo cumplen. UPGMA produce un árbol <b>ultramétrico</b> —todas las puntas a la misma altura—, lo que es correcto para un dendrograma de agrupamiento y falso para una filogenia con tasas desiguales. Úsalo para ver estructura, no para inferir relaciones. NJ y BIONJ no suponen reloj.</p>
+  </div>
+
+  <p>La <b>mínima evolución balanceada</b> busca el árbol cuya longitud total, calculada con los promedios balanceados de Desper y Gascuel (2002) sobre el criterio de Pauplin (2000), sea la menor. Es un criterio de optimalidad de verdad, con búsqueda por NNI y SPR desde varios arranques, y no un simple algoritmo de agrupamiento.</p>
+
+  <!-- ------------------------------------------------------------------ 4.3 -->
+  <h2 id="s4-3"><span class="num">4.3</span>Máxima parsimonia</h2>
+
+  <p>El árbol que necesita menos cambios para explicar la matriz. Transparente, sin supuestos de modelo… <b>y por eso mismo vulnerable</b>, como viste en el laboratorio 1 del capítulo 1: sin un modelo que corrija los cambios múltiples, la parsimonia interpreta la convergencia como parentesco.</p>
+
+  <h3>Los controles</h3>
+  <ul class="lista">
+    <li><span class="ui">caracteres</span>: <span class="ui">no ordenados (Fitch)</span>, donde cualquier estado puede pasar a cualquier otro con un paso; <span class="ui">ordenados (Sankoff)</span>, donde el costo depende del par de estados y se puede imponer un orden —útil en morfología, cuando un carácter tiene estados graduales—; o <span class="ui">transversiones con más peso</span>, que penaliza las transversiones más que las transiciones.</li>
+    <li><span class="ui">peso tv:ts</span>: cuánto más cuesta una transversión. Con 2:1, una transversión vale dos pasos. Es la forma que tiene la parsimonia de reconocer que las transiciones son más frecuentes.</li>
+    <li><span class="ui">intercambio</span>: NNI, SPR o TBR (sección 4.4).</li>
+    <li><span class="ui">arranques</span>: cuántos órdenes de adición distintos se prueban. Varios arranques que lleguen al mismo árbol es la mejor señal de que la búsqueda fue suficiente.</li>
+    <li><span class="ui">máx. árboles</span>: cuántos árboles igual de cortos se conservan. Las matrices morfológicas producen a veces miles.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 4.4 -->
+  <h2 id="s4-4"><span class="num">4.4</span>La búsqueda: NNI, SPR y TBR</h2>
+
+  <p>El número de topologías crece más rápido que factorialmente: con veinte taxones hay más de 10²⁰ árboles sin raíz. No se pueden evaluar todos, así que se parte de uno y se prueban reordenamientos.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 4.2.</b> Los tres tipos de reordenamiento, de menor a mayor alcance.</caption>
+    <thead><tr><th style="width:14%">Tipo</th><th style="width:44%">Qué hace</th><th>Cuándo</th></tr></thead>
+    <tbody>
+      <tr><td><b>NNI</b></td><td>Intercambia los dos grupos vecinos a una rama interna. Movimientos pequeños.</td><td>Rápido; se queda en óptimos locales con facilidad.</td></tr>
+      <tr><td><b>SPR</b></td><td>Arranca una rama con todo lo que cuelga de ella y la reinjerta en otro sitio.</td><td>El equilibrio habitual entre alcance y tiempo.</td></tr>
+      <tr><td><b>TBR</b></td><td>Corta el árbol en dos y los vuelve a unir por todos los pares de ramas posibles.</td><td>El más exhaustivo y el más lento.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Ninguna búsqueda heurística <b>garantiza</b> el óptimo. Que dos programas den árboles distintos con el mismo criterio suele ser esto y no un desacuerdo de método: son dos óptimos locales.</p>
+
+  <!-- ------------------------------------------------------------------ 4.5 -->
+  <h2 id="s4-5"><span class="num">4.5</span>Los índices: CI, RI, RC y HI</h2>
+
+  <p>Cuando el árbol está, cuatro índices describen cuánta homoplasia —convergencia y reversión— contiene.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Las cuatro definiciones</div>
+    <p><b>CI</b> = <i>m</i>/<i>s</i>, el mínimo de cambios posible entre los que el árbol necesita. Vale 1 sin homoplasia.<br>
+    <b>HI</b> = 1 − CI, el índice de homoplasia: lo mismo dicho al revés.<br>
+    <b>RI</b> = (<i>g</i>−<i>s</i>)/(<i>g</i>−<i>m</i>), donde <i>g</i> es la longitud en el peor árbol posible: cuánta de la similitud que <b>podría</b> ser sinapomorfía lo es.<br>
+    <b>RC</b> = CI × RI, el índice de consistencia reescalado.</p>
+  </div>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El CI baja con el número de taxones</div>
+    <p>Sistemáticamente, y sin que la homoplasia haya aumentado. Un CI de 0.8 con quince taxones y uno de 0.4 con doscientos pueden describir la misma matriz. Por eso <b>no se comparan CI entre estudios de tamaño distinto</b>, y por eso el RI, que corrige parte del problema, es el que conviene reportar.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.6 -->
+  <h2 id="s4-6"><span class="num">4.6</span>El soporte de las ramas</h2>
+
+  <p>La frase que encabeza esta sección en la pantalla merece repetirse: <i>un clado sin soporte no es un error del programa: es una politomía que tus datos no resuelven</i>. El programa ofrece tres medidas.</p>
+
+  <h3>Bootstrap</h3>
+  <p>Se remuestrean las columnas del alineamiento <b>con reemplazo</b>, se rehace el árbol cientos de veces y se cuenta en qué porcentaje de las réplicas aparece cada rama. Mide la <b>consistencia de la señal</b> en los datos, no la probabilidad de que la rama sea correcta. La convención: 70 % para «bien apoyada», 95 % para fuerte.</p>
+
+  <h3>Jackknife</h3>
+  <p>Igual, pero en vez de remuestrear con reemplazo se <b>elimina</b> una fracción de las columnas en cada réplica. Da resultados parecidos al bootstrap y es algo más conservador.</p>
+
+  <h3>Soporte de Bremer</h3>
+  <p>Distinto en naturaleza: cuántos <b>pasos de más</b> hay que aceptar antes de encontrar un árbol donde esa rama ya no aparece. Se lee en pasos, no en porcentaje, y depende del tamaño de la matriz: en una matriz grande, un Bremer de 5 puede ser poco. Un valor de 1 significa que basta un paso para deshacer la rama.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Creer que el bootstrap protege del error sistemático</div>
+    <p>No lo hace, y es importante entenderlo. El bootstrap mide si la señal se sostiene al remuestrear los mismos datos bajo el mismo método. Si el método está sesgado —atracción de ramas largas, composición heterogénea—, la señal errónea está en <b>todas</b> las réplicas, y el bootstrap apoyará la rama equivocada con un 100 %. Con más datos, la apoyará más.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.7 -->
+  <h2 id="s4-7"><span class="num">4.7</span>Consensos y comparación</h2>
+
+  <p>Cuando la búsqueda devuelve varios árboles igual de cortos, la pregunta es en qué coinciden. El menú ofrece cuatro consensos:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 4.3.</b> Los cuatro consensos.</caption>
+    <thead><tr><th style="width:22%">Consenso</th><th>Conserva</th></tr></thead>
+    <tbody>
+      <tr><td><b>estricto</b></td><td>Sólo los clados presentes en <b>todos</b> los árboles. El más conservador y el que se publica por omisión.</td></tr>
+      <tr><td><b>mayoría (50 %)</b></td><td>Los clados presentes en más de la mitad, con su frecuencia anotada.</td></tr>
+      <tr><td><b>semiestricto</b></td><td>Los clados que no contradice ningún árbol, aunque no estén en todos. Útil cuando faltan taxones en algunos.</td></tr>
+      <tr><td><b>codicioso</b></td><td>Añade clados por frecuencia mientras sean compatibles. El más resuelto y el menos conservador.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Las politomías de un consenso estricto <b>son el resultado</b>: dicen exactamente dónde los datos no deciden. Un consenso muy colapsado no es un fracaso del análisis; es un análisis honesto sobre datos que no alcanzan.</p>
+
+  <p>La tabla <b>En qué se parecen los árboles obtenidos</b> compara por distancia de Robinson–Foulds todo lo que el bloque ha producido —distancias, parsimonia, consensos— para ver de un vistazo qué métodos coinciden.</p>
+
+  <!-- ------------------------------------------------------------------ 4.8 -->
+  <h2 id="s4-8"><span class="num">4.8</span>La figura</h2>
+
+  <p>El dibujo es el mismo motor que usará el estudio de árboles del Bloque 12: forma <span class="ui">rectangular</span>, <span class="ui">circular</span> o <span class="ui">no enraizado</span>; <span class="ui">cladograma</span> para dibujar sin longitudes; soportes como <span class="ui">números</span>, <span class="ui">puntos de color</span> o <span class="ui">ninguno</span>; y raíz <span class="ui">como está</span>, <span class="ui">punto medio</span> o <span class="ui">grupo externo…</span>, con selección múltiple usando Ctrl.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Un árbol sin raíz no tiene ancestros</div>
+    <p>Los métodos de este bloque producen árboles <b>sin raíz</b>: describen relaciones, no dirección. Poner la raíz es una decisión adicional, y con un grupo externo es una hipótesis que se puede equivocar. Si eliges un grupo externo que no es monofilético en ese árbol, el programa lo dice y deja el árbol como estaba, en vez de enraizar mal en silencio.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.9 -->
+  <h2 id="s4-9"><span class="num">4.9</span>Qué tan bien lo hace, medido</h2>
+
+  <p>Todo lo de este bloque se comprobó contra <i>ape</i> y <i>phangorn</i>, y los resultados están en la carpeta de validación. Tres merecen mencionarse:</p>
+
+  <ul class="lista">
+    <li>La búsqueda de parsimonia alcanza <b>1916 pasos</b> en el ejemplo, <b>el mismo óptimo que <code>pratchet</code></b> de phangorn, y trece pasos mejor que <code>optim.parsimony</code> con SPR.</li>
+    <li>La longitud de mínima evolución balanceada reproduce la de <code>ape::fastme.bal</code> <b>a 5·10⁻⁹</b> sobre el mismo árbol, de modo que la fórmula coincide exactamente.</li>
+    <li>Con su propia búsqueda desde tres arranques, el programa llega a un árbol <b>más corto</b> (2.899076) que el de ape (2.901969). No es que uno esté mal: son dos óptimos locales del mismo criterio, y dónde cae una heurística depende de dónde empiece.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 4.10 -->
+  <h2 id="s4-10"><span class="num">4.10</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Usar distancias sin corregir</div>
+    <p>Es lo que le dio mala fama a los métodos de distancia. Con saturación, la distancia p subestima la divergencia justo donde más importa, y el árbol se deforma. Corrige siempre, y con el modelo que eligió el Bloque 3.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publicar un UPGMA como filogenia</div>
+    <p>UPGMA supone reloj molecular. Si tus tasas son desiguales —y casi siempre lo son—, el árbol estará mal en una forma sistemática y predecible: los linajes rápidos saldrán más «derivados» de lo que son.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reportar un solo árbol más corto sin decir cuántos había</div>
+    <p>Si la búsqueda encontró 4 800 árboles igual de cortos y publicas uno, estás presentando como resultado una elección arbitraria entre 4 800. Lo que se reporta es el consenso, el número de árboles óptimos y su longitud.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparar el CI con el de otro trabajo</div>
+    <p>Sólo es comparable entre matrices del mismo tamaño. Reporta el RI, y en cualquier caso di cuántos taxones y cuántos caracteres tenía la matriz.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Dar por buena la búsqueda con un solo arranque</div>
+    <p>Un solo punto de partida y NNI es la receta para quedarse en un óptimo local. Sube los arranques, usa SPR o TBR, y comprueba que varios arranques llegan a la misma longitud. Si no llegan, la búsqueda no ha terminado.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

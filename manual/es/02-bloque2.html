@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · Manual de usuario · Capítulo 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-2" data-pestana="2" data-orden="2" style="--acento: var(--b2)">
+  <div class="cap-apertura">
+    <div class="cap-num">2</div>
+    <div class="cap-etiqueta">Capítulo dos · Bloque 2</div>
+    <h1>Datos y alineamiento</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El bloque más importante del programa y el que menos atención suele recibir. Aquí se leen las secuencias, se alinean, se revisan <b>a mano</b>, se recortan las columnas dudosas y se arma el mapa de particiones declarando de qué genoma viene cada una. Todo lo que hagan los diez bloques siguientes descansa sobre lo que se decida en éste, y ningún método posterior puede corregir un error cometido aquí.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">2.1</span>Por qué este bloque decide el estudio</li>
+      <li><span class="n">2.2</span>Cargar los datos: formatos y lo que se adivina</li>
+      <li><span class="n">2.3</span>Particiones: el mapa del estudio</li>
+      <li><span class="n">2.4</span>Alinear: el alineador y sus opciones</li>
+      <li><span class="n">2.5</span>Alinear por codón</li>
+      <li><span class="n">2.6</span>El visor: mirar el alineamiento de verdad</li>
+      <li><span class="n">2.7</span>Editar a mano</li>
+      <li><span class="n">2.8</span>Recorte de bloques ambiguos</li>
+      <li><span class="n">2.9</span>Control de calidad: once cosas que se revisan</li>
+      <li><span class="n">2.10</span>Exportar, y qué se lleva al Bloque 3</li>
+      <li><span class="n">2.11</span>Errores frecuentes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.1 -->
+  <h2 id="s2-1"><span class="num">2.1</span>Por qué este bloque decide el estudio</h2>
+
+  <p>Alinear dos columnas es afirmar que <b>descienden del mismo sitio ancestral</b>. No es una preparación de los datos: es la primera hipótesis del trabajo, y es la única que ningún bloque posterior puede poner a prueba. La máxima verosimilitud del Bloque 5 tomará tu alineamiento como un hecho y calculará sobre él con toda seriedad; si las columnas están mal, calculará con toda seriedad una respuesta falsa.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>La consecuencia que hay que entender</div>
+    <p>Un alineamiento malo <b>no produce un árbol con poco apoyo</b>, que sería el resultado honesto. Produce un árbol <b>firmemente equivocado</b>: las columnas mal alineadas se convierten en sitios informativos falsos, y esos sitios apoyan con entusiasmo agrupaciones que no existen. El bootstrap las respaldará, porque el bootstrap mide la consistencia de la señal, y la señal está ahí — sólo que es artificial.</p>
+  </div>
+
+  <p>Por eso este bloque no se limita a alinear: trae un visor para mirar el resultado columna por columna, un editor para corregirlo a mano, un recorte con vista previa y un control de calidad que busca once problemas concretos. La frase que encabeza la sección de alineamiento en la pantalla lo dice sin rodeos: <i>el ojo de quien conoce el grupo gana muchas veces al algoritmo</i>.</p>
+
+  <!-- ------------------------------------------------------------------ 2.2 -->
+  <h2 id="s2-2"><span class="num">2.2</span>Cargar los datos: formatos y lo que se adivina</h2>
+
+  <p>Cada archivo que cargues entra como una <b>partición</b>: un gen, una región o una matriz. Puedes cargar varios a la vez, arrastrándolos al recuadro, eligiéndolos con <span class="ui">Elegir archivos…</span> o pegando el texto con <span class="ui">Pegar secuencias</span>.</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 2.1.</b> Formatos que el programa lee, y lo que hay que saber de cada uno.</caption>
+    <thead><tr><th style="width:22%">Formato</th><th>Detalle</th></tr></thead>
+    <tbody>
+      <tr><td><b>FASTA</b></td><td>El más sencillo y el más seguro. Si tienes dudas, convierte a FASTA.</td></tr>
+      <tr><td><b>PHYLIP</b></td><td>Estricto y relajado, secuencial e intercalado. El estricto corta los nombres a diez caracteres; el programa detecta cuál es cuál y lo dice.</td></tr>
+      <tr><td><b>NEXUS</b></td><td>Bloques DATA, CHARACTERS, SETS (con <i>charsets</i>, que se convierten en particiones) y TREES. También entiende MATCHCHAR.</td></tr>
+      <tr><td><b>Clustal</b></td><td>La salida clásica de ClustalW y ClustalΩ.</td></tr>
+      <tr><td><b>MEGA</b></td><td>El formato de MEGA, con sus encabezados <code>#MEGA</code>.</td></tr>
+      <tr><td><b>GenBank</b></td><td>Archivos planos. Los nombres se toman del campo ORGANISM, y del gen cuando está.</td></tr>
+      <tr><td><b>Hoja de cálculo</b></td><td>.csv y .tsv, para matrices morfológicas: una fila por taxón, una columna por carácter.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Lo que adivina, lo dice</div>
+    <p>El programa deduce el formato y el tipo de dato —ADN, proteína o morfología— y <b>reporta todo lo que tuvo que adivinar</b>. Cuando un archivo de GenBank obliga a tomar los nombres del campo ORGANISM, lo avisa y pide que los revises antes de seguir: ahí es donde se cuelan los nombres duplicados y los sinónimos.</p>
+  </div>
+
+  <p>Si prefieres empezar sin datos propios, los cuatro botones de ejemplo cargan los conjuntos descritos en la sección I.7: <span class="ui">Bursera · 3 genes sin alinear</span>, <span class="ui">Bursera · concatenado y alineado</span>, <span class="ui">Familia génica · proteínas</span> y <span class="ui">Matriz morfológica</span>. Los tres genes sin alinear son los indicados para practicar todo este capítulo, porque traen su alineamiento verdadero guardado y permiten comprobar qué tan bien lo hiciste.</p>
+
+  <!-- ------------------------------------------------------------------ 2.3 -->
+  <h2 id="s2-3"><span class="num">2.3</span>Particiones: el mapa del estudio</h2>
+
+  <p>La lista de particiones es el mapa de lo que vas a analizar. Cada renglón trae el nombre, cuántos taxones y posiciones tiene, si está alineada, y dos menús: el <b>genoma</b> y el <b>tipo de dato</b>.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>El genoma no es un adorno</div>
+    <p>Declarar si una partición viene del <b>cloroplasto</b>, de la <b>mitocondria</b>, del <b>ADN ribosomal nuclear</b> o del <b>núcleo de copia baja</b> es la decisión de este bloque que más lejos llega. El cloroplasto y la mitocondria se heredan por un solo progenitor y no recombinan: todo el genoma es un linaje con una sola historia. El núcleo se hereda de los dos y recombina. Esa declaración viaja a todos los bloques siguientes y es la que permite que el Bloque 11 trate un desacuerdo entre genes como <b>información</b> —captura de cloroplasto, hibridación— y no como ruido que hay que promediar.</p>
+  </div>
+
+  <p>Tres botones operan sobre el conjunto:</p>
+  <ul class="lista">
+    <li><span class="ui">Concatenar todas</span> reúne las particiones alineadas en una matriz única, rellenando con datos faltantes los taxones que no estén en alguna. La concatenada conserva el mapa de dónde empieza y termina cada gen, que es lo que el Bloque 3 usará para el esquema de particiones. Hace falta que haya <b>al menos dos particiones alineadas</b>.</li>
+    <li><span class="ui">Separar por posición de codón</span> parte un gen codificante en tres particiones —primera, segunda y tercera posición—, que es lo que se hace cuando la tercera está saturada y se quiere modelar aparte o descartarla.</li>
+    <li><span class="ui">Importar esquema de particiones…</span> lee un esquema ya escrito, del estilo de los de RAxML.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 2.4 -->
+  <h2 id="s2-4"><span class="num">2.4</span>Alinear: el alineador y sus opciones</h2>
+
+  <p>El alineador es progresivo, de la escuela que Clustal hizo estándar y MUSCLE refinó. Trabaja en cuatro pasos:</p>
+
+  <ol class="pasos">
+    <li><b>Distancias rápidas</b> entre cada par de secuencias a partir de los <i>k</i>-meros que comparten, sin alinear nada todavía.</li>
+    <li><b>Árbol guía</b> por UPGMA sobre esas distancias.</li>
+    <li><b>Alineamiento perfil contra perfil</b> recorriendo el árbol guía de las hojas a la raíz, con huecos afines (Gotoh 1982) y con la penalización reducida donde el perfil ya tiene huecos.</li>
+    <li><b>Refinamiento iterativo</b>, opcional: cada rama del árbol guía parte las secuencias en dos, se realinean los dos subalineamientos y el resultado se conserva <b>sólo si mejora</b> el puntaje de pares. Es la tercera etapa de MUSCLE.</li>
+  </ol>
+
+  <p>Los controles son cuatro: <span class="ui">por codón</span>, <span class="ui">refinar</span>, <span class="ui">abrir hueco</span> y <span class="ui">extender</span>. Los dos últimos son las penalizaciones de Gotoh: abrir un hueco cuesta mucho, extenderlo cuesta poco, porque una inserción de seis bases es un solo evento y no seis.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Qué tan bueno es</div>
+    <p>Medido contra el alineamiento verdadero de los ejemplos simulados, el alineador recupera el <b>99.98 %</b> de los pares en rbcL, el <b>98.14 %</b> en trnL-F —que es el que lleva indeles—, el <b>98.93 %</b> en ITS y el <b>99.60 %</b> en la familia de proteínas. Alineando rbcL <b>por codón</b>, el <b>100 %</b>. Esas cifras están en la carpeta de validación y se pueden reproducir.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.5 -->
+  <h2 id="s2-5"><span class="num">2.5</span>Alinear por codón</h2>
+
+  <p>Si la partición es codificante, ésta es la casilla más útil de todo el bloque. Con <span class="ui">por codón</span> activada, el programa traduce, alinea como proteína y devuelve los huecos a los nucleótidos <b>de tres en tres</b>.</p>
+
+  <p>La consecuencia es que <b>no puede aparecer un hueco de una o dos bases</b>, y un hueco así, en una región codificante, es casi siempre un artefacto del alineador: implicaría un corrimiento del marco de lectura que la selección habría eliminado. Alinear por codón no mejora un poco el resultado: elimina de raíz una clase entera de error, y por eso el ejemplo de rbcL pasa de 99.98 % a 100 %.</p>
+
+  <!-- ------------------------------------------------------------------ 2.6 -->
+  <h2 id="s2-6"><span class="num">2.6</span>El visor: mirar el alineamiento de verdad</h2>
+
+  <p>El visor dibuja el alineamiento sobre un lienzo y aguanta miles de columnas sin ponerse lento. Tres menús cambian lo que se ve:</p>
+
+  <ul class="lista">
+    <li><span class="ui">color</span>: <span class="ui">por residuo</span> (cada base o aminoácido con el suyo), <span class="ui">diferencias con el consenso</span> —que es la vista que delata una columna mal alineada, porque las diferencias se apelotonan— o <span class="ui">sin color</span>.</li>
+    <li><span class="ui">marcar variables e informativos</span>: señala qué columnas cambian y cuáles son informativas para parsimonia. Recuerda que las informativas son las que eligen topología; las demás no.</li>
+    <li><span class="ui">posiciones de codón</span>: marca primera, segunda y tercera. Sirve para ver de un vistazo si la tercera es un desorden, que es la firma de la saturación.</li>
+  </ul>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Diez minutos aquí valen más que cualquier otra cosa</div>
+    <p>Recorre el alineamiento de principio a fin con el color por diferencias con el consenso. Busca regiones donde una sola secuencia se desvía por completo —suele ser una secuencia mal orientada, o de otro gen—, bloques donde los huecos se escalonan sin ton ni son, y extremos con datos de un solo taxón. Son minutos que evitan semanas.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.7 -->
+  <h2 id="s2-7"><span class="num">2.7</span>Editar a mano</h2>
+
+  <p>El editor tiene <b>deshacer y rehacer ilimitados</b>, que es lo que permite atreverse a probar. Las operaciones son ocho:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 2.2.</b> Las operaciones del editor.</caption>
+    <thead><tr><th style="width:34%">Operación</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Hueco en esta secuencia</span></td><td>Inserta un hueco en la posición marcada, sólo en esa secuencia.</td></tr>
+      <tr><td><span class="ui">Hueco en todas</span></td><td>Inserta una columna de huecos en todas: desplaza el alineamiento sin romperlo.</td></tr>
+      <tr><td><span class="ui">Quitar este hueco</span></td><td>Cierra un hueco de una secuencia.</td></tr>
+      <tr><td><span class="ui">Borrar columna(s)</span></td><td>Elimina las columnas seleccionadas.</td></tr>
+      <tr><td><span class="ui">Quitar columnas vacías</span></td><td>Borra las que quedaron sin ningún residuo, que suelen aparecer tras editar.</td></tr>
+      <tr><td><span class="ui">Ordenar por nombre</span></td><td>Reordena las filas alfabéticamente, para encontrar un taxón.</td></tr>
+      <tr><td><span class="ui">Quitar taxón</span></td><td>Saca una secuencia entera de la partición.</td></tr>
+      <tr><td><span class="ui">↶ Deshacer</span> / <span class="ui">↷ Rehacer</span></td><td>Sin límite de pasos.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Editar a mano no es hacer trampa: es lo que hace cualquier sistemático con experiencia, porque un algoritmo no sabe que esa región es un microsatélite ni que ese taxón tiene una duplicación conocida. Lo que sí es obligatorio es <b>decirlo en los métodos</b>, y el informe del Bloque 12 registra que el alineamiento fue editado.</p>
+
+  <!-- ------------------------------------------------------------------ 2.8 -->
+  <h2 id="s2-8"><span class="num">2.8</span>Recorte de bloques ambiguos</h2>
+
+  <p>Hay regiones —espaciadores muy variables, extremos mal secuenciados— donde el alineamiento simplemente no es creíble. Quitarlas reduce el ruido; quitar de más borra justo lo que informa. El programa ofrece dos escuelas:</p>
+
+  <h3>Gblocks (Castresana 2000)</h3>
+  <p>Escoge por reglas de <b>vecindad</b>: una columna se conserva si ella y sus vecinas cumplen ciertos requisitos. Sus parámetros son <span class="ui">conservada</span> y <span class="ui">muy conservada</span> (cuántas secuencias deben coincidir), <span class="ui">máx. contiguas</span> (cuántas columnas no conservadas seguidas se toleran), <span class="ui">bloque mínimo</span> (el largo mínimo de un bloque que se conserva) y <span class="ui">huecos permitidos</span>, con tres niveles: <span class="ui">ninguno</span>, <span class="ui">hasta la mitad</span> y <span class="ui">todos</span>.</p>
+
+  <h3>Umbrales por columna, al estilo de trimAl</h3>
+  <p>Deciden columna por columna: <span class="ui">por proporción de huecos</span>, <span class="ui">por similitud de la columna</span>, o <span class="ui">huecos y similitud</span> a la vez, con los deslizadores <span class="ui">máx. huecos</span> y <span class="ui">mín. similitud</span>.</p>
+
+  <p>Sea cual sea el método, el programa <b>muestra primero lo que va a quitar</b>. La vista previa pinta las columnas condenadas sobre el alineamiento, y hasta que no pulses <span class="ui">Aplicar el recorte</span> no se toca nada; <span class="ui">Quitar la vista previa</span> cancela. La casilla <span class="ui">respetar codones</span> obliga a quitar codones completos, para no romper el marco.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Recortar siempre, por costumbre</div>
+    <p>Recortar no siempre mejora el árbol. Hay trabajos publicados donde quitar columnas <b>empeora</b> la inferencia, porque junto con el ruido se van sitios informativos. La comprobación honesta es hacer el análisis <b>con y sin recorte</b> y ver si el árbol cambia. Si perdiste más de la mitad de las columnas, el problema no era el ruido: era el alineamiento.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.9 -->
+  <h2 id="s2-9"><span class="num">2.9</span>Control de calidad: once cosas que se revisan</h2>
+
+  <p>La última sección del bloque busca «lo que arruina un análisis sin que se note en una hoja de cálculo». Éstas son las comprobaciones, con lo que significa cada aviso:</p>
+
+  <table class="tabla">
+    <caption><b>Tabla 2.3.</b> Las comprobaciones del control de calidad.</caption>
+    <thead><tr><th style="width:34%">Comprobación</th><th>Por qué importa</th></tr></thead>
+    <tbody>
+      <tr><td><b>Nombres repetidos</b></td><td>Dos taxones con el mismo nombre rompen cualquier análisis posterior, y el error aparece mucho más tarde.</td></tr>
+      <tr><td><b>Nombres con caracteres difíciles</b></td><td>Paréntesis, comas y acentos que otros programas no aceptan: importa si vas a exportar a NEXUS o a Newick.</td></tr>
+      <tr><td><b>Secuencias muy cortas</b></td><td>Las que miden menos de la mitad que la más larga quedarán colgando de casi nada y su posición será inestable.</td></tr>
+      <tr><td><b>Secuencias idénticas</b></td><td>No es un error, pero sus ramas quedan en cero y algunos análisis se comportan mal. Conviene saberlo antes.</td></tr>
+      <tr><td><b>Caracteres inesperados</b></td><td>Letras que no corresponden al tipo de dato declarado: casi siempre, una proteína marcada como ADN o al revés.</td></tr>
+      <tr><td><b>Taxones con muchos huecos</b></td><td>Más de la mitad de huecos o datos faltantes en un taxón.</td></tr>
+      <tr><td><b>Columnas vacías</b></td><td>Sin ningún residuo; suelen quedar tras editar y conviene quitarlas.</td></tr>
+      <tr><td><b>Cuántas columnas son constantes</b></td><td>La proporción de columnas que no cambian, y cuántas son variables. Es la materia prima real del análisis.</td></tr>
+      <tr><td><b>Codones de paro internos</b></td><td>En una región codificante indican un marco de lectura equivocado o un pseudogén. El programa prueba los tres marcos y dice cuál es el bueno.</td></tr>
+      <tr><td><b>Longitud múltiplo de tres</b></td><td>Si no lo es, el último codón queda incompleto.</td></tr>
+      <tr><td><b>G+C desigual entre secuencias</b></td><td>El aviso más sutil y el más importante: una composición desigual <b>rompe el supuesto</b> de casi todos los modelos, y hace que dos taxones no emparentados se atraigan en el árbol. El Bloque 3 lo somete a una prueba formal.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Los dos avisos que nunca hay que ignorar</div>
+    <p>Los <b>codones de paro internos</b> y la <b>composición desigual de G+C</b>. El primero significa casi siempre que algo está mal en los datos —marco equivocado, secuencia invertida, pseudogén— y es fácil de arreglar. El segundo no se arregla cambiando de modelo de sustitución: se aborda quitando la tercera posición del codón, pasando a aminoácidos o recodificando, y el capítulo 3 explica por qué.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.10 -->
+  <h2 id="s2-10"><span class="num">2.10</span>Exportar, y qué se lleva al Bloque 3</h2>
+
+  <p>El bloque escribe FASTA, PHYLIP, NEXUS con sus <i>charsets</i>, esquemas de partición del estilo de RAxML y CSV. Sirve tanto para guardar el trabajo como para llevarlo a otro programa.</p>
+
+  <p>Al Bloque 3 pasa el conjunto de particiones alineadas, cada una con su <b>genoma</b>, su <b>tipo de dato</b>, y —si es codificante— su marco de lectura. Si vuelves a este bloque y cambias el alineamiento, los bloques que dependían de él te lo dirán en lugar de seguir mostrando un resultado viejo.</p>
+
+  <!-- ------------------------------------------------------------------ 2.11 -->
+  <h2 id="s2-11"><span class="num">2.11</span>Errores frecuentes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Alinear y pasar al siguiente bloque sin mirar</div>
+    <p>Es el error más caro de todo el programa, y el más común. El alineamiento es la única hipótesis que ningún bloque posterior puede poner a prueba. Diez minutos en el visor valen más que cualquier refinamiento de modelo.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>No alinear por codón una región codificante</div>
+    <p>Cuesta una casilla y elimina una clase entera de error. Si tu partición codifica y la alineaste por nucleótido, vuelve y hazlo otra vez.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Dejar el genoma en el valor por omisión</div>
+    <p>Los menús de genoma empiezan con una suposición basada en el nombre del marcador. Si tu partición se llama «gen1», esa suposición será mala. Corrígela: el Bloque 11 depende de ella para distinguir un conflicto biológico real de un error.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concatenar antes de haber mirado cada gen por separado</div>
+    <p>La concatenación promedia. Si dos genes tienen historias distintas —que es justo lo que este programa sabe detectar en el Bloque 11—, concatenar primero esconde el hallazgo. Alinea y revisa cada partición por su cuenta, y concatena después.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confundir «muchas posiciones» con «muchos datos»</div>
+    <p>Mil posiciones de las cuales treinta son informativas para parsimonia resuelven poco. El control de calidad dice cuántas columnas son constantes y cuántas variables; ésa es la cifra que hay que mirar, y la que conviene reportar en el artículo.</p>
+  </div>
+
+</section>
+
+</body>
+</html>
