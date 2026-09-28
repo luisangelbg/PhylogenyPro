@@ -72,13 +72,13 @@
         <div>
           <div class="p-name">${esc(p.name)}
             ${p.aligned ? `<span class="badge ok" style="font-size:.66rem">${L2('alineado', 'aligned')}</span>`
-                        : `<span class="badge" style="font-size:.66rem;color:var(--warning)">${L2('sin alinear', 'unaligned')}</span>`}
+                        : `<span class="badge" style="font-size:.66rem;color:var(--warning-text)">${L2('sin alinear', 'unaligned')}</span>`}
             ${p.derived ? `<span class="badge" style="font-size:.66rem">${L2('derivada', 'derived')}</span>` : ''}</div>
           <div class="p-meta">${p.taxa.length} ${L2('taxones', 'taxa')} · ${nSites} ${p.type === 'morph' ? L2('caracteres', 'characters') : L2('posiciones', 'positions')}${p.source ? ' · ' + esc(p.source) : ''}</div>
         </div>
-        <select data-role="genome" data-i="${i}">${Object.keys(GENOMES).map(g =>
+        <select data-role="genome" data-i="${i}" aria-label="${esc(T('Genoma de ', 'Genome of ') + p.name)}">${Object.keys(GENOMES).map(g =>
           `<option value="${g}"${p.genome === g ? ' selected' : ''}${opt(GENOMES[g])}</option>`).join('')}</select>
-        <select data-role="type" data-i="${i}">${Object.keys(TYPES).map(t =>
+        <select data-role="type" data-i="${i}" aria-label="${esc(T('Tipo de datos de ', 'Data type of ') + p.name)}">${Object.keys(TYPES).map(t =>
           `<option value="${t}"${p.type === t ? ' selected' : ''}${opt(TYPES[t])}</option>`).join('')}</select>
         <button class="btn btn-secondary btn-sm" data-role="open" data-i="${i}">${L2('Ver', 'Open')}</button>
         <button class="btn btn-ghost btn-sm" data-role="drop" data-i="${i}" title="${T('Quitar', 'Remove')}">✕</button>`;

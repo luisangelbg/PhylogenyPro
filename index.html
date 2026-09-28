@@ -157,10 +157,10 @@
       <div id="fzBars"></div>
       <div class="pg-status" id="fzStatus"></div>
       <div class="slider-grid">
-        <div class="slider-row"><label><span data-l="es">Ramas largas</span><span data-l="en">Long branches</span> <i>p</i></label><input type="range" id="fzP" min="0.05" max="1.2" step="0.01" value="0.55"><span class="range-val" id="fzPVal">0.55</span></div>
-        <div class="slider-row"><label><span data-l="es">Ramas cortas</span><span data-l="en">Short branches</span> <i>q</i></label><input type="range" id="fzQ" min="0.01" max="0.3" step="0.005" value="0.05"><span class="range-val" id="fzQVal">0.050</span></div>
-        <div class="slider-row"><label><span data-l="es">Sitios</span><span data-l="en">Sites</span></label><input type="range" id="fzL" min="100" max="3000" step="100" value="500"><span class="range-val" id="fzLVal">500</span></div>
-        <div class="slider-row"><label><span data-l="es">Réplicas</span><span data-l="en">Replicates</span></label><input type="range" id="fzReps" min="20" max="300" step="20" value="100"><span class="range-val" id="fzRepsVal">100</span></div>
+        <div class="slider-row"><label for="fzP"><span data-l="es">Ramas largas</span><span data-l="en">Long branches</span> <i>p</i></label><input type="range" id="fzP" min="0.05" max="1.2" step="0.01" value="0.55"><span class="range-val" id="fzPVal">0.55</span></div>
+        <div class="slider-row"><label for="fzQ"><span data-l="es">Ramas cortas</span><span data-l="en">Short branches</span> <i>q</i></label><input type="range" id="fzQ" min="0.01" max="0.3" step="0.005" value="0.05"><span class="range-val" id="fzQVal">0.050</span></div>
+        <div class="slider-row"><label for="fzL"><span data-l="es">Sitios</span><span data-l="en">Sites</span></label><input type="range" id="fzL" min="100" max="3000" step="100" value="500"><span class="range-val" id="fzLVal">500</span></div>
+        <div class="slider-row"><label for="fzReps"><span data-l="es">Réplicas</span><span data-l="en">Replicates</span></label><input type="range" id="fzReps" min="20" max="300" step="20" value="100"><span class="range-val" id="fzRepsVal">100</span></div>
       </div>
       <div class="callout tip" style="margin-top:14px"><b><span data-l="es">Por qué importa en tus datos</span><span data-l="en">Why this matters in your own data</span></b>
         <span data-l="es">Un género con una especie de evolución acelerada, un grupo externo muy lejano o un marcador saturado
@@ -1612,7 +1612,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <button class="btn btn-primary btn-sm" id="p9Read"><span data-l="es">Leer la tabla</span><span data-l="en">Read the table</span></button>
       <span class="aln-info" id="p9DataInfo"></span>
     </div>
-    <textarea id="p9Text" rows="7" spellcheck="false" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="taxon,hoja_cm,habito&#10;Bursera_arborea,7.77,arbol&#10;…"></textarea>
+    <textarea id="p9Text" rows="7" spellcheck="false" data-es-title="Tabla de caracteres por taxón" data-en-title="Table of traits by taxon" title="Tabla de caracteres por taxón" aria-label="Tabla de caracteres por taxón" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="taxon,hoja_cm,habito&#10;Bursera_arborea,7.77,arbol&#10;…"></textarea>
     <div class="table-scroll" id="p9DataTable"></div>
     <div class="messages" id="p9DataMsg"></div>
   </div>
@@ -1773,7 +1773,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <button class="btn btn-primary btn-sm" id="p10Read"><span data-l="es">Leer las áreas</span><span data-l="en">Read the areas</span></button>
       <span class="aln-info" id="p10DataInfo"></span>
     </div>
-    <textarea id="p10Text" rows="8" spellcheck="false" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="18	5	(P B T C A)&#10;Bursera_arborea	10000&#10;…"></textarea>
+    <textarea id="p10Text" rows="8" spellcheck="false" data-es-title="Áreas de cada taxón" data-en-title="Areas of each taxon" title="Áreas de cada taxón" aria-label="Áreas de cada taxón" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="18	5	(P B T C A)&#10;Bursera_arborea	10000&#10;…"></textarea>
     <div class="results-summary" id="p10DataTiles"></div>
     <div class="table-scroll" id="p10DataTable"></div>
     <div class="messages" id="p10DataMsg"></div>
@@ -1917,7 +1917,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <button class="btn btn-primary btn-sm" id="p11Read"><span data-l="es">Leer los árboles pegados</span><span data-l="en">Read the pasted trees</span></button>
       <span class="aln-info" id="p11DataInfo"></span>
     </div>
-    <textarea id="p11Text" rows="5" spellcheck="false" style="width:100%;font-family:var(--mono);font-size:11px" placeholder="((A:0.1,B:0.1):0.2,(C:0.1,D:0.1):0.2);&#10;((A:0.1,C:0.1):0.2,(B:0.1,D:0.1):0.2);"></textarea>
+    <textarea id="p11Text" rows="5" spellcheck="false" data-es-title="Árboles en Newick, uno por línea" data-en-title="Trees in Newick, one per line" title="Árboles en Newick, uno por línea" aria-label="Árboles en Newick, uno por línea" style="width:100%;font-family:var(--mono);font-size:11px" placeholder="((A:0.1,B:0.1):0.2,(C:0.1,D:0.1):0.2);&#10;((A:0.1,C:0.1):0.2,(B:0.1,D:0.1):0.2);"></textarea>
     <div class="table-scroll" id="p11TreeTable"></div>
     <div class="messages" id="p11DataMsg"></div>
   </div>
@@ -2248,7 +2248,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <button class="btn btn-secondary btn-sm" id="p12Copy"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
       <span class="aln-info" id="p12FormatInfo"></span>
     </div>
-    <textarea id="p12FormatText" rows="8" spellcheck="false" readonly style="width:100%;font-family:var(--mono);font-size:11px"></textarea>
+    <textarea id="p12FormatText" rows="8" spellcheck="false" readonly data-es-title="Árbol en el formato elegido" data-en-title="Tree in the chosen format" title="Árbol en el formato elegido" aria-label="Árbol en el formato elegido" style="width:100%;font-family:var(--mono);font-size:11px"></textarea>
     <div class="messages" id="p12FormatMsg"></div>
   </div>
 

@@ -21,6 +21,7 @@
 (function () {
 
   const V = n => `var(--${n})`;
+  let markerSeq = 0;   /* each arrow marker gets its own id, so figures never repeat one */
   const f1 = v => (+v).toFixed(1);
   const R = seed => rng(seed || 7);
   function wrap(vb, inner, extra) { return `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" ${extra || ''}>${inner}</svg>`; }
@@ -353,11 +354,12 @@
       if (opts.letters) s += txt(a.x, a.y + 3, 'ABCD'[i], 'art-txt', 9, 'middle', `fill="${V('card-bg')}" font-weight="700"`);
     });
     if (opts.arrows !== false) {
+      const mid = 'phyArrow' + (++markerSeq);
       const arrow = (a, b, col) => {
         const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - 16;
-        return path(`M${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`, col, 1.6, 'stroke-dasharray="4 3" marker-end="url(#phyArrow)"');
+        return path(`M${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`, col, 1.6, `stroke-dasharray="4 3" marker-end="url(#${mid})"`);
       };
-      s = `<defs><marker id="phyArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="${V('text-muted')}"/></marker></defs>` + s;
+      s = `<defs><marker id="${mid}" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="${V('text-muted')}"/></marker></defs>` + s;
       s += arrow(areas[0], areas[1], V('text-muted'));
       s += arrow(areas[1], areas[2], V('text-muted'));
     }
@@ -739,8 +741,9 @@
     mNNI: () => {
       let s = tree({ n: 6, seed: 50, W: 96, H: 110, raw: true, x1: 8 });
       s += `<g transform="translate(100,0)">${tree({ n: 6, seed: 57, W: 96, H: 110, raw: true, x1: 8 })}</g>`;
-      s += path('M92 60 L108 60', V('accent'), 2, 'marker-end="url(#phyArrow2)"');
-      s = `<defs><marker id="phyArrow2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="${V('accent')}"/></marker></defs>` + s;
+      const mid = 'phyArrow' + (++markerSeq);
+      s += path('M92 60 L108 60', V('accent'), 2, `marker-end="url(#${mid})"`);
+      s = `<defs><marker id="${mid}" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="${V('accent')}"/></marker></defs>` + s;
       return wrap('0 0 200 124', s);
     },
     mBootstrap: () => {
