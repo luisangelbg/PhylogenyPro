@@ -653,10 +653,11 @@
         content: csv([['model', 'lnL', 'k', 'AIC', 'dAIC', 'weight', 'sigma2']].concat(
           state.traits.continuous.models.map(m => [m.model, m.lnL, m.k, m.AIC, m.dAIC, m.w, m.sigma2]))) });
     }
-    if (state.divers && state.divers.models) {
+    if (state.diversification && state.diversification.models) {
+      /* the model names carry commas ("density dependent, logistic"), so they go quoted */
       out.push({ name: 'diversificacion_modelos.csv', what: T('modelos de diversificación', 'diversification models'),
-        content: csv([['model', 'lnL', 'k', 'AIC', 'weight']].concat(
-          state.divers.models.map(m => [m.name || m.model, m.lnL, m.k, m.AIC, m.w]))) });
+        content: csv([['model', 'lnL', 'k', 'AIC', 'dAIC', 'weight']].concat(
+          state.diversification.models.map(m => ['"' + m.name + '"', m.loglik, m.k, m.AIC, m.dAIC, m.w]))) });
     }
     return out;
   }
@@ -822,5 +823,5 @@
   document.addEventListener('DOMContentLoaded', init);
 
   Object.assign(B12, { refresh, drawStudio, refreshFormats, refreshFigures,
-    buildReport, buildZip, formatText, trees, shapedTree, reportTables });
+    buildReport, buildZip, formatText, trees, shapedTree, reportTables, tablesForZip });
 })();

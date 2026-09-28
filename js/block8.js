@@ -340,6 +340,9 @@
 
   function commit() {
     if (!B8.tree) return;
+    /* the model with the lowest AIC, by its English name; the report translates it */
+    const best = B8.models && B8.models.rows.length
+      ? B8.models.rows.reduce((a, r) => (r.AIC < a.AIC ? r : a)).name : null;
     state.diversification = {
       source: B8.source,
       nTips: Tree.tips(B8.tree).length,
@@ -347,6 +350,7 @@
       gamma: B8.gamma ? B8.gamma.gamma : null,
       mccr: B8.mccr ? { gamma: B8.mccr.gamma, p: B8.mccr.p, critical: B8.mccr.critical, total: B8.mccr.nTotal, reps: B8.mccr.reps } : null,
       models: B8.models ? B8.models.rows.map(r => ({ name: r.name, loglik: r.loglik, k: r.k, AIC: r.AIC, dAIC: r.dAIC, w: r.w, fit: r.fit })) : null,
+      best,
       magallonSanderson: B8.ms || null,
       dr: B8.dr ? B8.dr.map(d => ({ tip: d.tip, dr: d.dr })) : null,
     };

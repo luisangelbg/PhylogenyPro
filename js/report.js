@@ -94,6 +94,15 @@ const Report = {};
     han2009: 'Han, M. V. & Zmasek, C. M. (2009). phyloXML: XML for evolutionary biology and comparative genomics. BMC Bioinformatics 10: 356.',
   };
 
+  /* Block 8 keeps the diversification models by their English names */
+  const DIVERS_ES = {
+    'pure birth (Yule)': 'nacimiento puro (Yule)',
+    'birth–death': 'nacimiento–muerte',
+    'density dependent, logistic': 'dependiente de la densidad, logística',
+    'density dependent, exponential': 'dependiente de la densidad, exponencial',
+    'two rates, shift estimated': 'dos tasas, con el cambio estimado',
+  };
+
   /* ================================================================
      the methods, section by section
      ================================================================ */
@@ -272,21 +281,21 @@ const Report = {};
     }
 
     /* ---- diversification ---- */
-    if (st.divers) {
-      const v = st.divers;
+    if (st.diversification) {
+      const v = st.diversification;
       const es = [], en = [];
       if (v.gamma != null) {
         es.push(`El estadístico γ de los tiempos de ramificación fue ${num(v.gamma)}${v.mccr ? `, y la prueba de Monte Carlo de tasa constante, que simula árboles del tamaño verdadero del grupo y los poda al muestreo disponible, dio p = ${num(v.mccr.p)}` : ''}.`);
         en.push(`The γ statistic of the branching times was ${num(v.gamma)}${v.mccr ? `, and the Monte Carlo constant-rates test, which simulates trees of the clade's true size and prunes them to the available sampling, gave p = ${num(v.mccr.p)}` : ''}.`);
       }
       if (v.models && v.models.length) {
-        es.push(`Se compararon por AIC ${v.models.length} modelos de diversificación (nacimiento puro, nacimiento–muerte, dependencia de la densidad logística y exponencial, y dos tasas con el momento del cambio estimado); el mejor fue ${v.best}.`);
+        es.push(`Se compararon por AIC ${v.models.length} modelos de diversificación (nacimiento puro, nacimiento–muerte, dependencia de la densidad logística y exponencial, y dos tasas con el momento del cambio estimado); el mejor fue ${DIVERS_ES[v.best] || v.best}.`);
         en.push(`${v.models.length} diversification models (pure birth, birth–death, logistic and exponential density dependence, and two rates with the shift point estimated) were compared by AIC; the best was ${v.best}.`);
       }
       const refs = [];
       if (v.gamma != null) refs.push('pybus2000');
       if (v.models) refs.push('nee1994', 'rabosky2008');
-      if (v.magallon) refs.push('magallon2001');
+      if (v.magallonSanderson) refs.push('magallon2001');
       if (v.dr) refs.push('jetz2012');
       out.push({ id: 'divers', titleEs: 'Diversificación', titleEn: 'Diversification', es, en, refs });
     }
@@ -526,7 +535,8 @@ footer { margin-top: 3em; border-top: 1px solid #ccc; padding-top: .8em; }
       st.dated.method === 'relaxed' ? (en ? 'relaxed clock' : 'reloj relajado')
         : st.dated.method === 'pl' ? (en ? 'penalised likelihood' : 'verosimilitud penalizada')
           : (en ? 'least squares' : 'mínimos cuadrados'));
-    if (st.divers && st.divers.best) add(en ? 'Diversification model' : 'Modelo de diversificación', st.divers.best);
+    if (st.diversification && st.diversification.best) add(en ? 'Diversification model' : 'Modelo de diversificación',
+      en ? st.diversification.best : (DIVERS_ES[st.diversification.best] || st.diversification.best));
     if (st.traits && st.traits.continuous) add(en ? 'Trait model' : 'Modelo de carácter', st.traits.continuous.best);
     if (st.biogeo && st.biogeo.best) add(en ? 'Biogeographic model' : 'Modelo biogeográfico', st.biogeo.best);
     if (st.compare && st.compare.trees) add(en ? 'Trees compared' : 'Árboles comparados', st.compare.trees.length);

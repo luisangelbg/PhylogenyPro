@@ -270,4 +270,45 @@
     return Math.abs(r.x[0] - 3) < 1e-4 && Math.abs(r.x[1] + 2) < 1e-4;
   })());
 
+  /* what Block 8 keeps has to be what the report and the package read: the
+     slot was once written under one name and read under another, and the
+     diversification never reached either */
+  sec('73b · Del Bloque 8 al informe y al paquete');
+  (function () {
+    const L8 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    const t8 = Tree.parseNewick('((((A:1,B:1):1.5,C:2.5):2,(D:3,E:3):1.5):1.5,((F:2,G:2):3,H:5):1);', L8);
+    const keep = { tree: B8.tree, ltt: B8.ltt, gamma: B8.gamma, models: B8.models, mccr: B8.mccr, ms: B8.ms, dr: B8.dr };
+    const had = state.diversification;
+    try {
+      Object.assign(B8, { tree: t8, ltt: Diversify.ltt(t8), gamma: Diversify.gammaStat(t8),
+        models: Diversify.compare(t8), mccr: null, ms: null, dr: null });
+      B8.commit();
+      const v = state.diversification;
+      t('el Bloque 8 guarda su resultado en el lugar que el informe lee', !!v && Array.isArray(v.models));
+      const minAIC = Math.min.apply(null, B8.models.rows.map(r => r.AIC));
+      t('y señala como mejor el modelo de menor AIC',
+        !!v && v.best === B8.models.rows.find(r => r.AIC === minAIC).name, v && v.best);
+      const sec8 = Report.methods(state, {}).find(s => s.id === 'divers');
+      t('el informe trae la sección de diversificación', !!sec8);
+      t('que nombra el mejor modelo en los dos idiomas', !!sec8
+        && sec8.en.join(' ').indexOf(v.best) >= 0 && sec8.es.join(' ').indexOf('undefined') < 0,
+        sec8 && sec8.es.join(' '));
+      t('y cita a Nee et al. por los modelos', !!sec8 && sec8.refs.indexOf('nee1994') >= 0);
+      t('el resumen del informe trae el modelo de diversificación',
+        Report.summary(state, 'es').some(r => /diversificación/i.test(r.label)));
+      const tab = B12.tablesForZip().find(x => x.name === 'diversificacion_modelos.csv');
+      t('el paquete .zip trae la tabla de modelos', !!tab);
+      t('con una fila por modelo y sin celdas vacías', !!tab && (() => {
+        const lines = tab.content.split('\n');
+        return lines.length === B8.models.rows.length + 1
+          && lines.every(l => l.indexOf('undefined') < 0 && l.indexOf(',,') < 0);
+      })(), tab && tab.content.split('\n')[1]);
+      t('y los nombres con coma no parten la fila', !!tab
+        && tab.content.split('\n').slice(1).every(l => l.replace(/"[^"]*"/g, '').split(',').length === 6));
+    } finally {
+      Object.assign(B8, keep);
+      state.diversification = had;
+    }
+  })();
+
 })();

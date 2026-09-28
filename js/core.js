@@ -23,7 +23,7 @@ const state = {
   ml: null,          // Block 5: maximum likelihood tree, supports, topology tests
   bayes: null,       // Block 6: posterior sample, consensus, convergence
   dated: null,       // Block 7: rooting, clock tests, divergence times
-  divers: null,      // Block 8: LTT, birth-death, rate shifts
+  diversification: null, // Block 8: LTT, birth-death, rate shifts
   traits: null,      // Block 9: ancestral states, BM/OU, phylogenetic signal
   biogeo: null,      // Block 10: DEC, DEC+J, DIVALIKE, BAYAREALIKE
   compare: null,     // Block 11: tree distances, concordance, species tree, networks
