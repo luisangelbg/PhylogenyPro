@@ -129,5 +129,5 @@ márgenes **Ninguno**, **Gráficos de fondo** activado), que es como se hicieron
 manuales de las demás apps. El manual se imprime **de una sola vez**: unir PDF sueltos
 pierde los enlaces del índice y reinicia la numeración.
 
-El resultado se guarda como `manual/PhylogenyPro User's Manual.pdf`, igual que en las
+El resultado se guarda como `manual/PhylogenyPro_Manual_de_usuario_ES.pdf`, igual que en las
 demás apps. Al 25 de septiembre de 2026: **112 páginas** tamaño carta, 3.8 MB.

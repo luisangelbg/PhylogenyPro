@@ -4,8 +4,8 @@
 # Georgia y Segoe UI, que son los tipos de reserva.
 param(
   [string]$Url  = 'http://localhost:9801/manual/es/manual-completo.html',
-  [string]$Out  = 'C:\Users\luisa\AppData\Local\Temp\claude\C--Users-luisa-Documents\160abd69-02c8-4b15-92b7-c2720dda96cc\scratchpad\PhylogenyPro-manual.pdf',
-  [string]$Prof = 'C:\Users\luisa\AppData\Local\Temp\claude\C--Users-luisa-Documents\160abd69-02c8-4b15-92b7-c2720dda96cc\scratchpad\chrome-cdp',
+  [string]$Out  = (Join-Path (Split-Path $PSScriptRoot -Parent) 'PhylogenyPro_Manual_de_usuario_ES.pdf'),
+  [string]$Prof = (Join-Path $env:TEMP 'phylogenypro-pdf'),
   [int]$Port    = 9333
 )
 $ErrorActionPreference = 'Stop'
