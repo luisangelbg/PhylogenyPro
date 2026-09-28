@@ -810,3 +810,21 @@ decision away from the user.
 - `tests/calibhelp.js`: **44 tests**, total **1116**, all passing. The quantiles are checked against the closed form
   of each distribution, because a user who believes the median of that lognormal is 21.6 instead of 24.95 will
   publish a date that is wrong by millions of years.
+
+## [1.4.0] — 2026-09-27 · Published
+
+Deposited and citable.
+
+- **GitHub**: [luisangelbg/PhylogenyPro](https://github.com/luisangelbg/PhylogenyPro), with the app running from
+  GitHub Pages and the user manual included.
+- **Zenodo**: concept DOI **10.5281/zenodo.23005815**, which always resolves to the most recent version; version
+  1.4.0 is 10.5281/zenodo.23005816. The concept DOI is written into `CITATION.cff`, `codemeta.json`, the README,
+  the home page of the app, the report the program generates and appendix G of the manual.
+- **The user manual in Spanish**, 112 pages, in HTML and PDF.
+- What is **not** published: `validation/`, `research/` and `data/matrices_fuente/`. They are working material
+  rather than part of the work (PROCEDENCIA.md, section 9), and `validation/block10/` holds the *Psychotria* data
+  set that BioGeoBEARS distributes, which is not ours to redistribute.
+- Corrected on the way out: the methods section the program writes claimed that "the comparison scripts are
+  distributed with the code", which stopped being true the moment `validation/` was left out of the repository.
+  It now states what it can stand behind — that every block is validated against independent implementations in
+  R — and cites the program itself, with its DOI, in the bibliography it assembles.

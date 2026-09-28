@@ -39,6 +39,7 @@ const Report = {};
      never printed, which is why every entry carries its key rather than a
      position in a list. */
   const REFS = {
+    phylogenypro: 'Barrera-Guzmán, L. Á. (2026). PhylogenyPro: a browser-based platform for molecular phylogenetics, from the alignment to the dated tree (version 1.4.0). Zenodo. https://doi.org/10.5281/zenodo.23005815',
     felsenstein1981: 'Felsenstein, J. (1981). Evolutionary trees from DNA sequences: a maximum likelihood approach. Journal of Molecular Evolution 17: 368–376.',
     felsenstein1985: 'Felsenstein, J. (1985). Phylogenies and the comparative method. The American Naturalist 125: 1–15.',
     felsenstein1985b: 'Felsenstein, J. (1985). Confidence limits on phylogenies: an approach using the bootstrap. Evolution 39: 783–791.',
@@ -383,9 +384,9 @@ const Report = {};
 
     /* ---- the program itself ---- */
     {
-      const es = ['Todos los análisis se realizaron en PhylogenyPro, que ejecuta cada método en el navegador sin enviar los datos a ningún servidor. Cada bloque del programa está validado contra implementaciones independientes en R (ape, phangorn, geiger, phytools, nlme y BioGeoBEARS), y los guiones de comparación se distribuyen con el código.'];
-      const en = ['All analyses were carried out in PhylogenyPro, which runs every method in the browser without sending the data to any server. Every block of the program is validated against independent implementations in R (ape, phangorn, geiger, phytools, nlme and BioGeoBEARS), and the comparison scripts are distributed with the code.'];
-      out.push({ id: 'software', titleEs: 'Programa', titleEn: 'Software', es, en, refs: [] });
+      const es = ['Todos los análisis se realizaron en PhylogenyPro (Barrera-Guzmán 2026), que ejecuta cada método en el navegador sin enviar los datos a ningún servidor. Cada bloque del programa está validado contra implementaciones independientes en R (ape, phangorn, geiger, phytools, nlme y BioGeoBEARS).'];
+      const en = ['All analyses were carried out in PhylogenyPro (Barrera-Guzmán 2026), which runs every method in the browser without sending the data to any server. Every block of the program is validated against independent implementations in R (ape, phangorn, geiger, phytools, nlme and BioGeoBEARS).'];
+      out.push({ id: 'software', titleEs: 'Programa', titleEn: 'Software', es, en, refs: ['phylogenypro'] });
     }
     return out;
   }

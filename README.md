@@ -1,6 +1,11 @@
 # PhylogenyPro
 
-**Molecular phylogenetics in the browser, from the alignment to the dated tree.** All twelve blocks are complete.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23005815.svg)](https://doi.org/10.5281/zenodo.23005815)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+
+**Molecular phylogenetics in the browser, from the alignment to the dated tree.** All twelve blocks are complete (version 1.4.0).
+
+**Online version:** https://luisangelbg.github.io/PhylogenyPro/
 
 A web platform (HTML + JavaScript, no installation; it also runs offline from a local copy) that takes a set of
 sequences — chloroplast, mitochondrial, nuclear ribosomal or low-copy nuclear DNA, amino acids, codons or
@@ -411,7 +416,9 @@ each one is named at the point where it is used, listed on the home page, and wr
 program generates.
 
 > Barrera-Guzmán, L.Á. (2026). *PhylogenyPro: a browser-based platform for molecular phylogenetics, from the
-> alignment to the dated tree* (Version 1.4.0) [Computer software].
+> alignment to the dated tree* (Version 1.4.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23005815
 
-The machine-readable metadata is in [`CITATION.cff`](CITATION.cff) and [`codemeta.json`](codemeta.json). Once the
-first release is deposited in Zenodo, the concept DOI goes into both of them and into the line above.
+That is the **concept DOI**: it always resolves to the most recent version. To cite exactly the version you used,
+take its own DOI from the Zenodo record — version 1.4.0 is `10.5281/zenodo.23005816`.
+
+The machine-readable metadata is in [`CITATION.cff`](CITATION.cff) and [`codemeta.json`](codemeta.json).

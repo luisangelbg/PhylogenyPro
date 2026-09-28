@@ -33,13 +33,15 @@ authors:
     email: lbarrerag@chapingo.mx
     orcid: "https://orcid.org/0000-0001-8057-2583"
 version: "1.4.0"
-date-released: "2026-09-25"
-# Cuando se deposite en Zenodo, agregar aqui el DOI de concepto:
-#   doi: 10.5281/zenodo.XXXXXXX
-#   identifiers:
-#     - type: doi
-#       value: 10.5281/zenodo.XXXXXXX
-#       description: "Concept DOI — always resolves to the latest version. Cite this one."
+date-released: "2026-09-27"
+doi: 10.5281/zenodo.23005815
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23005815
+    description: "Concept DOI — always resolves to the latest version. Cite this one."
+  - type: doi
+    value: 10.5281/zenodo.23005816
+    description: "DOI of version 1.4.0."
 repository-code: "https://github.com/luisangelbg/PhylogenyPro"
 url: "https://luisangelbg.github.io/PhylogenyPro/"
 license: GPL-3.0-or-later
