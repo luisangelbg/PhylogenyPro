@@ -23,9 +23,9 @@
    3. Text built by JavaScript uses T('español', 'English'), and every module
       that draws something listens to the 'langchange' event to redraw it.
 
-   The initial language is the one saved by the user; otherwise English when the
-   browser is set to English and Spanish in every other case. The theme follows
-   the operating system until the user picks one. */
+   The initial language is the one saved by the user; otherwise Spanish, as in
+   every app of the LABG Suite, whatever the language of the browser. The theme
+   follows the operating system until the user picks one. */
 
 (function () {
   const KEY_LANG = 'phylogenypro:lang', KEY_THEME = 'phylogenypro:theme';
@@ -35,8 +35,7 @@
   function initialLang() {
     const saved = read(KEY_LANG);
     if (saved === 'es' || saved === 'en') return saved;
-    const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'es';
-    return /^en\b/i.test(nav) ? 'en' : 'es';
+    return 'es';
   }
 
   const I18N = {
@@ -65,7 +64,10 @@
       });
       const t = document.querySelector('title');
       if (t && t.dataset.es) document.title = t.getAttribute('data-' + L);
-      document.querySelectorAll('.lang-seg button').forEach(b => b.classList.toggle('on', b.dataset.lang === L));
+      document.querySelectorAll('.lang-seg button').forEach(b => {
+        b.classList.toggle('on', b.dataset.lang === L);
+        b.setAttribute('aria-pressed', b.dataset.lang === L ? 'true' : 'false');
+      });
     },
   };
 
