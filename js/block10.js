@@ -264,7 +264,9 @@
         : [['DEC', false], ['DEC', true], ['DIVALIKE', false], ['DIVALIKE', true],
            ['BAYAREALIKE', false], ['BAYAREALIKE', true]];
     const opts = { multipliers: allOnes(B10.multipliers) ? null : B10.multipliers };
-    el('p10ModelProgress').innerHTML = L2(`ajustando ${list.length} modelos…`, `fitting ${list.length} models…`);
+    const bar = window.LABG ? LABG.progressBar(el('p10ModelProgress'), { label: T('Modelos biogeográficos', 'Biogeographic models') }) : null;
+    if (bar) bar.update(0, T(`ajustando ${list.length} modelos…`, `fitting ${list.length} models…`));
+    else el('p10ModelProgress').innerHTML = L2(`ajustando ${list.length} modelos…`, `fitting ${list.length} models…`);
     el('p10RunModels').disabled = true;
     const t0 = performance.now();
     /* one model per turn of the event loop, so the page keeps breathing and the
@@ -279,7 +281,8 @@
         Object.assign({}, opts, { model: m, withJ: wj, prep }));
       rows.push(f);
       i++;
-      el('p10ModelProgress').innerHTML = L2(`${i} de ${list.length}…`, `${i} of ${list.length}…`);
+      if (bar) bar.update(i / list.length, T(`${i} de ${list.length}…`, `${i} of ${list.length}…`));
+      else el('p10ModelProgress').innerHTML = L2(`${i} de ${list.length}…`, `${i} of ${list.length}…`);
       setTimeout(step, 10);
     };
     const finish = () => {
@@ -296,7 +299,10 @@
       });
       rows.sort((a, b) => a.AICc - b.AICc);
       B10.fits = { rows, best: rows[0], prep, opts };
-      el('p10ModelProgress').innerHTML = L2(
+      if (bar) bar.done(T(
+        `${list.length} modelos en ${((performance.now() - t0) / 1000).toFixed(1)} s`,
+        `${list.length} models in ${((performance.now() - t0) / 1000).toFixed(1)} s`));
+      else el('p10ModelProgress').innerHTML = L2(
         `${list.length} en ${((performance.now() - t0) / 1000).toFixed(1)} s`,
         `${list.length} in ${((performance.now() - t0) / 1000).toFixed(1)} s`);
       el('p10RunModels').disabled = false;
@@ -459,7 +465,11 @@
     }
     const reps = Math.max(50, Math.min(20000, +el('p10Reps').value || 500));
     el('p10BsmProgress').innerHTML = L2(`sorteando ${reps} historias…`, `drawing ${reps} histories…`);
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({
+      title: T('Mapeo estocástico biogeográfico', 'Biogeographical stochastic mapping'),
+      message: T(`sorteando ${reps} historias…`, `drawing ${reps} histories…`), delay: 300,
+    }) : null;
+    phyAfterPaint(() => {
       const t0 = performance.now();
       const bsm = Biogeo.stochasticMap(B10.anc.fit,
         Object.assign({}, B10.fits.opts, { reps, seed: 41, ancestral: B10.anc.anc, maxTries: 200 }));
@@ -508,7 +518,8 @@
       }
       v.innerHTML = `<b>${L2('Cómo se lee', 'How to read it')}</b> ${L2(es.join(' '), en.join(' '))}`;
       commit();
-    }, 20);
+      if (w) w.done();
+    }, w);
   }
 
   /* ================================================================

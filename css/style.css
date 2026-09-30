@@ -602,6 +602,9 @@ tr.row-flag td:first-child { box-shadow: inset 3px 0 0 var(--warning); }
 .aln-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 10px 0; }
 .aln-bar .sep { width: 1px; height: 22px; background: var(--border); margin: 0 2px; }
 .aln-info { font-family: var(--mono); font-size: 0.76rem; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+/* a progress note turned into a bar (LABG.progressBar): it keeps its place and ends in a check mark */
+.aln-info .lw-inline { display: inline-flex; width: min(340px, 70vw); vertical-align: middle; font-family: var(--font-sans, inherit); }
+.aln-info .lw-ilabel { font-family: var(--mono); font-size: 0.76rem; min-width: 0; text-align: left; }
 @media (max-width: 600px) { .aln-info { white-space: normal; overflow-wrap: anywhere; min-width: 0; margin-left: 0; } }
 .part-list { display: flex; flex-direction: column; gap: 8px; }
 .part-row { display: grid; grid-template-columns: 1fr auto auto auto auto; gap: 10px; align-items: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; }

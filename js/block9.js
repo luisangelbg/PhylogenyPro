@@ -710,7 +710,11 @@
     }
     const reps = Math.max(50, Math.min(20000, +el('p9SimReps').value || 500));
     el('p9SimProgress').innerHTML = L2(`sorteando ${reps} historias…`, `drawing ${reps} histories…`);
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({
+      title: T('Mapeo estocástico de caracteres', 'Stochastic character mapping'),
+      message: T(`sorteando ${reps} historias…`, `drawing ${reps} histories…`), delay: 300,
+    }) : null;
+    phyAfterPaint(() => {
       const t0 = performance.now();
       const sm = Traits.simmap(B9.disc.fit, { reps, seed: 23 });
       const secs = (performance.now() - t0) / 1000;
@@ -746,7 +750,8 @@
       }
       v.innerHTML = `<b>${L2('Cómo se lee', 'How to read it')}</b> ${L2(es.join(' '), en.join(' '))}`;
       commit();
-    }, 20);
+      if (w) w.done();
+    }, w);
   }
 
   /* ================================================================

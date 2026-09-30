@@ -148,7 +148,9 @@
 
     /* the base tree, optimised once under a middling model — the strategy of
        ModelFinder: every candidate then sees exactly the same tree */
-    prog.textContent = T('preparando el árbol de partida…', 'preparing the starting tree…');
+    const bar = window.LABG ? LABG.progressBar(prog, { label: T('Selección de modelo', 'Model selection') }) : null;
+    if (bar) bar.update(null, T('preparando el árbol de partida…', 'preparing the starting tree…'));
+    else prog.textContent = T('preparando el árbol de partida…', 'preparing the starting tree…');
     setTimeout(() => {
       let base;
       try {
@@ -160,6 +162,7 @@
         B3.tree = base.tree;
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
+        if (bar) bar.fail(T('no se pudo ajustar', 'could not fit'));
         btn.disabled = false; cancel.style.display = 'none';
         return;
       }
@@ -174,14 +177,17 @@
           const eta = done >= 2 && left > 2
             ? ` · ${T('faltan', 'about')} ${left < 60 ? Math.ceil(left) + ' s' : Math.ceil(left / 60) + ' min'}`
             : '';
-          prog.textContent = `${done} / ${total}${eta} · ${last && last.name ? last.name : ''}`;
+          const txt = `${done} / ${total}${eta} · ${last && last.name ? last.name : ''}`;
+          if (bar) bar.update(done / total, txt);
+          else prog.textContent = txt;
         },
       });
       B3.run = runner;
       runner.promise.then(res => {
         btn.disabled = false; cancel.style.display = 'none';
-        prog.textContent = '';
+        if (res.cancelled || !bar) prog.textContent = '';
         if (res.cancelled) { showMessage(msg, 'info', L2('Cancelado.', 'Cancelled.')); return; }
+        if (bar) bar.done(T(`${list.length} modelos ajustados`, `${list.length} models fitted`));
         B3.result = res;
         const secs = (performance.now() - t0) / 1000;
         showMessage(msg, 'success', L2(
@@ -285,7 +291,8 @@
     const crit = el('m3Crit').value;
     const btn = el('m3Merge');
     btn.disabled = true;
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Buscando el esquema de particiones', 'Searching for the partition scheme'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       try {
         /* every partition needs the same taxa, in the same order */
         const taxa = ps[0].taxa;
@@ -310,11 +317,12 @@
             (res.groups.length < ps.length ? ' Merging partitions that evolve alike spends fewer parameters and usually gives better branch estimates.' : ' No merge improved the criterion: each partition deserves its own model.')));
         B3.scheme = res;
         commit();
+        if (w) w.done();
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
       }
       btn.disabled = false;
-    }, 30);
+    }, w);
   }
 
   /* ================================================================

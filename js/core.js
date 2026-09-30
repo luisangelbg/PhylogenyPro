@@ -318,6 +318,18 @@ function paintCommonBar() {
    block bar in its own. */
 document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
   if (!window.LABG) return;
+  /* the waiting window: its scene and a few true things about this app */
+  if (LABG.work) {
+    LABG.work.scene = 'tree';
+    LABG.work.tips = [
+      ['El Estudio de árboles del Bloque 12 redibuja cualquier árbol de la sesión con grupos de color e imágenes de las puntas.',
+        'The tree studio in Block 12 redraws any tree of the session with coloured groups and pictures of the tips.'],
+      ['El Estudio de figuras del Bloque 12 cambia la paleta, la fuente y el fondo de las figuras de los doce bloques a la vez.',
+        'The figure studio in Block 12 changes the palette, the font and the background of the figures of all twelve blocks at once.'],
+      ['El signo de interrogación junto a un resultado abre su ficha: qué mide, cómo se lee y en qué escala cae.',
+        'The question mark next to a result opens its card: what it measures, how it is read and where it falls on the scale.'],
+    ];
+  }
   const hb = el('helpBtn');
   if (hb) hb.addEventListener('click', () => LABG.showShortcuts());
   LABG.shortcuts([]);
@@ -330,6 +342,21 @@ document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
   refreshStepMarks();
   refreshStepFooters();
 }, 0));
+
+/* Runs a long synchronous computation once the browser has painted, so the
+   waiting window (LABG.work) or the progress note is on screen before the page
+   is taken over. `w`, when given, is that window: an error nobody caught fails
+   it (instead of leaving it open over the page), and a path that returned
+   without closing it closes it. */
+function phyAfterPaint(f, w) {
+  return (window.LABG ? LABG.nextPaint() : new Promise(r => setTimeout(r, 30)))
+    .then(f)
+    .then(() => { if (w && !w.ended) w.close(); },
+      e => {
+        if (w && !w.ended) w.fail(e && e.message ? e.message : String(e));
+        console.error(e);
+      });
+}
 
 /* Persisted preferences (figure style, last settings) */
 const Prefs = {

@@ -153,7 +153,8 @@
     const btn = el('p7RunTest'), prog = el('p7TestProgress');
     btn.disabled = true;
     prog.textContent = T('ajustando los dos árboles…', 'fitting both trees…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Prueba del reloj molecular', 'Molecular clock test'), message: prog.textContent, delay: 300 }) : null;
+    phyAfterPaint(() => {
       try {
         const t0 = performance.now();
         const res = Clock.clockTest(B7.rooted, A, spec, { passes: 14 });
@@ -180,12 +181,14 @@
         showMessage(msg, 'success', L2(
           `Prueba terminada. El árbol con reloj es ultramétrico por construcción y se puede usar tal cual si se le da una escala.`,
           `Test finished. The clock tree is ultrametric by construction and can be used as it is once it is given a scale.`));
+        if (w) w.done();
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
+        if (w) w.close();
       }
       btn.disabled = false;
       prog.textContent = '';
-    }, 30);
+    }, w);
   }
 
   /* ================================================================
@@ -359,21 +362,31 @@
         : { type: p.type, model: 'HKY', rates: [1, 2, 1, 1, 2, 1], freqs: Array.from(A.freqs), alpha: 0.5, ncat: 4 };
       const gens = Math.max(2000, +el('p7Gens').value || 60000);
       const t0 = performance.now();
-      setTimeout(() => {
+      const w = window.LABG ? LABG.work({ title: T('Reloj molecular relajado', 'Relaxed molecular clock'), delay: 300 }) : null;
+      phyAfterPaint(() => {
         const res = Clock.relaxed(B7.rooted, A, spec, calibs, {
           generations: gens, burnin: Math.floor(gens * 0.3), sampleEvery: Math.max(1, Math.round(gens / 2000)),
           seed: 17, nSites,
-          onProgress: (gen, total) => { prog.textContent = `${fmtNum(gen, 0)}/${fmtNum(total, 0)} · ${((performance.now() - t0) / 1000).toFixed(0)} s`; },
+          onProgress: (gen, total) => {
+            prog.textContent = `${fmtNum(gen, 0)}/${fmtNum(total, 0)} · ${((performance.now() - t0) / 1000).toFixed(0)} s`;
+            if (w) w.update(gen / total, prog.textContent);
+          },
           cancelled: () => B7.cancelled,
         });
         B7.result = res; B7.method = 'relaxed'; B7.relative = relative;
         showRelaxed(res, relative, (performance.now() - t0) / 1000);
         btn.disabled = false; cancel.style.display = 'none'; prog.textContent = '';
-      }, 30);
+        if (w) w.done();
+      }, w);
       return;
     }
 
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({
+      title: method === 'pl' ? T('Fechando por verosimilitud penalizada', 'Dating by penalised likelihood')
+        : T('Fechando por mínimos cuadrados', 'Dating by least squares'),
+      delay: 300,
+    }) : null;
+    phyAfterPaint(() => {
       try {
         const t0 = performance.now();
         let res;
@@ -385,11 +398,13 @@
         }
         B7.result = res; B7.method = method; B7.relative = relative;
         showPoint(res, method, relative, (performance.now() - t0) / 1000);
+        if (w) w.done();
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
+        if (w) w.close();
       }
       btn.disabled = false; prog.textContent = '';
-    }, 30);
+    }, w);
   }
 
   function showPoint(res, method, relative, secs) {
@@ -509,7 +524,8 @@
     const btn = el('p7CV');
     btn.disabled = true;
     el('p7DateProgress').textContent = T('validación cruzada…', 'cross-validation…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Validación cruzada de λ', 'Cross-validation of λ'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       const cv = Clock.crossValidate(B7.rooted, A.nSites, calibs, { lambdas: [0.01, 0.1, 1, 10, 100, 1000] });
       B7.cv = cv;
       el('p7Lambda').value = cv.best.lambda;
@@ -518,7 +534,8 @@
         `Cross-validation chooses λ = ${cv.best.lambda}. Small values let each branch have its own rate; large ones push towards a strict clock.`));
       el('p7DateProgress').textContent = '';
       btn.disabled = false;
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
 
   /* ================================================================

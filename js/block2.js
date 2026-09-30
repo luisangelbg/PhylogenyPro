@@ -309,8 +309,9 @@
     btn.disabled = true;
     const old = btn.innerHTML;
     btn.innerHTML = T('Alineando…', 'Aligning…');
-    /* let the button repaint before the work starts */
-    setTimeout(() => {
+    /* the waiting window, painted before the alignment takes over the page */
+    const w = window.LABG ? LABG.work({ title: codon ? T('Alineando por codones', 'Aligning by codons') : T('Alineando las secuencias', 'Aligning the sequences'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       try {
         const res = codon ? Align.codonAlign(p.seqs, Object.assign({ frame: p.frame || 1 }, opts))
           : Align.progressive(p.seqs, p.type, opts);
@@ -324,12 +325,14 @@
           `Aligned in ${(res.ms / 1000).toFixed(1)} s: ${s.length} columns, mean identity ${fmtPct(s.identity)}, ${fmtPct(s.gapFraction)} gaps.` +
             (codon ? ` Reading frame ${res.frame}; no gap breaks a codon.` : '')));
         refreshView(); runQC(); commit();
+        if (w) w.done();
       } catch (e) {
         showMessage(msgs, 'error', esc(e.message));
+        if (w) w.close();
       }
       btn.disabled = false; btn.innerHTML = old;
       I18N.apply(btn);
-    }, 30);
+    }, w);
   }
 
   /* ================================================================

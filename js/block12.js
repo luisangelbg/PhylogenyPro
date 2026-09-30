@@ -550,9 +550,13 @@
   async function buildZip() {
     const msg = el('p12ZipMsg');
     msg.innerHTML = '';
-    el('p12ZipProgress').innerHTML = L2('armando…', 'building…');
+    const bar = window.LABG ? LABG.progressBar(el('p12ZipProgress'), { label: T('Paquete reproducible', 'Reproducible package') }) : null;
+    if (bar) bar.update(null, T('armando…', 'building…'));
+    else el('p12ZipProgress').innerHTML = L2('armando…', 'building…');
     el('p12BuildZip').disabled = true;
     try {
+      /* let the bar show before the files are gathered, which takes the page */
+      if (bar) await LABG.nextPaint();
       const stamp = new Date().toISOString().slice(0, 10);
       const names = taxa();
       const files = [];
@@ -627,11 +631,13 @@
         { key: 'what', label: T('qué es', 'what it is') },
         { key: 'size', label: T('bytes', 'bytes'), num: true },
       ], manifest.map(m => ({ name: m.name, what: m.what, size: m.size })), { limit: 60 });
-      el('p12ZipProgress').innerHTML = L2('listo', 'done');
+      if (bar) bar.done(T(`paquete listo · ${files.length} archivos`, `package ready · ${files.length} files`));
+      else el('p12ZipProgress').innerHTML = L2('listo', 'done');
     } catch (e) {
       showMessage(msg, 'error', L2(`No se pudo armar el paquete: ${e.message}`,
         `The package could not be built: ${e.message}`));
-      el('p12ZipProgress').innerHTML = '';
+      if (bar) bar.fail(T('no se pudo armar', 'could not be built'));
+      else el('p12ZipProgress').innerHTML = '';
     }
     el('p12BuildZip').disabled = false;
   }

@@ -184,7 +184,9 @@
       `${threads ? `across ${Math.min(nRuns, Pool.cores())} threads` : 'on the page (this browser does not allow threads)'}. ` +
       'The runs are independent: that is the only way to check afterwards whether they converged.'));
     const t0 = performance.now();
-    prog.textContent = T('arrancando…', 'starting…');
+    const bar = window.LABG ? LABG.progressBar(prog, { label: T('Inferencia bayesiana', 'Bayesian inference') }) : null;
+    if (bar) bar.update(null, T('arrancando…', 'starting…'));
+    else prog.textContent = T('arrancando…', 'starting…');
 
     Pool.run({
       task: 'mcmcRun', n: nRuns, seed: 97, minPerWorker: 1, workers: nRuns,
@@ -197,16 +199,21 @@
         },
       },
       onProgress: (done, total) => {
-        prog.textContent = `${done}/${total} ${T('corridas', 'runs')} · ${((performance.now() - t0) / 1000).toFixed(0)} s`;
+        const txt = `${done}/${total} ${T('corridas', 'runs')} · ${((performance.now() - t0) / 1000).toFixed(0)} s`;
+        if (bar) bar.update(done / total, txt);
+        else prog.textContent = txt;
       },
       cancelled: () => B6.cancelled,
     }).then(out => {
       B6.running = false;
-      btn.disabled = false; cancel.style.display = 'none'; prog.textContent = '';
+      btn.disabled = false; cancel.style.display = 'none';
+      if (!bar || B6.cancelled) prog.textContent = '';
       if (!out.length) {
+        if (bar && !B6.cancelled) bar.fail(T('ninguna corrida', 'no run'));
         showMessage(msg, 'warning', L2('No volvió ninguna corrida.', 'No run came back.'));
         return;
       }
+      if (bar && !B6.cancelled) bar.done(T(`${out.length} corridas listas`, `${out.length} runs done`));
       /* the split frequencies travel as pairs; put them back into Maps */
       B6.runs = out.map(r => Object.assign({}, r, { splitFreq: new Map(r.splitFreq) }));
       B6.spec = spec;
@@ -506,9 +513,17 @@
     const jobs = picked.map(m => ({ name: m, spec: specFromUI(m) }));
     let done = 0;
     const results = [];
+    const bar = window.LABG ? LABG.progressBar(prog, { label: T('Factores de Bayes', 'Bayes factors') }) : null;
     const runOne = i => {
-      if (i >= jobs.length) { finishBF(results, performance.now() - t0); btn.disabled = false; prog.textContent = ''; return; }
-      prog.textContent = `${done}/${jobs.length} · ${jobs[i].name}`;
+      if (i >= jobs.length) {
+        finishBF(results, performance.now() - t0); btn.disabled = false;
+        if (!bar) prog.textContent = '';
+        else if (results.length) bar.done(T(`${results.length} modelos listos`, `${results.length} models done`));
+        else bar.fail(T('sin resultados', 'no results'));
+        return;
+      }
+      if (bar) bar.update(done / jobs.length, `${done}/${jobs.length} · ${jobs[i].name}`);
+      else prog.textContent = `${done}/${jobs.length} · ${jobs[i].name}`;
       Pool.run({
         task: 'marginalLikelihood', n: 1, seed: 31 + i, minPerWorker: 1, workers: 1,
         payload: {

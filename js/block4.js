@@ -126,14 +126,18 @@
     btn.disabled = true;
     B4.cancelled = false;
     prog.textContent = T('buscando…', 'searching…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Buscando el árbol más parsimonioso', 'Searching for the most parsimonious tree'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       try {
         const opts = Object.assign(parsOptions(), {
           starts: +el('p4Starts').value,
           swap: el('p4Swap').value,
           maxTrees: +el('p4MaxTrees').value,
           seed: 17,
-          onProgress: (done, total, best) => { prog.textContent = `${done}/${total} · ${best} ${T('pasos', 'steps')}`; },
+          onProgress: (done, total, best) => {
+            prog.textContent = `${done}/${total} · ${best} ${T('pasos', 'steps')}`;
+            if (w) w.update(done / total, prog.textContent);
+          },
           cancelled: () => B4.cancelled,
         });
         const res = Pars.search(A, opts);
@@ -176,12 +180,14 @@
         refreshTreeList();
         updateRF();
         commit();
+        if (w) w.done();
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
+        if (w) w.close();
       }
       btn.disabled = false;
       prog.textContent = '';
-    }, 30);
+    }, w);
   }
 
   /* ================================================================
@@ -202,13 +208,18 @@
     const reps = +el('p4Reps').value, kind = el('p4Resample').value;
     /* the pace is measured on the first replicates and reported */
     const t0 = performance.now();
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({
+      title: kind === 'bootstrap' ? T('Bootstrap de parsimonia', 'Parsimony bootstrap') : T('Jackknife de parsimonia', 'Parsimony jackknife'),
+      delay: 300,
+    }) : null;
+    phyAfterPaint(() => {
       const res = Pars.resample(A, Object.assign(parsOptions(), {
         reps, kind, seed: 99, starts: 1, repSwap: 'NNI',
         onProgress: (done, total) => {
           const per = (performance.now() - t0) / done;
           const left = per * (total - done) / 1000;
           prog.textContent = `${done}/${total}` + (done >= 3 && left > 2 ? ` · ${T('faltan', 'about')} ${left < 60 ? Math.ceil(left) + ' s' : Math.ceil(left / 60) + ' min'}` : '');
+          if (w) w.update(done / total, prog.textContent);
         },
         cancelled: () => B4.cancelled,
       }));
@@ -227,7 +238,8 @@
           `${strong} of ${B4.trees.parsimony ? Tree.splits(B4.trees.parsimony, p.taxa.length).size : 0} clades of the tree reach 70% or more.`));
       btn.disabled = false; cancel.style.display = 'none'; prog.textContent = '';
       commit();
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
 
   function runBremer() {
@@ -238,7 +250,8 @@
     clearMessages(msg);
     const btn = el('p4RunBremer');
     btn.disabled = true;
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Calculando el soporte de Bremer', 'Computing Bremer support'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       const br = Pars.bremer(B4.trees.parsimony, A, Object.assign(parsOptions(), { limit: 8000 }));
       B4.bremer = br;
       renderSupportTable();
@@ -247,7 +260,8 @@
         `Bremer support computed by examining ${br.examined} neighbouring trees.`));
       btn.disabled = false;
       commit();
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
 
   function renderSupportTable() {

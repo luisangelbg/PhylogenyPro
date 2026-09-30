@@ -157,7 +157,8 @@
     const spec = specFromUI();
     const start = startingTree();
     const t0 = performance.now();
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Buscando el árbol de máxima verosimilitud', 'Searching for the maximum-likelihood tree'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       let res;
       try {
         res = ML.search(A, spec, {
@@ -169,12 +170,14 @@
           maxRounds: +el('p5Rounds').value || 25,
           onProgress: (round, best, evaluated) => {
             prog.textContent = `${T('ronda', 'round')} ${round} · lnL ${fmtLnL(best)} · ${fmtNum(evaluated, 0)} ${T('topologías', 'topologies')}`;
+            if (w) w.message(prog.textContent);
           },
           cancelled: () => B5.cancelled,
         });
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
         btn.disabled = false; cancel.style.display = 'none'; prog.textContent = ''; B5.running = false;
+        if (w) w.close();
         return;
       }
       B5.res = res;
@@ -187,7 +190,8 @@
       btn.disabled = false; cancel.style.display = 'none'; prog.textContent = '';
       B5.running = false;
       commit();
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
 
   function showResult(res, ms) {
@@ -257,7 +261,8 @@
     const btn = el('p5RunPart'), prog = el('p5PartProgress');
     btn.disabled = true;
     prog.textContent = T('ajustando…', 'fitting…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Ajustando un modelo por partición', 'Fitting one model per partition'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       try {
         /* the tree they share: the ML tree if there is one, otherwise BIONJ on
            the concatenation */
@@ -323,12 +328,14 @@
           `Partitioned model fitted over ${ps.length} partitions and ${fmtNum(res.nSites, 0)} sites.`));
         refreshTreeList();
         commit();
+        if (w) w.done();
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
+        if (w) w.close();
       }
       btn.disabled = false;
       prog.textContent = '';
-    }, 30);
+    }, w);
   }
 
   /* ================================================================
@@ -349,6 +356,8 @@
       'El modelo se mantiene fijo en los valores ajustados a los datos reales, como hacen RAxML e IQ-TREE.',
       `Running ${reps} replicates ${threads ? `across ${Pool.cores()} threads` : 'on the page (this browser does not allow threads)'}. ` +
       'The model is held at the values fitted to the real data, as RAxML and IQ-TREE do.'));
+    const bar = window.LABG ? LABG.progressBar(prog, { label: T('Bootstrap de máxima verosimilitud', 'Maximum-likelihood bootstrap') }) : null;
+    if (bar) bar.update(0, `0/${reps}`);
 
     Pool.run({
       task: 'mlBootstrap', n: reps, seed: 7,
@@ -365,8 +374,10 @@
         const roundsDone = Math.floor(done / w);
         const left = roundsDone >= 1
           ? (performance.now() - t0) / roundsDone * (Math.ceil(total / w) - roundsDone) / 1000 : null;
-        prog.textContent = `${done}/${total}` + (left != null && left > 2
+        const txt = `${done}/${total}` + (left != null && left > 2
           ? ` · ${T('faltan', 'about')} ${left < 60 ? Math.ceil(left) + ' s' : Math.ceil(left / 60) + ' min'}` : '');
+        if (bar) bar.update(done / total, txt);
+        else prog.textContent = txt;
       },
       cancelled: () => B5.cancelled,
     }).then(reps2 => {
@@ -384,7 +395,9 @@
       showMessage(msg, 'success', L2(
         `${reps2.length} réplicas en ${((performance.now() - t0) / 1000).toFixed(1)} s. ${strong} de los ${nCl} clados del árbol llegan al 70 %.`,
         `${reps2.length} replicates in ${((performance.now() - t0) / 1000).toFixed(1)} s. ${strong} of the tree's ${nCl} clades reach 70 %.`));
-      btn.disabled = false; cancel.style.display = 'none'; prog.textContent = '';
+      btn.disabled = false; cancel.style.display = 'none';
+      if (bar && !B5.cancelled) bar.done(T(`${reps2.length} réplicas listas`, `${reps2.length} replicates done`));
+      else prog.textContent = '';
       commit();
     });
   }
@@ -418,7 +431,8 @@
     clearMessages(msg);
     const btn = el('p5RunALRT');
     btn.disabled = true;
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Evaluando las ramas (SH-aLRT y aBayes)', 'Testing the branches (SH-aLRT and aBayes)'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       const t0 = performance.now();
       const bt = ML.branchTests(B5.trees.ml, prepare(), B5.res.model, {});
       const alrt = new Map(), abayes = new Map();
@@ -431,7 +445,8 @@
         `${bt.tests.length} internal branches evaluated in ${((performance.now() - t0) / 1000).toFixed(1)} s. SH-aLRT is read from 80 up; aBayes from 0.95 up.`));
       btn.disabled = false;
       commit();
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
 
   function needTree(id) {
@@ -492,7 +507,8 @@
     }
     const btn = el('p5RunConstraint'), prog = el('p5ConProgress');
     btn.disabled = true; prog.textContent = T('buscando…', 'searching…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Buscando el árbol restringido', 'Searching for the constrained tree'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       try {
         const t0 = performance.now();
         const con = ML.searchConstrained(prepare(), Like.cloneSpec(B5.res.spec), picked, {
@@ -510,12 +526,14 @@
         el('p5ConProgress').textContent = `${((performance.now() - t0) / 1000).toFixed(1)} s`;
         refreshTreeList();
         commit();
+        if (w) w.done();
       } catch (e) {
         showMessage(msg, 'error', esc(e.message));
         prog.textContent = '';
+        if (w) w.close();
       }
       btn.disabled = false;
-    }, 30);
+    }, w);
   }
 
   function runTests() {
@@ -540,7 +558,8 @@
     }
     const btn = el('p5RunTests');
     btn.disabled = true;
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Comparando topologías (KH, SH y AU)', 'Comparing topologies (KH, SH and AU)'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       /* every candidate gets its branch lengths optimised under the same model,
          because a topology test compares optima, not whatever lengths came with
          the tree */
@@ -573,7 +592,8 @@
           : 'None of the others is rejected at 5 %: the data cannot tell them apart, and presenting one as "the" tree would overstate the case.')));
       btn.disabled = false;
       commit();
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
 
   /* ================================================================

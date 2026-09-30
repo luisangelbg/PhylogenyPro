@@ -168,7 +168,8 @@
     if (src.length < 2) return;
     const n = nTaxa();
     el('p11DistProgress').innerHTML = L2('calculando…', 'computing…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Distancias entre árboles', 'Distances between trees'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       const t0 = performance.now();
       const mats = {};
       MEASURES.forEach(([id, , fn]) => {
@@ -186,7 +187,8 @@
         `${src.length} trees in ${((performance.now() - t0) / 1000).toFixed(1)} s`);
       showDist();
       commit();
-    }, 20);
+      if (w) w.done();
+    }, w);
   }
   function showDist() {
     if (!B11.dists) return;
@@ -327,7 +329,8 @@
       return;
     }
     el('p11ConcProgress').innerHTML = L2('calculando…', 'computing…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Factores de concordancia (gCF y sCF)', 'Concordance factors (gCF and sCF)'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       const gcf = Cmp.gcf(ref, others, n);
       const seqs = alignment();
       const q = Math.max(10, Math.min(2000, +el('p11Quartets').value || 100));
@@ -341,7 +344,8 @@
           'The sCF needs the Block 2 alignment with every tip; without it only the gCF is computed.'));
       }
       commit();
-    }, 20);
+      if (w) w.done();
+    }, w);
   }
   const cladeName = (clade, names) => clade.map(i => (names[i] || i)).slice(0, 2).join(', ') +
     (clade.length > 2 ? ` +${clade.length - 2}` : '');
@@ -432,7 +436,11 @@
     }
     const n = nTaxa();
     el('p11QProgress').innerHTML = L2('contando cuartetos…', 'counting quartets…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({
+      title: T('Árbol de especies a partir de los cuartetos', 'Species tree from the quartets'),
+      message: T('contando cuartetos…', 'counting quartets…'), delay: 300,
+    }) : null;
+    phyAfterPaint(() => {
       const t0 = performance.now();
       const qc = Cmp.quartetCounts(src.map(s => s.tree), n);
       const start = treeById(el('p11QStart').value) || src[0].tree;
@@ -443,7 +451,8 @@
         `${qc.counts.size} quartets in ${B11.quartet.secs.toFixed(1)} s`);
       showQuartet();
       commit();
-    }, 20);
+      if (w) w.done();
+    }, w);
   }
   function showQuartet() {
     const { qc, search, scores, n } = B11.quartet;
@@ -641,7 +650,11 @@
     const blocks = Math.max(5, Math.min(200, +el('p11Blocks').value || 20));
     const o = +el('p11O').value;
     el('p11AbbaProgress').innerHTML = L2('contando sitios…', 'counting sites…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({
+      title: scan ? T('Barrido ABBA-BABA', 'ABBA-BABA scan') : T('Prueba ABBA-BABA', 'ABBA-BABA test'),
+      message: T('contando sitios…', 'counting sites…'), delay: 300,
+    }) : null;
+    phyAfterPaint(() => {
       if (scan) {
         const rows = Cmp.dScan(seqs, names, o, { blocks, minSites: 20 });
         B11.scan = { rows, outgroup: o };
@@ -651,6 +664,7 @@
         if (new Set([p1, p2, p3, o]).size < 4) {
           el('p11AbbaProgress').innerHTML = '';
           showMessage(msg, 'error', L2('Los cuatro taxones tienen que ser distintos.', 'The four taxa have to be different.'));
+          if (w) w.close();
           return;
         }
         B11.abba = Object.assign({ p1, p2, p3, o }, Cmp.dStatistic(seqs, p1, p2, p3, o, { blocks }));
@@ -659,7 +673,8 @@
       el('p11AbbaProgress').innerHTML = '';
       showAbba();
       commit();
-    }, 20);
+      if (w) w.done();
+    }, w);
   }
   function showAbba() {
     const names = taxa();

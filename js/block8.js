@@ -116,11 +116,15 @@
       'Con el árbol completo la prueba solo confirma lo que dice γ. Su razón de ser es el caso incompleto: escribe arriba cuántas especies tiene el grupo de verdad.',
       'With a complete tree the test only confirms what γ says. Its reason to exist is the incomplete case: write above how many species the clade really has.'));
     const t0 = performance.now();
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Prueba de γ con muestreo incompleto', 'γ test under incomplete sampling'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       const lambda = Diversify.yule(B8.tree).lambda;
       const res = Diversify.mccr(B8.tree, {
         total, reps, lambda, seed: 5,
-        onProgress: (i, r) => { prog.textContent = `${i}/${r} · ${((performance.now() - t0) / 1000).toFixed(0)} s`; },
+        onProgress: (i, r) => {
+          prog.textContent = `${i}/${r} · ${((performance.now() - t0) / 1000).toFixed(0)} s`;
+          if (w) w.update(i / r, prog.textContent);
+        },
         cancelled: () => B8.cancelled,
       });
       B8.mccr = res;
@@ -153,7 +157,8 @@
       });
       btn.disabled = false; cancel.style.display = 'none'; prog.textContent = '';
       commit();
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
 
   /* ================================================================
@@ -166,7 +171,8 @@
     const btn = el('p8RunModels');
     btn.disabled = true;
     el('p8ModelsProgress').textContent = T('ajustando…', 'fitting…');
-    setTimeout(() => {
+    const w = window.LABG ? LABG.work({ title: T('Ajustando los modelos de diversificación', 'Fitting the diversification models'), delay: 300 }) : null;
+    phyAfterPaint(() => {
       const cmp = Diversify.compare(B8.tree);
       B8.models = cmp;
       buildTable('p8ModelTable', [
@@ -202,7 +208,8 @@
       btn.disabled = false;
       el('p8ModelsProgress').textContent = '';
       commit();
-    }, 30);
+      if (w) w.done();
+    }, w);
   }
   function modelName(n) {
     return T({
