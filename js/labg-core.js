@@ -519,6 +519,9 @@
       },
       done(text, opt) {
         if (ended) return Promise.resolve();
+        /* a wait that ended before its window showed (o.delay) closes quietly: a
+           celebration for something the person never saw waiting would only get in the way */
+        if (o.delay && performance.now() - t0 < o.delay + 150) { w.close(); return Promise.resolve(); }
         const oo = Object.assign({ title: LABG.t('¡Listo!', 'Done!'), hold: o.hold }, opt || {});
         ended = true; stopTimers();
         const ms = performance.now() - t0;
