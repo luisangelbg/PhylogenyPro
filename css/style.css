@@ -255,7 +255,7 @@ input[type=text], input[type=number], select, textarea {
   font-family: inherit; font-size: 0.88rem; padding: 7px 10px; border-radius: 8px;
   border: 1px solid var(--border-strong); background: var(--card-bg); color: var(--text);
 }
-.btn-accent { background: var(--accent); color: var(--on-primary); }
+.btn-accent { background: var(--btn-negro); color: var(--btn-negro-texto); border-color: rgba(212, 168, 72, .5); }   /* marca LABG: negro con letras de oro */
 .btn-row { gap: 10px; margin: 14px 0 0; }
 .inline-label { font-size: 0.86rem; color: var(--text-muted); display: inline-flex; gap: 7px; align-items: center; flex-wrap: wrap; }
 .nc { text-transform: none; letter-spacing: 0; }
