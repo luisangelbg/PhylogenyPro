@@ -24,7 +24,10 @@ const Plots6 = {};
 
   const V = n => `var(--${n})`;
   const f1 = v => (+v).toFixed(1);
-  const svg = (vb, inner) => `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const svg = (vb, inner, plot) => `<svg viewBox="${vb}"${plot ? ` data-plot="${plot}"` : ''} xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  /* marks for the figure studio: the area of the data (data-plot) and the
+     legend, in one group (data-role="legend") with its entries numbered (data-li) */
+  const plotArea = (x, y, w, h) => [x, y, w, h].map(v => +(+v).toFixed(2)).join(' ');
   const line = (x1, y1, x2, y2, st, w, ex) => `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${st}" stroke-width="${w || 1}" ${ex || ''}/>`;
   const rect = (x, y, w, h, fill, ex) => `<rect x="${f1(x)}" y="${f1(y)}" width="${f1(Math.max(0, w))}" height="${f1(Math.max(0, h))}" fill="${fill}" ${ex || ''}/>`;
   const pathEl = (d, st, w, ex) => `<path d="${d}" stroke="${st}" stroke-width="${w || 1}" fill="none" ${ex || ''}/>`;
@@ -85,12 +88,14 @@ const Plots6 = {};
     });
     if (opts.xLabel) s += txt(mx + (W - mx - right) / 2, H - 10, opts.xLabel, 'art-mut', 10, 'middle');
     if (opts.yLabel) s += txt(-(top + (H - my - top) / 2), 14, opts.yLabel, 'art-mut', 10, 'middle', 'transform="rotate(-90)"');
+    s += '<g data-role="legend">';
     series.forEach((ser, i) => {
       const x = W - right - 150 + (i % 2) * 74, y = top + 4 + Math.floor(i / 2) * 14;
-      s += rect(x, y - 6, 9, 3, V(COLOURS[i % COLOURS.length]));
-      s += txt(x + 13, y - 1, ser.name, 'art-mut', 9);
+      s += rect(x, y - 6, 9, 3, V(COLOURS[i % COLOURS.length]), `data-li="${i}"`);
+      s += txt(x + 13, y - 1, ser.name, 'art-mut', 9, 'start', `data-li="${i}"`);
     });
-    return svg(`0 0 ${W} ${H}`, s);
+    s += '</g>';
+    return svg(`0 0 ${W} ${H}`, s, plotArea(mx, top, W - mx - right, H - my - top));
   }
 
   /* ================================================================

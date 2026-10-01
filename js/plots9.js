@@ -35,7 +35,10 @@ const Plots9 = {};
   const V = n => `var(--${n})`;
   const f1 = v => (+v).toFixed(1);
   const esc2 = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const svg = (vb, inner) => `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const svg = (vb, inner, plot) => `<svg viewBox="${vb}"${plot ? ` data-plot="${plot}"` : ''} xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  /* marks for the figure studio: the area of the data (data-plot) and the
+     legend, in one group (data-role="legend") with its entries numbered (data-li) */
+  const plotArea = (x, y, w, h) => [x, y, w, h].map(v => +(+v).toFixed(2)).join(' ');
   const line = (x1, y1, x2, y2, st, w, ex) => `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${st}" stroke-width="${w || 1}" ${ex || ''}/>`;
   const circ = (cx, cy, r, fill, ex) => `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r)}" fill="${fill}" ${ex || ''}/>`;
   const rect = (x, y, w, h, fill, ex) => `<rect x="${f1(x)}" y="${f1(y)}" width="${f1(Math.max(0, w))}" height="${f1(Math.max(0, h))}" fill="${fill}" ${ex || ''}/>`;
@@ -225,13 +228,15 @@ const Plots9 = {};
     /* the legend */
     if (opts.levels) {
       let lx = pad + 4;
+      s += '<g data-role="legend">';
       opts.levels.forEach((lv, i) => {
-        s += rect(lx, pad - 2, 9, 9, stateColour(i), 'rx="1.6"');
-        s += txt(lx + 13, pad + 6, String(lv), 'art-txt', 10);
+        s += rect(lx, pad - 2, 9, 9, stateColour(i), `rx="1.6" data-li="${i}"`);
+        s += txt(lx + 13, pad + 6, String(lv), 'art-txt', 10, 'start', `data-li="${i}"`);
         lx += 22 + String(lv).length * 6;
       });
+      s += '</g>';
     }
-    return svg(`0 0 ${W} ${H}`, s);
+    return svg(`0 0 ${W} ${H}`, s, plotArea(x0, y0, x1 - x0, y1 - y0));
   }
 
   /* ================================================================
@@ -266,16 +271,19 @@ const Plots9 = {};
       if (y0 < 0 && y1 > 0) s += line(mx, Y(0), W - right, Y(0), V('border-strong'), 0.9, 'stroke-dasharray="3 3"');
     }
     raw.forEach(p => { s += circ(X(p.x), Y(p.y), 3, V('accent'), 'opacity="0.7"'); });
+    /* the legend entries are gathered with their fits and drawn after them, in one group */
+    let lg = '';
     (fits || []).forEach((f, i) => {
       const col = f.colour ? V(f.colour) : V('sky');
       s += line(X(x0), Y(f.intercept + f.slope * x0), X(x1), Y(f.intercept + f.slope * x1), col, 1.8,
         f.dashed ? 'stroke-dasharray="5 4"' : '');
-      s += line(W - right - 152, top + 6 + i * 13, W - right - 134, top + 6 + i * 13, col, 1.8, f.dashed ? 'stroke-dasharray="5 4"' : '');
-      s += txt(W - right - 130, top + 9 + i * 13, f.label || '', 'art-mut', 9);
+      lg += line(W - right - 152, top + 6 + i * 13, W - right - 134, top + 6 + i * 13, col, 1.8, (f.dashed ? 'stroke-dasharray="5 4" ' : '') + `data-li="${i}"`);
+      lg += txt(W - right - 130, top + 9 + i * 13, f.label || '', 'art-mut', 9, 'start', `data-li="${i}"`);
     });
+    s += `<g data-role="legend">${lg}</g>`;
     s += txt(mx + (W - mx - right) / 2, H - 12, opts.xLabel || '', 'art-mut', 10, 'middle');
     s += txt(-(top + (H - my - top) / 2), 14, opts.yLabel || '', 'art-mut', 10, 'middle', 'transform="rotate(-90)"');
-    return svg(`0 0 ${W} ${H}`, s);
+    return svg(`0 0 ${W} ${H}`, s, plotArea(mx, top, W - mx - right, H - my - top));
   }
 
   /* ================================================================
@@ -296,13 +304,15 @@ const Plots9 = {};
       x += w;
     });
     let lx = mx;
+    s += '<g data-role="legend">';
     levels.forEach((lv, i) => {
-      s += rect(lx, 6, 9, 9, stateColour(i), 'rx="1.6"');
-      s += txt(lx + 13, 14, String(lv) + (opts.times ? `  ${opts.times[i].toFixed(2)}` : ''), 'art-txt', 10);
+      s += rect(lx, 6, 9, 9, stateColour(i), `rx="1.6" data-li="${i}"`);
+      s += txt(lx + 13, 14, String(lv) + (opts.times ? `  ${opts.times[i].toFixed(2)}` : ''), 'art-txt', 10, 'start', `data-li="${i}"`);
       lx += 30 + (String(lv).length + (opts.times ? 6 : 0)) * 6;
     });
+    s += '</g>';
     if (opts.caption) s += txt(mx, top + barH + 18, opts.caption, 'art-mut', 9.5);
-    return svg(`0 0 ${W} ${H}`, s);
+    return svg(`0 0 ${W} ${H}`, s, plotArea(mx, top, inner, barH));
   }
 
   Object.assign(Plots9, { traitgram, pies, scatter, stateBar, stateColour, STATE_COLOURS });

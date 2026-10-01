@@ -35,7 +35,10 @@ const Plots10 = {};
   const V = n => `var(--${n})`;
   const f1 = v => (+v).toFixed(1);
   const esc2 = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const svg = (vb, inner) => `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const svg = (vb, inner, plot) => `<svg viewBox="${vb}"${plot ? ` data-plot="${plot}"` : ''} xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  /* marks for the figure studio: the area of the data (data-plot) and the
+     legend, in one group (data-role="legend") with its entries numbered (data-li) */
+  const plotArea = (x, y, w, h) => [x, y, w, h].map(v => +(+v).toFixed(2)).join(' ');
   const line = (x1, y1, x2, y2, st, w, ex) => `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${st}" stroke-width="${w || 1}" ${ex || ''}/>`;
   const circ = (cx, cy, r, fill, ex) => `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r)}" fill="${fill}" ${ex || ''}/>`;
   const rect = (x, y, w, h, fill, ex) => `<rect x="${f1(x)}" y="${f1(y)}" width="${f1(Math.max(0, w))}" height="${f1(Math.max(0, h))}" fill="${fill}" ${ex || ''}/>`;
@@ -219,16 +222,18 @@ const Plots10 = {};
     }
     /* the legend of areas */
     let lx = pad + 4;
+    s += '<g data-role="legend">';
     areaNames.forEach((nm, i) => {
-      s += rect(lx, pad - 2, 9, 9, areaColour(i), 'rx="1.6"');
-      s += txt(lx + 13, pad + 6, nm, 'art-txt', 10);
+      s += rect(lx, pad - 2, 9, 9, areaColour(i), `rx="1.6" data-li="${i}"`);
+      s += txt(lx + 13, pad + 6, nm, 'art-txt', 10, 'start', `data-li="${i}"`);
       lx += 24 + String(nm).length * 6.2;
     });
     if (lx < W - 120) {
-      s += rect(lx, pad - 2, 9, 9, V('border-strong'), 'rx="1.6" opacity="0.45"');
-      s += txt(lx + 13, pad + 6, opts.restLabel || 'resto', 'art-mut', 10);
+      s += rect(lx, pad - 2, 9, 9, V('border-strong'), `rx="1.6" opacity="0.45" data-li="${areaNames.length}"`);
+      s += txt(lx + 13, pad + 6, opts.restLabel || 'resto', 'art-mut', 10, 'start', `data-li="${areaNames.length}"`);
     }
-    return svg(`0 0 ${W} ${H}`, s);
+    s += '</g>';
+    return svg(`0 0 ${W} ${H}`, s, plotArea(x0, y0, x1 - x0, y1 - y0));
   }
 
   /* ================================================================

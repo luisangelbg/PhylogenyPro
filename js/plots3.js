@@ -19,7 +19,10 @@ const Plots3 = {};
 
   const V = n => `var(--${n})`;
   const f1 = v => (+v).toFixed(1);
-  const svg = (vb, inner) => `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const svg = (vb, inner, plot) => `<svg viewBox="${vb}"${plot ? ` data-plot="${plot}"` : ''} xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  /* marks for the figure studio: the area of the data (data-plot) and the
+     legend, in one group (data-role="legend") with its entries numbered (data-li) */
+  const plotArea = (x, y, w, h) => [x, y, w, h].map(v => +(+v).toFixed(2)).join(' ');
   const line = (x1, y1, x2, y2, st, w, ex) => `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${st}" stroke-width="${w || 1}" ${ex || ''}/>`;
   const circ = (cx, cy, r, fill, ex) => `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r)}" fill="${fill}" ${ex || ''}/>`;
   const rect = (x, y, w, h, fill, ex) => `<rect x="${f1(x)}" y="${f1(y)}" width="${f1(Math.max(0, w))}" height="${f1(Math.max(0, h))}" fill="${fill}" ${ex || ''}/>`;
@@ -61,9 +64,11 @@ const Plots3 = {};
     });
     s += txt(W / 2, H - 16, T('distancia corregida (sustituciones por sitio)', 'corrected distance (substitutions per site)'), 'art-mut', 10, 'middle');
     s += txt(-H / 2, 16, T('proporción observada', 'observed proportion'), 'art-mut', 10, 'middle', 'transform="rotate(-90)"');
-    s += circ(W - 150, 28, 4, V('accent')); s += txt(W - 142, 31, T('transiciones', 'transitions'), 'art-mut', 9.5);
-    s += circ(W - 150, 44, 4, V('sky')); s += txt(W - 142, 47, T('transversiones', 'transversions'), 'art-mut', 9.5);
-    return svg(`0 0 ${W} ${H}`, s);
+    s += '<g data-role="legend">';
+    s += circ(W - 150, 28, 4, V('accent'), 'data-li="0"'); s += txt(W - 142, 31, T('transiciones', 'transitions'), 'art-mut', 9.5, 'start', 'data-li="0"');
+    s += circ(W - 150, 44, 4, V('sky'), 'data-li="1"'); s += txt(W - 142, 47, T('transversiones', 'transversions'), 'art-mut', 9.5, 'start', 'data-li="1"');
+    s += '</g>';
+    return svg(`0 0 ${W} ${H}`, s, plotArea(mx, 20, W - mx - 20, H - my - 20));
   }
 
   /* ================================================================
@@ -95,12 +100,14 @@ const Plots3 = {};
     });
     s += txt(mx, 18, T('cada barra es una secuencia; la línea punteada marca la composición media', 'each bar is one sequence; the dashed line marks the overall composition'), 'art-mut', 9.5);
     let lx = mx;
+    s += '<g data-role="legend">';
     alpha.slice(0, 8).forEach((a, k) => {
-      s += rect(lx, H - 22, 11, 11, V(colours[k]), 'opacity="0.85"');
-      s += txt(lx + 15, H - 13, a, 'art-mut', 9.5);
+      s += rect(lx, H - 22, 11, 11, V(colours[k]), `opacity="0.85" data-li="${k}"`);
+      s += txt(lx + 15, H - 13, a, 'art-mut', 9.5, 'start', `data-li="${k}"`);
       lx += 34;
     });
-    return svg(`0 0 ${W} ${H}`, s);
+    s += '</g>';
+    return svg(`0 0 ${W} ${H}`, s, plotArea(mx, my, barW, n * 18));
   }
 
   /* ================================================================

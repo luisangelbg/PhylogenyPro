@@ -23,7 +23,10 @@ const Plots8 = {};
 
   const V = n => `var(--${n})`;
   const f1 = v => (+v).toFixed(1);
-  const svg = (vb, inner) => `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const svg = (vb, inner, plot) => `<svg viewBox="${vb}"${plot ? ` data-plot="${plot}"` : ''} xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  /* marks for the figure studio: the area of the data (data-plot) and the
+     legend, in one group (data-role="legend") with its entries numbered (data-li) */
+  const plotArea = (x, y, w, h) => [x, y, w, h].map(v => +(+v).toFixed(2)).join(' ');
   const line = (x1, y1, x2, y2, st, w, ex) => `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${st}" stroke-width="${w || 1}" ${ex || ''}/>`;
   const rect = (x, y, w, h, fill, ex) => `<rect x="${f1(x)}" y="${f1(y)}" width="${f1(Math.max(0, w))}" height="${f1(Math.max(0, h))}" fill="${fill}" ${ex || ''}/>`;
   const circ = (cx, cy, r, fill, ex) => `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r)}" fill="${fill}" ${ex || ''}/>`;
@@ -94,11 +97,13 @@ const Plots8 = {};
 
     s += txt(mx + (W - mx - right) / 2, H - 14, opts.xLabel || T('tiempo antes del presente', 'time before the present'), 'art-mut', 10, 'middle');
     s += txt(-(top + (H - my - top) / 2), 15, T('linajes (escala logarítmica)', 'lineages (log scale)'), 'art-mut', 10, 'middle', 'transform="rotate(-90)"');
-    s += line(W - right - 150, top + 6, W - right - 132, top + 6, V('ink'), 1.8);
-    s += txt(W - right - 128, top + 9, T('observado', 'observed'), 'art-mut', 9);
-    s += line(W - right - 150, top + 20, W - right - 132, top + 20, V('sky'), 1.6, 'stroke-dasharray="5 4"');
-    s += txt(W - right - 128, top + 23, T('tasa constante', 'constant rate'), 'art-mut', 9);
-    return svg(`0 0 ${W} ${H}`, s);
+    s += '<g data-role="legend">';
+    s += line(W - right - 150, top + 6, W - right - 132, top + 6, V('ink'), 1.8, 'data-li="0"');
+    s += txt(W - right - 128, top + 9, T('observado', 'observed'), 'art-mut', 9, 'start', 'data-li="0"');
+    s += line(W - right - 150, top + 20, W - right - 132, top + 20, V('sky'), 1.6, 'stroke-dasharray="5 4" data-li="1"');
+    s += txt(W - right - 128, top + 23, T('tasa constante', 'constant rate'), 'art-mut', 9, 'start', 'data-li="1"');
+    s += '</g>';
+    return svg(`0 0 ${W} ${H}`, s, plotArea(mx, top, W - mx - right, H - my - top));
   }
 
   /* ================================================================

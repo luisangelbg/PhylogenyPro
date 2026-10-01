@@ -38,7 +38,10 @@ const Plots11 = {};
   const V = n => `var(--${n})`;
   const f1 = v => (+v).toFixed(1);
   const esc2 = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const svg = (vb, inner) => `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const svg = (vb, inner, plot) => `<svg viewBox="${vb}"${plot ? ` data-plot="${plot}"` : ''} xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  /* marks for the figure studio: the area of the data (data-plot) and the
+     legend, in one group (data-role="legend") with its entries numbered (data-li) */
+  const plotArea = (x, y, w, h) => [x, y, w, h].map(v => +(+v).toFixed(2)).join(' ');
   const line = (x1, y1, x2, y2, st, w, ex) => `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${st}" stroke-width="${w || 1}" ${ex || ''}/>`;
   const circ = (cx, cy, r, fill, ex) => `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r)}" fill="${fill}" ${ex || ''}/>`;
   const rect = (x, y, w, h, fill, ex) => `<rect x="${f1(x)}" y="${f1(y)}" width="${f1(Math.max(0, w))}" height="${f1(Math.max(0, h))}" fill="${fill}" ${ex || ''}/>`;
@@ -151,11 +154,13 @@ const Plots11 = {};
     const cols = [V('c3'), V('c2'), V('c6'), V('border-strong')];
     const names = opts.legend || ['concordante', 'alternativa 1', 'alternativa 2', 'no decide'];
     let lx = mx;
+    s += '<g data-role="legend">';
     names.forEach((nm, i) => {
-      s += rect(lx, 8, 9, 9, cols[i], 'rx="1.6"');
-      s += txt(lx + 13, 16, nm, 'art-txt', 9.5);
+      s += rect(lx, 8, 9, 9, cols[i], `rx="1.6" data-li="${i}"`);
+      s += txt(lx + 13, 16, nm, 'art-txt', 9.5, 'start', `data-li="${i}"`);
       lx += 26 + String(nm).length * 5.6;
     });
+    s += '</g>';
     rows.forEach((r, i) => {
       const y = top + i * rowH;
       let x = mx;
@@ -177,7 +182,7 @@ const Plots11 = {};
     const x33 = mx + bw / 3;
     s += line(x33, top - 4, x33, top + rows.length * rowH - 4, V('c4'), 1.2, 'stroke-dasharray="4 3"');
     s += txt(x33, top - 8, opts.chanceLabel || '⅓', 'art-mut', 9, 'middle');
-    return svg(`0 0 ${W} ${H}`, s);
+    return svg(`0 0 ${W} ${H}`, s, plotArea(mx, top, bw, rows.length * rowH));
   }
 
   /* gCF against sCF, which is the plot that shows they are different questions */

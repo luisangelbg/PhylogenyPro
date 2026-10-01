@@ -35,6 +35,9 @@ const TreeView = {};
   const circ = (cx, cy, r, fill, ex) => `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r)}" fill="${fill}" ${ex || ''}/>`;
   const txt = (x, y, s, size, anchor, cls, ex) =>
     `<text x="${f1(x)}" y="${f1(y)}" font-size="${size}" text-anchor="${anchor || 'start'}" class="${cls || 'art-txt'}" ${ex || ''}>${esc2(s)}</text>`;
+  /* marks for the figure studio: the area of the drawing (data-plot) and the
+     legend, in one group (data-role="legend") with its entries numbered (data-li) */
+  const plotArea = (x, y, w, h) => [x, y, w, h].map(v => +(+v).toFixed(2)).join(' ');
 
   function defaults(opts) {
     return Object.assign({
@@ -402,12 +405,14 @@ const TreeView = {};
     if (legendH) {
       const y = H - opts.padding - 4;
       let lx = opts.padding + 2;
+      s += '<g data-role="legend">';
       for (let g = 0; g < opts.groups.k; g++) {
         const nm = (window.Groups ? Groups.nameOf(opts.groups, g) : String(g + 1));
-        s += `<rect x="${f1(lx)}" y="${f1(y - 9)}" width="10" height="10" rx="2" fill="${groupColour(g)}"/>`;
-        s += txt(lx + 14, y, nm, 10, 'start', 'art-mut');
+        s += `<rect x="${f1(lx)}" y="${f1(y - 9)}" width="10" height="10" rx="2" fill="${groupColour(g)}" data-li="${g}"/>`;
+        s += txt(lx + 14, y, nm, 10, 'start', 'art-mut', `data-li="${g}"`);
         lx += 14 + nm.length * 5.6 + 14;
       }
+      s += '</g>';
     }
 
     /* scale bar */
@@ -421,7 +426,7 @@ const TreeView = {};
       s += txt(x0 + px + 8, y + 4, nice + (opts.scaleLabel || ''), 10, 'start', 'art-mut');
     }
     TreeView.lastInfo = { hiddenSupport, images: imgs.length, width: W, height: H, k: opts.groups ? opts.groups.k : 0 };
-    return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">` +
+    return `<svg viewBox="0 0 ${W} ${H}" data-plot="${plotArea(x0, y0, x1 - x0, y1 - y0)}" xmlns="http://www.w3.org/2000/svg">` +
       (defs ? `<defs>${defs}</defs>` : '') + s + '</svg>';
   }
   function niceStep(max) {
@@ -590,16 +595,18 @@ const TreeView = {};
 
     if (opts.legend && opts.groups && opts.groups.k > 1) {
       let lx = 12, ly = H - 12;
+      s += '<g data-role="legend">';
       for (let g = 0; g < opts.groups.k; g++) {
         const nm = (window.Groups ? Groups.nameOf(opts.groups, g) : String(g + 1));
-        s += `<rect x="${f1(lx)}" y="${f1(ly - 9)}" width="10" height="10" rx="2" fill="${groupColour(g)}"/>`;
-        s += txt(lx + 14, ly, nm, 10, 'start', 'art-mut');
+        s += `<rect x="${f1(lx)}" y="${f1(ly - 9)}" width="10" height="10" rx="2" fill="${groupColour(g)}" data-li="${g}"/>`;
+        s += txt(lx + 14, ly, nm, 10, 'start', 'art-mut', `data-li="${g}"`);
         lx += 14 + nm.length * 5.6 + 14;
       }
+      s += '</g>';
     }
 
     TreeView.lastInfo = { hiddenSupport: 0, images: imgs.length, width: W, height: H, k: opts.groups ? opts.groups.k : 0 };
-    return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">` +
+    return `<svg viewBox="0 0 ${W} ${H}" data-plot="${plotArea(0, 0, W, H)}" xmlns="http://www.w3.org/2000/svg">` +
       (defs ? `<defs>${defs}</defs>` : '') + s + '</svg>';
   }
 
@@ -716,17 +723,19 @@ const TreeView = {};
 
     if (opts.legend && opts.groups && opts.groups.k > 1) {
       let lx = 12; const ly = HH - 12;
+      s += '<g data-role="legend">';
       for (let g = 0; g < opts.groups.k; g++) {
         const nm = (window.Groups ? Groups.nameOf(opts.groups, g) : String(g + 1));
-        s += `<rect x="${f1(lx)}" y="${f1(ly - 9)}" width="10" height="10" rx="2" fill="${groupColour(g)}"/>`;
-        s += txt(lx + 14, ly, nm, 10, 'start', 'art-mut');
+        s += `<rect x="${f1(lx)}" y="${f1(ly - 9)}" width="10" height="10" rx="2" fill="${groupColour(g)}" data-li="${g}"/>`;
+        s += txt(lx + 14, ly, nm, 10, 'start', 'art-mut', `data-li="${g}"`);
         lx += 14 + nm.length * 5.6 + 14;
       }
+      s += '</g>';
     }
 
     TreeView.lastInfo = { hiddenSupport: 0, hiddenLabels, images: imgs.length,
       width: WW, height: HH, k: opts.groups ? opts.groups.k : 0 };
-    return `<svg viewBox="0 0 ${WW} ${HH}" xmlns="http://www.w3.org/2000/svg">` +
+    return `<svg viewBox="0 0 ${WW} ${HH}" data-plot="${plotArea(0, 0, WW, HH)}" xmlns="http://www.w3.org/2000/svg">` +
       (defs ? `<defs>${defs}</defs>` : '') + s + '</svg>';
   }
 
