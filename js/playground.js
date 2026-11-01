@@ -401,7 +401,7 @@
     const inZone = !r.mpConsistent;
     const parts = [];
     parts.push(T(
-      `Con <b>${r.reps}</b> réplicas de <b>${F.L}</b> sitios, la verosimilitud recuperó el árbol verdadero en <b>${(r.ml / r.reps * 100).toFixed(0)}%</b> de los casos, el vecino más cercano en <b>${(r.nj / r.reps * 100).toFixed(0)}%</b> y la parsimonia en <b>${(r.mp / r.reps * 100).toFixed(0)}%</b>.`,
+      `Con <b>${r.reps}</b> réplicas de <b>${F.L}</b> sitios, la verosimilitud recuperó el árbol verdadero en <b>${(r.ml / r.reps * 100).toFixed(0)}%</b> de los casos, la unión de vecinos en <b>${(r.nj / r.reps * 100).toFixed(0)}%</b> y la parsimonia en <b>${(r.mp / r.reps * 100).toFixed(0)}%</b>.`,
       `With <b>${r.reps}</b> replicates of <b>${F.L}</b> sites, likelihood recovered the true tree in <b>${(r.ml / r.reps * 100).toFixed(0)}%</b> of the runs, neighbor joining in <b>${(r.nj / r.reps * 100).toFixed(0)}%</b> and parsimony in <b>${(r.mp / r.reps * 100).toFixed(0)}%</b>.`));
     if (inZone) {
       parts.push(T(

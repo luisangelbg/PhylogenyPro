@@ -210,7 +210,7 @@ t('todas las longitudes optimizadas son no negativas', fits.every(f => f.lens.ev
 t('en la topología equivocada la rama interna colapsa', fits[2].lens[4] < 1e-4);
 t('la parsimonia se equivoca con estos datos', P.mpChoice(counts) !== 0);
 /* En esta réplica concreta las distancias también fallan: con p = 0.5 el
-   vecino más cercano acierta cerca del 89 % de las veces, y ésta cae en el 11 %
+   unión de vecinos acierta cerca del 89 % de las veces, y ésta cae en el 11 %
    restante. Lo que debe cumplirse siempre no es el resultado de una réplica
    sino el orden de los tres métodos sobre muchas. */
 t('NJ también se equivoca en esta réplica (cae en su 11 %)',
