@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-1" data-pestana="1" data-orden="1" style="--acento: var(--b1)">
+  <div class="cap-apertura">
+    <div class="cap-num">1</div>
+    <div class="cap-etiqueta">Chapter one · Block 1</div>
+    <h1>The home page: what to believe before you start</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The first block does not compute your tree: it prepares you to compute it. It brings the complete route of the study, the catalog of what the application can do, a frank comparison of the four inference criteria, a table of <b>measured</b> sizes and—most important—two labs that compute real phylogenetics on the page, so that two of the hardest ideas in the discipline stop being a warning and become something you saw happen.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">1.1</span>What a home page that computes is for</li>
+      <li><span class="n">1.2</span>The route of the study in seven steps</li>
+      <li><span class="n">1.3</span>Lab 1: the Felsenstein zone</li>
+      <li><span class="n">1.4</span>Lab 2: saturation and correction</li>
+      <li><span class="n">1.5</span>What you can analyze, and with which marker</li>
+      <li><span class="n">1.6</span>The four criteria, compared plainly</li>
+      <li><span class="n">1.7</span>How far it goes, and how far it does not</li>
+      <li><span class="n">1.8</span>The method gallery and the references</li>
+      <li><span class="n">1.9</span>The nine theory sections</li>
+      <li><span class="n">1.10</span>Frequent mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.1 -->
+  <h2 id="s1-1"><span class="num">1.1</span>What a home page that computes is for</h2>
+
+  <p>Almost every home page of a scientific program is a brochure: it says what the program does and invites you to begin. This one does something else. Besides presenting the route, it <b>computes</b>: two labs run real phylogenetics—exact probabilities, simulation, inference by three methods—every time you move a control. Nothing you see there is an animation.</p>
+
+  <p>The reason for that design is pedagogical, and it has to do with idea 3 of the introduction. You can warn a thousand times that “more data do not fix a wrong model,” and the warning slides off. Seeing, on your own screen, how parsimony recovers the false tree <b>more often as you increase the number of sites</b> does not slide off: that is not forgotten.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>What is decided in this block</div>
+    <p>Nothing, technically: it produces no result that the other blocks use. What is decided here is <b>what you expect from the study you are about to do</b> and what you are going to believe from it. It is the only block worth reading in full before loading data, and the only one worth coming back to when a result does not add up.</p>
+  </div>
+
+  <p>The six cards in the header sum up the conditions you will work under: everything runs in the browser, your data never leave your computer, it accepts DNA, proteins, codons and morphology, it treats the chloroplast, the mitochondrion and the nucleus separately, it is in Spanish and English, and it exports figures at up to 900 dpi.</p>
+
+  <!-- ------------------------------------------------------------------ 1.2 -->
+  <h2 id="s1-2"><span class="num">1.2</span>The route of the study in seven steps</h2>
+
+  <p>The “How it works” strip groups the twelve blocks into the seven steps of a real phylogenetic study, in the order in which it is done:</p>
+
+  <table class="tabla">
+    <caption><b>Table 1.1.</b> The seven steps of the strip and the blocks that carry them out.</caption>
+    <thead><tr><th style="width:9%">Step</th><th style="width:22%">Called</th><th style="width:40%">What happens</th><th>Blocks</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>Align</b></td><td>Sequences, trimming of ambiguous blocks, partitions</td><td><span class="chip k2">2</span></td></tr>
+      <tr><td>2</td><td><b>Choose a model</b></td><td>Saturation, AIC and BIC</td><td><span class="chip k3">3</span></td></tr>
+      <tr><td>3</td><td><b>Infer</b></td><td>Parsimony, maximum likelihood and Bayesian</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>4</td><td><b>Measure support</b></td><td>Bootstrap and posterior probabilities</td><td><span class="chip k5">5</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>5</td><td><b>Date it</b></td><td>Clock, fossils, geological scale</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>6</td><td><b>Interpret</b></td><td>Traits, areas, diversification</td><td><span class="chip k8">8</span> <span class="chip k9">9</span> <span class="chip k10">10</span> <span class="chip k11">11</span></td></tr>
+      <tr><td>7</td><td><b>Publish</b></td><td>Figure, report and ZIP package</td><td><span class="chip k12">12</span></td></tr>
+    </tbody>
+  </table>
+
+  <p>Below, the twelve block cards say what each one does. <b>Each card corresponds to a chapter of this manual, with the same number.</b> Clicking a card jumps to the block; if its requirements are not ready, the block will say so instead of computing something meaningless.</p>
+
+  <!-- ------------------------------------------------------------------ 1.3 -->
+  <h2 id="s1-3"><span class="num">1.3</span>Lab 1: the Felsenstein zone</h2>
+
+  <p>This is probably the most important corner of the whole program. It illustrates the result of Felsenstein (1978) that founded the modern critique of parsimony, and it does so by computing, not by telling.</p>
+
+  <h3>What it shows</h3>
+  <p>A tree of <b>four taxa</b> with the shape that does harm: two long branches that are <b>not</b> sisters, separated by short branches. With four taxa there are only three possible unrooted topologies, and with four possible states per site there are 256 patterns; but by symmetry those 256 reduce to the <b>15 partitions of the set {A, B, C, D}</b>, so the probability of each pattern under Jukes–Cantor can be computed <b>exactly</b>, without simulating anything.</p>
+
+  <p>The panel uses that exactness to answer the question with infinite data: which informative pattern is the most probable? If the pattern that gathers the most probability is the one that groups the two long branches, then parsimony, given enough sites, will choose <b>the wrong tree with complete certainty</b>. That is what being <i>inconsistent</i> means: converging to the false answer.</p>
+
+  <h3>The controls</h3>
+  <ul class="lista">
+    <li><span class="ui">Long branches</span> and <span class="ui">Short branches</span>: the two lengths that define the scenario, in substitutions per site.</li>
+    <li><span class="ui">Sites</span>: how many sites each simulated alignment has.</li>
+    <li><span class="ui">Replicates</span>: how many alignments are simulated to measure how often each method gets it right.</li>
+    <li><span class="ui">↻ New replicates</span>: simulates again with another seed.</li>
+  </ul>
+
+  <h3>What to read</h3>
+  <p>Three things, in this order:</p>
+  <ol class="pasos">
+    <li><b>The true tree</b> and <b>Where parsimony fails</b>: the panel computes by bisection the <b>boundary</b> of the scenario, that is, the exact point where the long branch becomes too long and parsimony starts getting it wrong. Moving the sliders to one side and the other of that boundary is the whole lesson.</li>
+    <li><b>The three informative patterns</b> and their exact probability. When the “long branches together” pattern overtakes the true pattern, that is it: parsimony has lost, however much data you give it.</li>
+    <li><b>How often each method recovered the true tree</b>, over the simulated replicates, with parsimony, with neighbor joining on Jukes–Cantor-corrected distances, and with maximum likelihood optimizing the branch lengths on each of the three topologies.</li>
+  </ol>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The experiment you must do</div>
+    <p>Set up a scenario inside the zone—long branches of 0.6 and short ones of 0.03, for example—and then <b>raise the sites</b> from 100 to 2,000. Likelihood improves, as you would expect. Parsimony <b>gets worse</b>: with more data it is right less often, because each new site reinforces the false signal. That is the difference between a consistent method and one that is not, and it is idea 3 of the introduction seen live.</p>
+  </div>
+
+  <p>The “Why this matters in your own data” panel translates it: a genus with one fast-evolving species, a very distant outgroup or a saturated marker produce exactly this geometry without anyone having looked for it. If your tree joins the outgroup with the most divergent taxon, suspect this before you suspect the biology.</p>
+
+  <!-- ------------------------------------------------------------------ 1.4 -->
+  <h2 id="s1-4"><span class="num">1.4</span>Lab 2: saturation and distance correction</h2>
+
+  <p>The second lab makes idea 2 visible: a site that changed several times shows only the last change.</p>
+
+  <p>Two sequences diverge under Kimura’s two-parameter model, with rates that vary among sites according to a gamma distribution. The panel plots the <b>estimated distance against the true distance</b>, with three overlaid curves: the <b>raw differences</b> (the proportion of differing positions), the model correction, and the line of the <b>perfect estimator</b>, which is the diagonal.</p>
+
+  <p>What you see is immediate: the raw differences start out stuck to the diagonal and peel away more and more, until they flatten out. That is saturation. The correction brings them back to the diagonal, but only as far as it has a solution; beyond that, the formula breaks down and the panel shows it.</p>
+
+  <h3>The controls</h3>
+  <ul class="lista">
+    <li><span class="ui">Maximum divergence</span>: how far the two sequences are allowed to drift apart.</li>
+    <li><span class="ui">ts/tv ratio</span>: how many transitions there are for each transversion. Raise it and you will see that transitions saturate much earlier.</li>
+    <li><span class="ui">Γ shape</span>: the inequality of rates among sites. Low values—a few very fast sites and many almost frozen—bring saturation forward.</li>
+    <li><span class="ui">Sites</span>: how many positions each sequence has; with few, noise dominates.</li>
+    <li><span class="ui">rate variation among sites (+Γ)</span>: turns the heterogeneity off and on to see how much it changes.</li>
+  </ul>
+
+  <p>The second plot, <b>Transitions and transversions</b>, is the one you will use with your own data in Block 3. The rule can be read straight off the screen: <b>when the transition curve stops rising and starts to fall, the marker is saturated</b>. It is not a metaphor: accumulated transitions are lost because the sites change again.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Saturated does not mean useless</div>
+    <p>A saturated marker still resolves recent nodes well; what you cannot do is use it for the deep nodes <b>and believe its support</b>. The usual solution is not to throw the gene away: it is to remove the third codon position, switch to amino acids, or look for a slower marker for the deep part of the tree.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.5 -->
+  <h2 id="s1-5"><span class="num">1.5</span>What you can analyze, and with which marker</h2>
+
+  <p>The “What you can analyse” section lists the data types that the same likelihood engine handles: DNA, proteins, codons and morphology. They are not four programs inside, but one that works with four, twenty or however many states are needed.</p>
+
+  <p>Right after comes the list of markers, and it is worth pausing there, because it is the one that prevents the most expensive mistake in a plant study: <b>treating all genes as if they told the same story</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Table 1.2.</b> The markers the application recognizes by name, with their genome and their character.</caption>
+    <thead><tr><th style="width:15%">Genome</th><th style="width:30%">Markers</th><th>What to expect</th></tr></thead>
+    <tbody>
+      <tr><td><b>Chloroplast</b></td><td>rbcL</td><td>The workhorse: slow, easy to amplify, good from family level upwards.</td></tr>
+      <tr><td><b>Chloroplast</b></td><td>matK</td><td>More variable than rbcL; the other plant barcode marker.</td></tr>
+      <tr><td><b>Chloroplast</b></td><td>trnL-F</td><td>Non-coding spacer: resolves between close species.</td></tr>
+      <tr><td><b>Chloroplast</b></td><td>trnH-psbA</td><td>The most variable chloroplast spacer; full of indels.</td></tr>
+      <tr><td><b>Chloroplast</b></td><td>ndhF, atpB, rpl16, rps16, ycf1</td><td>The rest of the usual repertoire in plant systematics.</td></tr>
+      <tr><td><b>Nuclear ribosomal</b></td><td>ITS, ITS2, ETS</td><td>Fast and widely used, but with divergent copies and incomplete concerted evolution.</td></tr>
+      <tr><td><b>Low-copy nuclear</b></td><td>waxy, PHYC, LEAFY, G3pdh</td><td>Biparental: they are the ones that <b>detect hybridization</b>.</td></tr>
+      <tr><td><b>Mitochondrion</b></td><td>matR, nad1, cox1, atp1</td><td>The slowest in the plant; useful in deep phylogenies.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Why the genome is not decoration</div>
+    <p>The chloroplast and the mitochondrion of a plant are inherited <b>from a single parent</b>—in most angiosperms, from the mother—and <b>do not recombine</b>: the whole genome is a single lineage, with a single history. The nucleus is inherited from both and does recombine. That is why a chloroplast tree and a nuclear tree <b>can disagree without either of them being wrong</b>: chloroplast capture after an ancient hybridization leaves exactly that signature. Declaring the genome of each partition in Block 2 is what lets the following blocks treat that disagreement as information and not as noise.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.6 -->
+  <h2 id="s1-6"><span class="num">1.6</span>The four criteria, compared plainly</h2>
+
+  <p>The comparison table on the home page is deliberately frank: <b>no method wins every time</b>. This is its printed version.</p>
+
+  <table class="tabla comparacion">
+    <caption><b>Table 1.3.</b> The four inference criteria, what they optimize and where they break.</caption>
+    <thead><tr><th style="width:21%">&nbsp;</th><th>Distances (NJ)</th><th>Parsimony</th><th>Maximum likelihood</th><th>Bayesian</th></tr></thead>
+    <tbody>
+      <tr><td><b>What it optimizes</b></td><td>Fit to a distance matrix</td><td>The fewest changes</td><td>The probability of the data given the tree</td><td>The probability of the tree given the data</td></tr>
+      <tr><td><b>Uses a model</b></td><td>Yes, when correcting the distances</td><td>No, or only weights</td><td>Yes, explicit</td><td>Yes, explicit and with priors</td></tr>
+      <tr><td><b>Consistent with unequal long branches</b></td><td>Depends on the correction</td><td><b>No: the Felsenstein zone</b></td><td>Yes, under the correct model</td><td>Yes, under the correct model</td></tr>
+      <tr><td><b>Lengths in substitutions</b></td><td>Yes</td><td>In steps, not substitutions</td><td>Yes</td><td>Yes, with an interval</td></tr>
+      <tr><td><b>Allows dating</b></td><td>Only with approximate methods</td><td>No</td><td>Yes (clock, LSD)</td><td>Yes, with uncertainty</td></tr>
+      <tr><td><b>Cost</b></td><td>Seconds</td><td>Seconds to minutes</td><td>Minutes</td><td>Minutes to hours</td></tr>
+      <tr><td><b>What it is best for</b></td><td>A first look and the starting tree</td><td>Morphology and data with few changes</td><td><b>The tree that gets published</b></td><td>Uncertainty, dates and complex models</td></tr>
+    </tbody>
+  </table>
+
+  <p>Note that the decisive row is the third, and that it is exactly what Lab 1 lets you see. Parsimony is not “worse”: it is <b>inconsistent under a specific geometry</b>, and it remains the right tool for morphology, where no substitution model is credible and changes are few.</p>
+
+  <!-- ------------------------------------------------------------------ 1.7 -->
+  <h2 id="s1-7"><span class="num">1.7</span>How far it goes, and how far it does not</h2>
+
+  <p>The table of limits on the home page is not a sales pitch: these are <b>times measured</b> on an ordinary desktop computer, not optimistic estimates. It is worth looking at before loading a large matrix.</p>
+
+  <table class="tabla">
+    <caption><b>Table 1.4.</b> Sizes the application handles, measured. “Comfortable” is what can be done without a second thought; “at the limit” is what can be done with patience.</caption>
+    <thead><tr><th style="width:40%">Analysis</th><th style="width:16%">Comfortable</th><th style="width:16%">At the limit</th><th>Time</th></tr></thead>
+    <tbody>
+      <tr><td>Distances, NJ, parsimony</td><td>≤ 300 taxa</td><td>≤ 1,000</td><td>Seconds</td></tr>
+      <tr><td>Likelihood + ultrafast bootstrap</td><td>≤ 120</td><td>≤ 300</td><td>Minutes</td></tr>
+      <tr><td>Likelihood + classical bootstrap</td><td>≤ 60</td><td>≤ 120</td><td>Minutes, with several threads</td></tr>
+      <tr><td>Bayesian (MC³)</td><td>≤ 50</td><td>≤ 100</td><td>Minutes to hours</td></tr>
+      <tr><td>Least-squares dating</td><td>≤ 500</td><td>≤ 1,000</td><td>Seconds</td></tr>
+      <tr><td>Bayesian dating</td><td>≤ 60</td><td>≤ 120</td><td>Minutes to hours</td></tr>
+      <tr><td>DEC biogeography</td><td>≤ 8 areas</td><td>≤ 10 areas</td><td>Minutes</td></tr>
+    </tbody>
+  </table>
+
+  <p>The biogeography limit is different from the rest and deserves a note: it depends not on the number of taxa but on the number of <b>areas</b>, because the number of possible ranges grows as 2 raised to the number of areas. With eight areas there are already 256 states; with twelve, more than four thousand.</p>
+
+  <p>Below the table, the home page says in one line what needs to be said: for phylogenomics with hundreds of taxa and millions of sites, keep using IQ-TREE or RAxML. This is JavaScript, and no optimization closes the gap with C.</p>
+
+  <!-- ------------------------------------------------------------------ 1.8 -->
+  <h2 id="s1-8"><span class="num">1.8</span>The method gallery and the references</h2>
+
+  <p>The gallery lists <b>everything</b> the application computes, grouped by family—data, models, quick trees, inference, time, macroevolution, biogeography, compare and publish—with a filter to see a single family. It serves two purposes: checking at a glance whether the method you need is there, and finding which block it lives in.</p>
+
+  <p>At the end of the home page there are <b>94 references</b>, also grouped by family. They are not there for decoration: each method the application implements cites the article in which it was published, and the Block 12 report builds its bibliography by taking from that same list <b>only what was actually used</b> in your run.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Cite the method, not just the program</div>
+    <p>When you publish, cite the program <b>and</b> the original articles of the methods you used. An experienced reviewer will notice the difference between “program X was used” and “a GTR+Γ model (Yang 1994) was fitted with SPR search and ultrafast bootstrap support (Minh et al. 2013).” The methods section that Block 12 writes already comes with those citations in place.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 1.9 -->
+  <h2 id="s1-9"><span class="num">1.9</span>The nine theory sections</h2>
+
+  <p>The home page closes with nine collapsible sections that are, in practice, a short course. They are worth it even if you already know the subject, because they fix the vocabulary that the rest of the program uses.</p>
+
+  <ol class="lista numerada">
+    <li><b>What a phylogenetic tree is (and what it is not).</b> Topology, branch lengths, root; why an unrooted tree has no “ancestors.”</li>
+    <li><b>The alignment is a hypothesis of homology.</b> Idea 1 of the introduction, developed.</li>
+    <li><b>The changes you cannot see: substitution models.</b> Why correcting is needed, and what each model corrects.</li>
+    <li><b>Parsimony, likelihood and Bayes: how they really differ.</b> Beyond the slogan of “the simplest tree.”</li>
+    <li><b>What a support value actually means.</b> Idea 4, with the scales of each measure.</li>
+    <li><b>The molecular clock and calibrations.</b> Idea 5.</li>
+    <li><b>Chloroplast, mitochondrion and nucleus: three histories in one organism.</b> What makes Block 11 exist.</li>
+    <li><b>Ancestral areas: how a biogeographic history is reconstructed.</b> The framework of Block 10.</li>
+    <li><b>The eight mistakes that show up most in a manuscript.</b> The section worth reading <i>before</i> writing, not after the paper is rejected.</li>
+  </ol>
+
+  <!-- ------------------------------------------------------------------ 1.10 -->
+  <h2 id="s1-10"><span class="num">1.10</span>Frequent mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Skipping the home page</div>
+    <p>It is the mistake everyone makes, including those who have been doing phylogenetics for years. The two labs take ten minutes and change the way you look at the results of the eleven blocks that follow. If you only have time for one, make it the Felsenstein zone.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reading the table of limits as a promise</div>
+    <p>The times were measured on a specific computer with a specific alignment. Your machine and your data are different. The table tells you whether you are in the right order of magnitude, not when to set a deadline.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concluding that “parsimony is bad”</div>
+    <p>Lab 1 does not show that. It shows that parsimony is <b>inconsistent under a specific geometry</b> of branches. Outside that geometry it behaves well, it is extremely fast, and for morphological matrices—where there is no credible substitution model—it remains the right tool. Chapter 4 returns to this.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Choosing the marker by lab habit</div>
+    <p>“We always use ITS” is not an argument. ITS is fast and resolves between close species, but it has divergent copies and incomplete concerted evolution, and for a deep node it will give a confident and wrong answer. The list of markers on the home page says, for each one, at what depth range it is informative.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

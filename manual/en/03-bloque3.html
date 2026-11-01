@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-3" data-pestana="3" data-orden="3" style="--acento: var(--b3)">
+  <div class="cap-apertura">
+    <div class="cap-num">3</div>
+    <div class="cap-etiqueta">Chapter three · Block 3</div>
+    <h1>Substitution models</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A site that changed twice shows only the last change. This block deals with that: first it tests the assumptions that every model takes for granted—homogeneous composition and an unsaturated signal—, and then it fits 56 DNA models, twelve protein matrices or Mk and Mkv for morphology, and lets the information criteria choose. It is not a formality: the chosen model determines the branch lengths, the support and, in difficult cases, the topology itself.</p>
+    <div class="cap-franja"><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">3.1</span>What is decided in this block</li>
+      <li><span class="n">3.2</span>What your data contain</li>
+      <li><span class="n">3.3</span>The assumptions, put to the test</li>
+      <li><span class="n">3.4</span>The catalog of models</li>
+      <li><span class="n">3.5</span>How the choice is made: AIC, AICc, BIC and weights</li>
+      <li><span class="n">3.6</span>Reading the winning model</li>
+      <li><span class="n">3.7</span>Hierarchical likelihood ratio tests</li>
+      <li><span class="n">3.8</span>The partition scheme</li>
+      <li><span class="n">3.9</span>Frequent mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 3.1 -->
+  <h2 id="s3-1"><span class="num">3.1</span>What is decided in this block</h2>
+
+  <p>The differences observed between two sequences <b>underestimate</b> the changes that really happened, because a site that changed from A to G and then to T is counted as one change, not two, and if it went back to A none is counted at all. A substitution model is the tool that turns what is observed into an estimate of what happened.</p>
+
+  <p>Choosing it well matters as much as choosing the inference method. A model that is too simple underestimates long branches—and thereby feeds the long-branch attraction of Chapter 1—; one that is too complex spends parameters the data cannot estimate and increases variance without removing bias.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Why “always use GTR+I+G” is not enough</div>
+    <p>It is what many people do, and with thousands of sites it rarely goes wrong. But with little data GTR+I+G has eight free parameters plus the branch lengths, and estimating them all on two hundred positions produces very imprecise estimates. Besides, <b>+I and +G compete to explain the same thing</b>: together they tend to give extreme values of both that do not mean what they seem to. This block exists so that the choice is made by fit and not by habit.</p>
+  </div>
+
+  <p>The block works on <b>one aligned partition</b> at a time, chosen in the <span class="ui">partition</span> menu. If you have several, section 4 of the panel also looks for how to group them.</p>
+
+  <!-- ------------------------------------------------------------------ 3.2 -->
+  <h2 id="s3-2"><span class="num">3.2</span>What your data contain</h2>
+
+  <p>The first section summarizes the partition before touching anything: how many taxa, how many sites, how many columns are <b>constant</b>, how many <b>variable</b> and how many <b>informative</b>, the G+C content and the proportion of gaps.</p>
+
+  <p>The sentence at the head of the section says something worth understanding well: <i>constant sites tell you nothing about the topology but plenty about the model</i>. A column where all taxa have A does not choose between topologies, but it does say that there were no changes at that site, and that is direct information about the rates and about the proportion of invariable sites. That is why <b>removing constant sites “because they contribute nothing” biases branch lengths upward</b>: the model believes there was more change than there was.</p>
+
+  <!-- ------------------------------------------------------------------ 3.3 -->
+  <h2 id="s3-3"><span class="num">3.3</span>The assumptions, put to the test</h2>
+
+  <p>Before choosing a model, the block checks the two assumptions that <b>no</b> model on the list relaxes.</p>
+
+  <h3>Composition per sequence</h3>
+  <p>All the usual models assume that base composition is the same in every sequence and throughout the tree. The plot shows the composition of each sequence, and a χ² test compares each one against the mean.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>What to do if composition is heterogeneous</div>
+    <p>What does <b>not</b> work is changing the substitution model: none of the 56 fixes it, because they all share that assumption. Two sequences with similar composition attract each other in the tree even if they are not related, and the support will be high. There are three real ways out: <b>removing the third codon position</b>, which is usually the culprit; <b>switching to amino acids</b>, whose composition varies less; or <b>recoding</b> the nucleotides into purines and pyrimidines. The help card of the χ² test says so on screen as well.</p>
+  </div>
+
+  <h3>Saturation</h3>
+  <p>The second plot is the one you practiced in Lab 2 of Chapter 1, now on your data: transitions and transversions against the corrected distance. The rule reads the same way: <b>as long as the cloud follows a straight line, the marker is informative; when it bends and flattens, it is saturated</b>. Transitions saturate before transversions, and the third codon position before the first and second.</p>
+
+  <p>Remember what saturated means and what it does not mean: the marker still resolves recent nodes well; what it cannot do is support the deep nodes <b>and their support values</b>.</p>
+
+  <!-- ------------------------------------------------------------------ 3.4 -->
+  <h2 id="s3-4"><span class="num">3.4</span>The catalog of models</h2>
+
+  <p>For DNA, the catalog is built by combining three things: seven <b>rate schemes</b>, two ways of treating the <b>base frequencies</b> and four <b>among-site rate variation variants</b>. Seven times two times four makes <b>56 models</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Table 3.1.</b> The seven rate schemes. The name on the left is the one it carries with equal frequencies; the one on the right, with empirical frequencies.</caption>
+    <thead><tr><th style="width:20%">Equal freq.</th><th style="width:20%">Empirical freq.</th><th style="width:12%">Free rates</th><th>What it distinguishes</th></tr></thead>
+    <tbody>
+      <tr><td>JC</td><td>F81</td><td>0</td><td>All changes at the same rate.</td></tr>
+      <tr><td>K80</td><td>HKY</td><td>1</td><td>Transitions and transversions at different rates: the parameter κ.</td></tr>
+      <tr><td>TrNef</td><td>TrN</td><td>2</td><td>The two classes of transition are separated.</td></tr>
+      <tr><td>K81</td><td>K81uf</td><td>2</td><td>Two classes of transversion.</td></tr>
+      <tr><td>TIMef</td><td>TIM</td><td>3</td><td>Separate transitions and separate transversions.</td></tr>
+      <tr><td>TVMef</td><td>TVM</td><td>4</td><td>All transversions free, transitions equal.</td></tr>
+      <tr><td>SYM</td><td><b>GTR</b></td><td>5</td><td>The six rates free: the most general.</td></tr>
+    </tbody>
+  </table>
+
+  <p>And the four variants, which apply to any of the fourteen:</p>
+
+  <table class="tabla">
+    <caption><b>Table 3.2.</b> The four variants of among-site rate variation.</caption>
+    <thead><tr><th style="width:16%">Variant</th><th>What it adds</th></tr></thead>
+    <tbody>
+      <tr><td><b>(none)</b></td><td>All sites change at the same speed. It is almost never true.</td></tr>
+      <tr><td><b>+I</b></td><td>A proportion of sites <b>unable</b> to change, not simply sites that did not change.</td></tr>
+      <tr><td><b>+G</b></td><td>Rates are distributed according to a discrete gamma (Yang 1994), with shape α. It is the variant that usually matters most.</td></tr>
+      <tr><td><b>+I+G</b></td><td>Both at once. They compete to explain the same thing; see the warning in Section 3.6.</td></tr>
+    </tbody>
+  </table>
+
+  <p>For <b>proteins</b>, the catalog is twelve empirical matrices—LG, WAG, JTT, Dayhoff, cpREV, mtREV24, VT, RtREV, Blosum62, FLU, HIVb and mtmam—, also with the four variants. The <span class="ui">quick</span> set tries six (LG, WAG, JTT, cpREV, Dayhoff and VT) and the <span class="ui">standard</span> set all twelve. <b>cpREV is there for a specific reason</b>: it was estimated from chloroplast-encoded proteins, which is where most markers in plant systematics come from.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Where those twelve matrices come from</div>
+    <p>They are the matrices published in their original articles, each one cited in the code next to its numbers, and checked value by value against five independent canonical distributions—PAML, IQ-TREE, MrBayes, RAxML and the file that the WAG authors themselves deposited at the EBI. The <span class="ui">PROCEDENCIA.md</span> file documents the check.</p>
+  </div>
+
+  <p>For <b>morphology</b>, the model is <b>Mk</b> (Lewis 2001): a <i>k</i>-state model with all rates equal. Its variant <b>Mkv</b> adds the correction for the fact that morphological matrices almost never include constant characters—nobody codes the character “has cells”—, and without that correction branches come out inflated.</p>
+
+  <h3>The controls</h3>
+  <ul class="lista">
+    <li><span class="ui">set</span>: <span class="ui">quick</span> or <span class="ui">standard</span>, depending on how many candidates you want to try.</li>
+    <li><span class="ui">criterion</span>: AIC, AICc or BIC, which is the one that sorts the table.</li>
+    <li><span class="ui">Γ categories</span>: how many discrete classes the gamma is split into. Four is the usual number and what almost everyone reports.</li>
+    <li><span class="ui">starting tree</span>: <span class="ui">BIONJ, ML-optimised</span>, <span class="ui">neighbour joining</span> or <span class="ui">UPGMA</span>. All candidates are fitted <b>on the same tree</b>, which is what makes the comparison fair.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 3.5 -->
+  <h2 id="s3-5"><span class="num">3.5</span>How the choice is made: AIC, AICc, BIC and weights</h2>
+
+  <p>A model with more parameters <b>always</b> gives a better likelihood, even if the extra parameters are of no use at all. That is why the lnL is not compared on its own, but a quantity that rewards fit and penalizes parameters:</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>The three formulas</div>
+    <p><b>AIC</b> = −2·lnL + 2<i>k</i> &nbsp;·&nbsp; <b>AICc</b> = AIC + 2<i>k</i>(<i>k</i>+1)/(<i>n</i>−<i>k</i>−1) &nbsp;·&nbsp; <b>BIC</b> = −2·lnL + <i>k</i>·ln(<i>n</i>)</p>
+    <p>where <i>k</i> is the number of parameters and <i>n</i> the number of sites. In all three, <b>lower is better</b>. AICc corrects for small samples and approaches AIC when <i>n</i> is large. BIC penalizes more heavily and therefore tends to choose simpler models.</p>
+  </div>
+
+  <p>What you read in the table is not the absolute value but the <b>difference from the best</b>, ΔAIC. Burnham and Anderson’s convention: below 2, the model is practically indistinguishable from the winner; between 4 and 10, clearly worse; above 10, discarded.</p>
+
+  <p>The <b>Akaike weights</b> column turns those differences into probabilities that sum to one: the weight of a model is the probability that it is the best <b>of the set compared</b>. A winner with a weight of 0.9 settles the matter; several models sharing the weight means that the data do not distinguish between them, and then it is worth checking that the tree does not change depending on which one is used.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>“The best of the set” is not “good”</div>
+    <p>If all the candidates are bad for these data—for example, because composition is heterogeneous and none of them models it—, the weight of 0.99 goes to the least bad. Choosing the model is not the analysis, and a GTR+Γ fitted on a crooked alignment is still a GTR+Γ fitted on a crooked alignment.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 3.6 -->
+  <h2 id="s3-6"><span class="num">3.6</span>Reading the winning model</h2>
+
+  <p>Once the model is chosen, the program <b>refits it properly</b>, with all branches optimized, and shows its parts.</p>
+
+  <h3>The rate matrix</h3>
+  <p>The six exchangeability rates between pairs of bases and the four equilibrium frequencies. It is worth looking at the ratio between transitions and transversions: in nuclear and chloroplast DNA the normal value is around 2, and a value close to 1 in a gene that should have more is a sign of saturation—the transitions, which saturate first, have already been erased.</p>
+
+  <h3>The shape of the gamma (α)</h3>
+  <p>It describes how unequal the distribution of rates among sites is. Below 1 the heterogeneity is strong: a few very fast sites and many almost frozen. Above 3, rates are almost equal and +G adds little. The <b>Rates among sites</b> plot draws the discrete categories with their relative rate.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Interpreting α and the proportion of invariable sites separately in a +I+G</div>
+    <p>+I and +G explain the same phenomenon in two ways, and when they are fitted together they share the work unstably: it is common to get a high proportion of invariable sites <b>and</b> a low α, with neither value meaning what it seems to. Many authors recommend using +G alone. If you need to report I and α, do so stating that they come from a joint fit.</p>
+  </div>
+
+  <h3>The verdict in words</h3>
+  <p>Below the tables, the panel writes in prose which model won, by how much, and what its parameters mean. It is the text you can take almost as is into the methods section, and the one Block 12 reuses when it writes the report.</p>
+
+  <!-- ------------------------------------------------------------------ 3.7 -->
+  <h2 id="s3-7"><span class="num">3.7</span>Hierarchical likelihood ratio tests</h2>
+
+  <p>The other way of choosing, older than the information criteria and still often requested by reviewers. It compares <b>nested</b> models—one is a special case of the other—with the statistic 2ΔlnL against a χ² with as many degrees of freedom as the difference in parameters, and chains the tests until it settles on the simplest model that is not rejected.</p>
+
+  <p>The program offers it because it is still asked for, and at the same time it says why information criteria are the preferred route today:</p>
+
+  <ul class="lista">
+    <li>The result <b>depends on the order</b> in which the tests are chained, and there is no canonical order.</li>
+    <li>It only compares nested models, so it leaves out perfectly sensible comparisons.</li>
+    <li>The χ² is an asymptotic approximation and <b>does not hold when a parameter sits on the boundary of its range</b>, which is exactly the case of +I: the proportion of invariable sites is tested against zero, which is its limit.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 3.8 -->
+  <h2 id="s3-8"><span class="num">3.8</span>The partition scheme</h2>
+
+  <p>With several partitions the question is not only which model, but <b>how many different models are needed</b>. Giving each gene its own is the most flexible and the most expensive in parameters; giving all of them a single one is the cheapest and may be false.</p>
+
+  <p><span class="ui">Find the scheme</span> carries out a <b>greedy merging</b> in the style of PartitionFinder: it starts with one partition per gene, at each step tries the merger of two that improves the information criterion, and stops when no merger improves it. The result says which partitions share a model and which deserve their own.</p>
+
+  <p>With a gene split by codon position, the typical result is that the first and second positions merge and the third stays on its own, which is exactly what biology predicts.</p>
+
+  <p>The <span class="ui">Export the chosen model</span> button saves the scheme and the model to take them to another program or to keep a record.</p>
+
+  <!-- ------------------------------------------------------------------ 3.9 -->
+  <h2 id="s3-9"><span class="num">3.9</span>Frequent mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Choosing the model without first looking at the assumptions</div>
+    <p>The two plots in section 2 of the panel are more important than the whole table of models. If composition is heterogeneous or the marker is saturated, the winning model will be the least bad of a list of unsuitable models, and its Akaike weight of 0.99 will say nothing about it.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reporting only the name of the model</div>
+    <p>“GTR+I+G was used” is half the information. Missing are the criterion by which it was chosen, the number of gamma categories, and—if there were partitions—the scheme. The Block 12 report writes it out in full.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Removing constant sites</div>
+    <p>They tell you nothing about the topology, but they do about the model. Removing them inflates branch lengths. The only situation in which they are removed is when the model knows it and corrects for it, which is what Mkv does in morphology.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Believing that choosing the model well fixes the tree</div>
+    <p>It improves branch lengths, support and, in difficult cases, the topology. It does not fix a bad alignment, or a heterogeneous composition, or a taxon sampling that leaves a long branch on its own. The order of importance is: data, alignment, sampling, model.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

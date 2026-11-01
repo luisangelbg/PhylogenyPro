@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-4" data-pestana="4" data-orden="4" style="--acento: var(--b4)">
+  <div class="cap-apertura">
+    <div class="cap-num">4</div>
+    <div class="cap-etiqueta">Chapter four · Block 4</div>
+    <h1>Parsimony and distances</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The quick trees: the ones that come out in seconds and serve as a starting point for likelihood and as a contrast for everything else. A distance tree is not a weak hypothesis if the model that corrects the distances is the right one, and parsimony remains the right tool for morphology. This chapter explains both, their indices, how the support of a branch is measured and what a consensus says when there are many equally short trees.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k5"></span><span class="k11"></span><span class="k12"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">4.1</span>What quick trees are for</li>
+      <li><span class="n">4.2</span>Distance trees</li>
+      <li><span class="n">4.3</span>Maximum parsimony</li>
+      <li><span class="n">4.4</span>The search: NNI, SPR and TBR</li>
+      <li><span class="n">4.5</span>The indices: CI, RI, RC and HI</li>
+      <li><span class="n">4.6</span>Branch support</li>
+      <li><span class="n">4.7</span>Consensus and comparison</li>
+      <li><span class="n">4.8</span>The figure</li>
+      <li><span class="n">4.9</span>How well it does, measured</li>
+      <li><span class="n">4.10</span>Frequent mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.1 -->
+  <h2 id="s4-1"><span class="num">4.1</span>What quick trees are for</h2>
+
+  <p>This block produces trees in seconds, and that makes them easy to look down on. It is not a good idea. They have three legitimate uses:</p>
+
+  <ul class="lista">
+    <li><b>Starting point.</b> The maximum likelihood search of Block 5 needs an initial tree, and the better it is, the less risk there is of getting stuck in a local optimum.</li>
+    <li><b>Contrast.</b> If the distance tree, the parsimony tree and the likelihood tree agree on the main clades, that is information. If they disagree, so is that, and you need to understand why before publishing any of them.</li>
+    <li><b>The right tool for morphology.</b> With discrete characters and few changes, parsimony is not a cheap approximation to likelihood: it is the method the discipline uses, and with good reason.</li>
+  </ul>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>A distance tree is not a weak hypothesis</div>
+    <p>It is when the distances are poorly corrected, which is a different matter. With the right model, neighbor joining is a <b>consistent estimator</b>: with enough data it converges to the true tree. Its bad reputation comes from using it with uncorrected distances, which is what does fail as soon as there is saturation.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.2 -->
+  <h2 id="s4-2"><span class="num">4.2</span>Distance trees</h2>
+
+  <p>The method consists of two decisions: <b>how the distance</b> between each pair of sequences <b>is measured</b> and <b>how the tree is built</b> from the matrix.</p>
+
+  <h3>The distances</h3>
+  <table class="tabla">
+    <caption><b>Table 4.1.</b> The distances offered by the <span class="ui">distance</span> menu.</caption>
+    <thead><tr><th style="width:26%">Distance</th><th>What it corrects and when to use it</th></tr></thead>
+    <tbody>
+      <tr><td><b>uncorrected (p)</b></td><td>The proportion of differing positions. Useful only to see how much the others correct; not for inference.</td></tr>
+      <tr><td><b>JC69</b></td><td>Multiple changes, assuming all changes are equally probable.</td></tr>
+      <tr><td><b>K80</b></td><td>Separates transitions from transversions. The reasonable minimum for DNA.</td></tr>
+      <tr><td><b>F81</b></td><td>Allows unequal base frequencies.</td></tr>
+      <tr><td><b>TN93</b></td><td>Unequal frequencies <i>and</i> two classes of transition. The most complete on the list.</td></tr>
+      <tr><td><b>LogDet (Lockhart)</b></td><td>The only one that <b>tolerates heterogeneous composition</b> among sequences. If the χ² test of Block 3 came out badly, this is the distance to use.</td></tr>
+      <tr><td><b>paralinear (Lake)</b></td><td>A close relative of LogDet, with the observed frequencies.</td></tr>
+      <tr><td><b>Poisson</b> and <b>Kimura</b></td><td>For proteins: the first without composition correction, the second with Kimura’s classic approximation.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Two names for two different formulas</div>
+    <p>What <i>ape</i> calls <code>logdet</code> is the distance of Lockhart et al. (1994); the formula with the observed frequencies is Lake’s <b>paralinear</b> distance. They are often confused because they share the nickname. Here they appear separately and under their own names, so that you can report which one was used.</p>
+  </div>
+
+  <p>Two checkboxes modify the calculation. <span class="ui">gamma correction</span> applies the gamma correction with the α estimated by Block 3, and <span class="ui">complete deletion</span> decides what to do with gaps: when checked, it removes every column that has any gap before computing any pair; when unchecked, each pair uses the columns that both have. With a lot of missing data, complete deletion can leave you with very few columns.</p>
+
+  <h3>The methods</h3>
+  <p>The <span class="ui">method</span> menu offers <b>neighbor joining (NJ)</b>, <b>BIONJ</b>, <b>UPGMA</b>, <b>WPGMA</b> and <b>minimum evolution</b>.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>UPGMA assumes a molecular clock</div>
+    <p>And most data do not meet it. UPGMA produces an <b>ultrametric</b> tree—all tips at the same height—, which is correct for a clustering dendrogram and false for a phylogeny with unequal rates. Use it to see structure, not to infer relationships. NJ and BIONJ do not assume a clock.</p>
+  </div>
+
+  <p><b>Balanced minimum evolution</b> looks for the tree whose total length, computed with the balanced averages of Desper and Gascuel (2002) on Pauplin’s (2000) criterion, is the smallest. It is a true optimality criterion, with NNI and SPR search from several starts, and not a mere clustering algorithm.</p>
+
+  <!-- ------------------------------------------------------------------ 4.3 -->
+  <h2 id="s4-3"><span class="num">4.3</span>Maximum parsimony</h2>
+
+  <p>The tree that needs the fewest changes to explain the matrix. Transparent, free of model assumptions… <b>and vulnerable for that very reason</b>, as you saw in Lab 1 of Chapter 1: without a model that corrects for multiple changes, parsimony interprets convergence as kinship.</p>
+
+  <h3>The controls</h3>
+  <ul class="lista">
+    <li><span class="ui">characters</span>: <span class="ui">unordered (Fitch)</span>, where any state can go to any other in one step; <span class="ui">ordered (Sankoff)</span>, where the cost depends on the pair of states and an order can be imposed—useful in morphology, when a character has graded states—; or <span class="ui">transversions weighted</span>, which penalizes transversions more than transitions.</li>
+    <li><span class="ui">tv:ts weight</span>: how much more a transversion costs. With 2:1, a transversion is worth two steps. It is parsimony’s way of acknowledging that transitions are more frequent.</li>
+    <li><span class="ui">swapping</span>: NNI, SPR or TBR (Section 4.4).</li>
+    <li><span class="ui">starts</span>: how many different addition orders are tried. Several starts that reach the same tree are the best sign that the search was sufficient.</li>
+    <li><span class="ui">max trees</span>: how many equally short trees are kept. Morphological matrices sometimes produce thousands.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 4.4 -->
+  <h2 id="s4-4"><span class="num">4.4</span>The search: NNI, SPR and TBR</h2>
+
+  <p>The number of topologies grows faster than factorially: with twenty taxa there are more than 10²⁰ unrooted trees. They cannot all be evaluated, so the search starts from one and tries rearrangements.</p>
+
+  <table class="tabla">
+    <caption><b>Table 4.2.</b> The three types of rearrangement, from smallest to largest reach.</caption>
+    <thead><tr><th style="width:14%">Type</th><th style="width:44%">What it does</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td><b>NNI</b></td><td>Swaps the two groups adjacent to an internal branch. Small moves.</td><td>Fast; easily gets stuck in local optima.</td></tr>
+      <tr><td><b>SPR</b></td><td>Pulls off a branch with everything hanging from it and regrafts it elsewhere.</td><td>The usual balance between reach and time.</td></tr>
+      <tr><td><b>TBR</b></td><td>Cuts the tree in two and rejoins the halves through every possible pair of branches.</td><td>The most exhaustive and the slowest.</td></tr>
+    </tbody>
+  </table>
+
+  <p>No heuristic search <b>guarantees</b> the optimum. When two programs give different trees under the same criterion, it is usually this and not a disagreement of method: they are two local optima.</p>
+
+  <!-- ------------------------------------------------------------------ 4.5 -->
+  <h2 id="s4-5"><span class="num">4.5</span>The indices: CI, RI, RC and HI</h2>
+
+  <p>Once the tree is in place, four indices describe how much homoplasy—convergence and reversal—it contains.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>The four definitions</div>
+    <p><b>CI</b> = <i>m</i>/<i>s</i>, the minimum possible number of changes over the number the tree needs. It equals 1 without homoplasy.<br>
+    <b>HI</b> = 1 − CI, the homoplasy index: the same thing said the other way round.<br>
+    <b>RI</b> = (<i>g</i>−<i>s</i>)/(<i>g</i>−<i>m</i>), where <i>g</i> is the length on the worst possible tree: how much of the similarity that <b>could</b> be synapomorphy actually is.<br>
+    <b>RC</b> = CI × RI, the rescaled consistency index.</p>
+  </div>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The CI falls with the number of taxa</div>
+    <p>Systematically, and without homoplasy having increased. A CI of 0.8 with fifteen taxa and one of 0.4 with two hundred may describe the same matrix. That is why <b>CIs are not compared between studies of different size</b>, and why the RI, which corrects part of the problem, is the one worth reporting.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.6 -->
+  <h2 id="s4-6"><span class="num">4.6</span>Branch support</h2>
+
+  <p>The sentence at the head of this section on screen deserves repeating: <i>a clade without support is not a bug: it is a polytomy your data cannot resolve</i>. The program offers three measures.</p>
+
+  <h3>Bootstrap</h3>
+  <p>The alignment columns are resampled <b>with replacement</b>, the tree is rebuilt hundreds of times and the percentage of replicates in which each branch appears is counted. It measures the <b>consistency of the signal</b> in the data, not the probability that the branch is correct. The convention: 70% for “well supported,” 95% for strong.</p>
+
+  <h3>Jackknife</h3>
+  <p>The same, but instead of resampling with replacement a fraction of the columns is <b>deleted</b> in each replicate. It gives results similar to the bootstrap and is somewhat more conservative.</p>
+
+  <h3>Bremer support</h3>
+  <p>Different in nature: how many <b>extra steps</b> have to be accepted before finding a tree in which that branch no longer appears. It is read in steps, not as a percentage, and it depends on the size of the matrix: in a large matrix, a Bremer of 5 may be little. A value of 1 means that one step is enough to undo the branch.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Believing that the bootstrap protects against systematic error</div>
+    <p>It does not, and it is important to understand this. The bootstrap measures whether the signal holds up when the same data are resampled under the same method. If the method is biased—long-branch attraction, heterogeneous composition—, the wrong signal is in <b>all</b> the replicates, and the bootstrap will support the wrong branch at 100%. With more data, it will support it more.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.7 -->
+  <h2 id="s4-7"><span class="num">4.7</span>Consensus and comparison</h2>
+
+  <p>When the search returns several equally short trees, the question is what they agree on. The menu offers four consensus methods:</p>
+
+  <table class="tabla">
+    <caption><b>Table 4.3.</b> The four consensus methods.</caption>
+    <thead><tr><th style="width:22%">Consensus</th><th>Keeps</th></tr></thead>
+    <tbody>
+      <tr><td><b>strict</b></td><td>Only the clades present in <b>all</b> trees. The most conservative and the one published by default.</td></tr>
+      <tr><td><b>majority rule (50%)</b></td><td>The clades present in more than half, with their frequency noted.</td></tr>
+      <tr><td><b>semistrict</b></td><td>The clades that no tree contradicts, even if they are not in all of them. Useful when some trees lack taxa.</td></tr>
+      <tr><td><b>greedy</b></td><td>Adds clades by frequency as long as they are compatible. The most resolved and the least conservative.</td></tr>
+    </tbody>
+  </table>
+
+  <p>The polytomies of a strict consensus <b>are the result</b>: they say exactly where the data do not decide. A heavily collapsed consensus is not a failure of the analysis; it is an honest analysis of data that are not enough.</p>
+
+  <p>The <b>How much the trees agree</b> table compares by Robinson–Foulds distance everything the block has produced—distances, parsimony, consensus trees—to see at a glance which methods agree.</p>
+
+  <!-- ------------------------------------------------------------------ 4.8 -->
+  <h2 id="s4-8"><span class="num">4.8</span>The figure</h2>
+
+  <p>The drawing uses the same engine that the tree studio of Block 12 will use: <span class="ui">rectangular</span>, <span class="ui">circular</span> or <span class="ui">unrooted</span> layout; <span class="ui">cladogram</span> to draw without lengths; support as <span class="ui">numbers</span>, <span class="ui">coloured dots</span> or <span class="ui">none</span>; and root <span class="ui">as it is</span>, <span class="ui">midpoint</span> or <span class="ui">outgroup…</span>, with multiple selection using Ctrl.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>An unrooted tree has no ancestors</div>
+    <p>The methods in this block produce <b>unrooted</b> trees: they describe relationships, not direction. Placing the root is an additional decision, and with an outgroup it is a hypothesis that can be wrong. If you choose an outgroup that is not monophyletic in that tree, the program says so and leaves the tree as it was, instead of silently rooting it wrongly.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 4.9 -->
+  <h2 id="s4-9"><span class="num">4.9</span>How well it does, measured</h2>
+
+  <p>Everything in this block was checked against <i>ape</i> and <i>phangorn</i>, and the results are in the validation folder. Three deserve mention:</p>
+
+  <ul class="lista">
+    <li>The parsimony search reaches <b>1,916 steps</b> on the example, <b>the same optimum as phangorn’s <code>pratchet</code></b>, and thirteen steps better than <code>optim.parsimony</code> with SPR.</li>
+    <li>The balanced minimum evolution length reproduces that of <code>ape::fastme.bal</code> <b>to within 5·10⁻⁹</b> on the same tree, so the formula agrees exactly.</li>
+    <li>With its own search from three starts, the program reaches a <b>shorter</b> tree (2.899076) than ape’s (2.901969). It is not that one of them is wrong: they are two local optima of the same criterion, and where a heuristic lands depends on where it starts.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 4.10 -->
+  <h2 id="s4-10"><span class="num">4.10</span>Frequent mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Using uncorrected distances</div>
+    <p>It is what gave distance methods their bad reputation. With saturation, the p distance underestimates divergence exactly where it matters most, and the tree gets distorted. Always correct, and with the model that Block 3 chose.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publishing a UPGMA tree as a phylogeny</div>
+    <p>UPGMA assumes a molecular clock. If your rates are unequal—and they almost always are—, the tree will be wrong in a systematic and predictable way: the fast lineages will come out more “derived” than they are.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reporting a single shortest tree without saying how many there were</div>
+    <p>If the search found 4,800 equally short trees and you publish one, you are presenting as a result an arbitrary choice among 4,800. What is reported is the consensus, the number of optimal trees and their length.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparing the CI with that of another study</div>
+    <p>It is only comparable between matrices of the same size. Report the RI, and in any case say how many taxa and how many characters the matrix had.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Accepting the search with a single start</div>
+    <p>A single starting point and NNI is the recipe for getting stuck in a local optimum. Raise the starts, use SPR or TBR, and check that several starts reach the same length. If they do not, the search is not over.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

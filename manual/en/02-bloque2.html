@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-2" data-pestana="2" data-orden="2" style="--acento: var(--b2)">
+  <div class="cap-apertura">
+    <div class="cap-num">2</div>
+    <div class="cap-etiqueta">Chapter two · Block 2</div>
+    <h1>Data and alignment</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The most important block in the program and the one that usually gets the least attention. Here the sequences are read, aligned, checked <b>by hand</b>, the doubtful columns are trimmed and the partition map is built, declaring which genome each partition comes from. Everything the following ten blocks do rests on what is decided in this one, and no later method can correct a mistake made here.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">2.1</span>Why this block decides the study</li>
+      <li><span class="n">2.2</span>Loading the data: formats and what is guessed</li>
+      <li><span class="n">2.3</span>Partitions: the map of the study</li>
+      <li><span class="n">2.4</span>Aligning: the aligner and its options</li>
+      <li><span class="n">2.5</span>Aligning by codon</li>
+      <li><span class="n">2.6</span>The viewer: really looking at the alignment</li>
+      <li><span class="n">2.7</span>Editing by hand</li>
+      <li><span class="n">2.8</span>Trimming of ambiguous blocks</li>
+      <li><span class="n">2.9</span>Quality control: eleven things that are checked</li>
+      <li><span class="n">2.10</span>Exporting, and what goes on to Block 3</li>
+      <li><span class="n">2.11</span>Frequent mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.1 -->
+  <h2 id="s2-1"><span class="num">2.1</span>Why this block decides the study</h2>
+
+  <p>Aligning two columns means claiming that they <b>descend from the same ancestral site</b>. It is not data preparation: it is the first hypothesis of the work, and it is the only one that no later block can put to the test. The maximum likelihood of Block 5 will take your alignment as a fact and compute on it in all seriousness; if the columns are wrong, it will compute a false answer in all seriousness.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The consequence you need to understand</div>
+    <p>A bad alignment <b>does not produce a tree with little support</b>, which would be the honest result. It produces a <b>firmly wrong</b> tree: the misaligned columns become false informative sites, and those sites enthusiastically support groupings that do not exist. The bootstrap will back them, because the bootstrap measures the consistency of the signal, and the signal is there—it is just artificial.</p>
+  </div>
+
+  <p>That is why this block does not stop at aligning: it brings a viewer to look at the result column by column, an editor to correct it by hand, a trimming step with a preview and a quality control that looks for eleven specific problems. The sentence at the head of the alignment section on screen says it plainly: <i>the eye of someone who knows the group often beats the algorithm</i>.</p>
+
+  <!-- ------------------------------------------------------------------ 2.2 -->
+  <h2 id="s2-2"><span class="num">2.2</span>Loading the data: formats and what is guessed</h2>
+
+  <p>Each file you load comes in as a <b>partition</b>: a gene, a region or a matrix. You can load several at once, by dragging them onto the box, choosing them with <span class="ui">Choose files…</span> or pasting the text with <span class="ui">Paste sequences</span>.</p>
+
+  <table class="tabla">
+    <caption><b>Table 2.1.</b> Formats the program reads, and what you need to know about each.</caption>
+    <thead><tr><th style="width:22%">Format</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td><b>FASTA</b></td><td>The simplest and the safest. If in doubt, convert to FASTA.</td></tr>
+      <tr><td><b>PHYLIP</b></td><td>Strict and relaxed, sequential and interleaved. The strict one cuts names at ten characters; the program detects which is which and says so.</td></tr>
+      <tr><td><b>NEXUS</b></td><td>DATA, CHARACTERS, SETS (with <i>charsets</i>, which become partitions) and TREES blocks. It also understands MATCHCHAR.</td></tr>
+      <tr><td><b>Clustal</b></td><td>The classic output of ClustalW and ClustalΩ.</td></tr>
+      <tr><td><b>MEGA</b></td><td>The MEGA format, with its <code>#MEGA</code> headers.</td></tr>
+      <tr><td><b>GenBank</b></td><td>Flat files. Names are taken from the ORGANISM field, and from the gene when it is present.</td></tr>
+      <tr><td><b>Spreadsheet</b></td><td>.csv and .tsv, for morphological matrices: one row per taxon, one column per character.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>What it guesses, it says</div>
+    <p>The program deduces the format and the data type—DNA, protein or morphology—and <b>reports everything it had to guess</b>. When a GenBank file forces it to take the names from the ORGANISM field, it warns you and asks you to check them before going on: that is where duplicate names and synonyms sneak in.</p>
+  </div>
+
+  <p>If you prefer to start without your own data, the four example buttons load the data sets described in Section I.7: <span class="ui">Bursera · 3 genes, unaligned</span>, <span class="ui">Bursera · concatenated and aligned</span>, <span class="ui">Gene family · proteins</span> and <span class="ui">Morphological matrix</span>. The three unaligned genes are the right choice for practicing this whole chapter, because they carry their true alignment stored with them and let you check how well you did.</p>
+
+  <!-- ------------------------------------------------------------------ 2.3 -->
+  <h2 id="s2-3"><span class="num">2.3</span>Partitions: the map of the study</h2>
+
+  <p>The list of partitions is the map of what you are going to analyze. Each row shows the name, how many taxa and positions it has, whether it is aligned, and two menus: the <b>genome</b> and the <b>data type</b>.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The genome is not decoration</div>
+    <p>Declaring whether a partition comes from the <b>chloroplast</b>, the <b>mitochondrion</b>, <b>nuclear ribosomal DNA</b> or the <b>low-copy nucleus</b> is the decision in this block that reaches furthest. The chloroplast and the mitochondrion are inherited from a single parent and do not recombine: the whole genome is one lineage with a single history. The nucleus is inherited from both and recombines. That declaration travels to all the following blocks, and it is what allows Block 11 to treat a disagreement between genes as <b>information</b>—chloroplast capture, hybridization—and not as noise to be averaged away.</p>
+  </div>
+
+  <p>Three buttons act on the whole set:</p>
+  <ul class="lista">
+    <li><span class="ui">Concatenate all</span> joins the aligned partitions into a single matrix, filling with missing data the taxa that are absent from any of them. The concatenated matrix keeps the map of where each gene starts and ends, which is what Block 3 will use for the partition scheme. You need <b>at least two aligned partitions</b>.</li>
+    <li><span class="ui">Split by codon position</span> divides a coding gene into three partitions—first, second and third position—, which is what is done when the third is saturated and you want to model it separately or discard it.</li>
+    <li><span class="ui">Import a partition scheme…</span> reads a scheme already written, in the style of RAxML’s.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 2.4 -->
+  <h2 id="s2-4"><span class="num">2.4</span>Aligning: the aligner and its options</h2>
+
+  <p>The aligner is progressive, from the school that Clustal made standard and MUSCLE refined. It works in four steps:</p>
+
+  <ol class="pasos">
+    <li><b>Quick distances</b> between each pair of sequences from the <i>k</i>-mers they share, without aligning anything yet.</li>
+    <li><b>Guide tree</b> by UPGMA on those distances.</li>
+    <li><b>Profile-to-profile alignment</b> traveling the guide tree from the leaves to the root, with affine gaps (Gotoh 1982) and with the penalty reduced where the profile already has gaps.</li>
+    <li><b>Iterative refinement</b>, optional: each branch of the guide tree splits the sequences in two, the two sub-alignments are realigned and the result is kept <b>only if it improves</b> the sum-of-pairs score. It is the third stage of MUSCLE.</li>
+  </ol>
+
+  <p>There are four controls: <span class="ui">by codon</span>, <span class="ui">refine</span>, <span class="ui">gap open</span> and <span class="ui">extend</span>. The last two are Gotoh’s penalties: opening a gap costs a lot, extending it costs little, because an insertion of six bases is a single event and not six.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>How good it is</div>
+    <p>Measured against the true alignment of the simulated examples, the aligner recovers <b>99.98%</b> of the pairs in rbcL, <b>98.14%</b> in trnL-F—the one that carries indels—, <b>98.93%</b> in ITS and <b>99.60%</b> in the protein family. Aligning rbcL <b>by codon</b>, <b>100%</b>. Those figures are in the validation folder and can be reproduced.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.5 -->
+  <h2 id="s2-5"><span class="num">2.5</span>Aligning by codon</h2>
+
+  <p>If the partition is coding, this is the most useful checkbox in the whole block. With <span class="ui">by codon</span> checked, the program translates, aligns as protein and returns the gaps to the nucleotides <b>three at a time</b>.</p>
+
+  <p>The consequence is that <b>a gap of one or two bases cannot appear</b>, and such a gap, in a coding region, is almost always an artifact of the aligner: it would imply a frameshift that selection would have removed. Aligning by codon does not improve the result a little: it eliminates an entire class of error at the root, and that is why the rbcL example goes from 99.98% to 100%.</p>
+
+  <!-- ------------------------------------------------------------------ 2.6 -->
+  <h2 id="s2-6"><span class="num">2.6</span>The viewer: really looking at the alignment</h2>
+
+  <p>The viewer draws the alignment on a canvas and copes with thousands of columns without slowing down. Three menus change what you see:</p>
+
+  <ul class="lista">
+    <li><span class="ui">colour</span>: <span class="ui">by residue</span> (each base or amino acid with its own), <span class="ui">differences from consensus</span>—which is the view that gives away a misaligned column, because the differences bunch up—or <span class="ui">no colour</span>.</li>
+    <li><span class="ui">mark variable and informative</span>: flags which columns change and which are parsimony-informative. Remember that the informative ones are the ones that choose the topology; the rest do not.</li>
+    <li><span class="ui">codon positions</span>: marks first, second and third. It shows at a glance whether the third is a mess, which is the signature of saturation.</li>
+  </ul>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Ten minutes here are worth more than anything else</div>
+    <p>Go through the alignment from beginning to end with the coloring by differences from consensus. Look for regions where a single sequence deviates completely—usually a sequence in the wrong orientation, or from another gene—, blocks where the gaps are staggered for no reason, and ends with data from a single taxon. They are minutes that save weeks.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.7 -->
+  <h2 id="s2-7"><span class="num">2.7</span>Editing by hand</h2>
+
+  <p>The editor has <b>unlimited undo and redo</b>, which is what makes it safe to experiment. There are eight operations:</p>
+
+  <table class="tabla">
+    <caption><b>Table 2.2.</b> The editor’s operations.</caption>
+    <thead><tr><th style="width:34%">Operation</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Gap in this sequence</span></td><td>Inserts a gap at the marked position, in that sequence only.</td></tr>
+      <tr><td><span class="ui">Gap in all</span></td><td>Inserts a column of gaps in all of them: it shifts the alignment without breaking it.</td></tr>
+      <tr><td><span class="ui">Remove this gap</span></td><td>Closes a gap in one sequence.</td></tr>
+      <tr><td><span class="ui">Delete column(s)</span></td><td>Deletes the selected columns.</td></tr>
+      <tr><td><span class="ui">Drop empty columns</span></td><td>Deletes the ones left without any residue, which tend to appear after editing.</td></tr>
+      <tr><td><span class="ui">Sort by name</span></td><td>Reorders the rows alphabetically, to find a taxon.</td></tr>
+      <tr><td><span class="ui">Remove taxon</span></td><td>Takes a whole sequence out of the partition.</td></tr>
+      <tr><td><span class="ui">↶ Undo</span> / <span class="ui">↷ Redo</span></td><td>With no limit on the number of steps.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Editing by hand is not cheating: it is what any experienced systematist does, because an algorithm does not know that this region is a microsatellite or that this taxon has a known duplication. What is mandatory is <b>saying so in the methods</b>, and the Block 12 report records that the alignment was edited.</p>
+
+  <!-- ------------------------------------------------------------------ 2.8 -->
+  <h2 id="s2-8"><span class="num">2.8</span>Trimming of ambiguous blocks</h2>
+
+  <p>There are regions—highly variable spacers, poorly sequenced ends—where the alignment is simply not credible. Removing them reduces noise; removing too much erases exactly what is informative. The program offers two schools:</p>
+
+  <h3>Gblocks (Castresana 2000)</h3>
+  <p>It chooses by <b>neighborhood</b> rules: a column is kept if it and its neighbors meet certain requirements. Its parameters are <span class="ui">conserved</span> and <span class="ui">highly conserved</span> (how many sequences must agree), <span class="ui">max contiguous</span> (how many non-conserved columns in a row are tolerated), <span class="ui">minimum block</span> (the minimum length of a block that is kept) and <span class="ui">gaps allowed</span>, with three levels: <span class="ui">none</span>, <span class="ui">up to half</span> and <span class="ui">all</span>.</p>
+
+  <h3>Per-column thresholds, in the style of trimAl</h3>
+  <p>They decide column by column: <span class="ui">by gap proportion</span>, <span class="ui">by column similarity</span>, or <span class="ui">gaps and similarity</span> at once, with the <span class="ui">max gaps</span> and <span class="ui">min similarity</span> sliders.</p>
+
+  <p>Whatever the method, the program <b>first shows what it is going to remove</b>. The preview paints the doomed columns on the alignment, and nothing is touched until you click <span class="ui">Apply the trimming</span>; <span class="ui">Clear the preview</span> cancels. The <span class="ui">keep whole codons</span> checkbox forces whole codons to be removed, so as not to break the reading frame.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Always trimming, out of habit</div>
+    <p>Trimming does not always improve the tree. There are published studies where removing columns <b>worsens</b> the inference, because informative sites go out together with the noise. The honest check is to run the analysis <b>with and without trimming</b> and see whether the tree changes. If you lost more than half of the columns, the problem was not the noise: it was the alignment.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.9 -->
+  <h2 id="s2-9"><span class="num">2.9</span>Quality control: eleven things that are checked</h2>
+
+  <p>The last section of the block looks for “what ruins an analysis without ever showing up in a spreadsheet.” These are the checks, with what each warning means:</p>
+
+  <table class="tabla">
+    <caption><b>Table 2.3.</b> The quality-control checks.</caption>
+    <thead><tr><th style="width:34%">Check</th><th>Why it matters</th></tr></thead>
+    <tbody>
+      <tr><td><b>Repeated names</b></td><td>Two taxa with the same name break any later analysis, and the error shows up much later.</td></tr>
+      <tr><td><b>Names with awkward characters</b></td><td>Brackets, commas and accents that other programs reject: it matters if you are going to export to NEXUS or Newick.</td></tr>
+      <tr><td><b>Very short sequences</b></td><td>Those less than half the length of the longest will hang from almost nothing and their position will be unstable.</td></tr>
+      <tr><td><b>Identical sequences</b></td><td>Not an error, but their branches end up at zero and some analyses misbehave. It is worth knowing beforehand.</td></tr>
+      <tr><td><b>Unexpected characters</b></td><td>Letters that do not match the declared data type: almost always, a protein marked as DNA or vice versa.</td></tr>
+      <tr><td><b>Taxa with many gaps</b></td><td>More than half gaps or missing data in a taxon.</td></tr>
+      <tr><td><b>Empty columns</b></td><td>With no residue at all; they tend to be left after editing and should be removed.</td></tr>
+      <tr><td><b>How many columns are constant</b></td><td>The proportion of columns that do not change, and how many are variable. It is the real raw material of the analysis.</td></tr>
+      <tr><td><b>Internal stop codons</b></td><td>In a coding region they indicate a wrong reading frame or a pseudogene. The program tries the three frames and says which is the right one.</td></tr>
+      <tr><td><b>Length a multiple of three</b></td><td>If it is not, the last codon is incomplete.</td></tr>
+      <tr><td><b>Unequal G+C between sequences</b></td><td>The subtlest warning and the most important: unequal composition <b>breaks the assumption</b> of almost all models, and makes two unrelated taxa attract each other in the tree. Block 3 puts it to a formal test.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The two warnings never to ignore</div>
+    <p><b>Internal stop codons</b> and <b>unequal G+C composition</b>. The first almost always means something is wrong in the data—wrong frame, reversed sequence, pseudogene—and is easy to fix. The second is not fixed by changing substitution model: it is dealt with by removing the third codon position, switching to amino acids or recoding, and Chapter 3 explains why.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 2.10 -->
+  <h2 id="s2-10"><span class="num">2.10</span>Exporting, and what goes on to Block 3</h2>
+
+  <p>The block writes FASTA, PHYLIP, NEXUS with its <i>charsets</i>, RAxML-style partition schemes and CSV. It serves both to save the work and to take it to another program.</p>
+
+  <p>What goes on to Block 3 is the set of aligned partitions, each with its <b>genome</b>, its <b>data type</b> and—if it is coding—its reading frame. If you come back to this block and change the alignment, the blocks that depended on it will tell you instead of going on showing an old result.</p>
+
+  <!-- ------------------------------------------------------------------ 2.11 -->
+  <h2 id="s2-11"><span class="num">2.11</span>Frequent mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Aligning and moving on to the next block without looking</div>
+    <p>It is the most expensive mistake in the whole program, and the most common. The alignment is the only hypothesis that no later block can put to the test. Ten minutes in the viewer are worth more than any refinement of the model.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Not aligning a coding region by codon</div>
+    <p>It costs one checkbox and eliminates an entire class of error. If your partition is coding and you aligned it by nucleotide, go back and do it again.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leaving the genome at its default value</div>
+    <p>The genome menus start with a guess based on the marker’s name. If your partition is called “gene1,” that guess will be bad. Correct it: Block 11 depends on it to tell a real biological conflict from an error.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concatenating before looking at each gene separately</div>
+    <p>Concatenation averages. If two genes have different histories—which is exactly what this program can detect in Block 11—, concatenating first hides the finding. Align and check each partition on its own, and concatenate afterwards.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confusing “many positions” with “much data”</div>
+    <p>A thousand positions of which thirty are parsimony-informative resolve little. The quality control says how many columns are constant and how many variable; that is the figure to look at, and the one worth reporting in the paper.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

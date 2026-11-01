@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Front matter and introduction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size pages, with running heads, page numbers and the table of contents -->
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<!-- ====================================================================== CREDITS -->
+<section class="preliminares creditos" id="creditos">
+  <div class="cred-titulo">PhylogenyPro</div>
+  <div class="cred-sub">User’s Manual · Molecular phylogenetics, from the alignment to the dated tree</div>
+
+  <dl>
+    <dt>Author</dt><dd><b>Luis Ángel Barrera-Guzmán</b><br><span class="small">ORCID 0000-0001-8057-2583 · lbarrerag@chapingo.mx</span></dd>
+    <dt>Program</dt><dd>PhylogenyPro, version 1.4.0 (September 2026)</dd>
+    <dt>Manual</dt><dd>First English edition, 2026, translated from the first Spanish edition. Describes version 1.4.0 of the program.</dd>
+    <dt>Program license</dt><dd>GNU General Public License, version 3 or later (GPL-3.0-or-later). The full text comes in the <span class="ui">LICENSE</span> file.</dd>
+    <dt>Manual rights</dt><dd>© 2026 Luis Ángel Barrera-Guzmán. All rights reserved.</dd>
+    <dt>Interface language</dt><dd>The program is in <b>Spanish and English</b>, and you switch from one to the other with the <span class="ui">ES</span> · <span class="ui">EN</span> buttons in the upper right corner, without losing your work. In this manual buttons and menus are written as they appear on screen in English, for example <span class="ui">Build the tree</span>.</dd>
+  </dl>
+
+  <h4>How to cite the program</h4>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: molecular phylogenetics in the browser, from the alignment to the dated tree</i> (version 1.4.0). Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815</div>
+  <h4>How to cite this manual</h4>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: User’s Manual</i> (1st English ed.). Distributed with PhylogenyPro, version 1.4.0. https://doi.org/10.5281/zenodo.23005815</div>
+  <p class="small">That DOI is the concept DOI: it always resolves to the most recent version. Machine-readable citation data are in <span class="ui">CITATION.cff</span> and <span class="ui">codemeta.json</span>, at the root of the program.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Privacy</div>
+    <p>PhylogenyPro runs entirely inside your browser. The files you open are read on your computer and <b>are never sent to any server</b>. You can analyze unpublished sequences, data under editorial embargo or material subject to an access agreement without any risk of them leaving your machine. The photographs you add to the tips of a tree are also stored in your browser and do not travel anywhere either.</p>
+  </div>
+
+  <p class="small" style="margin-top:0.25in;color:#5d6472">The illustrations, diagrams and screenshots in this manual are original and were generated with the program itself or with code written for the manual. The example data sets are described in Section I.7: the sequences are <b>simulated</b> on a known tree, so that each example carries its own correct answer; the species names are real, the sequences are not. The provenance of the scientific constants built into the program—the amino-acid substitution matrices, the BLOSUM62 matrix, the genetic code and the geological time scale—is documented in the <span class="ui">PROCEDENCIA.md</span> file.</p>
+</section>
+
+<!-- ====================================================================== CONTENTS -->
+<section class="preliminares indice" id="indice" data-nueva-hoja>
+  <h1>Contents</h1>
+  <div class="indice-sub">General contents of the manual</div>
+
+  <ol class="toc">
+    <li>
+      <div class="toc-cap"><span class="chip k0">In</span><a href="#cap-intro">Introduction</a><a class="pag" href="#cap-intro"></a></div>
+      <ul>
+        <li><span class="n">I.1</span><a href="#si-1"><span class="t">What is PhylogenyPro?</span></a></li>
+        <li><span class="n">I.2</span><a href="#si-2"><span class="t">The questions it answers</span></a></li>
+        <li><span class="n">I.3</span><a href="#si-3"><span class="t">Six ideas that hold up the whole manual</span></a></li>
+        <li><span class="n">I.4</span><a href="#si-4"><span class="t">What data it accepts and what it delivers</span></a></li>
+        <li><span class="n">I.5</span><a href="#si-5"><span class="t">What you need and how to open it</span></a></li>
+        <li><span class="n">I.6</span><a href="#si-6"><span class="t">A tour of the interface</span></a></li>
+        <li><span class="n">I.7</span><a href="#si-7"><span class="t">The example data sets, and why they are simulated</span></a></li>
+        <li><span class="n">I.8</span><a href="#si-8"><span class="t">How a study is carried out from start to finish</span></a></li>
+        <li><span class="n">I.9</span><a href="#si-9"><span class="t">How to read this manual</span></a></li>
+        <li><span class="n">I.10</span><a href="#si-10"><span class="t">What the program does not do</span></a></li>
+      </ul>
+    </li>
+    <li><div class="toc-cap"><span class="chip k1">1</span><a href="#cap-1">The home page: what to believe before you start</a><a class="pag" href="#cap-1"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k2">2</span><a href="#cap-2">Data and alignment</a><a class="pag" href="#cap-2"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k3">3</span><a href="#cap-3">Substitution models</a><a class="pag" href="#cap-3"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k4">4</span><a href="#cap-4">Parsimony and distances</a><a class="pag" href="#cap-4"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k5">5</span><a href="#cap-5">Maximum likelihood</a><a class="pag" href="#cap-5"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k6">6</span><a href="#cap-6">Bayesian inference</a><a class="pag" href="#cap-6"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k7">7</span><a href="#cap-7">The molecular clock and divergence times</a><a class="pag" href="#cap-7"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k8">8</span><a href="#cap-8">Diversification</a><a class="pag" href="#cap-8"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k9">9</span><a href="#cap-9">Character evolution</a><a class="pag" href="#cap-9"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k10">10</span><a href="#cap-10">Historical biogeography</a><a class="pag" href="#cap-10"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k11">11</span><a href="#cap-11">Comparing trees, and admitting that they disagree</a><a class="pag" href="#cap-11"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k12">12</span><a href="#cap-12">Figures, formats and report</a><a class="pag" href="#cap-12"></a></div></li>
+    <li><div class="toc-cap"><span class="chip kx">A</span><a href="#apendices">Appendices</a><a class="pag" href="#apendices"></a></div></li>
+  </ol>
+</section>
+
+<!-- ====================================================================== INTRODUCTION -->
+<section class="capitulo" id="cap-intro" data-pestana="In" data-orden="0" style="--acento: var(--b0)">
+  <div class="cap-apertura">
+    <div class="cap-num">In</div>
+    <div class="cap-etiqueta">Introduction · Before the blocks</div>
+    <h1>A tree is a hypothesis</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">What the program is, which questions it answers, what data it accepts, how to open it and how to work through it. It includes the six ideas you need to understand the rest of the manual, the description of the example data sets—simulated on purpose, so that they carry their own answer—and a frank list of what the program does not do.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k8"></span><span class="k9"></span><span class="k10"></span><span class="k11"></span><span class="k12"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">I.1</span>What is PhylogenyPro?</li>
+      <li><span class="n">I.2</span>The questions it answers</li>
+      <li><span class="n">I.3</span>Six ideas that hold up the whole manual</li>
+      <li><span class="n">I.4</span>What data it accepts and what it delivers</li>
+      <li><span class="n">I.5</span>What you need and how to open it</li>
+      <li><span class="n">I.6</span>A tour of the interface</li>
+      <li><span class="n">I.7</span>The example data sets</li>
+      <li><span class="n">I.8</span>How a study is carried out</li>
+      <li><span class="n">I.9</span>How to read this manual</li>
+      <li><span class="n">I.10</span>What the program does not do</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ I.1 -->
+  <h2 id="si-1"><span class="num">I.1</span>What is PhylogenyPro?</h2>
+
+  <p><b>PhylogenyPro is an application that carries out a complete phylogenetic study inside the browser.</b> It opens with a double click on a file, it is not installed, it asks for no account or license, and it does not send your data anywhere. On the other hand, it is not a viewer: it really computes. It aligns the sequences, chooses the substitution model, searches for the tree by parsimony, by distances, by maximum likelihood and by Bayesian inference, measures the support of each branch, tests the molecular clock, dates the nodes with fossils, fits diversification models, reconstructs ancestral characters and areas, compares trees that disagree and, at the end, writes the methods section with the numbers from your run and assembles a package with everything so that someone else can repeat it.</p>
+
+  <p>It is meant for anyone who needs to do a phylogenetic analysis properly and does not want—or cannot—set up a tower of command-line programs to get there. A graduate student with a first gene, a taxonomist who wants to date a radiation, a professor who has to teach maximum likelihood on Tuesday.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The sentence that sums up the program</div>
+    <p>A phylogenetic tree <b>is not a datum: it is a hypothesis</b>, and like every hypothesis it is worth what its assumptions are worth. This program is built so that the assumptions are in view at all times: which model was used, with what support, with which calibration, and what would have changed with another decision. Where something cannot be known, the screen says so instead of printing a round number.</p>
+  </div>
+
+  <p>It is the sister application of <i>PopGeneticsPro</i>, which covers what happens <b>within</b> a species—allele frequencies, structure, inbreeding. PhylogenyPro starts where that one ends: above the species level, where relationships are represented by a tree and time enters the story.</p>
+
+  <!-- ------------------------------------------------------------------ I.2 -->
+  <h2 id="si-2"><span class="num">I.2</span>The questions it answers</h2>
+
+  <p>A program is better understood by the questions it answers than by the list of its functions. These are PhylogenyPro’s, with the block that deals with each one:</p>
+
+  <table class="tabla">
+    <caption><b>Table I.1.</b> Questions of a phylogenetic study and where they are answered.</caption>
+    <thead><tr><th style="width:56%">Question</th><th style="width:14%">Block</th><th>What you get</th></tr></thead>
+    <tbody>
+      <tr><td>Are my sequences well aligned? Which columns can I believe?</td><td><span class="chip k2">2</span></td><td>Built-in alignment, trimming of ambiguous blocks, quality control</td></tr>
+      <tr><td>Which model of evolution best describes these data?</td><td><span class="chip k3">3</span></td><td>56 DNA models, twelve protein matrices, Mk and Mkv, with AIC, AICc and BIC</td></tr>
+      <tr><td>Which is the shortest tree? And the one that best explains the data?</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td><td>Parsimony, distances, maximum likelihood with NNI and SPR search</td></tr>
+      <tr><td>How much can I trust each branch?</td><td><span class="chip k5">5</span> <span class="chip k6">6</span></td><td>Bootstrap, ultrafast bootstrap, SH-aLRT, aBayes, posterior probabilities</td></tr>
+      <tr><td>Can I reject the tree another author proposed?</td><td><span class="chip k5">5</span></td><td>KH, SH and AU tests on alternative topologies</td></tr>
+      <tr><td>Is there a molecular clock? How old are these nodes?</td><td><span class="chip k7">7</span></td><td>Clock test, fossil calibrations, three dating methods, chronogram</td></tr>
+      <tr><td>Did the group always diversify at the same pace, or was there a slowdown?</td><td><span class="chip k8">8</span></td><td>Lineages through time, γ, MCCR test, five models compared by AIC</td></tr>
+      <tr><td>What was the ancestor like? When did this character appear?</td><td><span class="chip k9">9</span></td><td>Mk model, ancestral states, stochastic mapping, BM/OU/early burst, PGLS</td></tr>
+      <tr><td>Where was the ancestor? How did it get here?</td><td><span class="chip k10">10</span></td><td>DEC, DIVALIKE, BAYAREALIKE with and without founder-event speciation, ancestral ranges</td></tr>
+      <tr><td>Why do my genes say different things?</td><td><span class="chip k11">11</span></td><td>Five distances between trees, gene and site concordance, networks, ABBA-BABA</td></tr>
+      <tr><td>How do I publish this without describing it wrongly?</td><td><span class="chip k12">12</span></td><td>Figure studio, export at the journal’s resolution, methods written automatically</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ------------------------------------------------------------------ I.3 -->
+  <h2 id="si-3"><span class="num">I.3</span>Six ideas that hold up the whole manual</h2>
+
+  <p>These six ideas come back again and again in the twelve chapters. If you read only two pages of this manual, make it these.</p>
+
+  <h3>1 · The alignment is a hypothesis, and it is the first one</h3>
+  <p>Aligning two columns means claiming that they <b>descend from the same ancestral site</b>. It is not a preparation step: it is the first hypothesis of the study, and all the others rest on it. A badly made alignment does not produce a tree with little support, which would be honest; it produces a <b>firmly wrong</b> tree, because misaligned columns are false informative sites and they enthusiastically support groupings that do not exist. That is why Block 2 has a viewer that lets you look at the alignment column by column, and why the trimming of ambiguous blocks comes with a preview of what is going to be removed.</p>
+
+  <h3>2 · A site that changed twice shows only the last change</h3>
+  <p>Almost all the difficulty of this discipline comes from there. The differences observed between two sequences <b>underestimate</b> the changes that really happened, and they do so more and more as divergence grows, until they level off: that is <b>saturation</b>. Correcting it is what substitution models do, and choosing the model well matters as much as choosing the inference method well.</p>
+
+  <h3>3 · More data do not fix a wrong model</h3>
+  <p>It is the most expensive mistake made in phylogenetics. When the model is misspecified, adding sites does not bring you closer to the correct answer: it <b>increases confidence in the wrong one</b>. Long-branch attraction is the classic case—with infinite data, parsimony converges <i>more surely</i> to the false tree—but the logic is general and also holds for the bootstrap and for the posterior probability. A 100% support on a bad model is 100% confidence in an error.</p>
+
+  <h3>4 · “Support” means different things depending on who says it</h3>
+  <p>A bootstrap of 70% and a posterior probability of 0.70 are not the same thing, and an ultrafast bootstrap of 90% is <b>less</b> support than a classical bootstrap of 90%. Each measure has its own scale and threshold, and confusing them is the most frequent mistake in this discipline. The program has a built-in interpretation aid that, next to each number, says which band of its own scale it falls in.</p>
+
+  <h3>5 · Time does not come from the sequences</h3>
+  <p>A maximum likelihood tree has branches measured in <b>substitutions per site</b>, not in years. The only thing that turns one into the other is an external calibration: a fossil, a published rate, a geological event. And a fossil almost never gives the age of a node: it gives its <b>minimum age</b>. That is why the dates of a study are no better than its worst calibration, and why no age is ever reported without its interval.</p>
+
+  <h3>6 · Genes that disagree are a result, not a nuisance</h3>
+  <p>When two genes give different trees, the temptation is to concatenate them and move on. But the disagreement may be the interesting part: incomplete lineage sorting, hybridization, chloroplast capture, introgression. Block 11 exists to measure that conflict instead of averaging it, and a branch with 100% bootstrap and 35% gene concordance is exactly the case you need to learn to see.</p>
+
+  <!-- ------------------------------------------------------------------ I.4 -->
+  <h2 id="si-4"><span class="num">I.4</span>What data it accepts and what it delivers</h2>
+
+  <table class="tabla">
+    <caption><b>Table I.2.</b> Inputs and outputs of the program.</caption>
+    <thead><tr><th style="width:26%">&nbsp;</th><th>What</th></tr></thead>
+    <tbody>
+      <tr><td><b>Data types</b></td><td>DNA and RNA, amino acids, codons and discrete morphological characters.</td></tr>
+      <tr><td><b>Genomes</b></td><td>Chloroplast, mitochondrion, nuclear ribosomal DNA and low-copy nuclear. Each partition <b>declares which genome it comes from</b>, and that declaration is carried into all the following blocks: it is not decoration, because the chloroplast and the mitochondrion are inherited from a single parent and do not recombine.</td></tr>
+      <tr><td><b>Formats it reads</b></td><td>FASTA, PHYLIP (strict and relaxed, sequential and interleaved), NEXUS (DATA, CHARACTERS, SETS and TREES blocks), Clustal, MEGA, GenBank flat files and spreadsheets (.csv, .tsv) for morphological matrices. It guesses the format and the data type, and <b>reports everything it had to guess</b>.</td></tr>
+      <tr><td><b>Formats it writes</b></td><td>FASTA, PHYLIP, NEXUS with character sets, RAxML partition schemes, Newick, tree NEXUS with a FigTree block, phyloXML, CSV, SVG, PNG, TIFF and a .zip package with everything.</td></tr>
+      <tr><td><b>What it delivers</b></td><td>Trees with support, chronograms, ancestral reconstructions, figures at the resolution the journal asks for, a methods section written from what was actually run, and a reproducible package.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ------------------------------------------------------------------ I.5 -->
+  <h2 id="si-5"><span class="num">I.5</span>What you need and how to open it</h2>
+
+  <p>A modern browser—Chrome, Edge, Firefox or Safari, from the last few years—and nothing else. You need no internet, no installation and no administrator rights.</p>
+
+  <ol class="pasos">
+    <li><b>Double-click <span class="ui">index.html</span>.</b> It is the simplest way and it works for everything, because the program carries its examples embedded and does not look for any file on disk while it runs.</li>
+    <li><b>Or with the local server</b>, if you prefer to open it from another computer on the same network: right-click <span class="ui">server.ps1</span> → <i>Run with PowerShell</i>, and then <span class="ui">http://localhost:9800</span> in the browser. When run as administrator, it also prints the address for connecting from a tablet on the same Wi-Fi network.</li>
+  </ol>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>About speed</div>
+    <p>This is JavaScript, not C. One hundred maximum likelihood bootstrap replicates take minutes, and so do one hundred thousand generations of coupled Bayesian chains. The program <b>estimates the time before starting</b>, shows the progress and can be canceled. For phylogenomics with hundreds of taxa and millions of sites, keep using IQ-TREE or RAxML: the program’s home page says so in those very words, and with a table of sizes that were measured, not promised.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ I.6 -->
+  <h2 id="si-6"><span class="num">I.6</span>A tour of the interface</h2>
+
+  <p>The screen always has the same three parts.</p>
+
+  <ul class="lista">
+    <li><b>The top bar.</b> The name of the program, the <span class="ui">ES</span> · <span class="ui">EN</span> language switch and the light or dark theme button. You can change the language and the theme whenever you like: nothing is lost or recomputed.</li>
+    <li><b>The block ribbon.</b> Twelve numbered steps, from 1 to 12. They are followed in order because each one uses what the previous one produced, but you can go back at any time: if you change the alignment, the blocks that depended on it will tell you.</li>
+    <li><b>The block panel.</b> At the top, an explanation of what is decided there and why it matters. In the middle, the controls. At the bottom, the results: tiles with the main figures, tables, plots, and a <b>verdict in words</b> that says what the result that just came out means. At the foot of each block there is a collapsible <b>interpretation guide</b> with one card per concept: what it measures, on what scale it is read and what the most common mistake with it is.</li>
+  </ul>
+
+  <p>Next to many figures you will see a small circle with a question mark. Clicking it opens the card for that measure, with its scale in color bands. When the threshold the discipline uses is a custom and not a statistical law—and half of them are—the card says so.</p>
+
+  <!-- ------------------------------------------------------------------ I.7 -->
+  <h2 id="si-7"><span class="num">I.7</span>The example data sets, and why they are simulated</h2>
+
+  <p>The program comes with four example data sets, and all of them have a deliberate peculiarity: <b>the sequences are simulated on a known tree</b>, under a known model, with the gaps inserted lineage by lineage. The species names are real—Mexican plants, mostly of the genus <i>Bursera</i>, the copals—but the sequences are not those of any organism.</p>
+
+  <p>It is not a limitation: it is the reason they are good for learning. Each example carries <b>its own correct answer</b>. The true tree and the true alignment are stored alongside the data, so you can compare what you estimate with what really happened. That is impossible with real data, and it is exactly what you need when you are learning to tell a firm result from one that only looks firm.</p>
+
+  <table class="tabla">
+    <caption><b>Table I.3.</b> The example data sets.</caption>
+    <thead><tr><th style="width:30%">Example</th><th>What it contains and what it is for</th></tr></thead>
+    <tbody>
+      <tr><td><b>Bursera · 3 genes, unaligned</b></td><td>rbcL (chloroplast, coding), trnL-F (chloroplast, with indels) and ITS (nuclear ribosomal), 18 taxa. For practicing alignment and comparing the result with the true one.</td></tr>
+      <tr><td><b>Bursera · concatenated and aligned</b></td><td>The same three genes already aligned and concatenated, with their partition map. The starting point for Blocks 3 onwards.</td></tr>
+      <tr><td><b>Gene family · proteins</b></td><td>Amino-acid sequences of an MYB family. For the protein models and codon alignment.</td></tr>
+      <tr><td><b>Morphological matrix</b></td><td>Coded discrete characters. For Mk, Mkv and the reconstruction of ancestral states.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ------------------------------------------------------------------ I.8 -->
+  <h2 id="si-8"><span class="num">I.8</span>How a study is carried out from start to finish</h2>
+
+  <p>The order of the blocks is not arbitrary: it is the order in which a real study is done, and each step uses what the previous one left behind.</p>
+
+  <ol class="pasos">
+    <li><b>Load and align</b> (Block 2). Declare which genome each partition comes from. Check the alignment by eye before going on; it is the only step that no algorithm does better than someone who knows the group.</li>
+    <li><b>Look at the assumptions before choosing</b> (Block 3): base composition and saturation. Then let the information criteria choose the model.</li>
+    <li><b>Get a quick tree</b> (Block 4) by distances and by parsimony. It serves as a starting point and as a contrast.</li>
+    <li><b>Do the serious inference</b> (Blocks 5 and 6): maximum likelihood with its support and, if time allows, Bayesian as well. That the two agree is valuable information; that they disagree, even more so.</li>
+    <li><b>Add time</b> (Block 7): root, clock test, calibrations, dates with their intervals.</li>
+    <li><b>Ask the dated tree</b> whatever you want to know: how the group diversified (8), how its characters evolved (9), where it was (10).</li>
+    <li><b>Confront</b> (Block 11): do your genes say the same thing? And your tree and the published one?</li>
+    <li><b>Publish</b> (Block 12): figure, methods and reproducible package.</li>
+  </ol>
+
+  <p>Not every study goes through the twelve blocks, and it does not need to. A systematics paper may stop at 5; a biogeography one will need to go up to 10. The Block 12 report is written from what was actually run: if there was no clock, the report does not mention the clock.</p>
+
+  <!-- ------------------------------------------------------------------ I.9 -->
+  <h2 id="si-9"><span class="num">I.9</span>How to read this manual</h2>
+
+  <p>One chapter per block, with the same number: Chapter 7 explains Block 7. Each chapter opens with a page that says what is decided there, goes on with the minimum theory needed—no more—, then the tour of the controls, and closes with how to read the results and the frequent mistakes.</p>
+
+  <table class="tabla convenciones">
+    <caption><b>Table I.4.</b> Typographic conventions.</caption>
+    <thead><tr><th style="width:26%">Looks like this</th><th>Means</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Build the tree</span></td><td>A button, checkbox or menu, written exactly as it appears on screen in English.</td></tr>
+      <tr><td><i>Bursera simaruba</i></td><td>A scientific name.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td>A cross-reference to another block and its chapter.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota" style="margin-top:0.16in">
+    <div class="caja-t"><span class="ico">i</span>The four kinds of box</div>
+    <p><b>Note</b>, with information that helps. <b>Idea</b>, with something worth remembering beyond the program. <b>Warning</b>, with a caution that can be costly if ignored. And <b>Frequent mistake</b>, with a specific error that is often made and how to avoid it.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ I.10 -->
+  <h2 id="si-10"><span class="num">I.10</span>What the program does not do</h2>
+
+  <p>An honest manual also says where its program ends. PhylogenyPro does <b>not</b> do any of this:</p>
+
+  <ul class="lista">
+    <li><b>Large-scale phylogenomics.</b> Hundreds of taxa and millions of sites are out of its reach because of speed, not method. The program’s home page has a table of sizes <b>measured</b> on an ordinary desktop computer.</li>
+    <li><b>Full multispecies coalescent.</b> There is a species tree from quartets, which is a heuristic, not the exact ASTRAL algorithm nor a coalescent model with a likelihood.</li>
+    <li><b>Explicit phylogenetic networks with hybridization.</b> There are split networks, which <b>show</b> the conflict without explaining it; there is no estimation of a number of hybridization events.</li>
+    <li><b>Annotation or sequence searching.</b> It does not connect to GenBank or to any database: it has no network access, by design.</li>
+    <li><b>Deciding for you.</b> The program computes, compares and warns; the interpretation, the choice of calibrations and the definition of the areas remain yours, and they are what you will have to defend before a reviewer.</li>
+  </ul>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Before moving on to Chapter 1</div>
+    <p>If some of the above seems overly cautious, it is worth remembering where the caution comes from. Molecular phylogenetics has spent forty years discovering that its firmest certainties—the 100% support, the date with three decimals, the ancestor reconstructed with confidence—were often artifacts of an assumption that nobody had checked. This program is written with that memory on its shoulders.</p>
+  </div>
+
+</section>
+
+</body>
+</html>
