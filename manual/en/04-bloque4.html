@@ -61,13 +61,13 @@
     <thead><tr><th style="width:26%">Distance</th><th>What it corrects and when to use it</th></tr></thead>
     <tbody>
       <tr><td><b>uncorrected (p)</b></td><td>The proportion of differing positions. Useful only to see how much the others correct; not for inference.</td></tr>
-      <tr><td><b>JC69</b></td><td>Multiple changes, assuming all changes are equally probable.</td></tr>
-      <tr><td><b>K80</b></td><td>Separates transitions from transversions. The reasonable minimum for DNA.</td></tr>
-      <tr><td><b>F81</b></td><td>Allows unequal base frequencies.</td></tr>
-      <tr><td><b>TN93</b></td><td>Unequal frequencies <i>and</i> two classes of transition. The most complete on the list.</td></tr>
+      <tr><td><b>Jukes–Cantor</b> (JC69)</td><td>Multiple changes, assuming all changes are equally probable.</td></tr>
+      <tr><td><b>Kimura 2P</b> (K80)</td><td>Separates transitions from transversions. The reasonable minimum for DNA.</td></tr>
+      <tr><td><b>Felsenstein 81</b></td><td>Allows unequal base frequencies.</td></tr>
+      <tr><td><b>Tamura–Nei 93</b></td><td>Unequal frequencies <i>and</i> two classes of transition. The most complete on the list.</td></tr>
       <tr><td><b>LogDet (Lockhart)</b></td><td>The only one that <b>tolerates heterogeneous composition</b> among sequences. If the χ² test of Block 3 came out badly, this is the distance to use.</td></tr>
       <tr><td><b>paralinear (Lake)</b></td><td>A close relative of LogDet, with the observed frequencies.</td></tr>
-      <tr><td><b>Poisson</b> and <b>Kimura</b></td><td>For proteins: the first without composition correction, the second with Kimura’s classic approximation.</td></tr>
+      <tr><td><b>Poisson (proteins)</b> and <b>Kimura (proteins)</b></td><td>For proteins: the first without composition correction, the second with Kimura’s classic approximation.</td></tr>
     </tbody>
   </table>
 
@@ -79,11 +79,11 @@
   <p>Two checkboxes modify the calculation. <span class="ui">gamma correction</span> applies the gamma correction with the α estimated by Block 3, and <span class="ui">complete deletion</span> decides what to do with gaps: when checked, it removes every column that has any gap before computing any pair; when unchecked, each pair uses the columns that both have. With a lot of missing data, complete deletion can leave you with very few columns.</p>
 
   <h3>The methods</h3>
-  <p>The <span class="ui">method</span> menu offers <b>neighbor joining (NJ)</b>, <b>BIONJ</b>, <b>UPGMA</b>, <b>WPGMA</b> and <b>minimum evolution</b>.</p>
+  <p>The <span class="ui">method</span> menu offers five options: <span class="ui">BIONJ</span>, the one selected by default; <span class="ui">neighbor joining (NJ)</span>, the classic method of Saitou and Nei; <span class="ui">minimum evolution</span>; <span class="ui">UPGMA</span>; and <span class="ui">WPGMA</span>, the weighted variant of UPGMA, which, when joining two groups, averages their distances giving them equal weight, regardless of how many sequences each one has.</p>
 
   <div class="caja aviso">
-    <div class="caja-t"><span class="ico">!</span>UPGMA assumes a molecular clock</div>
-    <p>And most data do not meet it. UPGMA produces an <b>ultrametric</b> tree—all tips at the same height—, which is correct for a clustering dendrogram and false for a phylogeny with unequal rates. Use it to see structure, not to infer relationships. NJ and BIONJ do not assume a clock.</p>
+    <div class="caja-t"><span class="ico">!</span>UPGMA and WPGMA assume a molecular clock</div>
+    <p>And most data do not meet it. Both produce an <b>ultrametric</b> tree—all tips at the same height—, which is correct for a clustering dendrogram and false for a phylogeny with unequal rates. Use them to see structure, not to infer relationships. NJ and BIONJ do not assume a clock.</p>
   </div>
 
   <p><b>Balanced minimum evolution</b> looks for the tree whose total length, computed with the balanced averages of Desper and Gascuel (2002) on Pauplin’s (2000) criterion, is the smallest. It is a true optimality criterion, with NNI and SPR search from several starts, and not a mere clustering algorithm.</p>
@@ -179,7 +179,7 @@
   <!-- ------------------------------------------------------------------ 4.8 -->
   <h2 id="s4-8"><span class="num">4.8</span>The figure</h2>
 
-  <p>The drawing uses the same engine that the tree studio of Block 12 will use: <span class="ui">rectangular</span>, <span class="ui">circular</span> or <span class="ui">unrooted</span> layout; <span class="ui">cladogram</span> to draw without lengths; support as <span class="ui">numbers</span>, <span class="ui">coloured dots</span> or <span class="ui">none</span>; and root <span class="ui">as it is</span>, <span class="ui">midpoint</span> or <span class="ui">outgroup…</span>, with multiple selection using Ctrl.</p>
+  <p>The drawing uses the same engine that the tree studio of Block 12 will use: <span class="ui">rectangular</span>, <span class="ui">circular</span> or <span class="ui">unrooted</span> layout; <span class="ui">cladogram</span> to draw without lengths; support as <span class="ui">numbers</span>, <span class="ui">colored dots</span> or <span class="ui">none</span>; and root <span class="ui">as it is</span>, <span class="ui">midpoint</span> or <span class="ui">outgroup…</span>, with multiple selection using Ctrl.</p>
 
   <div class="caja nota">
     <div class="caja-t"><span class="ico">i</span>An unrooted tree has no ancestors</div>

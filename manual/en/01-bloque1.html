@@ -130,7 +130,7 @@
   <!-- ------------------------------------------------------------------ 1.5 -->
   <h2 id="s1-5"><span class="num">1.5</span>What you can analyze, and with which marker</h2>
 
-  <p>The “What you can analyse” section lists the data types that the same likelihood engine handles: DNA, proteins, codons and morphology. They are not four programs inside, but one that works with four, twenty or however many states are needed.</p>
+  <p>The “What you can analyze” section lists the data types that the same likelihood engine handles: DNA, proteins, codons and morphology. They are not four programs inside, but one that works with four, twenty or however many states are needed.</p>
 
   <p>Right after comes the list of markers, and it is worth pausing there, because it is the one that prevents the most expensive mistake in a plant study: <b>treating all genes as if they told the same story</b>.</p>
 
@@ -164,11 +164,12 @@
     <thead><tr><th style="width:21%">&nbsp;</th><th>Distances (NJ)</th><th>Parsimony</th><th>Maximum likelihood</th><th>Bayesian</th></tr></thead>
     <tbody>
       <tr><td><b>What it optimizes</b></td><td>Fit to a distance matrix</td><td>The fewest changes</td><td>The probability of the data given the tree</td><td>The probability of the tree given the data</td></tr>
-      <tr><td><b>Uses a model</b></td><td>Yes, when correcting the distances</td><td>No, or only weights</td><td>Yes, explicit</td><td>Yes, explicit and with priors</td></tr>
+      <tr><td><b>Uses a substitution model</b></td><td>Yes, when correcting the distances</td><td>No (or only weights)</td><td>Yes, explicit</td><td>Yes, explicit and with priors</td></tr>
       <tr><td><b>Consistent with unequal long branches</b></td><td>Depends on the correction</td><td><b>No: the Felsenstein zone</b></td><td>Yes, under the correct model</td><td>Yes, under the correct model</td></tr>
-      <tr><td><b>Lengths in substitutions</b></td><td>Yes</td><td>In steps, not substitutions</td><td>Yes</td><td>Yes, with an interval</td></tr>
-      <tr><td><b>Allows dating</b></td><td>Only with approximate methods</td><td>No</td><td>Yes (clock, LSD)</td><td>Yes, with uncertainty</td></tr>
-      <tr><td><b>Cost</b></td><td>Seconds</td><td>Seconds to minutes</td><td>Minutes</td><td>Minutes to hours</td></tr>
+      <tr><td><b>Measure of uncertainty</b></td><td>Bootstrap</td><td>Bootstrap, jackknife, Bremer</td><td>Bootstrap, UFBoot, SH-aLRT</td><td>Posterior probability</td></tr>
+      <tr><td><b>Estimates branch lengths in substitutions</b></td><td>Yes</td><td>In steps, not substitutions</td><td>Yes</td><td>Yes, with an interval</td></tr>
+      <tr><td><b>Allows the tree to be dated</b></td><td>Only with approximate methods</td><td>No</td><td>Yes (clock, LSD)</td><td>Yes, with credibility intervals</td></tr>
+      <tr><td><b>Computational cost</b></td><td>Seconds</td><td>Seconds to minutes</td><td>Minutes</td><td>Minutes to hours</td></tr>
       <tr><td><b>What it is best for</b></td><td>A first look and the starting tree</td><td>Morphology and data with few changes</td><td><b>The tree that gets published</b></td><td>Uncertainty, dates and complex models</td></tr>
     </tbody>
   </table>
@@ -178,15 +179,15 @@
   <!-- ------------------------------------------------------------------ 1.7 -->
   <h2 id="s1-7"><span class="num">1.7</span>How far it goes, and how far it does not</h2>
 
-  <p>The table of limits on the home page is not a sales pitch: these are <b>times measured</b> on an ordinary desktop computer, not optimistic estimates. It is worth looking at before loading a large matrix.</p>
+  <p>The table of limits on the home page is not a sales pitch: these are <b>times measured</b> on an ordinary desktop computer. It is worth looking at before loading a large matrix.</p>
 
   <table class="tabla">
-    <caption><b>Table 1.4.</b> Sizes the application handles, measured. “Comfortable” is what can be done without a second thought; “at the limit” is what can be done with patience.</caption>
-    <thead><tr><th style="width:40%">Analysis</th><th style="width:16%">Comfortable</th><th style="width:16%">At the limit</th><th>Time</th></tr></thead>
+    <caption><b>Table 1.4.</b> Sizes the application handles, measured. “Comfortable” runs without a second thought; “with a warning” can still be done, with patience.</caption>
+    <thead><tr><th style="width:40%">Analysis</th><th style="width:16%">Comfortable (taxa)</th><th style="width:16%">With a warning</th><th>Typical time</th></tr></thead>
     <tbody>
-      <tr><td>Distances, NJ, parsimony</td><td>≤ 300 taxa</td><td>≤ 1,000</td><td>Seconds</td></tr>
+      <tr><td>Distances, NJ, parsimony</td><td>≤ 300</td><td>≤ 1,000</td><td>Seconds</td></tr>
       <tr><td>Likelihood + ultrafast bootstrap</td><td>≤ 120</td><td>≤ 300</td><td>Minutes</td></tr>
-      <tr><td>Likelihood + classical bootstrap</td><td>≤ 60</td><td>≤ 120</td><td>Minutes, with several threads</td></tr>
+      <tr><td>Likelihood + classical bootstrap</td><td>≤ 60</td><td>≤ 120</td><td>Minutes with several threads</td></tr>
       <tr><td>Bayesian (MC³)</td><td>≤ 50</td><td>≤ 100</td><td>Minutes to hours</td></tr>
       <tr><td>Least-squares dating</td><td>≤ 500</td><td>≤ 1,000</td><td>Seconds</td></tr>
       <tr><td>Bayesian dating</td><td>≤ 60</td><td>≤ 120</td><td>Minutes to hours</td></tr>
@@ -201,7 +202,7 @@
   <!-- ------------------------------------------------------------------ 1.8 -->
   <h2 id="s1-8"><span class="num">1.8</span>The method gallery and the references</h2>
 
-  <p>The gallery lists <b>everything</b> the application computes, grouped by family—data, models, quick trees, inference, time, macroevolution, biogeography, compare and publish—with a filter to see a single family. It serves two purposes: checking at a glance whether the method you need is there, and finding which block it lives in.</p>
+  <p>The gallery lists <b>everything</b> the application computes, grouped into eight families—data, models, quick trees, inference, time, macroevolution, biogeography, and compare and publish—with a filter to see a single family. It serves two purposes: checking at a glance whether the method you need is there, and finding which block it lives in.</p>
 
   <p>At the end of the home page there are <b>94 references</b>, also grouped by family. They are not there for decoration: each method the application implements cites the article in which it was published, and the Block 12 report builds its bibliography by taking from that same list <b>only what was actually used</b> in your run.</p>
 
@@ -232,22 +233,22 @@
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Skipping the home page</div>
-    <p>It is the mistake everyone makes, including those who have been doing phylogenetics for years. The two labs take ten minutes and change the way you look at the results of the eleven blocks that follow. If you only have time for one, make it the Felsenstein zone.</p>
+    <p>It is the mistake everyone makes. The two labs take ten minutes and change the way you look at the results of the eleven blocks that follow. If you only have time for one, make it the Felsenstein zone.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Reading the table of limits as a promise</div>
-    <p>The times were measured on a specific computer with a specific alignment. Your machine and your data are different. The table tells you whether you are in the right order of magnitude, not when to set a deadline.</p>
+    <p>The times were measured on a specific computer with a specific alignment. The table tells you whether you are in the right order of magnitude, not when to set a deadline.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Concluding that “parsimony is bad”</div>
-    <p>Lab 1 does not show that. It shows that parsimony is <b>inconsistent under a specific geometry</b> of branches. Outside that geometry it behaves well, it is extremely fast, and for morphological matrices—where there is no credible substitution model—it remains the right tool. Chapter 4 returns to this.</p>
+    <p>Lab 1 does not show that. It shows that parsimony is <b>inconsistent under a specific geometry</b> of branches. Outside that geometry it behaves well and, for morphological matrices—where there is no credible substitution model—it remains the right tool. Chapter 4 returns to this.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Choosing the marker by lab habit</div>
-    <p>“We always use ITS” is not an argument. ITS is fast and resolves between close species, but it has divergent copies and incomplete concerted evolution, and for a deep node it will give a confident and wrong answer. The list of markers on the home page says, for each one, at what depth range it is informative.</p>
+    <p>“We always use ITS” is not an argument: ITS resolves between close species, but at a deep node it will give a confident and wrong answer. The home page says at what depth each marker is informative.</p>
   </div>
 
 </section>
