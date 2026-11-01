@@ -126,7 +126,7 @@
     <p>No figure in this program writes a literal color: they all draw through CSS properties, and their text through two or three classes. That was done so the figures would follow the light and the dark themes, and it has a second consequence that was worth exploiting: <b>redefining those properties restyles the whole application at once</b>. The studio writes <b>a single rule</b>, and no drawing module knows it exists. The rule is limited to <code>svg</code> elements on purpose: the colored labels of the interface use the same tokens, and a figure palette has no business recoloring the menus.</p>
   </div>
 
-  <p>The <b>nine palettes</b> include the program’s own, <b>Okabe–Ito</b> (colorblind-safe), viridis, earth, cool, warm, pastels, high contrast and <b>grayscale</b>, which is there for a very specific question: if the journal charges for color, can your figure still be understood?</p>
+  <p>The <b>nine palettes</b> include the program’s own, <b>Okabe–Ito</b> (color-blind safe), viridis, earth, cool, warm, pastels, high contrast and <b>grayscale</b>, which is there for a very specific question: if the journal charges for color, can your figure still be understood?</p>
 
   <p>The <b>seven font families</b> are all on any ordinary computer: none is downloaded from the network, because a figure that falls back to another typeface on the reviewer’s machine is a figure you did not design. The size goes from 0.7 to 1.6 times, the stroke from 0.5 to 3, and there are four backgrounds, among them transparent and white. One button puts everything back to the original.</p>
 
@@ -188,7 +188,7 @@
 
   <div class="caja nota">
     <div class="caja-t"><span class="ico">i</span>What turned up during validation</div>
-    <p><b>The report module depended on the page’s translator</b>, which broke it outside the app and, worse, produced a <b>half-translated</b> document: the fragments it kept pasting in—“non-parametric bootstrap (100 replicates),” “by outgroup,” “penalised likelihood”—were resolved <b>once</b>, in whatever language the interface was in, and then put into the Spanish paragraph <b>and</b> the English one. Now each fragment is stored as a pair, and the module no longer knows what language the page is in.</p>
+    <p><b>The report module depended on the page’s translator</b>, which broke it outside the app and, worse, produced a <b>half-translated</b> document: the fragments it kept pasting in—“non-parametric bootstrap (100 replicates),” “by outgroup,” “penalized likelihood”—were resolved <b>once</b>, in whatever language the interface was in, and then put into the Spanish paragraph <b>and</b> the English one. Now each fragment is stored as a pair, and the module no longer knows what language the page is in.</p>
     <p>And one that is funny and instructive: the genome of a partition is stored as a two-letter code, which is reasonable in a menu and absurd in a methods section. It said “<b>The genomes represented are: nu</b>.”</p>
     <p>The figure studio produced two more. <b>The <code>.art-ink</code> class was used and had never been defined</b> in the style sheet—the tip names of the chronogram fell back to black, invisible in the dark theme—; and <b>the studio patched the export before the thing it was going to patch existed</b>, because its file was loaded <i>before</i> the one it wraps. The test page uncovered it, since it exports without waiting for the document to be ready.</p>
   </div>

@@ -86,7 +86,20 @@
   </table>
 
   <h3>A.3 · Keyboard shortcuts</h3>
-  <p>Only a few: the program is mostly driven with the mouse. <b><code>Alt</code> + <code>←</code>/<code>→</code></b> goes to the previous or next block (in focused mode, section); <b><code>Ctrl</code> + <code>K</code></b> searches blocks, sections, controls and actions; <b><code>[</code></b> collapses or shows the block bar; <b><code>?</code></b> lists the shortcuts; <b><code>Esc</code></b> closes dialogs and panels, such as the interpretation help card and the image manager; and the <b>space bar or <code>Enter</code></b> on a home-page card opens that block.</p>
+  <p>The program is driven mostly with the mouse, but these shortcuts work in any block. <code>[</code> and <code>?</code> do not respond while you are typing in a field.</p>
+
+  <table class="compacta">
+    <thead><tr><th style="width:1.5in">Key</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><code>Alt</code> + <code>←</code> / <code>→</code></td><td>Previous or next block, from anywhere. In focused mode, previous or next section (at the ends, the block).</td></tr>
+      <tr><td><code>←</code> / <code>→</code>, <code>Home</code>, <code>End</code></td><td>With the focus on the block bar: move along it, or go to the first or the last block.</td></tr>
+      <tr><td><code>Ctrl</code> + <code>K</code></td><td>Opens <span class="ui">Search</span>: blocks, sections, controls and actions, even from a field.</td></tr>
+      <tr><td><code>[</code></td><td>Collapses or shows the block bar.</td></tr>
+      <tr><td><code>?</code></td><td>Shows the list of shortcuts and the help for where you are.</td></tr>
+      <tr><td><code>Esc</code></td><td>Closes dialogs and panels (interpretation help, image manager, list of shortcuts); while a long analysis is running, it works as <span class="ui">Cancel</span>.</td></tr>
+      <tr><td><code>Enter</code> or space</td><td>On a card of the home page, opens that block.</td></tr>
+    </tbody>
+  </table>
 
   <!-- ================================================================= B -->
   <h2 id="ap-b"><span class="num">B</span>The catalog of models</h2>
@@ -300,7 +313,7 @@
   <table class="compacta">
     <thead><tr><th style="width:2in">What you see</th><th>What it usually is</th></tr></thead>
     <tbody>
-      <tr><td><b>“No row in the table”</b> or <b>“No areas in the table for”</b> when crossing two files</td><td>Almost always the underscore: <code>Bursera_palmeri</code> against <code>Bursera palmeri</code>. Block 9 forgives it; the others name it. Fix the file, not the list.</td></tr>
+      <tr><td><b>“No row in the table”</b> (Block 9) or <b>“No areas in the table for”</b> (Block 10), followed by tip names</td><td>Those tips of the tree were not found in the table. Both blocks already forgive spaces against underscores (<code>Bursera_palmeri</code> against <code>Bursera palmeri</code>) and capitals, so it is almost always a typo, an abbreviation or a missing row. Fix the file, not the list. Block 9 prunes the tree to the tips that have the character; Block 10 needs a range for every tip.</td></tr>
       <tr><td>The <b>tree comes out with a huge polytomy</b></td><td>A consensus with many splits below the threshold. It is not an error: the data do not resolve that node.</td></tr>
       <tr><td>The <b>Bayesian chain does not converge</b></td><td>Look at the ESS and the PSRF before anything else. If the ESS is low in only one parameter, running longer is usually enough; if the PSRF is high, the chains are in different places and the problem is the model or the prior.</td></tr>
       <tr><td>The <b>branches come out extremely long</b> in the Bayesian analysis</td><td>The branch-length prior. With divergent data, an exponential with mean 0.1 drags the whole tree down. The panel compares with the maximum-likelihood tree before running: heed it.</td></tr>
