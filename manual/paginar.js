@@ -8,7 +8,8 @@
    (empieza hoja; el <h1> da el título corrido), data-nueva-hoja (empieza hoja).
    Sin dependencias: funciona abierto con doble clic y al imprimir a PDF. */
 (function () {
-  const MANUAL = 'PhylogenyPro · Manual de usuario';
+  const EN = document.documentElement.lang === 'en';
+  const MANUAL = EN ? 'PhylogenyPro · User’s Manual' : 'PhylogenyPro · Manual de usuario';
   const romano = n => { const t = [['m', 1000], ['cm', 900], ['d', 500], ['cd', 400], ['c', 100], ['xc', 90], ['l', 50], ['xl', 40], ['x', 10], ['ix', 9], ['v', 5], ['iv', 4], ['i', 1]]; let s = ''; for (const [r, v] of t) while (n >= v) { s += r; n -= v; } return s; };
   const TITULOS = /^H[1-4]$/;
 
@@ -82,7 +83,7 @@
         const esGrupo = f => f.cells.length === 1 && f.cells[0].colSpan > 1;
         while (cuerpoTabla.rows.length > 2 && esGrupo(cuerpoTabla.rows[cuerpoTabla.rows.length - 1])) tb.insertBefore(cuerpoTabla.rows[cuerpoTabla.rows.length - 1], tb.firstChild);
         /* a table over three or more sheets keeps a single "(continuación)" */
-        if (cap) { const c2 = cap.cloneNode(true); c2.innerHTML = cap.innerHTML.replace(/ <i>\(continuación\)<\/i>$/, '') + ' <i>(continuación)</i>'; resto.insertBefore(c2, resto.firstChild); }
+        if (cap) { const c2 = cap.cloneNode(true); c2.innerHTML = cap.innerHTML.replace(/ <i>\((?:continuación|continued)\)<\/i>$/, '') + (EN ? ' <i>(continued)</i>' : ' <i>(continuación)</i>'); resto.insertBefore(c2, resto.firstChild); }
         return resto;
       }
       if ((el.tagName === 'UL' || el.tagName === 'OL') && el.children.length > 1) {
