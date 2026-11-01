@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 12</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-12" data-pestana="12" data-orden="12" style="--acento: var(--b12)">
+  <div class="cap-apertura">
+    <div class="cap-num">12</div>
+    <div class="cap-etiqueta">Chapter twelve · Block 12</div>
+    <h1>Figures and report</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A result that cannot leave the program is not a result. Here the figure is built—with all its decisions in view and reversible—, the methods are written with the numbers of the run and not those of a template, and everything is packed so that somebody else can repeat it. It is the block that delivers the work.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k7"></span><span class="k12"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">12.1</span>The tree studio</li>
+      <li><span class="n">12.2</span>Cutting the tree into groups</li>
+      <li><span class="n">12.3</span>Pictures of the OTUs and the clades</li>
+      <li><span class="n">12.4</span>Labels that do not overlap</li>
+      <li><span class="n">12.5</span>The three tree formats</li>
+      <li><span class="n">12.6</span>The figure studio</li>
+      <li><span class="n">12.7</span>The resolution the journal asks for</li>
+      <li><span class="n">12.8</span>The methods, written with the numbers of the run</li>
+      <li><span class="n">12.9</span>The reproducible package</li>
+      <li><span class="n">12.10</span>How well it does, measured</li>
+      <li><span class="n">12.11</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.1 -->
+  <h2 id="s12-1"><span class="num">12.1</span>The tree studio</h2>
+
+  <p>The figure of a tree involves more decisions than it seems, and <b>almost all of them change what the reader understands</b>: whether it is drawn with branch lengths or without them, which support is shown and from what threshold, where the root goes, in what order the branches are ladderized. All of them are changed here and the drawing is redone on the spot.</p>
+
+  <table class="tabla">
+    <caption><b>Table 12.1.</b> The decisions that most change how the figure is read.</caption>
+    <thead><tr><th style="width:30%">Control</th><th>Why it matters</th></tr></thead>
+    <tbody>
+      <tr><td><b>Cladogram</b> (no lengths)</td><td>A cladogram only asserts relationship. A phylogram also asserts <b>how much change</b> there was on each branch. Drawing one and talking about the other is the most common misunderstanding of a phylogenetic figure.</td></tr>
+      <tr><td><b>Support and threshold</b></td><td>Hiding low support values from the figure is legitimate if you say so; hiding them and not saying so turns a doubtful tree into a solid one to the eye.</td></tr>
+      <tr><td><b>Root and outgroup</b></td><td>The root does not come from the data: it is placed. Changing it changes which group is sister to which, and it is the decision with the most consequences in the whole drawing.</td></tr>
+      <tr><td><b>Ladderize</b></td><td>Orders the branches by size. It is purely aesthetic—it does not change the tree—and it makes legible a figure that otherwise looks like a mess.</td></tr>
+      <tr><td><b>Scale bar</b></td><td>Without it, a phylogram does not say what units it is in. With a chronogram, the axis already says so.</td></tr>
+    </tbody>
+  </table>
+
+  <p>The rest is finish: width, row height, tip font and its weight, italics for scientific names, title, alignment of the names with their dotted leader, and color for the clades you mark by hand.</p>
+
+  <!-- ----------------------------------------------------------------- 12.2 -->
+  <h2 id="s12-2"><span class="num">12.2</span>Cutting the tree into groups</h2>
+
+  <p>You ask for a number of groups, <i>k</i>, and the program cuts the tree in one of three ways:</p>
+
+  <ul class="lista">
+    <li>At the <b>longest branches</b>, which works on any tree.</li>
+    <li>By <b>depth</b>, which only makes sense on an ultrametric tree: if yours is not one, <b>it says so and switches method</b> instead of returning a meaningless cut.</li>
+    <li>From <b>clades</b> or by hand.</li>
+  </ul>
+
+  <p>The color can go on the branches, on the names, on a side strip or on soft background bands, with its legend and with the group names you set.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>It says whether each group really is a clade</div>
+    <p>Next to the sizes, the panel reports the <b>monophyly</b> of each group. Coloring a paraphyletic group and saying nothing is one of the neatest ways for a figure to mislead: the reader sees a color and understands “lineage,” when what is there is a cut of convenience.</p>
+    <p>And the background bands are drawn only for groups whose tips are <b>contiguous</b> in the figure, because a band spanning tips of another group would be claiming that they belong to it.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.3 -->
+  <h2 id="s12-3"><span class="num">12.3</span>Pictures of the OTUs and the clades</h2>
+
+  <p>You can hang photographs or drawings on each tip, each group or the clades you mark, at whatever size you want, as circles, squares or rounded squares, with or without a frame. The pictures are dragged into the manager, and <b>a file named after its taxon finds its place on its own</b>.</p>
+
+  <p>Each picture has its crop, its zoom, its rotation and its brightness, contrast, saturation, temperature and sharpness settings, plus a <b>background remover</b> that floods inward from the edge—so that light areas <i>inside</i> the object survive, which a brightness threshold would destroy. Each one carries its credit and its license.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Nothing is drawn until you confirm that the photo is of that species</div>
+    <p>It is a deliberate checkbox and it cannot be skipped. <b>A photograph hung on the wrong branch is a claim, not an ornament</b>, and it is a claim the reader is going to believe without checking it.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Where they live and where they travel</div>
+    <p>The pictures are stored in the browser—in IndexedDB, separated by data set—and <b>never leave your computer</b>. On export, they travel <b>inside</b> the SVG, so the figure does not depend on any loose file that gets left behind when the paper is sent.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.4 -->
+  <h2 id="s12-4"><span class="num">12.4</span>Labels that do not overlap</h2>
+
+  <p>The program does two things when labels get in each other’s way. The first is to <b>separate</b> them: push them along an axis until none is closer to another than the requested spacing, without leaving the frame. The second, when no more will fit, is to <b>drop the least important ones</b> and keep the ones that say the most.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>And it says how many it dropped</div>
+    <p>That is the part that matters. Losing labels silently is worse than not drawing them: the reader does not know they are missing. The panel says <b>how many it hid and where to find them</b>—they are always in the table and in the package—and what to change if you want them all.</p>
+    <p>In the unrooted layout nothing prevents two tips from landing side by side, so there the ones that still collide are dropped and the most peripheral are kept, again with the count in view.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.5 -->
+  <h2 id="s12-5"><span class="num">12.5</span>The three tree formats</h2>
+
+  <table class="tabla">
+    <caption><b>Table 12.2.</b> The three formats and what each one is for.</caption>
+    <thead><tr><th style="width:22%">Format</th><th>What it carries</th></tr></thead>
+    <tbody>
+      <tr><td><b>Newick</b></td><td>Universal and narrow. Everything reads it, and that is why it is the one to send when only the tree is needed.</td></tr>
+      <tr><td><b>NEXUS</b></td><td>With its <code>TRANSLATE</code> block and the block that <b>FigTree</b> reads.</td></tr>
+      <tr><td><b>phyloXML</b></td><td>The only one of the three that can carry at once the <b>support</b> of a node, its <b>age</b> and its <b>confidence interval</b>, which is exactly what Blocks 5, 6 and 7 produce. If your tree is dated, it is the format that loses nothing.</td></tr>
+    </tbody>
+  </table>
+
+  <p>You choose whether branch lengths go in, whether support values go in, with how many decimals, and whether only the chosen tree is written or all of them. It is downloaded or copied to the clipboard.</p>
+
+  <!-- ----------------------------------------------------------------- 12.6 -->
+  <h2 id="s12-6"><span class="num">12.6</span>The figure studio</h2>
+
+  <p>Whatever is changed here applies to <b>every figure in the twelve blocks</b>, not just the tree: palette, font family and size, stroke width and background. The ten colors can be edited one by one—they are the ones used by the groups of the tree, the series of the curves, the states of a character and the areas of the biogeography—and separately there are those of the text, the axes and the support values.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Why one rule is enough</div>
+    <p>No figure in this program writes a literal color: they all draw through CSS properties, and their text through two or three classes. That was done so the figures would follow the light and the dark themes, and it has a second consequence that was worth exploiting: <b>redefining those properties restyles the whole application at once</b>. The studio writes <b>a single rule</b>, and no drawing module knows it exists. The rule is limited to <code>svg</code> elements on purpose: the colored labels of the interface use the same tokens, and a figure palette has no business recoloring the menus.</p>
+  </div>
+
+  <p>The <b>nine palettes</b> include the program’s own, <b>Okabe–Ito</b> (colorblind-safe), viridis, earth, cool, warm, pastels, high contrast and <b>grayscale</b>, which is there for a very specific question: if the journal charges for color, can your figure still be understood?</p>
+
+  <p>The <b>seven font families</b> are all on any ordinary computer: none is downloaded from the network, because a figure that falls back to another typeface on the reviewer’s machine is a figure you did not design. The size goes from 0.7 to 1.6 times, the stroke from 0.5 to 3, and there are four backgrounds, among them transparent and white. One button puts everything back to the original.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>What is exported is what you see</div>
+    <p>An SVG loaded as an image <b>has no style sheet</b>, so on export the colors have to be resolved by hand. The studio hooks in there: its colors win over the theme, its typeface replaces the one written in the code, and the chosen background is written as a rectangle beneath everything. It was checked by exporting a tree and <b>looking for the Okabe blue and the white background in the pixels of the PNG</b>.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.7 -->
+  <h2 id="s12-7"><span class="num">12.7</span>The resolution the journal asks for</h2>
+
+  <p>All the figures in the program are <b>SVG</b>, which has no resolution: it prints at any size without losing anything, and it is what you should send when the journal accepts it.</p>
+
+  <p>When it asks for a PNG at so many dots per inch, what it is really asking for is <b>a specific number of pixels</b>. The block does that arithmetic <b>before</b> generating anything and shows it: at 900 dpi a half-page figure is several thousand pixels on a side. And if the figure goes beyond what a browser can draw, <b>it says so and explains why</b>, instead of returning a blank image that looks like a bug in the program.</p>
+
+  <!-- ----------------------------------------------------------------- 12.8 -->
+  <h2 id="s12-8"><span class="num">12.8</span>The methods, written with the numbers of the run</h2>
+
+  <p>The methods section is the part of the paper that lets somebody else reach the same result, and it is the one written last, from memory, weeks later. Here the program writes it from what <b>actually ran</b>:</p>
+
+  <ul class="lista">
+    <li>A block that was not used <b>leaves no paragraph</b>.</li>
+    <li>A support measure that was not computed <b>is not mentioned</b>.</li>
+    <li>The number of replicates comes from the run, <b>not from a template</b>.</li>
+    <li>The bibliography is built from what was cited and nothing else: the program knows 52 works and only the ones it used appear.</li>
+  </ul>
+
+  <p>You choose the language, the title and the authorship, and whether the figures are included. The report is <b>a single self-contained HTML file</b>: no style sheet to fetch, no typeface to download, no script to run. It displays in any browser and prints to PDF from there.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>An honest draft, not a finished methods section</div>
+    <p>What the program cannot write is <b>why</b> you chose what you chose: why that outgroup, why that fossil on that node, why that range cap. That is yours to add. The report saves you the parameters and the citations, which is where transcription errors are made, not the judgment.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 12.9 -->
+  <h2 id="s12-9"><span class="num">12.9</span>The reproducible package</h2>
+
+  <p>One file with everything: the data as they came in, the trees in the three formats, the figures in SVG with their colors already resolved, the tables in CSV, the report, and a text file that says <b>what each thing is and with what parameters it was made</b>. You choose which parts to include.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The program writes the ZIP itself</div>
+    <p>Byte by byte, with no external library and no network. That is why it works the same with the app opened by double-clicking, with no server and no connection—which is how you are going to use it the day you need it on someone else’s computer.</p>
+  </div>
+
+  <!-- ---------------------------------------------------------------- 12.10 -->
+  <h2 id="s12-10"><span class="num">12.10</span>How well it does, measured</h2>
+
+  <p>This block does not compute: it <b>delivers</b>. So it was validated by having R do what whoever receives the package would do—open it and read it with their own tools. <b>38 checks</b> and not one disagreement.</p>
+
+  <ul class="lista">
+    <li><b>The ZIP</b>: R’s <code>unzip()</code> function lists and extracts every file, <b>checking each CRC32 along the way</b>, and the extracted sizes are the declared ones.</li>
+    <li><b>Newick and NEXUS</b>: read by <code>ape::read.tree</code> and <code>ape::read.nexus</code>, the same 18 tips, topological distance <b>0</b> between the two and branch lengths identical to 10⁻⁶.</li>
+    <li><b>phyloXML</b>: parsed by <code>xml2</code>; its tip names are those of the tree and its branch lengths add up to what the Newick adds up to (2.446035 against 2.446036).</li>
+    <li><b>The alignment</b>: read by <code>ape::read.dna</code> as 18 × 1,711, with the taxa of the tree.</li>
+    <li><b>The report</b>: a file with no <code>&lt;link&gt;</code>, no <code>&lt;script&gt;</code> and no <code>&lt;img&gt;</code>, with its figures as inline SVG; and, in a package built from a distance tree alone, <b>citing no clock, no biogeography and no MCMC</b>, because none of them ran.</li>
+    <li><b>The figures</b>: well-formed XML with no unresolved <code>var(--…)</code>, which in Illustrator would be a black line.</li>
+    <li><b>The CRC32</b> against the value that the ZIP specification itself gives for the string “123456789”: <code>0xCBF43926</code>.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>What turned up during validation</div>
+    <p><b>The report module depended on the page’s translator</b>, which broke it outside the app and, worse, produced a <b>half-translated</b> document: the fragments it kept pasting in—“non-parametric bootstrap (100 replicates),” “by outgroup,” “penalised likelihood”—were resolved <b>once</b>, in whatever language the interface was in, and then put into the Spanish paragraph <b>and</b> the English one. Now each fragment is stored as a pair, and the module no longer knows what language the page is in.</p>
+    <p>And one that is funny and instructive: the genome of a partition is stored as a two-letter code, which is reasonable in a menu and absurd in a methods section. It said “<b>The genomes represented are: nu</b>.”</p>
+    <p>The figure studio produced two more. <b>The <code>.art-ink</code> class was used and had never been defined</b> in the style sheet—the tip names of the chronogram fell back to black, invisible in the dark theme—; and <b>the studio patched the export before the thing it was going to patch existed</b>, because its file was loaded <i>before</i> the one it wraps. The test page uncovered it, since it exports without waiting for the document to be ready.</p>
+  </div>
+
+  <!-- ---------------------------------------------------------------- 12.11 -->
+  <h2 id="s12-11"><span class="num">12.11</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publishing a cladogram and talking about it as a phylogram</div>
+    <p>Without lengths, the figure says nothing about how much change there was. If the text talks about long branches or accelerated evolution, the figure has to show them.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Raising the support threshold and not saying so</div>
+    <p>A tree from which the low support values have been erased looks much firmer than it is. Saying “support values ≥ 70 are shown” costs six words.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Coloring a paraphyletic group without warning</div>
+    <p>The panel tells you which ones are. A color in a figure reads as “lineage”; if it is not one, it has to be written in the caption.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Adding a photo without checking which species it is</div>
+    <p>That is why there is a checkbox that cannot be skipped. The photo will be the first thing the reader looks at and the last thing they doubt.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Sending a PNG when they accept SVG</div>
+    <p>SVG has no resolution and prints at any size. A PNG at 300 dpi that is then enlarged in layout reaches the printer blurred.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Handing in the report as it is</div>
+    <p>It brings the parameters and the right citations; it does not bring your reasons. Add why that outgroup, that fossil and that model before sending it.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Keeping only the figure</div>
+    <p>The package is small and contains the data as they came in, the trees in three formats and the index of what each thing is. It is what will save you when the reviewer asks, six months later, with what parameters it was made.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

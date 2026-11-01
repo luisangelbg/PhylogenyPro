@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 10</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-10" data-pestana="10" data-orden="10" style="--acento: var(--b10)">
+  <div class="cap-apertura">
+    <div class="cap-num">10</div>
+    <div class="cap-etiqueta">Chapter ten · Block 10</div>
+    <h1>Historical biogeography</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A geographic range is a character too, but with one difference that changes everything: when a lineage splits, the range <b>is divided</b> between the two daughters, and how it is divided is exactly what separates one model from another. This block fits six of them, reconstructs where each lineage was—including the corners that almost nobody draws—and turns the probabilities into counts of dispersals, extinctions and splits.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">10.1</span>The character that splits in two</li>
+      <li><span class="n">10.2</span>The areas and who lives in which</li>
+      <li><span class="n">10.3</span>How many ranges a lineage can have</li>
+      <li><span class="n">10.4</span>The six models</li>
+      <li><span class="n">10.5</span>Why +J almost always wins</li>
+      <li><span class="n">10.6</span>Where each lineage was, and the corners</li>
+      <li><span class="n">10.7</span>How many times each thing happened</li>
+      <li><span class="n">10.8</span>How well it does, measured</li>
+      <li><span class="n">10.9</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.1 -->
+  <h2 id="s10-1"><span class="num">10.1</span>The character that splits in two</h2>
+
+  <p>In Block 9 a discrete character changes along a branch and, on reaching a node, both daughters inherit whatever the parent had. A geographic range does not behave like that. If the ancestor lived on islands A, B and C and the lineage splits, the usual outcome is <b>not</b> that both daughters inherit all three islands: the usual outcome is that one keeps A and the other BC, or that one keeps everything and the other a single island.</p>
+
+  <p>That forces two things at once. First, the <b>states</b> of the model are not the areas but the <b>subsets</b> of areas. Second, two different processes have to be described: what happens to the range <b>along a branch</b> and what happens to it <b>at the node</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Table 10.1.</b> The two processes and their parameters.</caption>
+    <thead><tr><th style="width:30%">When</th><th>What happens</th></tr></thead>
+    <tbody>
+      <tr><td><b>Along a branch</b><br>(anagenesis)</td><td>At rate <b>d</b>, the range <b>gains</b> an area: dispersal. At rate <b>e</b>, it <b>loses</b> one: local extinction. A single-area range that loses its area <b>disappears</b>, which is why the null range is a state, and an absorbing one.</td></tr>
+      <tr><td><b>At the node</b><br>(cladogenesis)</td><td>The ancestral range is divided between the two daughters. <b>Which divisions are allowed</b> is the only thing that distinguishes the three base models.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>First you need a tree, and it had better be dated</div>
+    <p>The dispersal and extinction rates are estimated <b>per unit of time</b>. On a phylogram measured in substitutions they do not mean what they say. The panel sends you to Block 7 if you do not have a chronogram yet, and rightly so: a d of 0.035 only means something if the axis of the tree is in millions of years.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.2 -->
+  <h2 id="s10-2"><span class="num">10.2</span>The areas and who lives in which</h2>
+
+  <p>The program reads the <b>LAGRANGE format</b>, which is the same one BioGeoBEARS uses: a header line with the number of taxa, the number of areas and their names in parentheses, and then one row per species with zeros and ones.</p>
+
+  <p>It also accepts a <b>comma-separated table</b> with one column per area, which is easier to put together in a spreadsheet, and it exports in LAGRANGE format in case you want to take the same data to another program. The bundled example is of <i>Bursera</i>, and it lets you walk through the whole block without bringing anything of your own.</p>
+
+  <p>The names have to match the tips of the tree. The block says how many species it kept and which ones it did not find, instead of carrying on in silence.</p>
+
+  <!-- ----------------------------------------------------------------- 10.3 -->
+  <h2 id="s10-3"><span class="num">10.3</span>How many ranges a lineage can have</h2>
+
+  <p>With <i>n</i> areas there are 2<sup><i>n</i></sup> subsets. With five areas that is 32 states; with eight, 256. The transition matrix grows with the square of that, and that is where the analysis becomes impossible.</p>
+
+  <p>The remedy is the <b>maximum range size</b>. If no living species occupies more than three areas, limiting the states to ranges of three areas or fewer cuts the problem down enormously.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The cap is not a technical setting: it is an assumption</div>
+    <p>A lineage that was in five of six areas <b>cannot be reconstructed</b> if you set the cap at three. You have decided in advance that it did not happen. Often that is reasonable—very wide ranges are rare—but it is a biological decision, and it has to be reported along with the results.</p>
+  </div>
+
+  <h3>The null range</h3>
+  <p>It comes switched on. It is the state a lineage reaches when it loses its only area, and it is <b>absorbing</b>: there is no way out of it. Having it is what makes extinction a real process inside the model and not just a label.</p>
+
+  <h3>The dispersal multipliers</h3>
+  <p>The matrix of multipliers between areas is, of everything in the block, what most resembles doing real biogeography. Each cell multiplies the dispersal rate <i>from</i> one area <i>to</i> another: a 0 forbids it, a 0.1 makes it difficult, a 1 leaves it like the rest. <b>That is where an isthmus that closed, a land bridge that opened or an ocean that was never crossed comes in.</b> You edit it by clicking a cell, and there is one button to set both directions at once and another to put everything back to one.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Geography that changes through time</div>
+    <p>The engine knows how to work with <b>time strata</b>—a branch that crosses a boundary gets the product of the matrices of the periods it passes through, each with its own multipliers and its own existing areas—but the interface of this block does <b>not yet expose</b> those controls. What you can edit today is a single matrix, constant over the whole tree.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.4 -->
+  <h2 id="s10-4"><span class="num">10.4</span>The six models</h2>
+
+  <p>Three base models, each with and without <b>+J</b>. All three share d and e; what changes is which divisions they allow at the node.</p>
+
+  <table class="tabla">
+    <caption><b>Table 10.2.</b> The three base models and which division they allow when a lineage splits.</caption>
+    <thead><tr><th style="width:24%">Model</th><th>Divisions allowed</th></tr></thead>
+    <tbody>
+      <tr><td><b>DEC</b><br>Ree and Smith 2008</td><td>Narrow sympatry (a single-area ancestor is copied into both daughters), subset sympatry (one daughter keeps the whole range and the other a single area) and <b>narrow vicariance</b>: the range is cut in two, but one of the daughters keeps <b>a single</b> area.</td></tr>
+      <tr><td><b>DIVALIKE</b></td><td>Only vicariance, but <b>with any cut</b>: the range is split into two complementary halves of whatever size. There is no subset sympatry.</td></tr>
+      <tr><td><b>BAYAREALIKE</b></td><td>Neither of the two: <b>both daughters inherit the whole range</b>. The geographic division does not happen at the node; if it happens, it is afterwards, by dispersal and extinction along the branches.</td></tr>
+      <tr><td><b>+J</b><br>Matzke 2013</td><td>Added to any of the three: the <b>founder event</b>, a daughter that leaves for a single area <b>outside</b> the ancestor’s range. It is the model of long-distance colonization.</td></tr>
+    </tbody>
+  </table>
+
+  <p>You can fit all six, only the three without J, or only DEC and DEC+J. They are compared by <b>AICc with Akaike weights</b>, and each +J model also gets a likelihood-ratio test against the model it contains.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>If e comes out as zero</div>
+    <p>The panel spells it out: an extinction rate estimated at zero <b>does not mean there was no extinction</b>; it means that no trace of it was left in this tree. With small trees that is the norm.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.5 -->
+  <h2 id="s10-5"><span class="num">10.5</span>Why +J almost always wins</h2>
+
+  <p>It is the most delicate point of the block, and the program does not hide it: <b>whenever a +J model wins, the panel explains why that is to be expected and proves nothing on its own.</b></p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Ree and Sanmartín’s objection (2018)</div>
+    <p>The comparison is not clean. The parameter <b>j buys probability at cladogenesis</b>, which is an instantaneous event and costs nothing along the branches; <b>d and e pay for theirs</b> by integrating over the whole time of the tree. They are not competing on equal terms.</p>
+    <p>The fact that clinches the argument: in the cases they examined, <b>+J won even on data simulated without any jump</b>.</p>
+  </div>
+
+  <p>What can be stated, and what the block puts in the table, is <b>by how much</b> it wins and <b>over which model</b>. The likelihood ratio is reported with the warning that <b>j lies on the boundary of the parameter space</b>, and a p computed that way is conservative.</p>
+
+  <!-- ----------------------------------------------------------------- 10.6 -->
+  <h2 id="s10-6"><span class="num">10.6</span>Where each lineage was, and the corners</h2>
+
+  <p>Once a model is chosen, the <b>marginal</b> ancestral ranges are reconstructed. Each node carries a pie with the ranges that have some probability; everything below the threshold—0.05 by default, and it can be changed—is lumped into a gray slice, so that the drawing does not become unreadable with thirty ranges of probability 0.001.</p>
+
+  <h3>The corners</h3>
+  <p>This is the part that many published figures leave out. A pie on the node says what range the <b>ancestor</b> had; it does not say <b>what each daughter got</b>, which is precisely the biogeographic event. The small boxes on the two daughter branches—the <b>corners</b>—show the range each one starts with immediately after the split.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The half of the story that usually gets lost</div>
+    <p>Knowing that the ancestor was in ABC does not tell you whether there was vicariance AB|C, subset sympatry ABC|A or a jump to D. That distinction <b>is in the corners</b>, and it is what gets told in the paper. They come switched on; leave them on.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.7 -->
+  <h2 id="s10-7"><span class="num">10.7</span>How many times each thing happened</h2>
+
+  <p>One probability per node does not say how many dispersals there were or how many times a range was split. <b>Biogeographic stochastic mapping</b> draws complete histories—a range for every node, a division for every split and the moves along every branch—conditioned on what is seen at the tips, and by repeating it turns the reconstruction into <b>counts of events</b>, which is what a biogeographic history is made of. Five hundred replicates by default.</p>
+
+  <p>What is reported, averaged over the histories, is six quantities:</p>
+
+  <ul class="lista">
+    <li><b>Dispersals</b> and <b>local extinctions</b> along the branches.</li>
+    <li>The internal nodes divided among the <b>four types of split</b>: sympatry, subset sympatry, vicariance and founder event.</li>
+  </ul>
+
+  <p>And with them, two warnings worth reading. If the <b>standard deviation</b> of the dispersals is large relative to their mean, the data do not pin down how many there were: only the order of magnitude. And if the sampling ran out of attempts on some branch, the panel says <b>how many times</b> that happened and warns that it slightly underestimates the counts—it tends to happen with long branches and many areas—instead of returning a clean number that would be wrong.</p>
+
+  <p>Everything comes out in four files: the model table, the ancestral ranges, the mapping events and the areas in LAGRANGE format.</p>
+
+  <!-- ----------------------------------------------------------------- 10.8 -->
+  <h2 id="s10-8"><span class="num">10.8</span>How well it does, measured</h2>
+
+  <p>It was validated against <b>BioGeoBEARS 1.1.3</b> on the Hawaiian <i>Psychotria</i>: the data set that LAGRANGE and BioGeoBEARS distribute, and the one that every paper discussing DEC+J analyzes again. <b>41 checks</b> and not one disagreement.</p>
+
+  <table class="tabla">
+    <caption><b>Table 10.3.</b> Log-likelihoods of the six models on the Hawaiian <i>Psychotria</i>.</caption>
+    <thead><tr><th>Model</th><th>PhylogenyPro</th><th>BioGeoBEARS 1.1.3</th></tr></thead>
+    <tbody>
+      <tr><td>DEC</td><td>−34.54195625</td><td>−34.54195758</td></tr>
+      <tr><td>DEC+J</td><td>−20.94758871</td><td>−20.94758855</td></tr>
+      <tr><td>DIVALIKE</td><td>−33.14967582</td><td>−33.14967538</td></tr>
+      <tr><td>DIVALIKE+J</td><td>−21.08620942</td><td>−21.08620912</td></tr>
+      <tr><td>BAYAREALIKE</td><td>−40.33442556</td><td>−40.33442795</td></tr>
+      <tr><td>BAYAREALIKE+J</td><td>−21.55262993</td><td>−21.55262941</td></tr>
+    </tbody>
+  </table>
+
+  <p>The rates d and e agree to about 1·10⁻⁵ (in DEC, 0.03505 and 0.02831 against 0.03505 and 0.02836), and the <b>ancestral ranges</b> agree to <b>1.75·10⁻⁸</b> at the eighteen internal nodes when both are evaluated with the same parameters; the root comes out as KO with 0.51655966 against 0.51655968.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>The root convention</div>
+    <p>LAGRANGE and BioGeoBEARS weight every allowed range at the root by one, and that is what <b>every published DEC log-likelihood</b> means. A truly flat prior differs by exactly the logarithm of the number of ranges—here, <b>2.708050</b>. It is the same constant for every model on the same areas, so no comparison changes; but the number a reader checks against a paper does. The program reports the BioGeoBEARS convention and says so.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>What turned up during validation</div>
+    <p><b>The reference was wrong before the code was.</b> DIVALIKE disagreed by 0.033, and the cause was in the R script: BioGeoBEARS reads the parameter <code>mx01v</code>, not <code>maxent01v</code>. Setting the latter does absolutely nothing and leaves DIVALIKE without its 2–2 vicariances, which amounts to not being DIVALIKE.</p>
+    <p><b>The upward message in the reconstruction included the daughter’s own likelihood</b>, counting it twice. The symptom is the one to remember: reconstructions that are <b>too confident</b> and biased toward wide ranges—a node at 0.96 for KOMH where the right answer was 0.11. The message passed down to a daughter has to carry everything <b>except</b> that daughter’s subtree; the corner probability, which is the one you read, does use all the data. They are two different quantities, and now both are computed.</p>
+    <p><b>And speed, three times over.</b> Fitting one model took 7.4 s. Reusing the buffers inside the matrix exponential brought it down to 0.3 s—the garbage collector had been doing almost all the work; tying the optimizer’s starting values to the depth of the tree removed nearly all the remaining iterations; and replacing the per-branch exponential with <b>uniformization</b> left it at <b>0.1 s, some seventy times faster</b>, without a single digit changing. Since every term of that sum is non-negative, it also can no longer produce the slightly negative probabilities that the Taylor series did.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 10.9 -->
+  <h2 id="s10-9"><span class="num">10.9</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concluding “there was long-distance dispersal” because +J won</div>
+    <p>It is the central mistake of this block, and that is why the panel warns about it on its own. +J almost always wins, even with data simulated without a single jump. Report by how much it wins and over which model; do not turn it into a biogeographic conclusion.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Setting a low range cap and not saying so</div>
+    <p>The cap decides in advance that no lineage was ever in more areas than that. It is a strong assumption and cheap to report: one sentence in the methods is enough.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Running it on a phylogram</div>
+    <p>d and e are rates per unit of time. On a tree in substitutions per site the numbers come out, but they do not mean dispersals per million years. Use the chronogram from Block 7.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publishing only the node pies</div>
+    <p>The node says where the ancestor was; the <b>corner</b> says what each daughter got, which is the event. Without the corners, the figure cannot tell a vicariance from a subset sympatry.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reading a spread-out pie as a failure</div>
+    <p>As in Block 9: a node with five ranges at 0.2 <b>is</b> the result. The gray slice is not noise in the way; it is the part of the range space that the data do not rule out.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leaving every multiplier at one and calling it a model</div>
+    <p>With a flat matrix you are claiming that moving between two neighboring islands costs the same as crossing an ocean. Sometimes that is the null hypothesis you want; it is almost never the story you want to tell.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

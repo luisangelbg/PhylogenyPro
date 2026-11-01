@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Appendices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  table.compacta { width: 100%; border-collapse: collapse; margin: 0.1in 0 0.18in; font-size: 9.5pt; }
+  table.compacta th { font-family: var(--sans); font-size: 8pt; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 0.05in 0.08in; border-bottom: 1.2px solid var(--acento, var(--marino)); }
+  table.compacta td { padding: 0.045in 0.08in; border-bottom: 0.5px solid var(--linea); vertical-align: top; }
+  table.compacta tr:last-child td { border-bottom: none; }
+  .glosario { margin: 0.06in 0 0.16in; }
+  .glosario dt { font-weight: 600; margin-top: 0.085in; break-after: avoid; }
+  .glosario dd { margin: 0 0 0 0.24in; }
+  .refs { list-style: none; padding: 0; margin: 0.06in 0 0; font-size: 9.5pt; }
+  .refs li { margin: 0 0 0.085in 0.24in; text-indent: -0.24in; break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="apendices" data-pestana="Ap" data-orden="13" style="--acento: var(--bx)">
+  <div class="cap-apertura">
+    <div class="cap-num">A</div>
+    <div class="cap-etiqueta">Appendices</div>
+    <h1>Appendices</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">What you need to have at hand and did not fit in any chapter: which files the program reads and writes, the complete catalog of models with the citation of each matrix, all the decision rules of the twelve blocks gathered in a single table, the vocabulary, what to do when something does not work, the references and the license of the tool.</p>
+    <ul class="cap-contenido">
+      <li><b>A</b>The files the program reads and writes</li>
+      <li><b>B</b>The catalog of models</li>
+      <li><b>C</b>The decision rules, gathered</li>
+      <li><b>D</b>Glossary</li>
+      <li><b>E</b>When something goes wrong</li>
+      <li><b>F</b>References</li>
+      <li><b>G</b>The tool: license and how to cite it</li>
+    </ul>
+  </div>
+
+  <!-- ================================================================= A -->
+  <h2 id="ap-a"><span class="num">A</span>The files the program reads and writes</h2>
+
+  <p class="lead">PhylogenyPro is a desktop program that runs in the browser and <b>sends nothing to any server</b>: every file comes from and goes to a folder on your computer. This appendix lists them.</p>
+
+  <h3>A.1 · What it reads</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.5in">Format</th><th>Where and what for</th></tr></thead>
+    <tbody>
+      <tr><td><b>FASTA</b><br><code>.fasta .fas .fa .fna</code></td><td>Block 2. It is the format almost everybody starts with.</td></tr>
+      <tr><td><b>PHYLIP</b><br><code>.phy .phylip</code></td><td>Block 2, in its four flavors: strict and relaxed, sequential and interleaved. The reader says which one it interpreted.</td></tr>
+      <tr><td><b>NEXUS</b><br><code>.nex .nexus</code></td><td>Block 2. <code>DATA</code>, <code>CHARACTERS</code>, <code>SETS</code> and <code>TREES</code> blocks, with <code>MATCHCHAR</code> and comments.</td></tr>
+      <tr><td><b>Clustal</b> <code>.aln</code><br><b>MEGA</b> <code>.meg</code></td><td>Block 2, alignments already made in another program.</td></tr>
+      <tr><td><b>GenBank</b><br><code>.gb .gbk .seq</code></td><td>Block 2, the flat file just as it is downloaded.</td></tr>
+      <tr><td><b>Table</b><br><code>.csv .tsv .txt</code></td><td>Block 2 for a morphological matrix; Block 9 for the characters, with one row per species and one column per character.</td></tr>
+      <tr><td><b>Partition scheme</b><br><code>.txt .part .nex .cfg</code></td><td>Block 2. It reads the RAxML format and the NEXUS <code>SETS</code> block.</td></tr>
+      <tr><td><b>Trees</b><br><code>.tre .tree .newick .nwk .txt</code></td><td>Block 11, one per line: those of each gene, a colleague’s, a paper’s.</td></tr>
+      <tr><td><b>Areas</b><br><code>.data .csv .tsv .phy .txt</code></td><td>Block 10. The LAGRANGE format—the same one BioGeoBEARS uses—or a table with one column per area.</td></tr>
+      <tr><td><b>Pictures</b></td><td>Block 12, dragged into the manager. A file named after its taxon finds its own place.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>A spreadsheet workbook is not read, and on purpose</div>
+    <p>There is no reader for <code>.xlsx</code> or <code>.ods</code>. Adding one would mean putting into the program someone else’s library of hundreds of thousands of lines, and it would stay inside forever. The choice was for the program to <b>load not a single line that is not its own</b>: that is exactly what lets it open with a double click, with nothing to install and no internet. Save the sheet as <code>.csv</code> and you are done.</p>
+  </div>
+
+  <h3>A.2 · What it writes</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.5in">Format</th><th>What comes out and from where</th></tr></thead>
+    <tbody>
+      <tr><td><b>FASTA, PHYLIP, NEXUS</b></td><td>Block 2: the alignment, trimmed or not. The NEXUS carries its <code>charsets</code>.</td></tr>
+      <tr><td><b>RAxML scheme</b></td><td>Block 2, to take the partitions to another program.</td></tr>
+      <tr><td><b>Newick</b></td><td>Blocks 4 to 12. Universal and narrow.</td></tr>
+      <tr><td><b>NEXUS of trees</b></td><td>Block 12, with a <code>TRANSLATE</code> block and the block that FigTree reads.</td></tr>
+      <tr><td><b>phyloXML</b></td><td>Block 12. The only one of the three that carries at once the support, the age and the interval of a node.</td></tr>
+      <tr><td><b>CSV</b></td><td>From almost every block: models, distances, support, concordance, ancestral ranges, events, splits, ABBA-BABA.</td></tr>
+      <tr><td><b>SVG</b></td><td>Every figure. No resolution, with the colors resolved and the pictures inside.</td></tr>
+      <tr><td><b>PNG</b></td><td>Every figure, at the dots per inch you ask for, with the pixel count shown before it is generated.</td></tr>
+      <tr><td><b>Report</b> <code>.html</code></td><td>Block 12. A single self-contained file; it prints to PDF from the browser.</td></tr>
+      <tr><td><b>Package</b> <code>.zip</code></td><td>Block 12. All of the above plus an index that says what each thing is.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>A.3 · Keyboard shortcuts</h3>
+  <p>Only a few: the program is mostly driven with the mouse. <b><code>Alt</code> + <code>←</code>/<code>→</code></b> goes to the previous or next block (in focused mode, section); <b><code>Ctrl</code> + <code>K</code></b> searches blocks, sections, controls and actions; <b><code>[</code></b> collapses or shows the block bar; <b><code>?</code></b> lists the shortcuts; <b><code>Esc</code></b> closes dialogs and panels, such as the interpretation help card and the image manager; and the <b>space bar or <code>Enter</code></b> on a home-page card opens that block.</p>
+
+  <!-- ================================================================= B -->
+  <h2 id="ap-b"><span class="num">B</span>The catalog of models</h2>
+
+  <h3>B.1 · The 56 DNA models</h3>
+  <p>Seven rate schemes, each with equal or empirical frequencies—fourteen base models—and each in the four variants of rate variation among sites: <b>plain, +I, +G and +I+G</b>. Fourteen times four, fifty-six.</p>
+
+  <table class="compacta">
+    <thead><tr><th style="width:1.1in">Equal freq.</th><th style="width:1.1in">Empirical freq.</th><th style="width:0.7in">Rates</th><th>What it adds to the previous one</th></tr></thead>
+    <tbody>
+      <tr><td>JC</td><td>F81</td><td>0</td><td>The starting point: all changes equal.</td></tr>
+      <tr><td>K80</td><td>HKY</td><td>1</td><td>Transitions are told apart from transversions.</td></tr>
+      <tr><td>TrNef</td><td>TrN</td><td>2</td><td>The two transitions, with different rates.</td></tr>
+      <tr><td>K81</td><td>K81uf</td><td>2</td><td>Two classes of transversion.</td></tr>
+      <tr><td>TIMef</td><td>TIM</td><td>3</td><td>Different transitions and different transversions.</td></tr>
+      <tr><td>TVMef</td><td>TVM</td><td>4</td><td>The four transversions free.</td></tr>
+      <tr><td>SYM</td><td>GTR</td><td>5</td><td>All six rates free. There is nothing more general.</td></tr>
+    </tbody>
+  </table>
+
+  <p>The <b>+I</b> adds a proportion of invariable sites; the <b>+G</b>, a discrete gamma with estimated α (Yang 1994), with the rates rescaled the way PAML does it. The right-hand column is, read from top to bottom, the chain of likelihood-ratio tests that the block can also run.</p>
+
+  <h3>B.2 · The twelve protein matrices</h3>
+  <p>Each with its 190 exchangeabilities and its 20 equilibrium frequencies, and each in the same variants, with <b>+F</b> to use the frequencies of your data instead of those of the matrix. All were verified against five independent canonical distributions.</p>
+
+  <table class="compacta">
+    <thead><tr><th style="width:1in">Matrix</th><th>What it was made for, and its original publication</th></tr></thead>
+    <tbody>
+      <tr><td><b>LG</b></td><td>Nuclear proteins in general; the preferred one today. Le and Gascuel (2008).</td></tr>
+      <tr><td><b>WAG</b></td><td>Globular proteins. Whelan and Goldman (2001).</td></tr>
+      <tr><td><b>JTT</b></td><td>Dayhoff’s successor, with much more data. Jones, Taylor and Thornton (1992).</td></tr>
+      <tr><td><b>Dayhoff</b></td><td>The first of them all, of historical value and still useful. Dayhoff, Schwartz and Orcutt (1978).</td></tr>
+      <tr><td><b>cpREV</b></td><td><b>Chloroplast</b> proteins. Adachi, Waddell, Martin and Hasegawa (2000).</td></tr>
+      <tr><td><b>mtREV24</b></td><td><b>Mitochondrial</b> proteins. Adachi and Hasegawa (1996).</td></tr>
+      <tr><td><b>VT</b></td><td>Derived from very divergent alignments. Müller and Vingron (2000).</td></tr>
+      <tr><td><b>RtREV</b></td><td>Retroviruses. Dimmic, Rest, Mindell and Goldstein (2002).</td></tr>
+      <tr><td><b>Blosum62</b></td><td>The classic scoring matrix, used here also as a model. Henikoff and Henikoff (1992).</td></tr>
+      <tr><td><b>FLU</b></td><td>Influenza viruses. Dang, Le, Gascuel and Le (2010).</td></tr>
+      <tr><td><b>HIVb</b></td><td>HIV, between hosts. Nickle and colleagues (2007).</td></tr>
+      <tr><td><b>mtMam</b></td><td>Mammalian mitochondria. Yang, Nielsen and Hasegawa (1998). Listed in the menu as <code>mtmam</code>.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B.3 · The other models, by block</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.2in">Where</th><th>Models</th></tr></thead>
+    <tbody>
+      <tr><td><b>Morphology</b><br>Block 3</td><td><b>Mk</b> and <b>Mkv</b> with Lewis’s (2001) ascertainment correction, which is the one to use when the matrix has only variable characters.</td></tr>
+      <tr><td><b>Distances</b><br>Block 3</td><td>p, JC69, K80, F81, TN93, LogDet (Lockhart et al. 1994) and paralinear (Lake), Poisson and Kimura for proteins, with their gamma-corrected variants.</td></tr>
+      <tr><td><b>Clock</b><br>Block 7</td><td>Strict; penalized likelihood with λ by cross-validation (Sanderson 2002); least squares (To et al. 2016); and the Bayesian sampler’s uncorrelated relaxed clock (Drummond et al. 2006).</td></tr>
+      <tr><td><b>Diversification</b><br>Block 8</td><td>Pure birth, birth–death, two rates, density-dependent and exponential.</td></tr>
+      <tr><td><b>Characters</b><br>Block 9</td><td>Continuous: Brownian, Ornstein–Uhlenbeck and early burst. Discrete: Mk in its <b>ER</b>, <b>SYM</b> and <b>ARD</b> variants.</td></tr>
+      <tr><td><b>Biogeography</b><br>Block 10</td><td><b>DEC</b> (Ree and Smith 2008), <b>DIVALIKE</b> and <b>BAYAREALIKE</b>, each with and without the founder event <b>+J</b> (Matzke 2013).</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================= C -->
+  <h2 id="ap-c"><span class="num">C</span>The decision rules, gathered</h2>
+
+  <p class="lead">The scales the program applies to each number, in a single place. On screen you do not need to look them up: the interpretation help paints the band next to the value. They are here so you can cite them, argue about them and take them to a meeting.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Half of these cutoffs are customs, not laws</div>
+    <p>The 70% for the bootstrap, the 0.95 for the posterior, the 200 for the ESS: they are <b>reading conventions</b> that the community adopted, not thresholds derived from a theory. The program says so in every card where that is the case, and this appendix repeats it once for all. Use them to orient yourself, not to decide on their own.</p>
+  </div>
+
+  <h3>C.1 · Data and alignment</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.7in">Quantity</th><th>Scale</th></tr></thead>
+    <tbody>
+      <tr><td><b>Informative sites</b> per taxon</td><td>&lt;2 very few · 2–10 barely enough · 10–40 reasonable · &gt;40 ample</td></tr>
+      <tr><td><b>Gaps</b> in the matrix</td><td>&lt;0.05 very clean · 0.05–0.2 normal · 0.2–0.5 much missing · &gt;0.5 more gap than data</td></tr>
+      <tr><td><b>Trimming</b>: columns removed</td><td>&lt;0.1 almost nothing · 0.1–0.3 normal · 0.3–0.5 a lot · &gt;0.5 the alignment was the problem</td></tr>
+      <tr><td><b>SP score</b></td><td>&lt;0.7 badly aligned · 0.7–0.9 acceptable · 0.9–0.98 good · &gt;0.98 almost perfect</td></tr>
+      <tr><td><b>Composition χ²</b> (p)</td><td>&lt;0.01 heterogeneous, careful · 0.01–0.05 doubtful · &gt;0.05 compatible with homogeneity</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.2 · Models</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.7in">Quantity</th><th>Scale</th></tr></thead>
+    <tbody>
+      <tr><td><b>ΔAIC</b> from the best</td><td>0–2 just as good · 2–4 almost as good · 4–10 clearly worse · &gt;10 ruled out</td></tr>
+      <tr><td><b>Akaike weight</b> of the best</td><td>&lt;0.5 no clear winner · 0.5–0.9 preferred · &gt;0.9 outright winner</td></tr>
+      <tr><td><b>LRT</b> (p)</td><td>&lt;0.01 the complex one clearly wins · 0.01–0.05 the complex one wins · &gt;0.05 the simple one is enough</td></tr>
+      <tr><td><b>α</b> of the gamma</td><td>&lt;0.5 very uneven · 0.5–1 uneven · 1–3 moderate · &gt;3 almost homogeneous</td></tr>
+      <tr><td><b>κ</b> (ts/tv)</td><td>&lt;1.2 suspiciously low · 1.2–4 normal · 4–10 high · &gt;10 very high</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.3 · Trees and support</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.7in">Quantity</th><th>Scale</th></tr></thead>
+    <tbody>
+      <tr><td><b>CI</b> (consistency)</td><td>&lt;0.3 much homoplasy · 0.3–0.5 considerable · 0.5–0.75 moderate · &gt;0.75 little</td></tr>
+      <tr><td><b>RI</b> (retention)</td><td>&lt;0.4 little structure · 0.4–0.6 some · 0.6–0.8 good · &gt;0.8 very good</td></tr>
+      <tr><td><b>Bootstrap</b> (%)</td><td>&lt;50 unsupported · 50–70 weak · 70–95 supported · &gt;95 strong</td></tr>
+      <tr><td><b>UFBoot</b> (%)</td><td>&lt;85 unsupported · 85–95 doubtful · &gt;95 supported</td></tr>
+      <tr><td><b>SH-aLRT</b> (%)</td><td>&lt;80 unsupported · &gt;80 supported</td></tr>
+      <tr><td><b>AU test</b> (p)</td><td>&lt;0.05 rejected · 0.05–0.1 borderline · &gt;0.1 not rejected</td></tr>
+      <tr><td><b>Normalized RF</b></td><td>&lt;0.1 almost the same tree · 0.1–0.3 minor differences · 0.3–0.6 they disagree · &gt;0.6 different topologies</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>The three support scales are not the same</div>
+    <p>A <b>70% bootstrap</b>, a <b>95% UFBoot</b> and a <b>posterior of 0.95</b> say roughly the same thing. Reading UFBoot with the bootstrap’s yardstick—celebrating a 75—is the most common mistake with the ultrafast bootstrap. They are in three separate rows for that reason.</p>
+  </div>
+
+  <h3>C.4 · Bayesian</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.7in">Quantity</th><th>Scale</th></tr></thead>
+    <tbody>
+      <tr><td><b>Posterior</b></td><td>&lt;0.5 unsupported · 0.5–0.95 doubtful · &gt;0.95 supported</td></tr>
+      <tr><td><b>ESS</b></td><td>&lt;100 insufficient · 100–200 barely enough · &gt;200 sufficient</td></tr>
+      <tr><td><b>PSRF</b> (R̂)</td><td>&lt;1.01 converged · 1.01–1.05 borderline · &gt;1.05 did not converge</td></tr>
+      <tr><td><b>ASDSF</b></td><td>&lt;0.01 converged · 0.01–0.05 not yet · &gt;0.05 far off</td></tr>
+      <tr><td><b>2·ln(BF)</b></td><td>&lt;2 negligible · 2–6 positive · 6–10 strong · &gt;10 very strong (Kass and Raftery 1995)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.5 · Time, diversification and characters</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.7in">Quantity</th><th>Scale</th></tr></thead>
+    <tbody>
+      <tr><td>Root-to-tip <b>r²</b></td><td>&lt;0.2 no temporal signal · 0.2–0.5 weak · 0.5–0.8 clear · &gt;0.8 very marked clock</td></tr>
+      <tr><td><b>Strict clock</b> (p)</td><td>&lt;0.05 rejected · &gt;0.05 not rejected</td></tr>
+      <tr><td><b>Rate variation</b> (CV)</td><td>&lt;0.1 practically a clock · 0.1–0.3 moderate · 0.3–0.6 high · &gt;0.6 very high</td></tr>
+      <tr><td>Pybus and Harvey’s <b>γ</b></td><td>&lt;−1.645 slowdown · −1.645 to 1.645 compatible with a constant rate · &gt;1.645 speedup</td></tr>
+      <tr><td><b>ε = μ/λ</b></td><td>&lt;0.2 little extinction · 0.2–0.6 moderate · 0.6–0.9 high · &gt;0.9 almost everything goes extinct</td></tr>
+      <tr><td>Pagel’s <b>λ</b></td><td>&lt;0.2 no signal · 0.2–0.6 partial · 0.6–0.9 good · &gt;0.9 Brownian</td></tr>
+      <tr><td>Blomberg’s <b>K</b></td><td>&lt;0.5 less signal than Brownian · 0.5–1 somewhat less · &gt;1 more than Brownian</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.6 · Discordance</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:1.7in">Quantity</th><th>Scale</th></tr></thead>
+    <tbody>
+      <tr><td><b>gCF</b> (%)</td><td>&lt;33 most disagree · 33–50 strong conflict · 50–75 majority in favor · &gt;75 broad agreement</td></tr>
+      <tr><td><b>sCF</b> (%)</td><td>&lt;36 no signal · 36–45 very spread out · 45–60 majority · &gt;60 clear</td></tr>
+      <tr><td>Jackknife <b>|z|</b> (D)</td><td>&lt;2 no evidence · 2–3 suggestive · &gt;3 gene flow</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================= D -->
+  <h2 id="ap-d"><span class="num">D</span>Glossary</h2>
+
+  <dl class="glosario">
+    <dt>Alignment (<i>alineamiento</i>)</dt><dd>The hypothesis that the columns of a sequence matrix are homologous positions. It is not a neutral preliminary step: it is the first result of the study.</dd>
+    <dt>Ancestral state (<i>estado ancestral</i>)</dt><dd>The reconstructed value of a character at an internal node. It is reported as probabilities, not as a winner.</dd>
+    <dt>ASDSF</dt><dd>Average standard deviation of split frequencies between independent runs. It measures whether two chains arrived at the same place.</dd>
+    <dt>Bayes factor (<i>factor de Bayes</i>)</dt><dd>The ratio of the marginal likelihoods of two models. It compares by integrating over all the values of the parameters, not with a shortcut like the AIC.</dd>
+    <dt>Block jackknife (<i>jackknife por bloques</i>)</dt><dd>Error estimated by removing contiguous blocks of sites, because neighboring sites are not independent.</dd>
+    <dt>Blomberg’s K</dt><dd>Compares the observed variance of a character with the one Brownian motion predicts on that tree. It measures magnitude, not shape.</dd>
+    <dt>Bootstrap (<i>arranque</i>)</dt><dd>Resampling columns with replacement. How often a branch reappears is its bootstrap support.</dd>
+    <dt>Branch length (<i>longitud de rama</i>)</dt><dd>The expected amount of change per site along that branch. In a chronogram, time.</dd>
+    <dt>Brownian motion (<i>movimiento browniano</i>)</dt><dd>A model of pure drift for a continuous character: the variance between two species grows with the time they have been apart.</dd>
+    <dt>Calibration justification (<i>ensayo de calibración</i>)</dt><dd>Putting in writing which fossil, which event or which rate each age comes from, with its prior. It is the most debated part of a dating study.</dd>
+    <dt>Chronogram (<i>cronograma</i>)</dt><dd>A tree whose axis is time, not change. It requires a clock and at least one calibration.</dd>
+    <dt>Clade (<i>clado</i>)</dt><dd>An ancestor and all its descendants. A group that leaves any of them out is paraphyletic.</dd>
+    <dt>Cladogenesis (<i>cladogénesis</i>)</dt><dd>What happens at the node when a lineage splits. In biogeography it is where the range is divided between the daughters.</dd>
+    <dt>Cladogram (<i>cladograma</i>)</dt><dd>A tree drawn without branch lengths: it asserts relationship and nothing more.</dd>
+    <dt>Concordance (gCF, sCF)</dt><dd>What proportion of the gene trees, or of the sites, contains a branch. It is a question different from support.</dd>
+    <dt>Consensus (<i>consenso</i>)</dt><dd>A summary tree of a set of trees. Strict, majority-rule, semi-strict or greedy; all of them throw away what contradicts itself.</dd>
+    <dt>Convergence (of a chain)</dt><dd>The sampler is already drawing samples from the posterior distribution and not from the path toward it. It is diagnosed with ESS, PSRF and ASDSF, never with just one.</dd>
+    <dt>Convergence (phylogenetic)</dt><dd>Two lineages that reach the same state by separate routes. It is the source of homoplasy.</dd>
+    <dt>DEC</dt><dd>The dispersal–extinction–cladogenesis model for geographic ranges (Ree and Smith 2008).</dd>
+    <dt>Discrete gamma (<i>gamma discreta</i>)</dt><dd>Rate variation among sites divided into a few categories, with a single shape parameter α (Yang 1994).</dd>
+    <dt>Early burst (<i>estallido temprano</i>)</dt><dd>A model in which the rate of evolution of a character decays with time; the model of adaptive radiation.</dd>
+    <dt>ESS</dt><dd>Effective sample size: how many <i>independent</i> samples your chain is worth.</dd>
+    <dt>Founder event (+J) (<i>salto fundador</i>)</dt><dd>A daughter that, at the split, leaves for a single area outside the ancestor’s range (Matzke 2013).</dd>
+    <dt>Homoplasy (<i>homoplasia</i>)</dt><dd>Similarity that does not come from a common ancestor: convergence, parallelism or reversal.</dd>
+    <dt>Independent contrasts (<i>contrastes independientes</i>)</dt><dd>Differences between sister nodes, scaled by their branches, that turn <i>n</i> non-independent species into <i>n</i>−1 observations that are independent (Felsenstein 1985).</dd>
+    <dt>Introgression (<i>introgresión</i>)</dt><dd>The passage of genetic material between lineages through hybridization. It leaves an asymmetry that incomplete lineage sorting does not leave.</dd>
+    <dt>Maximum likelihood (<i>máxima verosimilitud</i>)</dt><dd>The criterion that picks the tree and parameters that make the observed data most probable under the model.</dd>
+    <dt>MCMC</dt><dd>Markov chain Monte Carlo: the algorithm with which the Bayesian posterior is sampled.</dd>
+    <dt>Mk</dt><dd>A <i>k</i>-state model for discrete characters (Lewis 2001); Mkv adds the correction for having sampled only variable characters.</dd>
+    <dt>Molecular clock (<i>reloj molecular</i>)</dt><dd>The assumption that change accumulates at a comparable rate across lineages. Strict if it is a single rate; relaxed if it varies from branch to branch.</dd>
+    <dt>Monophyletic (<i>monofilético</i>)</dt><dd>Said of a group that is a complete clade.</dd>
+    <dt>Null range (<i>rango nulo</i>)</dt><dd>The state of a lineage that has lost its last area. It is absorbing, and it is what makes extinction real in the model.</dd>
+    <dt>Ornstein–Uhlenbeck</dt><dd>A model with a force that pulls the character toward an optimum. Its α is read as a half-life against the depth of the tree.</dd>
+    <dt>Outgroup (<i>exogrupo</i>)</dt><dd>A taxon known to be outside the study group, used to place the root. A bad choice shifts the whole history.</dd>
+    <dt>Pagel’s λ</dt><dd>Scales the covariances between species without touching the variances. It measures shape, not magnitude.</dd>
+    <dt>Paraphyletic (<i>parafilético</i>)</dt><dd>A group that excludes some of the descendants of its common ancestor.</dd>
+    <dt>Parsimony (<i>parsimonia</i>)</dt><dd>The criterion that prefers the tree that requires the fewest changes.</dd>
+    <dt>Partition (<i>partición</i>)</dt><dd>A subset of columns with its own model: a gene, a codon position, a genome.</dd>
+    <dt>PGLS</dt><dd>Generalized least-squares regression whose covariance matrix is that of the tree. It gives the same slope as the contrasts under Brownian motion.</dd>
+    <dt>Phylogenetic signal (<i>señal filogenética</i>)</dt><dd>How much more relatives resemble each other than expected by chance. A pattern, not a process.</dd>
+    <dt>Phylogram (<i>filograma</i>)</dt><dd>A tree with branch lengths: it also asserts how much change there was.</dd>
+    <dt>Polytomy (<i>politomía</i>)</dt><dd>A node with more than two daughters. It almost always means “I don’t know in what order,” not “they split at the same time.”</dd>
+    <dt>Posterior</dt><dd>The probability of a branch given the data, the model and the prior. It is not on the same scale as a bootstrap support.</dd>
+    <dt>Prior</dt><dd>What is asserted before seeing the data. In dating, the shape that declares the uncertainty of an age.</dd>
+    <dt>PSRF</dt><dd>Potential scale reduction factor (R̂): it compares the variation within each chain with the variation between chains.</dd>
+    <dt>Pybus and Harvey’s γ</dt><dd>Compares where the nodes of a tree fall with where they would fall under a constant rate. Negative, slowdown; but missing species mimic it exactly.</dd>
+    <dt>Quartet (<i>cuarteto</i>)</dt><dd>A group of four tips. It has three possible resolutions, and counting them is the basis of the species tree and of a distance between trees.</dd>
+    <dt>Robinson–Foulds distance</dt><dd>The number of splits present in one tree and absent from the other. It breaks easily: one misplaced tip takes it to its maximum.</dd>
+    <dt>Saturation (<i>saturación</i>)</dt><dd>The state in which so many changes have piled up that the observed difference no longer grows with time.</dd>
+    <dt>Split (<i>división</i>)</dt><dd>The division of the tips into two sets produced by an internal branch. An unrooted tree is its set of splits.</dd>
+    <dt>Split network (<i>red de divisiones</i>)</dt><dd>A figure that keeps the incompatible splits instead of throwing them away, drawing them as boxes.</dd>
+    <dt>Stochastic mapping (<i>mapeo estocástico</i>)</dt><dd>Drawing complete histories of the character on the tree, conditioned on the tips. It turns probabilities into counts of events.</dd>
+    <dt>Support (<i>apoyo</i>)</dt><dd>A measure of how confidently <i>these</i> data hold up a branch. It does not say that the branch is true, nor how many genes see it.</dd>
+    <dt>Tanglegram (<i>tanglegrama</i>)</dt><dd>Two trees facing each other, joined tip to tip. No crossings does not mean they are equal.</dd>
+    <dt>Ultrametric (<i>ultramétrico</i>)</dt><dd>A tree in which all the tips lie at the same distance from the root. A chronogram of living species is one.</dd>
+    <dt>Vicariance (<i>vicarianza</i>)</dt><dd>The division of a range in two by a barrier. In DEC one of the daughters keeps a single area; in DIVALIKE the cut can be of any size.</dd>
+  </dl>
+
+  <!-- ================================================================= E -->
+  <h2 id="ap-e"><span class="num">E</span>When something goes wrong</h2>
+
+  <table class="compacta">
+    <thead><tr><th style="width:2in">What you see</th><th>What it usually is</th></tr></thead>
+    <tbody>
+      <tr><td><b>“No row in the table”</b> or <b>“No areas in the table for”</b> when crossing two files</td><td>Almost always the underscore: <code>Bursera_palmeri</code> against <code>Bursera palmeri</code>. Block 9 forgives it; the others name it. Fix the file, not the list.</td></tr>
+      <tr><td>The <b>tree comes out with a huge polytomy</b></td><td>A consensus with many splits below the threshold. It is not an error: the data do not resolve that node.</td></tr>
+      <tr><td>The <b>Bayesian chain does not converge</b></td><td>Look at the ESS and the PSRF before anything else. If the ESS is low in only one parameter, running longer is usually enough; if the PSRF is high, the chains are in different places and the problem is the model or the prior.</td></tr>
+      <tr><td>The <b>branches come out extremely long</b> in the Bayesian analysis</td><td>The branch-length prior. With divergent data, an exponential with mean 0.1 drags the whole tree down. The panel compares with the maximum-likelihood tree before running: heed it.</td></tr>
+      <tr><td>The <b>OU wins</b> but the half-life is enormous</td><td>Indistinguishable from Brownian motion. Do not conclude stabilizing selection.</td></tr>
+      <tr><td>A <b>+J model wins</b> by a lot</td><td>It is to be expected. Report by how much it wins and over which model; do not turn it into long-distance dispersal without more.</td></tr>
+      <tr><td>The <b>PNG comes out blank</b> or the program refuses</td><td>You asked for more pixels than a browser can draw. Lower the dots per inch, or send the SVG, which has no resolution.</td></tr>
+      <tr><td>The <b>pictures do not appear</b> on the tree</td><td>The confirmation checkbox of each one has not been ticked. It is deliberate.</td></tr>
+      <tr><td>The <b>colors of the exported SVG</b> are not those on screen</td><td>It should not happen, and there are tests watching for it; if it does, export again from Block 12, which is where the figure studio hooks into the export.</td></tr>
+      <tr><td>The <b>report cites something you did not run</b></td><td>It should not: the report is built from what actually ran. If you see it, it is a bug and worth reporting.</td></tr>
+      <tr><td>A <b>block takes forever</b></td><td>Check the number of taxa and sites against the table of sizes on the home page. Heavy computations run in separate threads, so the page does not freeze even if it seems not to be moving.</td></tr>
+      <tr><td><b>You lost everything on closing</b></td><td>The program does not save on its own. Build the Block 12 package before closing; it is a single button.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================= F -->
+  <h2 id="ap-f"><span class="num">F</span>References</h2>
+
+  <p class="lead">The works cited in this manual. The program knows many more and builds the bibliography of the report from the ones your study actually used.</p>
+
+  <ul class="refs">
+    <li>Adachi, J. and Hasegawa, M. (1996). Model of amino acid substitution in proteins encoded by mitochondrial DNA. <i>Journal of Molecular Evolution</i> 42: 459–468.</li>
+    <li>Adachi, J., Waddell, P.J., Martin, W. and Hasegawa, M. (2000). Plastid genome phylogeny and a model of amino acid substitution for proteins encoded by chloroplast DNA. <i>Journal of Molecular Evolution</i> 50: 348–358.</li>
+    <li>Blomberg, S.P., Garland, T. and Ives, A.R. (2003). Testing for phylogenetic signal in comparative data: behavioral traits are more labile. <i>Evolution</i> 57: 717–745.</li>
+    <li>Bremer, K. (1994). Branch support and tree stability. <i>Cladistics</i> 10: 295–304.</li>
+    <li>Brown, J.M., Hedtke, S.M., Lemmon, A.R. and Lemmon, E.M. (2010). When trees grow too long: investigating the causes of highly inaccurate Bayesian branch-length estimates. <i>Systematic Biology</i> 59: 145–161.</li>
+    <li>Castresana, J. (2000). Selection of conserved blocks from multiple alignments for their use in phylogenetic analysis. <i>Molecular Biology and Evolution</i> 17: 540–552.</li>
+    <li>Cooper, N., Thomas, G.H., Venditti, C., Meade, A. and Freckleton, R.P. (2016). A cautionary note on the use of Ornstein–Uhlenbeck models in macroevolutionary studies. <i>Biological Journal of the Linnean Society</i> 118: 64–77.</li>
+    <li>Dang, C.C., Le, Q.S., Gascuel, O. and Le, V.S. (2010). FLU, an amino acid substitution model for influenza proteins. <i>BMC Evolutionary Biology</i> 10: 99.</li>
+    <li>Dayhoff, M.O., Schwartz, R.M. and Orcutt, B.C. (1978). A model of evolutionary change in proteins. <i>Atlas of Protein Sequence and Structure</i> 5(3): 345–352.</li>
+    <li>Desper, R. and Gascuel, O. (2002). Fast and accurate phylogeny reconstruction algorithms based on the minimum-evolution principle. <i>Journal of Computational Biology</i> 9: 687–705.</li>
+    <li>Dimmic, M.W., Rest, J.S., Mindell, D.P. and Goldstein, R.A. (2002). rtREV: an amino acid substitution matrix for inference of retrovirus and reverse transcriptase phylogeny. <i>Journal of Molecular Evolution</i> 55: 65–73.</li>
+    <li>Drummond, A.J., Ho, S.Y.W., Phillips, M.J. and Rambaut, A. (2006). Relaxed phylogenetics and dating with confidence. <i>PLoS Biology</i> 4: e88.</li>
+    <li>Felsenstein, J. (1978). Cases in which parsimony or compatibility methods will be positively misleading. <i>Systematic Zoology</i> 27: 401–410.</li>
+    <li>Felsenstein, J. (1985). Phylogenies and the comparative method. <i>The American Naturalist</i> 125: 1–15.</li>
+    <li>Fitch, W.M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology. <i>Systematic Zoology</i> 20: 406–416.</li>
+    <li>Garland, T. and Ives, A.R. (2000). Using the past to predict the present: confidence intervals for regression equations in phylogenetic comparative methods. <i>The American Naturalist</i> 155: 346–364.</li>
+    <li>Gotoh, O. (1982). An improved algorithm for matching biological sequences. <i>Journal of Molecular Biology</i> 162: 705–708.</li>
+    <li>Henikoff, S. and Henikoff, J.G. (1992). Amino acid substitution matrices from protein blocks. <i>Proceedings of the National Academy of Sciences USA</i> 89: 10915–10919.</li>
+    <li>Huelsenbeck, J.P., Nielsen, R. and Bollback, J.P. (2003). Stochastic mapping of morphological characters. <i>Systematic Biology</i> 52: 131–158.</li>
+    <li>Jetz, W., Thomas, G.H., Joy, J.B., Hartmann, K. and Mooers, A.O. (2012). The global diversity of birds in space and time. <i>Nature</i> 491: 444–448.</li>
+    <li>Jones, D.T., Taylor, W.R. and Thornton, J.M. (1992). The rapid generation of mutation data matrices from protein sequences. <i>Computer Applications in the Biosciences</i> 8: 275–282.</li>
+    <li>Kass, R.E. and Raftery, A.E. (1995). Bayes factors. <i>Journal of the American Statistical Association</i> 90: 773–795.</li>
+    <li>Kuhner, M.K. and Felsenstein, J. (1994). A simulation comparison of phylogeny algorithms under equal and unequal evolutionary rates. <i>Molecular Biology and Evolution</i> 11: 459–468.</li>
+    <li>Le, S.Q. and Gascuel, O. (2008). An improved general amino acid replacement matrix. <i>Molecular Biology and Evolution</i> 25: 1307–1320.</li>
+    <li>Lewis, P.O. (2001). A likelihood approach to estimating phylogeny from discrete morphological character data. <i>Systematic Biology</i> 50: 913–925.</li>
+    <li>Lockhart, P.J., Steel, M.A., Hendy, M.D. and Penny, D. (1994). Recovering evolutionary trees under a more realistic model of sequence evolution. <i>Molecular Biology and Evolution</i> 11: 605–612.</li>
+    <li>Magallón, S. and Sanderson, M.J. (2001). Absolute diversification rates in angiosperm clades. <i>Evolution</i> 55: 1762–1780.</li>
+    <li>Marshall, D.C. (2010). Cryptic failure of partitioned Bayesian phylogenetic analyses: lost in the land of long trees. <i>Systematic Biology</i> 59: 108–117.</li>
+    <li>Matzke, N.J. (2013). Probabilistic historical biogeography: new models for founder-event speciation, imperfect detection, and fossils allow improved accuracy and model-testing. <i>Frontiers of Biogeography</i> 5: 242–248.</li>
+    <li>Minh, B.Q., Nguyen, M.A.T. and von Haeseler, A. (2013). Ultrafast approximation for phylogenetic bootstrap. <i>Molecular Biology and Evolution</i> 30: 1188–1195.</li>
+    <li>Minh, B.Q., Hahn, M.W. and Lanfear, R. (2020). New methods to calculate concordance factors for phylogenomic datasets. <i>Molecular Biology and Evolution</i> 37: 2727–2733.</li>
+    <li>Müller, T. and Vingron, M. (2000). Modeling amino acid replacement. <i>Journal of Computational Biology</i> 7: 761–776.</li>
+    <li>Nickle, D.C., Heath, L., Jensen, M.A., Gilbert, P.B., Mullins, J.I. and Kosakovsky Pond, S.L. (2007). HIV-specific probabilistic models of protein evolution. <i>PLoS ONE</i> 2: e503.</li>
+    <li>Pagel, M. (1999). Inferring the historical patterns of biological evolution. <i>Nature</i> 401: 877–884.</li>
+    <li>Patterson, N., Moorjani, P., Luo, Y., Mallick, S., Rohland, N., Zhan, Y., Genschoreck, T., Webster, T. and Reich, D. (2012). Ancient admixture in human history. <i>Genetics</i> 192: 1065–1093.</li>
+    <li>Pauplin, Y. (2000). Direct calculation of a tree length using a distance matrix. <i>Journal of Molecular Evolution</i> 51: 41–47.</li>
+    <li>Pybus, O.G. and Harvey, P.H. (2000). Testing macro-evolutionary models using incomplete molecular phylogenies. <i>Proceedings of the Royal Society B</i> 267: 2267–2272.</li>
+    <li>Rabosky, D.L. and Lovette, I.J. (2008). Density-dependent diversification in North American wood warblers. <i>Proceedings of the Royal Society B</i> 275: 2363–2371.</li>
+    <li>Ree, R.H. and Smith, S.A. (2008). Maximum likelihood inference of geographic range evolution by dispersal, local extinction, and cladogenesis. <i>Systematic Biology</i> 57: 4–14.</li>
+    <li>Ree, R.H. and Sanmartín, I. (2018). Conceptual and statistical problems with the DEC+J model of founder-event speciation and its comparison with DEC via model selection. <i>Journal of Biogeography</i> 45: 741–749.</li>
+    <li>Robinson, D.F. and Foulds, L.R. (1981). Comparison of phylogenetic trees. <i>Mathematical Biosciences</i> 53: 131–147.</li>
+    <li>Sanderson, M.J. (2002). Estimating absolute rates of molecular evolution and divergence times: a penalized likelihood approach. <i>Molecular Biology and Evolution</i> 19: 101–109.</li>
+    <li>Sankoff, D. (1975). Minimal mutation trees of sequences. <i>SIAM Journal on Applied Mathematics</i> 28: 35–42.</li>
+    <li>Steel, M.A. and Penny, D. (1993). Distributions of tree comparison metrics—some new results. <i>Systematic Biology</i> 42: 126–141.</li>
+    <li>Title, P.O. and Rabosky, D.L. (2019). Tip rates, phylogenies and diversification: what are we estimating, and how good are the estimates? <i>Methods in Ecology and Evolution</i> 10: 821–834.</li>
+    <li>To, T.-H., Jung, M., Lycett, S. and Gascuel, O. (2016). Fast dating using least-squares criteria and algorithms. <i>Systematic Biology</i> 65: 82–97.</li>
+    <li>Whelan, S. and Goldman, N. (2001). A general empirical model of protein evolution derived from multiple protein families using a maximum-likelihood approach. <i>Molecular Biology and Evolution</i> 18: 691–699.</li>
+    <li>Xie, W., Lewis, P.O., Fan, Y., Kuo, L. and Chen, M.-H. (2011). Improving marginal likelihood estimation for Bayesian phylogenetic model selection. <i>Systematic Biology</i> 60: 150–160.</li>
+    <li>Yang, Z. (1994). Maximum likelihood phylogenetic estimation from DNA sequences with variable rates over sites: approximate methods. <i>Journal of Molecular Evolution</i> 39: 306–314.</li>
+    <li>Yang, Z., Nielsen, R. and Hasegawa, M. (1998). Models of amino acid substitution and applications to mitochondrial protein evolution. <i>Molecular Biology and Evolution</i> 15: 1600–1611.</li>
+  </ul>
+
+  <!-- ================================================================= G -->
+  <h2 id="ap-g"><span class="num">G</span>The tool: license and how to cite it</h2>
+
+  <h3>G.1 · What it is and what it is not</h3>
+  <p>PhylogenyPro is a program <b>written entirely from scratch</b>: it loads no third-party library, no file from a content delivery network, no minified code. Everything it does—the likelihood engine, the sampler, the drawings, the ZIP writer—is in its own code and can be read.</p>
+
+  <p>What it does contain from outside are <b>published numerical constants</b>: the twelve amino-acid matrices, the aligner’s BLOSUM62 matrix, the genetic code and the geological time scale. They are not anyone’s creative expression: they are the parameters of published scientific models, and the file <code>PROCEDENCIA.md</code> documents where each one comes from and how it was verified.</p>
+
+  <h3>G.2 · License</h3>
+  <p>It is distributed under the <b>GNU General Public License, version 3 or later</b> (GPL-3.0-or-later). The full text is in the file <code>LICENSE</code>, at the root of the program.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Licensing is not giving up authorship</div>
+    <p>Choosing a free license is a decision about <b>what whoever receives the program may do</b>. Authorship is neither transferred nor waived: the author’s moral rights are inalienable. You may use the program, study it, modify it and redistribute it; what the GPL asks in return is that, if you distribute a modified version, you distribute it with the same freedoms.</p>
+  </div>
+
+  <h3>G.3 · How to cite it</h3>
+  <p>At the root of the program there are a <code>CITATION.cff</code> file and a <code>codemeta.json</code> file with the complete, machine-readable details; many reference managers read them directly. The short form, for the program and for this manual:</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Suggested citation</div>
+    <p>Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: molecular phylogenetics in the browser, from the alignment to the dated tree</i> (version 1.4.0). Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815</p>
+    <p style="margin-top:0.08in">Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: User’s Manual</i> (1st English ed.). Distributed with PhylogenyPro, version 1.4.0. https://doi.org/10.5281/zenodo.23005815</p>
+    <p style="margin-top:0.08in">That is the <b>concept DOI</b>: it always leads to the most recent version, and it is the one to cite. To pin down the exact version you ran—the right thing when the result has to be repeatable—take its own DOI from the Zenodo record; for 1.4.0 it is <code>10.5281/zenodo.23005816</code>.</p>
+  </div>
+
+  <p>In the methods section, also cite <b>the works behind the methods you used</b>: the substitution model, the type of support, the dating method, the biogeographic model. The Block 12 report gathers them on its own, and only the ones your study actually used, which is exactly the list that has to go there.</p>
+
+</section>
+
+</body>
+</html>

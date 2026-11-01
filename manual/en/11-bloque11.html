@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 11</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-11" data-pestana="11" data-orden="11" style="--acento: var(--b11)">
+  <div class="cap-apertura">
+    <div class="cap-num">11</div>
+    <div class="cap-etiqueta">Chapter eleven · Block 11</div>
+    <h1>Comparing trees</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Every earlier block produces a tree. This one asks what to do when two of them are not the same, which with real data is always. It measures distances that do not break in the same way, draws the disagreement instead of hiding it, separates <b>being well estimated</b> from <b>being well supported</b>, builds a species tree from the quartets and tells apart—as far as that is possible—incomplete lineage sorting from introgression.</p>
+    <div class="cap-franja"><span class="k5"></span><span class="k6"></span><span class="k11"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">11.1</span>The trees to be compared</li>
+      <li><span class="n">11.2</span>How alike they are</li>
+      <li><span class="n">11.3</span>The tanglegram, and its trap</li>
+      <li><span class="n">11.4</span>Concordance is not support</li>
+      <li><span class="n">11.5</span>A species tree from the quartets</li>
+      <li><span class="n">11.6</span>Drawing the conflict instead of resolving it</li>
+      <li><span class="n">11.7</span>The ABBA-BABA test</li>
+      <li><span class="n">11.8</span>How well it does, measured</li>
+      <li><span class="n">11.9</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.1 -->
+  <h2 id="s11-1"><span class="num">11.1</span>The trees to be compared</h2>
+
+  <p>Any combination will do: the ones made by Blocks 4, 5, 6 and 7, and the ones you paste in Newick, one per line—the trees of each gene separately, a colleague’s, a paper’s. At least two are needed.</p>
+
+  <p>They all have to have the same tip names, and whatever does not match <b>is named</b>. It is one of those checks that look like red tape until the day an extra underscore has you comparing fifteen species while believing you are comparing sixteen.</p>
+
+  <!-- ----------------------------------------------------------------- 11.2 -->
+  <h2 id="s11-2"><span class="num">11.2</span>How alike they are</h2>
+
+  <p>The menu offers six measures, all on the <b>unrooted</b> tree, and the block computes them for every pair and puts them in a table and in a heat map.</p>
+
+  <table class="tabla">
+    <caption><b>Table 11.1.</b> The distance measures between trees.</caption>
+    <thead><tr><th style="width:36%">Measure</th><th>What it counts</th></tr></thead>
+    <tbody>
+      <tr><td><b>Robinson–Foulds</b></td><td>How many splits one has and the other does not. Topology only.</td></tr>
+      <tr><td><b>Normalized Robinson–Foulds</b></td><td>The same, divided by its maximum possible value, so that trees of different sizes can be compared.</td></tr>
+      <tr><td><b>Disagreeing quartets</b></td><td>Of all the groups of four tips, how many are resolved differently in one tree and in the other.</td></tr>
+      <tr><td><b>Weighted Robinson–Foulds</b></td><td>Like the first, but each split weighs as much as its branch is long.</td></tr>
+      <tr><td><b>Branch score</b><br>Kuhner and Felsenstein</td><td>The difference between the branch lengths of the shared splits, summed in squares.</td></tr>
+      <tr><td><b>Path difference</b><br>Steel and Penny</td><td>How much the distance between each pair of tips changes when going from one tree to the other.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>They do not break in the same way, and the block says so alongside</div>
+    <p><b>A single misplaced tip can take Robinson–Foulds to its maximum</b>, while the quartet distance barely moves. When that happens, the disagreement <b>is one tip, not one history</b>, and confusing the two is the costliest mistake in this section.</p>
+    <p>The practical reading: if RF comes out huge and the quartet distance small, look for the rogue taxon before writing that the two analyses give different histories.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.3 -->
+  <h2 id="s11-3"><span class="num">11.3</span>The tanglegram, and its trap</h2>
+
+  <p>Two trees facing each other with one line per tip. The lines cross exactly where the trees disagree, so the figure shows <b>where</b> the disagreement is and not just how much of it there is.</p>
+
+  <p>Before reading anything you have to <b>untangle</b>, and it comes switched on. Untangling means <b>rotating branches</b> around their nodes until the lines cross as little as possible. A rotation <b>does not change either tree</b>: it is the same topology drawn another way. Without that step, a tanglegram of two identical trees can look like a ball of yarn.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>A tanglegram with no crossings does not mean the trees are equal</div>
+    <p>It is the warning that almost no program prints, and the block carries it. A rotation can line up <b>two different topologies</b>: the lines come out parallel and the eye concludes “they are the same tree.” That is what the distances of the previous section are for. The tanglegram says <b>where</b>; the number says <b>how much</b>.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.4 -->
+  <h2 id="s11-4"><span class="num">11.4</span>Concordance is not support</h2>
+
+  <p>Bootstrap support says how confidently <b>those data</b> hold up a branch. It does not say how many genes see it. They are two different questions, and with whole genomes the second one often matters more.</p>
+
+  <p>The <b>concordance factors</b> of Minh and colleagues (2020) answer the second one, branch by branch:</p>
+
+  <ul class="lista">
+    <li><b>gCF</b>: what percentage of the <b>gene trees</b> contains that branch.</li>
+    <li><b>sCF</b>: what percentage of the alignment’s <b>sites</b> supports it, estimated on quartets drawn at random around the branch—a hundred per branch by default.</li>
+  </ul>
+
+  <p>They are drawn as stacked bars against the one third that <b>pure chance</b> would give, which is the right reference when there are three possible resolutions, and as a scatter of gCF against sCF.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Well estimated and poorly supported at the same time</div>
+    <p>A branch with <b>100% bootstrap and 35% concordance</b> is not a contradiction: it means that the data you have hold it up without hesitation <b>and</b> that two out of three genes see something else. It is well estimated and poorly supported at the same time, and both halves of that sentence have to appear in the paper. The block repeats it where needed.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>The deepest branch</div>
+    <p>A branch that hangs directly from a bifurcating root <b>has nothing “above”</b>: the root is not a node of the unrooted tree. The four groups around the branch are then formed from the daughters of the sister. It is an easy case to overlook—and we overlooked it, as §11.8 tells—but today’s count handles it, and that is why the concordance table includes <b>all</b> the internal branches and not all but the deepest. It is worth looking at: the deepest branch is often the one that separates the two large groups of the study, that is, precisely the one discussed in the abstract of the paper.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.5 -->
+  <h2 id="s11-5"><span class="num">11.5</span>A species tree from the quartets</h2>
+
+  <p>When genes disagree because of <b>incomplete lineage sorting</b>, concatenating them fixes nothing: it can give, with great confidence, a tree that no gene supports. The way out is to work with the quartets.</p>
+
+  <ol class="pasos">
+    <li>For every group of four species there are <b>three</b> possible resolutions. The program counts how often each one appears among the gene trees.</li>
+    <li>Each candidate tree gets a <b>score</b>: how many of the observed quartets it can explain.</li>
+    <li>The best one is sought with a nearest-neighbor search, starting from the tree you choose.</li>
+  </ol>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>It is a heuristic, and it calls itself a heuristic</div>
+    <p>The search can get stuck in a local optimum. <b>It is not the exact ASTRAL program</b>, and the block does not pretend it is. For a paper on gene discordance, use ASTRAL; this is for seeing the problem, understanding it and comparing with what you already have.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.6 -->
+  <h2 id="s11-6"><span class="num">11.6</span>Drawing the conflict instead of resolving it</h2>
+
+  <p>A consensus has to <b>throw away</b> the splits that contradict each other. A network <b>keeps them all</b> and draws them as boxes: the wider the box, the more weight the conflict carries. Two routes:</p>
+
+  <table class="tabla">
+    <caption><b>Table 11.2.</b> The two networks the block builds.</caption>
+    <thead><tr><th style="width:34%">Construction</th><th>What it starts from and what it shows</th></tr></thead>
+    <tbody>
+      <tr><td><b>Consensus network</b><br>of the trees</td><td>Takes the splits that appear in enough trees—the threshold is set at 0.3—and draws them all. The <b>incompatible</b> pairs are found and marked in color: those are the boxes.</td></tr>
+      <tr><td><b>Circular decomposition</b><br>of the distances</td><td>Starts from a distance matrix instead of trees. If you give it the distances of a tree, <b>it returns that tree exactly</b>; if you give it anything else, the difference shows up as width.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Why drawing the conflict is worth it</div>
+    <p>A consensus with polytomies says “I don’t know here.” A network says “here there are <b>two</b> signals, and these are they.” It is much more information, and it is honest: it does not force a choice too early.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.7 -->
+  <h2 id="s11-7"><span class="num">11.7</span>The ABBA-BABA test</h2>
+
+  <p>With the tree (((P1,P2),P3),O), a site where <b>P2 and P3</b> share the derived state—<b>ABBA</b>—and another where <b>P1 and P3</b> share it—<b>BABA</b>—are equally incongruent with that tree. And under incomplete lineage sorting they are <b>equally likely</b>.</p>
+
+  <p>That is the whole idea: incomplete lineage sorting is symmetric, and introgression is not. One of the two patterns being much more frequent than the other is the signature of hybridization. <b>Patterson’s D</b> measures that imbalance, and the block gives it a 95% interval by <b>block jackknife</b>—twenty blocks by default—because neighboring sites are not independent and a standard deviation computed site by site comes out too small.</p>
+
+  <p>You can test one particular trio or sweep <b>all</b> the trios against an outgroup.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>D ≠ 0 has three explanations and only one is introgression</div>
+    <p>The same imbalance is produced by a <b>badly chosen outgroup</b>, <b>very unequal rates of evolution</b> between P1 and P2, and an <b>alignment error</b>. All three have to be ruled out before writing “hybridization.” The panel says so every time, not once in the help.</p>
+  </div>
+
+  <p>Everything goes out in five files: the distance matrix, the concordance per branch, the splits of the network, the ABBA-BABA results and all the trees together in <code>.tre</code>.</p>
+
+  <!-- ----------------------------------------------------------------- 11.8 -->
+  <h2 id="s11-8"><span class="num">11.8</span>How well it does, measured</h2>
+
+  <p>It was checked against <b>ape 5.8.1</b> and <b>phangorn 2.12.1</b>: <b>25 checks</b> and not one disagreement.</p>
+
+  <ul class="lista">
+    <li><b>The distances on 36 pairs each</b>, 216 numbers: RF and normalized RF <b>exact</b>; weighted RF to 4.5·10⁻¹⁰, branch score to 1.5·10⁻¹⁰, path difference to 5·10⁻¹⁴ and its weighted form to 8·10⁻¹⁰.</li>
+    <li><b>The quartet distance</b> against a brute-force count over the 1,820 quartets of sixteen taxa, pruning both trees to each one: 1,767/53, 1,691/129 and 1,820/0, <b>exact</b>.</li>
+    <li><b>gCF</b> against the same definition recomputed in R over the thirteen internal branches, with a difference of <b>zero</b>.</li>
+    <li><b>The consensus network</b> split by split against <code>phangorn::consensusNet</code>: the thirteen non-trivial splits, identical.</li>
+    <li><b>Patterson’s D</b> against the definition computed in R on an alignment of 60,000 sites with 15% introgression: ABBA 1,089, BABA 753, D 0.18241042, jackknife standard error 0.07884390 and z 2.31356419, <b>every digit</b>.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>When there is no package to compare against</div>
+    <p>For the <b>circular decomposition</b> none is installed, so it was checked against an <b>identity</b>: fed with the path distances of a sixteen-taxon tree it returns exactly its 13 internal splits and its 16 terminal ones, with the branch lengths to 3·10⁻¹⁶ and the reconstructed distances to 9·10⁻¹⁶, without trimming anything; and the outer cycle of the network closes on itself to 3·10⁻¹⁶. An identity that has to hold is as good a test as a package, and sometimes better.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>What turned up during validation</div>
+    <p><b>The weighted measures read half a branch.</b> A rooted tree has two edges below its root, and they are <b>a single</b> edge of the unrooted tree; taking the length of whichever node the split map had kept cut it in half. Every weighted comparison inherited the error: weighted RF came out as 2.54 where phangorn says 3.78. Now the lengths are accumulated <b>per split</b>, not read from a node.</p>
+    <p><b>The path difference counted the root.</b> Measured in edges, the path between two tips depends on where the root is, and two identical trees rooted differently came out at 7.94 instead of 0. The measure belongs to the unrooted tree, so now the first thing done is to remove the root.</p>
+    <p><b>A tree rooted on a single tip grew one internal branch too many.</b> The branch above its sister contains n−1 tips, and the test for “trivial” only looked at the lower side. One of the app’s own example trees showed 16 internal splits where there are 15, which inflates by one every comparison with a tree rooted elsewhere. <b>It turned up when running the block on real output</b>, not in the benchmark, whose reference trees are never rooted that way.</p>
+    <p><b>The four groups around a branch were three below the root</b>, for the reason given in §11.4: exactly one branch, always the deepest, was missing from every concordance table. Twelve branches where there are thirteen.</p>
+    <p><b>The circular decomposition had its four terms paired the wrong way round.</b> The weight of a split is a four-point difference across the <b>two gaps</b> that bound it, and pairing the distances by gap instead of by end gives a number that looks like a weight and is not one: 91 splits where a sixteen-taxon tree has 29, and distances it could not reproduce.</p>
+    <p>And a small one with a big moral: <code>opts.minSites || 20</code> turned a deliberate zero into twenty, so asking for the sweep of all the trios returned none.</p>
+  </div>
+
+  <!-- ----------------------------------------------------------------- 11.9 -->
+  <h2 id="s11-9"><span class="num">11.9</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reporting a large Robinson–Foulds as “different histories”</div>
+    <p>Look at the quartet distance first. If that one is small, what you have is <b>one unstable tip</b>, not two conflicting hypotheses. Reporting both measures costs one line and avoids the wrong conclusion.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reading a tanglegram with no crossings as proof of equality</div>
+    <p>A rotation can line up two different topologies. The tanglegram shows where they disagree; what says whether they disagree is the number.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confusing concordance with support</div>
+    <p>100% bootstrap and 35% gCF describe different things, and both are true. Publishing only the first gives a very optimistic idea of what you know.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concatenating everything when the genes really disagree</div>
+    <p>Under incomplete lineage sorting, concatenation can give, with very high confidence, a tree that <b>no gene</b> supports. That is where the quartets are needed.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Announcing hybridization with a significant D and nothing else</div>
+    <p>Rule out the outgroup, the unequal rates and the alignment first. A significant D is the <b>beginning</b> of the investigation, not its conclusion.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Presenting the quartet tree as if it were ASTRAL</div>
+    <p>It is a heuristic search and it can get stuck in a local optimum. Say so in the methods, or run ASTRAL.</p>
+  </div>
+
+</section>
+
+</body>
+</html>
