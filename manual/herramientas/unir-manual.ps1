@@ -99,12 +99,13 @@ if (Test-Path $fPortada) {
   [void]$css.AppendLine('  .portada > svg { display: block; width: 100%; height: 100%; }')
 }
 
+$titulo = if ($Lang -eq 'en') { "PhylogenyPro · User&#8217;s Manual" } else { 'PhylogenyPro · Manual de usuario' }
 $html = @"
 <!doctype html>
 <html lang="$Lang">
 <head>
 <meta charset="utf-8">
-<title>PhylogenyPro · Manual de usuario</title>
+<title>$titulo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- documento generado por herramientas/unir-manual.ps1: no se edita a mano; se corrigen las partes -->
 $links

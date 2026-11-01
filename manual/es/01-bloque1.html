@@ -164,12 +164,12 @@
     <thead><tr><th style="width:21%">&nbsp;</th><th>Distancias (NJ)</th><th>Parsimonia</th><th>Máxima verosimilitud</th><th>Bayesiano</th></tr></thead>
     <tbody>
       <tr><td><b>Qué optimiza</b></td><td>Ajuste a una matriz de distancias</td><td>El menor número de cambios</td><td>La probabilidad de los datos dado el árbol</td><td>La probabilidad del árbol dados los datos</td></tr>
-      <tr><td><b>Usa un modelo</b></td><td>Sí, al corregir las distancias</td><td>No, o sólo pesos</td><td>Sí, explícito</td><td>Sí, explícito y con previas</td></tr>
+      <tr><td><b>Usa un modelo de sustitución</b></td><td>Sí, al corregir las distancias</td><td>No (o sólo pesos)</td><td>Sí, explícito</td><td>Sí, explícito y con previas</td></tr>
       <tr><td><b>Consistente con ramas largas desiguales</b></td><td>Depende de la corrección</td><td><b>No: zona de Felsenstein</b></td><td>Sí, bajo el modelo correcto</td><td>Sí, bajo el modelo correcto</td></tr>
       <tr><td><b>Medida de incertidumbre</b></td><td>Bootstrap</td><td>Bootstrap, jackknife, Bremer</td><td>Bootstrap, UFBoot, SH-aLRT</td><td>Probabilidad posterior</td></tr>
-      <tr><td><b>Longitudes en sustituciones</b></td><td>Sí</td><td>En pasos, no en sustituciones</td><td>Sí</td><td>Sí, con intervalo</td></tr>
-      <tr><td><b>Permite fechar</b></td><td>Sólo con métodos aproximados</td><td>No</td><td>Sí (reloj, LSD)</td><td>Sí, con incertidumbre</td></tr>
-      <tr><td><b>Costo</b></td><td>Segundos</td><td>Segundos a minutos</td><td>Minutos</td><td>De minutos a horas</td></tr>
+      <tr><td><b>Estima longitudes de rama en sustituciones</b></td><td>Sí</td><td>En pasos, no en sustituciones</td><td>Sí</td><td>Sí, con intervalo</td></tr>
+      <tr><td><b>Permite fechar el árbol</b></td><td>Sólo con métodos aproximados</td><td>No</td><td>Sí (reloj, LSD)</td><td>Sí, con intervalos de credibilidad</td></tr>
+      <tr><td><b>Costo de cómputo</b></td><td>Segundos</td><td>Segundos a minutos</td><td>Minutos</td><td>De minutos a horas</td></tr>
       <tr><td><b>Para qué sirve mejor</b></td><td>Un primer vistazo y el árbol de arranque</td><td>Morfología y datos con pocos cambios</td><td><b>El árbol que se publica</b></td><td>Incertidumbre, fechas y modelos complejos</td></tr>
     </tbody>
   </table>

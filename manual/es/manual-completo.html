@@ -493,7 +493,7 @@
      ================================================================ */
   const au = el('g', { 'text-anchor': 'middle' });
   el('text', { x: W / 2, y: 1040, fill: INK, 'font-family': 'Cormorant, serif', 'font-size': 33, 'font-weight': 600, 'letter-spacing': 1.4 }, au, 'Luis Ángel Barrera-Guzmán');
-  el('text', { x: W / 2, y: 1068, fill: GRIS, 'font-family': 'Jost, sans-serif', 'font-size': 10.5, 'font-weight': 400, 'letter-spacing': 4 }, au, 'VERSIÓN 1.3 · 2026');
+  el('text', { x: W / 2, y: 1068, fill: GRIS, 'font-family': 'Jost, sans-serif', 'font-size': 10.5, 'font-weight': 400, 'letter-spacing': 4 }, au, 'VERSIÓN 1.4 · 2026');
 })();
 </script>
 
@@ -507,18 +507,18 @@
 
   <dl>
     <dt>Autor</dt><dd><b>Luis Ángel Barrera-Guzmán</b><br><span class="small">ORCID 0000-0001-8057-2583 · lbarrerag@chapingo.mx</span></dd>
-    <dt>Programa</dt><dd>PhylogenyPro, versión 1.3.0 (septiembre de 2026)</dd>
-    <dt>Manual</dt><dd>Primera edición en español, 2026. Describe la versión 1.3.0 del programa.</dd>
+    <dt>Programa</dt><dd>PhylogenyPro, versión 1.4.0 (septiembre de 2026)</dd>
+    <dt>Manual</dt><dd>Primera edición en español, 2026. Describe la versión 1.4.0 del programa.</dd>
     <dt>Licencia del programa</dt><dd>Licencia Pública General de GNU, versión 3 o posterior (GPL-3.0-or-later). El texto íntegro viene en el archivo <span class="ui">LICENSE</span>.</dd>
     <dt>Derechos del manual</dt><dd>© 2026 Luis Ángel Barrera-Guzmán. Todos los derechos reservados.</dd>
-    <dt>Idioma de la interfaz</dt><dd>El programa está en <b>español e inglés</b>, y se cambia de uno a otro con el botón <span class="ui">ES / EN</span> de la esquina superior derecha, sin perder el trabajo. En este manual los botones y menús se escriben tal como aparecen en español, por ejemplo <span class="ui">Construir el árbol</span>.</dd>
+    <dt>Idioma de la interfaz</dt><dd>El programa está en <b>español e inglés</b>, y se cambia de uno a otro con los botones <span class="ui">ES</span> y <span class="ui">EN</span> de la esquina superior derecha, sin perder el trabajo. En este manual los botones y menús se escriben tal como aparecen en español, por ejemplo <span class="ui">Construir el árbol</span>.</dd>
   </dl>
 
   <h4>Cómo citar el programa</h4>
-  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>PhylogenyPro: a browser-based platform for molecular phylogenetics, from the alignment to the dated tree</i> (versión 1.3.0) [Programa de cómputo].</div>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: filogenia molecular en el navegador, del alineamiento al árbol fechado</i> (versión 1.4.0). Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815</div>
   <h4>Cómo citar este manual</h4>
-  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>PhylogenyPro. Manual de usuario</i> (1.ª ed.). Distribuido con PhylogenyPro, versión 1.3.0.</div>
-  <p class="small">Los datos de citación en formato legible por máquina están en <span class="ui">CITATION.cff</span> y <span class="ui">codemeta.json</span>, en la raíz del programa. Cuando el programa se deposite en un archivo permanente, el identificador de objeto digital se añadirá a esas fichas y a esta página.</p>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro. Manual de usuario</i> (1.ª ed.). Distribuido con PhylogenyPro, versión 1.4.0. https://doi.org/10.5281/zenodo.23005815</div>
+  <p class="small">El programa está depositado en Zenodo con el identificador de objeto digital 10.5281/zenodo.23005815, que es el DOI de concepto: lleva siempre a la versión más reciente. Los datos de citación en formato legible por máquina están en <span class="ui">CITATION.cff</span> y <span class="ui">codemeta.json</span>, en la raíz del programa.</p>
 
   <div class="caja nota">
     <div class="caja-t"><span class="ico">i</span>Privacidad</div>
@@ -684,7 +684,7 @@
   <p>La pantalla tiene siempre las mismas tres partes.</p>
 
   <ul class="lista">
-    <li><b>La barra de arriba.</b> El nombre del programa, el selector de idioma <span class="ui">ES / EN</span> y el botón de tema claro u oscuro. El idioma y el tema se cambian cuando quieras: nada se pierde ni se recalcula.</li>
+    <li><b>La barra de arriba.</b> El nombre del programa, los dos botones de idioma, <span class="ui">ES</span> y <span class="ui">EN</span>, y el botón de tema claro u oscuro. El idioma y el tema se cambian cuando quieras: nada se pierde ni se recalcula.</li>
     <li><b>La cinta de bloques.</b> Doce pasos numerados, del 1 al 12. Se recorren en orden porque cada uno usa lo que produjo el anterior, pero se puede volver atrás en cualquier momento: si cambias el alineamiento, los bloques que dependían de él te lo dirán.</li>
     <li><b>El panel del bloque.</b> Arriba, una explicación de qué se decide ahí y por qué importa. En medio, los controles. Abajo, los resultados: mosaicos con las cifras principales, tablas, figuras, y un <b>veredicto en palabras</b> que dice qué significa lo que acaba de salir. Al pie de cada bloque hay una <b>guía de interpretación</b> desplegable con una ficha por concepto: qué mide, en qué escala se lee y cuál es el error más común con él.</li>
   </ul>
@@ -924,11 +924,12 @@
     <thead><tr><th style="width:21%">&nbsp;</th><th>Distancias (NJ)</th><th>Parsimonia</th><th>Máxima verosimilitud</th><th>Bayesiano</th></tr></thead>
     <tbody>
       <tr><td><b>Qué optimiza</b></td><td>Ajuste a una matriz de distancias</td><td>El menor número de cambios</td><td>La probabilidad de los datos dado el árbol</td><td>La probabilidad del árbol dados los datos</td></tr>
-      <tr><td><b>Usa un modelo</b></td><td>Sí, al corregir las distancias</td><td>No, o sólo pesos</td><td>Sí, explícito</td><td>Sí, explícito y con previas</td></tr>
+      <tr><td><b>Usa un modelo de sustitución</b></td><td>Sí, al corregir las distancias</td><td>No (o sólo pesos)</td><td>Sí, explícito</td><td>Sí, explícito y con previas</td></tr>
       <tr><td><b>Consistente con ramas largas desiguales</b></td><td>Depende de la corrección</td><td><b>No: zona de Felsenstein</b></td><td>Sí, bajo el modelo correcto</td><td>Sí, bajo el modelo correcto</td></tr>
-      <tr><td><b>Longitudes en sustituciones</b></td><td>Sí</td><td>En pasos, no en sustituciones</td><td>Sí</td><td>Sí, con intervalo</td></tr>
-      <tr><td><b>Permite fechar</b></td><td>Sólo con métodos aproximados</td><td>No</td><td>Sí (reloj, LSD)</td><td>Sí, con incertidumbre</td></tr>
-      <tr><td><b>Costo</b></td><td>Segundos</td><td>Segundos a minutos</td><td>Minutos</td><td>De minutos a horas</td></tr>
+      <tr><td><b>Medida de incertidumbre</b></td><td>Bootstrap</td><td>Bootstrap, jackknife, Bremer</td><td>Bootstrap, UFBoot, SH-aLRT</td><td>Probabilidad posterior</td></tr>
+      <tr><td><b>Estima longitudes de rama en sustituciones</b></td><td>Sí</td><td>En pasos, no en sustituciones</td><td>Sí</td><td>Sí, con intervalo</td></tr>
+      <tr><td><b>Permite fechar el árbol</b></td><td>Sólo con métodos aproximados</td><td>No</td><td>Sí (reloj, LSD)</td><td>Sí, con intervalos de credibilidad</td></tr>
+      <tr><td><b>Costo de cómputo</b></td><td>Segundos</td><td>Segundos a minutos</td><td>Minutos</td><td>De minutos a horas</td></tr>
       <tr><td><b>Para qué sirve mejor</b></td><td>Un primer vistazo y el árbol de arranque</td><td>Morfología y datos con pocos cambios</td><td><b>El árbol que se publica</b></td><td>Incertidumbre, fechas y modelos complejos</td></tr>
     </tbody>
   </table>
@@ -938,15 +939,15 @@
   <!-- ------------------------------------------------------------------ 1.7 -->
   <h2 id="s1-7"><span class="num">1.7</span>Hasta dónde llega, y hasta dónde no</h2>
 
-  <p>La tabla de límites de la portada no es una promesa comercial: son <b>tiempos medidos</b> en una computadora de escritorio común, no estimaciones optimistas. Conviene mirarla antes de cargar una matriz grande.</p>
+  <p>La tabla de límites de la portada no es una promesa comercial: son <b>tiempos medidos</b> en una computadora de escritorio común. Conviene mirarla antes de cargar una matriz grande.</p>
 
   <table class="tabla">
-    <caption><b>Tabla 1.4.</b> Tamaños que la aplicación maneja, medidos. «Cómodo» es lo que se hace sin pensarlo; «al límite» es lo que se puede hacer teniendo paciencia.</caption>
-    <thead><tr><th style="width:40%">Análisis</th><th style="width:16%">Cómodo</th><th style="width:16%">Al límite</th><th>Tiempo</th></tr></thead>
+    <caption><b>Tabla 1.4.</b> Tamaños que la aplicación maneja, medidos. «Cómodo» se hace sin pensarlo; «con aviso» aún se puede, con paciencia.</caption>
+    <thead><tr><th style="width:40%">Análisis</th><th style="width:16%">Cómodo (taxones)</th><th style="width:16%">Con aviso</th><th>Tiempo típico</th></tr></thead>
     <tbody>
-      <tr><td>Distancias, NJ, parsimonia</td><td>≤ 300 taxones</td><td>≤ 1 000</td><td>Segundos</td></tr>
+      <tr><td>Distancias, NJ, parsimonia</td><td>≤ 300</td><td>≤ 1 000</td><td>Segundos</td></tr>
       <tr><td>Verosimilitud + bootstrap ultrarrápido</td><td>≤ 120</td><td>≤ 300</td><td>Minutos</td></tr>
-      <tr><td>Verosimilitud + bootstrap clásico</td><td>≤ 60</td><td>≤ 120</td><td>Minutos, con varios hilos</td></tr>
+      <tr><td>Verosimilitud + bootstrap clásico</td><td>≤ 60</td><td>≤ 120</td><td>Minutos con varios hilos</td></tr>
       <tr><td>Bayesiano (MC³)</td><td>≤ 50</td><td>≤ 100</td><td>De minutos a horas</td></tr>
       <tr><td>Datación por mínimos cuadrados</td><td>≤ 500</td><td>≤ 1 000</td><td>Segundos</td></tr>
       <tr><td>Datación bayesiana</td><td>≤ 60</td><td>≤ 120</td><td>De minutos a horas</td></tr>
@@ -961,7 +962,7 @@
   <!-- ------------------------------------------------------------------ 1.8 -->
   <h2 id="s1-8"><span class="num">1.8</span>La galería de métodos y las referencias</h2>
 
-  <p>La galería lista <b>todo</b> lo que la aplicación calcula, agrupado por familia —datos, modelos, inferencia, soporte, tiempos, caracteres, biogeografía, comparación—, con un filtro para ver una sola familia. Sirve para dos cosas: comprobar de un vistazo si el método que necesitas está, y encontrar en qué bloque vive.</p>
+  <p>La galería lista <b>todo</b> lo que la aplicación calcula, agrupado en ocho familias —datos, modelos, árboles rápidos, inferencia, tiempo, macroevolución, biogeografía, y comparar y publicar—, con un filtro para ver una sola familia. Sirve para dos cosas: comprobar de un vistazo si el método que necesitas está, y encontrar en qué bloque vive.</p>
 
   <p>Al final de la portada hay <b>94 referencias</b>, también agrupadas por familia. No están de adorno: cada método que la aplicación implementa cita el artículo en que se publicó, y el informe del Bloque 12 arma su bibliografía tomando de esa misma lista <b>sólo lo que efectivamente se usó</b> en tu corrida.</p>
 
@@ -992,22 +993,22 @@
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Saltarse la portada</div>
-    <p>Es el error que hace todo el mundo, incluidos los que llevan años haciendo filogenia. Los dos laboratorios tardan diez minutos y cambian la forma de mirar los resultados de los once bloques siguientes. Si sólo tienes tiempo para uno, que sea el de la zona de Felsenstein.</p>
+    <p>Es el error que hace todo el mundo. Los dos laboratorios tardan diez minutos y cambian la forma de mirar los resultados de los once bloques siguientes. Si sólo tienes tiempo para uno, que sea el de la zona de Felsenstein.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Leer la tabla de límites como una promesa</div>
-    <p>Los tiempos se midieron en una computadora concreta con un alineamiento concreto. Tu máquina y tus datos son otros. La tabla sirve para saber si estás en el orden de magnitud correcto, no para planear una fecha de entrega.</p>
+    <p>Los tiempos se midieron en una computadora concreta con un alineamiento concreto. La tabla sirve para saber si estás en el orden de magnitud correcto, no para planear una fecha de entrega.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Concluir que «la parsimonia es mala»</div>
-    <p>El laboratorio 1 no demuestra eso. Demuestra que la parsimonia es <b>inconsistente bajo una geometría concreta</b> de ramas. Fuera de esa geometría se comporta bien, es rapidísima, y para matrices morfológicas —donde no hay un modelo de sustitución creíble— sigue siendo la herramienta correcta. El capítulo 4 vuelve sobre esto.</p>
+    <p>El laboratorio 1 no demuestra eso. Demuestra que la parsimonia es <b>inconsistente bajo una geometría concreta</b> de ramas. Fuera de esa geometría se comporta bien y, para matrices morfológicas —donde no hay un modelo de sustitución creíble— sigue siendo la herramienta correcta. El capítulo 4 vuelve sobre esto.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Elegir el marcador por costumbre del laboratorio</div>
-    <p>«Siempre usamos ITS» no es un argumento. ITS es rápido y resuelve entre especies cercanas, pero tiene copias divergentes y evolución concertada incompleta, y para un nodo profundo dará una respuesta segura y equivocada. La lista de marcadores de la portada dice, para cada uno, en qué rango de profundidad es informativo.</p>
+    <p>«Siempre usamos ITS» no es un argumento: ITS resuelve entre especies cercanas, pero en un nodo profundo dará una respuesta segura y equivocada. La portada dice a qué profundidad informa cada marcador.</p>
   </div>
 
 </section>
@@ -1353,7 +1354,7 @@
     <li><span class="ui">conjunto</span>: <span class="ui">rápido</span> o <span class="ui">estándar</span>, según cuántos candidatos quieras probar.</li>
     <li><span class="ui">criterio</span>: AIC, AICc o BIC, que es el que ordena la tabla.</li>
     <li><span class="ui">categorías de Γ</span>: en cuántas clases discretas se parte la gamma. Cuatro es lo habitual y lo que casi todo el mundo reporta.</li>
-    <li><span class="ui">árbol de partida</span>: <span class="ui">BIONJ, optimizado por ML</span>, <span class="ui">vecino más cercano</span> o <span class="ui">UPGMA</span>. Todos los candidatos se ajustan <b>sobre el mismo árbol</b>, que es lo que hace comparable la comparación.</li>
+    <li><span class="ui">árbol de partida</span>: <span class="ui">BIONJ, optimizado por ML</span>, <span class="ui">unión de vecinos</span> o <span class="ui">UPGMA</span>. Todos los candidatos se ajustan <b>sobre el mismo árbol</b>, que es lo que hace comparable la comparación.</li>
   </ul>
 
   <!-- ------------------------------------------------------------------ 3.5 -->
@@ -1498,13 +1499,13 @@
     <thead><tr><th style="width:26%">Distancia</th><th>Qué corrige y cuándo usarla</th></tr></thead>
     <tbody>
       <tr><td><b>sin corregir (p)</b></td><td>La proporción de posiciones distintas. Útil sólo para ver cuánto corrige el resto; no para inferir.</td></tr>
-      <tr><td><b>JC69</b></td><td>Cambios múltiples, suponiendo que todos los cambios son igual de probables.</td></tr>
-      <tr><td><b>K80</b></td><td>Separa transiciones de transversiones. El mínimo razonable para ADN.</td></tr>
-      <tr><td><b>F81</b></td><td>Admite frecuencias de base desiguales.</td></tr>
-      <tr><td><b>TN93</b></td><td>Frecuencias desiguales <i>y</i> dos clases de transición. El más completo de la lista.</td></tr>
+      <tr><td><b>Jukes–Cantor</b> (JC69)</td><td>Cambios múltiples, suponiendo que todos los cambios son igual de probables.</td></tr>
+      <tr><td><b>Kimura 2P</b> (K80)</td><td>Separa transiciones de transversiones. El mínimo razonable para ADN.</td></tr>
+      <tr><td><b>Felsenstein 81</b></td><td>Admite frecuencias de base desiguales.</td></tr>
+      <tr><td><b>Tamura–Nei 93</b></td><td>Frecuencias desiguales <i>y</i> dos clases de transición. El más completo de la lista.</td></tr>
       <tr><td><b>LogDet (Lockhart)</b></td><td>El único que <b>tolera composición heterogénea</b> entre secuencias. Si la prueba χ² del Bloque 3 salió mal, ésta es la distancia a usar.</td></tr>
       <tr><td><b>paralineal (Lake)</b></td><td>Pariente cercana de LogDet, con las frecuencias observadas.</td></tr>
-      <tr><td><b>Poisson</b> y <b>Kimura</b></td><td>Para proteínas: la primera sin corrección de composición, la segunda con la aproximación clásica de Kimura.</td></tr>
+      <tr><td><b>Poisson (proteínas)</b> y <b>Kimura (proteínas)</b></td><td>Para proteínas: la primera sin corrección de composición, la segunda con la aproximación clásica de Kimura.</td></tr>
     </tbody>
   </table>
 
@@ -1516,11 +1517,11 @@
   <p>Dos casillas modifican el cálculo. <span class="ui">corregir con Γ</span> aplica la corrección gamma con la α que estimó el Bloque 3, y <span class="ui">borrado completo</span> decide qué hacer con los huecos: activada, quita toda columna que tenga algún hueco antes de calcular cualquier par; desactivada, cada par usa las columnas que ambos tienen. Con muchos datos faltantes, el borrado completo puede dejarte con muy pocas columnas.</p>
 
   <h3>Los métodos</h3>
-  <p>El menú <span class="ui">método</span> ofrece <b>unión de vecinos (NJ)</b>, <b>BIONJ</b>, <b>UPGMA</b> y <b>mínima evolución</b>.</p>
+  <p>El menú <span class="ui">método</span> ofrece cinco opciones: <span class="ui">BIONJ</span>, la que viene marcada; <span class="ui">unión de vecinos (NJ)</span>, la clásica de Saitou y Nei; <span class="ui">mínima evolución</span>; <span class="ui">UPGMA</span>, y <span class="ui">WPGMA</span>, la variante ponderada de UPGMA, que al unir dos grupos promedia sus distancias dándoles el mismo peso, sin importar cuántas secuencias tenga cada uno.</p>
 
   <div class="caja aviso">
-    <div class="caja-t"><span class="ico">!</span>UPGMA supone un reloj molecular</div>
-    <p>Y la mayoría de los datos no lo cumplen. UPGMA produce un árbol <b>ultramétrico</b> —todas las puntas a la misma altura—, lo que es correcto para un dendrograma de agrupamiento y falso para una filogenia con tasas desiguales. Úsalo para ver estructura, no para inferir relaciones. NJ y BIONJ no suponen reloj.</p>
+    <div class="caja-t"><span class="ico">!</span>UPGMA y WPGMA suponen un reloj molecular</div>
+    <p>Y la mayoría de los datos no lo cumplen. Los dos producen un árbol <b>ultramétrico</b> —todas las puntas a la misma altura—, lo que es correcto para un dendrograma de agrupamiento y falso para una filogenia con tasas desiguales. Úsalos para ver estructura, no para inferir relaciones. NJ y BIONJ no suponen reloj.</p>
   </div>
 
   <p>La <b>mínima evolución balanceada</b> busca el árbol cuya longitud total, calculada con los promedios balanceados de Desper y Gascuel (2002) sobre el criterio de Pauplin (2000), sea la menor. Es un criterio de optimalidad de verdad, con búsqueda por NNI y SPR desde varios arranques, y no un simple algoritmo de agrupamiento.</p>
@@ -2146,14 +2147,15 @@
   <!-- ------------------------------------------------------------------ 7.4 -->
   <h2 id="s7-4"><span class="num">7.4</span>Las calibraciones</h2>
 
-  <p>Sin al menos una, las edades no existen: las sustituciones por sitio y los millones de años son dos escalas distintas y nada las une. El programa acepta cuatro fuentes de años y cuatro formas de prior.</p>
+  <p>Sin al menos una, las edades no existen: las sustituciones por sitio y los millones de años son dos escalas distintas y nada las une. El programa acepta cuatro fuentes de años y, en el menú <span class="ui">tipo</span>, cinco formas de prior.</p>
 
   <table class="tabla">
-    <caption><b>Tabla 7.2.</b> Las cuatro formas de prior y lo que afirman.</caption>
+    <caption><b>Tabla 7.2.</b> Las cinco formas de prior y lo que afirman.</caption>
     <thead><tr><th style="width:26%">Forma</th><th>Qué dice del nodo</th></tr></thead>
     <tbody>
       <tr><td><b>edad fija</b></td><td>Tiene exactamente esta edad, sin incertidumbre. Casi nunca es cierto en biología.</td></tr>
       <tr><td><b>intervalo uniforme</b></td><td>Está entre estas dos edades, sin preferir ningún punto. La forma de un acontecimiento geológico.</td></tr>
+      <tr><td><b>normal</b></td><td>Está alrededor de una media, con una desviación (<span class="ui">media / M</span> y <span class="ui">sd / S</span>), igual de probable hacia lo más joven que hacia lo más viejo. La forma de una edad tomada de otro estudio; nunca la de un fósil, porque permitiría que el nodo fuera más joven que él.</td></tr>
       <tr><td><b>lognormal desplazada</b></td><td>No es más joven que el desplazamiento, con una cola larga hacia atrás. La forma de un fósil.</td></tr>
       <tr><td><b>exponencial desplazada</b></td><td>Igual, con la masa más concentrada cerca del desplazamiento.</td></tr>
     </tbody>
@@ -2178,10 +2180,10 @@
     <caption><b>Tabla 7.3.</b> Lo que el asistente propone según la procedencia.</caption>
     <thead><tr><th style="width:30%">La edad viene de</th><th style="width:24%">Propone</th><th>Porque</th></tr></thead>
     <tbody>
-      <tr><td>Un fósil asignado al clado</td><td>lognormal desplazada</td><td>Es una cota mínima, no un punto.</td></tr>
+      <tr><td>Un fósil asignado a este clado</td><td>lognormal desplazada</td><td>Es una cota mínima, no un punto.</td></tr>
       <tr><td>Un acontecimiento geológico</td><td>intervalo uniforme</td><td>Es una ventana con principio y fin.</td></tr>
       <tr><td>Una edad tomada de otro estudio</td><td>normal</td><td>Arrastra la incertidumbre de aquel trabajo, y conviene <b>ensancharla</b>, no estrecharla.</td></tr>
-      <tr><td>Una edad conocida con certeza</td><td>edad fija</td><td>Sólo para fijar una escala de referencia.</td></tr>
+      <tr><td>Una edad que se conoce con certeza</td><td>edad fija</td><td>Sólo para fijar una escala de referencia.</td></tr>
     </tbody>
   </table>
 
@@ -2190,7 +2192,7 @@
 
   <div class="caja ejemplo">
     <div class="caja-t"><span class="ico">→</span>Lo que se lee en pantalla</div>
-    <p><i>Este prior dice que la edad del nodo está, con 95 % de probabilidad, entre <b>21.3</b> y <b>39.7</b> Ma, con mediana <b>25.0</b> Ma, y no puede ser más joven que 20 Ma.</i></p>
+    <p><i>Este prior dice que la edad del nodo está, con 95 % de probabilidad, entre <b>21.3</b> y <b>39.5</b> Ma, con mediana <b>25.0</b> Ma, y no puede ser más joven que 20.0 Ma.</i></p>
   </div>
 
   <h3>Y avisa de los errores que arruinan una datación</h3>
@@ -3308,7 +3310,7 @@
 
   <div class="caja nota">
     <div class="caja-t"><span class="ico">i</span>Lo que apareció al validar</div>
-    <p><b>El módulo del informe dependía del traductor de la página</b>, lo que lo rompía fuera de la app y, peor, producía un documento <b>a medio traducir</b>: los fragmentos que iba pegando —«arranque no paramétrico (100 réplicas)», «por exogrupo», «verosimilitud penalizada»— se resolvían <b>una vez</b>, en el idioma en que estuviera la interfaz, y luego se metían en el párrafo español <b>y</b> en el inglés. Ahora cada fragmento se guarda como pareja, y el módulo ya no sabe en qué idioma está la página.</p>
+    <p><b>El módulo del informe dependía del traductor de la página</b>, lo que lo rompía fuera de la app y, peor, producía un documento <b>a medio traducir</b>: los fragmentos que iba pegando —«arranque no paramétrico (100 réplicas)», «por grupo externo», «verosimilitud penalizada»— se resolvían <b>una vez</b>, en el idioma en que estuviera la interfaz, y luego se metían en el párrafo español <b>y</b> en el inglés. Ahora cada fragmento se guarda como pareja, y el módulo ya no sabe en qué idioma está la página.</p>
     <p>Y uno que da risa y enseña: el genoma de una partición se guarda como un código de dos letras, cosa razonable en un menú y absurda en una sección de métodos. Decía «<b>los genomas representados son: nu</b>».</p>
     <p>Del estudio de figuras salieron otros dos. <b>La clase <code>.art-ink</code> se usaba y nunca se había definido</b> en la hoja de estilo —los nombres de las puntas del cronograma caían a negro, invisible en el tema oscuro—; y <b>el estudio parcheaba la exportación antes de que existiera lo que iba a parchear</b>, porque su archivo se cargaba <i>antes</i> del que envuelve. Lo destapó la página de pruebas, que exporta sin esperar a que el documento esté listo.</p>
   </div>
@@ -3421,7 +3423,20 @@
   </table>
 
   <h3>A.3 · Atajos de teclado</h3>
-  <p>Prácticamente no hay, y conviene decirlo en vez de inventar una lista: el programa se maneja con el ratón. Lo único que responde al teclado es <b><code>Esc</code></b>, que cierra la ficha de ayuda de interpretación y el gestor de imágenes, y la <b>barra espaciadora o <code>Intro</code></b> sobre una tarjeta de la portada, que abre ese bloque.</p>
+  <p>El programa se maneja sobre todo con el ratón, pero estos atajos sirven en cualquier bloque. <code>[</code> y <code>?</code> no responden mientras escribes en un campo.</p>
+
+  <table class="compacta">
+    <thead><tr><th style="width:1.5in">Tecla</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><code>Alt</code> + <code>←</code> / <code>→</code></td><td>Bloque anterior o siguiente, desde cualquier parte. En el modo enfocado, sección anterior o siguiente (en los extremos, el bloque).</td></tr>
+      <tr><td><code>←</code> / <code>→</code>, <code>Inicio</code>, <code>Fin</code></td><td>Con el foco en la barra de bloques: recorrerla, o ir al primer o al último bloque.</td></tr>
+      <tr><td><code>Ctrl</code> + <code>K</code></td><td>Abre <span class="ui">Buscar</span>: bloques, secciones, controles y acciones, incluso desde un campo.</td></tr>
+      <tr><td><code>[</code></td><td>Contrae o muestra la barra de bloques.</td></tr>
+      <tr><td><code>?</code></td><td>Muestra la lista de atajos y la ayuda de dónde estás.</td></tr>
+      <tr><td><code>Esc</code></td><td>Cierra ventanas y paneles (ayuda de interpretación, gestor de imágenes, lista de atajos); en la espera de un análisis largo, equivale a <span class="ui">Cancelar</span>.</td></tr>
+      <tr><td><code>Intro</code> o espacio</td><td>Sobre una tarjeta de la portada, abre ese bloque.</td></tr>
+    </tbody>
+  </table>
 
   <!-- ================================================================= B -->
   <h2 id="ap-b"><span class="num">B</span>El catálogo de modelos</h2>
@@ -3635,7 +3650,7 @@
   <table class="compacta">
     <thead><tr><th style="width:2in">Lo que ves</th><th>Qué suele ser</th></tr></thead>
     <tbody>
-      <tr><td><b>«No se encontró ese taxón»</b> al cruzar dos archivos</td><td>Casi siempre el guion bajo: <code>Bursera_palmeri</code> frente a <code>Bursera palmeri</code>. El Bloque 9 lo perdona; los demás lo dicen por su nombre. Corrige el archivo, no la lista.</td></tr>
+      <tr><td><b>«Sin fila en la tabla»</b> (Bloque 9) o <b>«Sin áreas en la tabla»</b> (Bloque 10), seguido de nombres de puntas</td><td>Esas puntas del árbol no se encontraron en la tabla. Los dos bloques ya perdonan espacios frente a guiones bajos (<code>Bursera_palmeri</code> frente a <code>Bursera palmeri</code>) y mayúsculas, así que casi siempre es una errata, una abreviatura o una fila que falta. Corrige el archivo, no la lista. El Bloque 9 poda el árbol a las puntas que tienen el carácter; el Bloque 10 necesita un rango por punta.</td></tr>
       <tr><td>El <b>árbol sale con una politomía</b> enorme</td><td>Un consenso con muchas divisiones por debajo del umbral. No es un error: es que los datos no resuelven ese nodo.</td></tr>
       <tr><td>La <b>cadena bayesiana no converge</b></td><td>Mira el ESS y el PSRF antes que nada. Si el ESS es bajo sólo en un parámetro, suele bastar con correr más; si el PSRF es alto, las cadenas están en sitios distintos y el problema es el modelo o el prior.</td></tr>
       <tr><td>Las <b>ramas salen larguísimas</b> en el análisis bayesiano</td><td>El prior de longitud de rama. Con datos divergentes, una exponencial de media 0.1 tira del árbol entero hacia abajo. El panel compara con el árbol de máxima verosimilitud antes de correr: hazle caso.</td></tr>
@@ -3725,11 +3740,12 @@
   </div>
 
   <h3>G.3 · Cómo citarlo</h3>
-  <p>En la raíz del programa hay un archivo <code>CITATION.cff</code> y un <code>codemeta.json</code> con los datos completos y legibles por máquina; muchos gestores de referencias los leen directamente. La forma corta:</p>
+  <p>En la raíz del programa hay un archivo <code>CITATION.cff</code> y un <code>codemeta.json</code> con los datos completos y legibles por máquina; muchos gestores de referencias los leen directamente. La forma corta, del programa y de este manual:</p>
 
   <div class="caja teoria">
     <div class="caja-t"><span class="ico">∑</span>Cita sugerida</div>
-    <p>Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: filogenia molecular en el navegador, del alineamiento al árbol fechado</i> (versión 1.4.0). Zenodo. https://doi.org/10.5281/zenodo.23005815</p>
+    <p>Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: filogenia molecular en el navegador, del alineamiento al árbol fechado</i> (versión 1.4.0). Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815</p>
+    <p style="margin-top:0.08in">Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro. Manual de usuario</i> (1.ª ed.). Distribuido con PhylogenyPro, versión 1.4.0. https://doi.org/10.5281/zenodo.23005815</p>
     <p style="margin-top:0.08in">Ése es el <b>DOI de concepto</b>: lleva siempre a la versión más reciente, y es el que conviene citar. Si necesitas fijar exactamente la versión con la que corriste tu análisis —que es lo correcto cuando el resultado tiene que poder repetirse—, toma el DOI propio de esa versión del registro en Zenodo. El de la 1.4.0 es <code>10.5281/zenodo.23005816</code>.</p>
   </div>
 
