@@ -186,7 +186,7 @@
       runner.promise.then(res => {
         btn.disabled = false; cancel.style.display = 'none';
         if (res.cancelled || !bar) prog.textContent = '';
-        if (res.cancelled) { showMessage(msg, 'info', L2('Cancelado.', 'Cancelled.')); return; }
+        if (res.cancelled) { showMessage(msg, 'info', L2('Cancelado.', 'Canceled.')); return; }
         if (bar) bar.done(T(`${list.length} modelos ajustados`, `${list.length} models fitted`));
         B3.result = res;
         const secs = (performance.now() - t0) / 1000;

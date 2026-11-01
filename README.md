@@ -415,8 +415,8 @@ If it helps with a thesis or a paper, please cite the software **and the origina
 each one is named at the point where it is used, listed on the home page, and written into the methods section the
 program generates.
 
-> Barrera-Guzmán, L.Á. (2026). *PhylogenyPro: a browser-based platform for molecular phylogenetics, from the
-> alignment to the dated tree* (Version 1.4.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23005815
+> Barrera-Guzmán, L.Á. (2026). *PhylogenyPro: molecular phylogenetics in the browser, from the alignment to the dated tree* (version 1.4.0).
+> Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815
 
 That is the **concept DOI**: it always resolves to the most recent version. To cite exactly the version you used,
 take its own DOI from the Zenodo record — version 1.4.0 is `10.5281/zenodo.23005816`.

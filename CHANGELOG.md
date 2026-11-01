@@ -828,3 +828,22 @@ Deposited and citable.
   distributed with the code", which stopped being true the moment `validation/` was left out of the repository.
   It now states what it can stand behind — that every block is validated against independent implementations in
   R — and cites the program itself, with its DOI, in the bibliography it assembles.
+
+## Unreleased — 2026-11-01 · The English interface, reviewed
+
+Found while translating the user manual into English; the version stays 1.4.0 and the DOI is unchanged.
+
+- **American spelling throughout the English interface** (texts, options, tooltips, help, theory, interpretation
+  guide, figure studio, messages and the English report): color/colored/colors, gray/grayscale, neighbor/neighboring,
+  normalized, optimized/optimizing/optimizes, analyze/analyzed, penalized/penalizes, hybridization, homogenized,
+  paralogs, criticized, rigor, centered/center, toward, favor, license, canceled, honors, judgment, generalized,
+  recognized, modeled/modeling, summarized, standardized, stabilizing, optimizer. Identifiers, storage keys, file
+  names and the titles of cited works are untouched.
+- The theme button (`#themeBtn`) now has its tooltip and accessible name in both languages, switching with the
+  interface.
+- Typographic quotation marks (“ ”) instead of straight ones in the English texts.
+- **One citation of the program everywhere**, the one in the “How to cite” box: *PhylogenyPro: molecular
+  phylogenetics in the browser, from the alignment to the dated tree* (in Spanish, *PhylogenyPro: filogenia
+  molecular en el navegador, del alineamiento al árbol fechado*), version 1.4.0, Universidad Autónoma Chapingo,
+  Zenodo, https://doi.org/10.5281/zenodo.23005815. `CITATION.cff` (title, affiliation and a `preferred-citation`
+  with the publisher), the README and the bibliography of the report — now in the language of the report — use it.

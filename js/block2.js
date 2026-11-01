@@ -489,7 +489,7 @@
     if (!parts.length) {
       try { const nx = SeqIO.parse(text, 'x.nex'); parts = nx.charsets || []; } catch (e) { /* not a NEXUS */ }
     }
-    if (!parts.length) { showMessage(msgs, 'error', L2('No se reconoció ningún esquema de particiones.', 'No partition scheme was recognised.')); return; }
+    if (!parts.length) { showMessage(msgs, 'error', L2('No se reconoció ningún esquema de particiones.', 'No partition scheme was recognized.')); return; }
     const L = p.seqs[0].length;
     const bad = parts.filter(c => c.to > L);
     if (bad.length) { showMessage(msgs, 'error', L2(

@@ -150,7 +150,7 @@ const CalibHelp = {};
     if (ctx.source === 'fossil' && c.type === 'fixed') {
       add('bad',
         'Un fósil <b>no da la edad de un nodo</b>: da su edad mínima. Fijar el nodo en la edad del fósil afirma que el linaje nació justo cuando murió ese individuo, lo que es casi con seguridad falso y comprime todo el árbol hacia el presente. Usa una lognormal o una exponencial desplazadas, con el desplazamiento en la edad del fósil.',
-        'A fossil <b>does not give a node\'s age</b>: it gives its minimum age. Pinning the node at the fossil\'s age asserts that the lineage arose exactly when that individual died, which is almost certainly false and squeezes the whole tree towards the present. Use an offset lognormal or exponential, with the offset at the fossil\'s age.');
+        'A fossil <b>does not give a node\'s age</b>: it gives its minimum age. Pinning the node at the fossil\'s age asserts that the lineage arose exactly when that individual died, which is almost certainly false and squeezes the whole tree toward the present. Use an offset lognormal or exponential, with the offset at the fossil\'s age.');
     }
     if (ctx.source === 'fossil' && c.type === 'normal') {
       add('warn',
@@ -240,7 +240,7 @@ const CalibHelp = {};
     if (s.id === 'secondary') {
       return { type: 'normal', mean: a, sd: +(a * 0.12).toFixed(3),
         nota: ['Centrada en la edad publicada, con una desviación del 12 %. Ensánchala si el estudio de origen tenía pocas calibraciones.',
-          'Centred on the published age, with a 12 % standard deviation. Widen it if the source study had few calibrations.'] };
+          'Centered on the published age, with a 12 % standard deviation. Widen it if the source study had few calibrations.'] };
     }
     return { type: 'fixed', value: a,
       nota: ['Sin incertidumbre: sólo para fijar una escala de referencia.',

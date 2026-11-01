@@ -110,7 +110,7 @@ const Help = {};
     ],
     conv: true,
     care: ['La mayoría de los modelos tratan el hueco como «dato desconocido», no como un estado: una deleción compartida, que es evidencia filogenética real, se desperdicia. Por eso conviene mirarla aparte.',
-      'Most models treat a gap as "unknown", not as a state: a shared deletion, which is real phylogenetic evidence, is thrown away. That is why it is worth looking at separately.'],
+      'Most models treat a gap as “unknown”, not as a state: a shared deletion, which is real phylogenetic evidence, is thrown away. That is why it is worth looking at separately.'],
   });
 
   E('sp', {
@@ -164,7 +164,7 @@ const Help = {};
   E('aic', {
     t: ['AIC, AICc y BIC', 'AIC, AICc and BIC'],
     what: ['Tres formas de premiar el ajuste y castigar los parámetros. AIC = −2·lnL + 2k; AICc le añade una corrección para muestras pequeñas; BIC castiga más fuerte, con ln(n) por parámetro. En los tres, <b>menor es mejor</b>.',
-      'Three ways of rewarding fit and penalising parameters. AIC = −2·lnL + 2k; AICc adds a small-sample correction; BIC penalises harder, with ln(n) per parameter. In all three, <b>lower is better</b>.'],
+      'Three ways of rewarding fit and penalizing parameters. AIC = −2·lnL + 2k; AICc adds a small-sample correction; BIC penalizes harder, with ln(n) per parameter. In all three, <b>lower is better</b>.'],
     read: ['Lo que se lee es la <b>diferencia</b> con el mejor modelo, ΔAIC. Un modelo con Δ menor que 2 es prácticamente indistinguible del ganador; a partir de 10 está descartado.',
       'What is read is the <b>difference</b> from the best model, ΔAIC. A model with Δ below 2 is practically indistinguishable from the winner; from 10 up it is ruled out.'],
     scaleTitle: ['ΔAIC frente al mejor', 'ΔAIC from the best'],
@@ -194,7 +194,7 @@ const Help = {};
     ],
     conv: true,
     care: ['«El mejor del conjunto» no es «bueno». Si todos los modelos candidatos son malos para estos datos, el peso 0.99 se lo lleva el menos malo.',
-      '"The best of the set" is not "good". If every candidate model is bad for these data, the 0.99 weight goes to the least bad one.'],
+      '“The best of the set” is not “good”. If every candidate model is bad for these data, the 0.99 weight goes to the least bad one.'],
   });
 
   E('alpha', {
@@ -202,7 +202,7 @@ const Help = {};
     what: ['No todos los sitios cambian a la misma velocidad. α describe cuán desigual es ese reparto: α pequeña significa unos pocos sitios muy rápidos y muchos casi congelados; α grande, velocidades parecidas.',
       'Not every site changes at the same speed. α describes how uneven that spread is: a small α means a few very fast sites and many almost frozen; a large α, similar speeds.'],
     read: ['Es el parámetro que más suele importar después de la topología. Por debajo de 1 la heterogeneidad es fuerte y no modelarla deforma las ramas largas.',
-      'It is the parameter that usually matters most after the topology. Below 1 the heterogeneity is strong, and not modelling it distorts the long branches.'],
+      'It is the parameter that usually matters most after the topology. Below 1 the heterogeneity is strong, and not modeling it distorts the long branches.'],
     scaleTitle: ['α', 'α'],
     scale: [
       S(null, 0.5, ['muy desigual', 'very uneven'], 'bad'),
@@ -212,7 +212,7 @@ const Help = {};
     ],
     conv: true,
     care: ['α y las longitudes de rama están correlacionadas: un optimizador que se detiene pronto deja las dos mal. Y +I con +G compiten por explicar lo mismo, así que sus valores por separado se interpretan con cuidado.',
-      'α and the branch lengths are correlated: an optimiser that stops early leaves both wrong. And +I and +G compete to explain the same thing, so their separate values are read with care.'],
+      'α and the branch lengths are correlated: an optimizer that stops early leaves both wrong. And +I and +G compete to explain the same thing, so their separate values are read with care.'],
     ref: 'Yang 1994',
   });
 
@@ -278,7 +278,7 @@ const Help = {};
     what: ['Se remuestrean las columnas del alineamiento con reemplazo, se rehace el árbol cientos de veces y se cuenta en qué porcentaje de esas réplicas aparece cada rama.',
       'The alignment columns are resampled with replacement, the tree is rebuilt hundreds of times, and the percentage of those replicates in which each branch appears is counted.'],
     read: ['Mide la <b>consistencia de la señal en los datos</b>, no la probabilidad de que la rama sea correcta. La costumbre es tomar 70 % como umbral de «bien apoyada» y 95 % como fuerte.',
-      'It measures the <b>consistency of the signal in the data</b>, not the probability that the branch is right. The habit is to take 70 % as the threshold for "well supported" and 95 % as strong.'],
+      'It measures the <b>consistency of the signal in the data</b>, not the probability that the branch is right. The habit is to take 70 % as the threshold for “well supported” and 95 % as strong.'],
     scaleTitle: ['Bootstrap (%)', 'Bootstrap (%)'],
     scale: [
       S(null, 50, ['sin apoyo', 'unsupported'], 'bad'),
@@ -299,7 +299,7 @@ const Help = {};
     read: ['Se lee en pasos, no en porcentaje, y depende del tamaño de la matriz: en matrices grandes un Bremer de 5 puede ser poco. Un valor de 1 significa que basta un paso para deshacer la rama.',
       'It is read in steps, not in per cent, and depends on the size of the matrix: on large matrices a Bremer of 5 may be little. A value of 1 means one step is enough to undo the branch.'],
     care: ['No es comparable entre estudios sin normalizar por la longitud del árbol.',
-      'It is not comparable between studies without normalising by the tree length.'],
+      'It is not comparable between studies without normalizing by the tree length.'],
     ref: 'Bremer 1994',
   });
 
@@ -308,8 +308,8 @@ const Help = {};
     what: ['Cuenta las divisiones (bipartitions) que están en un árbol y no en el otro, en las dos direcciones. Cero significa la misma topología.',
       'Counts the splits (bipartitions) present in one tree and absent from the other, in both directions. Zero means the same topology.'],
     read: ['El máximo posible es 2(n−3) para árboles sin raíz de n puntas, así que conviene leer la <b>versión normalizada</b>, entre 0 y 1. Ignora las longitudes de rama por completo.',
-      'The largest possible value is 2(n−3) for unrooted trees of n tips, so it is worth reading the <b>normalised version</b>, between 0 and 1. It ignores branch lengths entirely.'],
-    scaleTitle: ['RF normalizada', 'Normalised RF'],
+      'The largest possible value is 2(n−3) for unrooted trees of n tips, so it is worth reading the <b>normalized version</b>, between 0 and 1. It ignores branch lengths entirely.'],
+    scaleTitle: ['RF normalizada', 'Normalized RF'],
     scale: [
       S(0, 0.1, ['casi el mismo árbol', 'nearly the same tree'], 'good'),
       S(0.1, 0.3, ['diferencias menores', 'minor differences'], 'ok'),
@@ -327,9 +327,9 @@ const Help = {};
   E('ufboot', {
     t: ['Bootstrap ultrarrápido (UFBoot)', 'Ultrafast bootstrap (UFBoot)'],
     what: ['Una aproximación al bootstrap que reutiliza las verosimilitudes por sitio en lugar de reoptimizar cada réplica desde cero. Cientos de veces más rápida.',
-      'An approximation to the bootstrap that reuses the per-site likelihoods instead of reoptimising every replicate from scratch. Hundreds of times faster.'],
+      'An approximation to the bootstrap that reuses the per-site likelihoods instead of reoptimizing every replicate from scratch. Hundreds of times faster.'],
     read: ['Su escala <b>no es la del bootstrap clásico</b>: está construida para ser casi insesgada, así que el umbral de «bien apoyada» es <b>95 %</b>, no 70 %. Confundir las dos escalas es el error más común con esta medida.',
-      'Its scale is <b>not that of the classical bootstrap</b>: it is built to be nearly unbiased, so the threshold for "well supported" is <b>95 %</b>, not 70 %. Confusing the two scales is the commonest mistake with this measure.'],
+      'Its scale is <b>not that of the classical bootstrap</b>: it is built to be nearly unbiased, so the threshold for “well supported” is <b>95 %</b>, not 70 %. Confusing the two scales is the commonest mistake with this measure.'],
     scaleTitle: ['UFBoot (%)', 'UFBoot (%)'],
     scale: [
       S(null, 85, ['sin apoyo', 'unsupported'], 'bad'),
@@ -371,7 +371,7 @@ const Help = {};
       S(0.1, null, ['no se rechaza', 'not rejected'], 'good'),
     ],
     care: ['«No rechazado» no es «igual de bueno»: con pocos datos no se rechaza casi nada. Y el conjunto de árboles a comparar hay que fijarlo <b>antes</b> de mirar los resultados.',
-      '"Not rejected" is not "just as good": with little data almost nothing is rejected. And the set of trees to compare has to be fixed <b>before</b> looking at the results.'],
+      '“Not rejected” is not “just as good”: with little data almost nothing is rejected. And the set of trees to compare has to be fixed <b>before</b> looking at the results.'],
     ref: 'Shimodaira 2002',
   });
 
@@ -516,7 +516,7 @@ const Help = {};
   E('hpd', {
     t: ['Intervalo de credibilidad (HPD 95 %)', 'Credible interval (95 % HPD)'],
     what: ['El intervalo más corto que contiene el 95 % de la distribución posterior de una edad. A diferencia de un intervalo de confianza, sí se lee como «hay un 95 % de probabilidad de que la edad esté aquí dentro».',
-      'The shortest interval containing 95 % of the posterior distribution of an age. Unlike a confidence interval, it does read as "there is a 95 % probability the age lies in here".'],
+      'The shortest interval containing 95 % of the posterior distribution of an age. Unlike a confidence interval, it does read as “there is a 95 % probability the age lies in here”.'],
     read: ['Lo que importa es su <b>anchura relativa</b> a la edad. Un nodo fechado en 30 Ma con un HPD de 28–32 está bien determinado; el mismo 30 Ma con 8–70 no dice casi nada, aunque la media se vea igual de redonda.',
       'What matters is its <b>width relative</b> to the age. A node dated at 30 Ma with an HPD of 28–32 is well determined; the same 30 Ma with 8–70 says almost nothing, although the mean looks just as tidy.'],
     care: ['El HPD recoge la incertidumbre <b>dentro del modelo y de las calibraciones que le diste</b>. No incluye el error de haber escogido mal una calibración, que suele ser el más grande de todos. Una edad nunca se reporta sin su intervalo.',
@@ -535,7 +535,7 @@ const Help = {};
   });
 
   E('smoothing', {
-    t: ['Suavizado (λ) de la verosimilitud penalizada', 'Smoothing (λ) of penalised likelihood'],
+    t: ['Suavizado (λ) de la verosimilitud penalizada', 'Smoothing (λ) of penalized likelihood'],
     what: ['Controla cuánto se permite que la tasa cambie de una rama a su hija. λ grande se acerca a un reloj estricto; λ pequeña deja que cada rama tenga su propia tasa.',
       'Controls how much the rate is allowed to change from a branch to its daughter. A large λ approaches a strict clock; a small λ lets every branch have its own rate.'],
     read: ['No se elige a ojo: se escoge por <b>validación cruzada</b>, quitando una rama a la vez y viendo qué λ predice mejor. La curva de validación cruzada del panel es la que manda.',
@@ -552,7 +552,7 @@ const Help = {};
     what: ['Compara dónde caen los nodos de un árbol respecto de donde caerían con una tasa constante. Negativo: los nodos se acumulan cerca de la raíz, señal de <b>desaceleración</b>. Positivo: se acumulan cerca del presente.',
       'Compares where a tree\'s nodes fall against where they would fall under a constant rate. Negative: the nodes pile up near the root, a sign of <b>slowdown</b>. Positive: they pile up near the present.'],
     read: ['Bajo tasa constante γ se distribuye normal estándar, así que <b>γ < −1.645</b> rechaza la tasa constante a favor de una desaceleración, con una cola.',
-      'Under a constant rate γ has a standard normal distribution, so <b>γ < −1.645</b> rejects the constant rate in favour of a slowdown, one-tailed.'],
+      'Under a constant rate γ has a standard normal distribution, so <b>γ < −1.645</b> rejects the constant rate in favor of a slowdown, one-tailed.'],
     scaleTitle: ['γ', 'γ'],
     scale: [
       S(null, -1.645, ['desaceleración', 'slowdown'], 'warn'),
@@ -636,9 +636,9 @@ const Help = {};
   E('ou', {
     t: ['Ornstein–Uhlenbeck: α y vida media', 'Ornstein–Uhlenbeck: α and half-life'],
     what: ['Un modelo con una fuerza que jala el carácter hacia un óptimo. α es esa fuerza; la <b>vida media</b> = ln(2)/α es el tiempo que tarda en recorrer la mitad del camino hacia el óptimo, y se lee mucho mejor que α.',
-      'A model with a force pulling the character towards an optimum. α is that force; the <b>half-life</b> = ln(2)/α is the time it takes to cover half the way to the optimum, and it reads far better than α.'],
+      'A model with a force pulling the character toward an optimum. α is that force; the <b>half-life</b> = ln(2)/α is the time it takes to cover half the way to the optimum, and it reads far better than α.'],
     read: ['Compara la vida media con la <b>profundidad del árbol</b>. Mucho menor: selección estabilizadora fuerte, el árbol casi no importa. Mayor que la profundidad: el OU es indistinguible de un browniano.',
-      'Compare the half-life against the <b>depth of the tree</b>. Much smaller: strong stabilising selection, the tree hardly matters. Larger than the depth: the OU is indistinguishable from Brownian motion.'],
+      'Compare the half-life against the <b>depth of the tree</b>. Much smaller: strong stabilizing selection, the tree hardly matters. Larger than the depth: the OU is indistinguishable from Brownian motion.'],
     care: ['El OU supone <b>puntas contemporáneas</b>: en un filograma no ultramétrico sus parámetros no significan lo que dicen. Y con menos de cincuenta especies el OU se prefiere a menudo por razones estadísticas y no biológicas: es un modelo muy hábil para ajustar ruido.',
       'The OU assumes <b>contemporaneous tips</b>: on a non-ultrametric phylogram its parameters do not mean what they say. And with fewer than fifty species the OU is often preferred for statistical rather than biological reasons: it is very good at fitting noise.'],
     ref: 'Hansen 1997; Cooper et al. 2016',
@@ -671,9 +671,9 @@ const Help = {};
     what: ['La probabilidad de cada estado en cada nodo interno, dibujada como un pastel. La versión <b>marginal</b> —la que se reporta— integra sobre todo lo demás del árbol.',
       'The probability of each state at each internal node, drawn as a pie. The <b>marginal</b> version — the one reported — integrates over everything else on the tree.'],
     read: ['Un pastel casi de un solo color es una reconstrucción firme; uno repartido significa que <b>los datos no saben</b>, y ese reparto es el resultado, no un defecto del dibujo.',
-      'A pie of almost one colour is a firm reconstruction; a divided one means <b>the data do not know</b>, and that division is the result, not a defect of the drawing.'],
+      'A pie of almost one color is a firm reconstruction; a divided one means <b>the data do not know</b>, and that division is the result, not a defect of the drawing.'],
     care: ['La incertidumbre crece hacia la raíz, y la raíz suele ser el nodo que a uno le interesa. Las reconstrucciones profundas rara vez son firmes, y presentarlas sin el pastel es esconder el resultado.',
-      'Uncertainty grows towards the root, and the root is usually the node one cares about. Deep reconstructions are rarely firm, and presenting them without the pie hides the result.'],
+      'Uncertainty grows toward the root, and the root is usually the node one cares about. Deep reconstructions are rarely firm, and presenting them without the pie hides the result.'],
   });
 
   /* ---------- Block 10 · historical biogeography ---------- */
@@ -681,7 +681,7 @@ const Help = {};
   E('decj', {
     t: ['DEC, DIVALIKE, BAYAREALIKE y el parámetro +J', 'DEC, DIVALIKE, BAYAREALIKE and the +J parameter'],
     what: ['Tres modelos que difieren en <b>qué permiten al dividirse un linaje</b>: DEC admite simpatría estrecha, de subconjunto y vicarianza; DIVALIKE favorece la vicarianza; BAYAREALIKE deja el rango idéntico. El +J añade la <b>especiación fundadora</b>: un salto a un área nueva en el momento de la división.',
-      'Three models differing in <b>what they allow when a lineage splits</b>: DEC admits narrow sympatry, subset sympatry and vicariance; DIVALIKE favours vicariance; BAYAREALIKE leaves the range identical. The +J adds <b>founder-event speciation</b>: a jump to a new area at the moment of the split.'],
+      'Three models differing in <b>what they allow when a lineage splits</b>: DEC admits narrow sympatry, subset sympatry and vicariance; DIVALIKE favors vicariance; BAYAREALIKE leaves the range identical. The +J adds <b>founder-event speciation</b>: a jump to a new area at the moment of the split.'],
     read: ['Se comparan por AICc con pesos de Akaike. En islas el +J casi siempre gana, y con mucha diferencia.',
       'They are compared by AICc with Akaike weights. On islands the +J almost always wins, and by a wide margin.'],
     care: ['Ree y Sanmartín (2018) mostraron que <b>comparar DEC con DEC+J por verosimilitud está sesgado</b>: el +J puede ganar sin que el proceso exista, porque los dos modelos no son estrictamente anidados de la forma que la comparación supone. Reporta el +J, pero no lo presentes como demostración de dispersión fundadora.',
@@ -711,12 +711,12 @@ const Help = {};
     scale: [
       S(null, 33, ['la mayoría discrepa', 'most genes disagree'], 'bad'),
       S(33, 50, ['conflicto fuerte', 'strong conflict'], 'warn'),
-      S(50, 75, ['mayoría a favor', 'majority in favour'], 'ok'),
+      S(50, 75, ['mayoría a favor', 'majority in favor'], 'ok'),
       S(75, null, ['acuerdo amplio', 'broad agreement'], 'good'),
     ],
     conv: true,
     care: ['Un gCF bajo puede venir de conflicto biológico real —clasificación incompleta de linajes, hibridación— o simplemente de que cada gen tiene poca señal. Mirar también el sCF ayuda a distinguirlos.',
-      'A low gCF can come from real biological conflict — incomplete lineage sorting, hybridisation — or simply from each gene having little signal. Looking at the sCF as well helps tell them apart.'],
+      'A low gCF can come from real biological conflict — incomplete lineage sorting, hybridization — or simply from each gene having little signal. Looking at the sCF as well helps tell them apart.'],
     ref: 'Minh, Hahn & Lanfear 2020',
   });
 
@@ -772,7 +772,7 @@ const Help = {};
   E('trimming', {
     t: ['Recorte de bloques ambiguos', 'Trimming of ambiguous blocks'],
     what: ['Quitar las columnas donde el alineamiento no es de fiar: zonas con muchos huecos, sin conservación, o rodeadas de otras igual de dudosas. Gblocks las escoge por reglas de vecindad; los umbrales tipo trimAl, por columna.',
-      'Removing the columns where the alignment is not trustworthy: stretches with many gaps, without conservation, or surrounded by equally doubtful ones. Gblocks picks them by neighbourhood rules; trimAl-style thresholds, column by column.'],
+      'Removing the columns where the alignment is not trustworthy: stretches with many gaps, without conservation, or surrounded by equally doubtful ones. Gblocks picks them by neighborhood rules; trimAl-style thresholds, column by column.'],
     read: ['Se mira <b>cuánto se quita</b>. Perder un 10–30 % es normal. Perder más de la mitad significa que el alineamiento era malo, y el recorte no lo arregla: lo esconde.',
       'What is looked at is <b>how much goes</b>. Losing 10–30 % is normal. Losing more than half means the alignment was bad, and trimming does not fix that: it hides it.'],
     scaleTitle: ['Columnas eliminadas', 'Columns removed'],
@@ -795,7 +795,7 @@ const Help = {};
     read: ['La cifra que decide es la de <b>informativos</b>: los variables no informativos —un solo taxón distinto— cuestan un paso en cualquier árbol y no eligen topología. Los constantes tampoco, pero sí informan sobre las tasas en verosimilitud.',
       'The figure that decides is the <b>informative</b> one: variable but uninformative sites — a single differing taxon — cost one step on any tree and choose no topology. Constant sites do not either, but they do inform the rates under likelihood.'],
     care: ['Quitar los sitios constantes «porque no aportan» sesga las longitudes de rama hacia arriba. Solo se quitan cuando el modelo lo sabe y lo corrige, que es lo que hace Mkv en morfología.',
-      'Removing constant sites "because they add nothing" biases branch lengths upwards. They are only removed when the model knows and corrects for it, which is what Mkv does in morphology.'],
+      'Removing constant sites “because they add nothing” biases branch lengths upwards. They are only removed when the model knows and corrects for it, which is what Mkv does in morphology.'],
   });
 
   E('gc', {
@@ -859,7 +859,7 @@ const Help = {};
     read: ['Cuando hay varios, lo que se reporta es su <b>consenso</b>, y las politomías del consenso son partes del árbol que los datos no resuelven. Un solo árbol más corto es poco común y conviene desconfiar si la búsqueda fue corta.',
       'When there are several, what is reported is their <b>consensus</b>, and the polytomies of the consensus are parts of the tree the data do not resolve. A single shortest tree is uncommon, and worth doubting if the search was short.'],
     care: ['Encontrar «un solo árbol» puede significar que la búsqueda no exploró bastante. Y un consenso estricto de miles de árboles puede quedar casi todo colapsado, lo cual es el resultado honesto y no un fracaso.',
-      'Finding "a single tree" can mean the search did not explore enough. And a strict consensus of thousands of trees can end up almost entirely collapsed, which is the honest result and not a failure.'],
+      'Finding “a single tree” can mean the search did not explore enough. And a strict consensus of thousands of trees can end up almost entirely collapsed, which is the honest result and not a failure.'],
   });
 
   E('search', {
@@ -877,7 +877,7 @@ const Help = {};
     what: ['En un análisis particionado, todas las particiones comparten la topología y las proporciones de las ramas, pero cada una tiene un multiplicador que dice si va más rápido o más despacio que la media.',
       'In a partitioned analysis every partition shares the topology and the branch proportions, but each has a multiplier saying whether it runs faster or slower than the average.'],
     read: ['Los multiplicadores se normalizan a media uno pesada por sitios. Una partición con 0.3 evoluciona a un tercio de la velocidad media; con 2.5, dos veces y media más rápido.',
-      'The multipliers are normalised to a site-weighted mean of one. A partition at 0.3 evolves at a third of the average speed; at 2.5, two and a half times faster.'],
+      'The multipliers are normalized to a site-weighted mean of one. A partition at 0.3 evolves at a third of the average speed; at 2.5, two and a half times faster.'],
     care: ['Que cada partición tenga su velocidad no la libera de compartir el árbol. Si dos genes tienen historias distintas de verdad, el análisis particionado los promedia en vez de destaparlo: eso se ve en el Bloque 11.',
       'Giving each partition its own speed does not free it from sharing the tree. If two genes really have different histories, the partitioned analysis averages them instead of revealing it: that is what Block 11 is for.'],
   });
@@ -885,7 +885,7 @@ const Help = {};
   E('marginal', {
     t: ['Verosimilitud marginal', 'Marginal likelihood'],
     what: ['La probabilidad de los datos bajo un modelo, <b>promediada sobre todos los valores posibles de sus parámetros</b> según el prior. No es el máximo, es un promedio, y por eso castiga sola la complejidad inútil.',
-      'The probability of the data under a model, <b>averaged over all the possible values of its parameters</b> according to the prior. It is not the maximum, it is an average, which is why it penalises useless complexity by itself.'],
+      'The probability of the data under a model, <b>averaged over all the possible values of its parameters</b> according to the prior. It is not the maximum, it is an average, which is why it penalizes useless complexity by itself.'],
     read: ['Se estima con piedras de paso o con muestreo por caminos, nunca con la media armónica, que es notoriamente mala. Solo se usa para comparar, a través del factor de Bayes.',
       'It is estimated by stepping stones or path sampling, never by the harmonic mean, which is notoriously bad. It is only used for comparing, through the Bayes factor.'],
     care: ['Su valor depende mucho del prior, así que dos corridas con priors distintos no se pueden comparar. Y la estimación tiene su propio error: repetirla con otra semilla dice cuánto.',
@@ -906,7 +906,7 @@ const Help = {};
   E('ratevar', {
     t: ['Variación de la tasa entre ramas', 'Rate variation among branches'],
     what: ['Cuánto se aparta el árbol de un reloj estricto. En un reloj relajado lognormal se resume con el <b>coeficiente de variación</b> de las tasas de las ramas.',
-      'How far the tree departs from a strict clock. Under a lognormal relaxed clock it is summarised by the <b>coefficient of variation</b> of the branch rates.'],
+      'How far the tree departs from a strict clock. Under a lognormal relaxed clock it is summarized by the <b>coefficient of variation</b> of the branch rates.'],
     read: ['Un coeficiente cercano a 0 dice que había reloj y que un reloj estricto habría bastado. Por encima de 0.5 las tasas son muy desiguales y el reloj estricto habría dado fechas equivocadas.',
       'A coefficient near 0 says there was a clock and a strict one would have sufficed. Above 0.5 the rates are very uneven and a strict clock would have given wrong dates.'],
     scaleTitle: ['Coeficiente de variación', 'Coefficient of variation'],
@@ -929,7 +929,7 @@ const Help = {};
     read: ['Las tasas de diversificación se calculan con una u otra y <b>dan resultados distintos</b>: con el tallo la tasa sale menor, porque se reparte el mismo número de especies en más tiempo. Hay que decir cuál se usó.',
       'Diversification rates are computed from one or the other and <b>give different results</b>: with the stem the rate comes out lower, because the same number of species is spread over more time. Which one was used has to be stated.'],
     care: ['Confundirlas es un error frecuente al comparar con la literatura: una «edad del grupo» sin apellido no se puede reutilizar.',
-      'Confusing them is a frequent mistake when comparing with the literature: an "age of the group" without a qualifier cannot be reused.'],
+      'Confusing them is a frequent mistake when comparing with the literature: an “age of the group” without a qualifier cannot be reused.'],
     ref: 'Magallón & Sanderson 2001',
   });
 
@@ -961,14 +961,14 @@ const Help = {};
     read: ['La regresión de contrastes se ajusta <b>forzada por el origen</b>: el signo de un contraste es arbitrario, así que una ordenada al origen no significaría nada. Su pendiente es idéntica a la de PGLS con λ = 1.',
       'The contrast regression is fitted <b>through the origin</b>: the sign of a contrast is arbitrary, so an intercept would mean nothing. Its slope is identical to that of PGLS with λ = 1.'],
     care: ['Suponen movimiento browniano y longitudes de rama correctas. Si los contrastes estandarizados muestran tendencia contra su desviación esperada, el supuesto falla y hay que transformar las ramas.',
-      'They assume Brownian motion and correct branch lengths. If the standardised contrasts show a trend against their expected deviation, the assumption fails and the branches need transforming.'],
+      'They assume Brownian motion and correct branch lengths. If the standardized contrasts show a trend against their expected deviation, the assumption fails and the branches need transforming.'],
     ref: 'Felsenstein 1985; Garland et al. 1992',
   });
 
   E('simmap', {
     t: ['Mapeo estocástico', 'Stochastic mapping'],
     what: ['En vez de dar una probabilidad por nodo, sortea <b>historias completas</b> del carácter sobre el árbol —dónde y cuándo ocurrió cada cambio— coherentes con las puntas y con el modelo. Cientos de historias resumen la incertidumbre.',
-      'Instead of giving a probability per node, it draws <b>complete histories</b> of the character over the tree — where and when each change happened — consistent with the tips and the model. Hundreds of histories summarise the uncertainty.'],
+      'Instead of giving a probability per node, it draws <b>complete histories</b> of the character over the tree — where and when each change happened — consistent with the tips and the model. Hundreds of histories summarize the uncertainty.'],
     read: ['Lo que se reporta es el <b>promedio sobre las historias</b>: número esperado de cambios, tiempo pasado en cada estado, y con qué frecuencia cada rama contiene un cambio. Es más informativo que un solo estado por nodo.',
       'What is reported is the <b>average over the histories</b>: the expected number of changes, the time spent in each state, and how often each branch contains a change. It is more informative than a single state per node.'],
     care: ['Las historias son tan buenas como el modelo Mk que las genera: si las tasas están mal estimadas, todas las historias lo estarán en la misma dirección y el promedio no lo revela.',
@@ -1023,7 +1023,7 @@ const Help = {};
     what: ['Lo que no está de acuerdo, repartido entre las <b>dos</b> resoluciones alternativas de la rama. gDF para genes, sDF para sitios.',
       'What disagrees, split between the <b>two</b> alternative resolutions of the branch. gDF for genes, sDF for sites.'],
     read: ['Ahí está la pregunta interesante. Si las dos alternativas se reparten el desacuerdo <b>por partes iguales</b>, eso es lo que la clasificación incompleta de linajes predice. Si una alternativa domina claramente a la otra, hay algo más: flujo génico, hibridación o un error sistemático.',
-      'This is where the interesting question lies. If the two alternatives share the disagreement <b>equally</b>, that is what incomplete lineage sorting predicts. If one alternative clearly dominates the other, something else is going on: gene flow, hybridisation or a systematic error.'],
+      'This is where the interesting question lies. If the two alternatives share the disagreement <b>equally</b>, that is what incomplete lineage sorting predicts. If one alternative clearly dominates the other, something else is going on: gene flow, hybridization or a systematic error.'],
     care: ['El desequilibrio entre gDF1 y gDF2 es una <b>pista</b>, no una prueba. La prueba es el estadístico D del mismo bloque.',
       'The imbalance between gDF1 and gDF2 is a <b>hint</b>, not a test. The test is the D statistic in the same block.'],
     ref: 'Minh, Hahn & Lanfear 2020',
@@ -1046,7 +1046,7 @@ const Help = {};
     read: ['Ancho del rectángulo = fuerza del conflicto. Una red casi arbórea dice que los datos son coherentes; una llena de cajas dice que empeñarse en un árbol es forzar los datos.',
       'The width of a box is the strength of the conflict. A nearly tree-like network says the data are coherent; one full of boxes says insisting on a tree forces the data.'],
     care: ['Una red <b>no es una filogenia con hibridación</b>: las cajas pueden venir de hibridación, de clasificación incompleta de linajes, de recombinación o simplemente de ruido. La red muestra el conflicto, no lo explica. Y la descomposición circular solo puede dibujar las divisiones que caben en el orden circular elegido; las demás se reportan aparte.',
-      'A network <b>is not a phylogeny with hybridisation</b>: the boxes can come from hybridisation, from incomplete lineage sorting, from recombination or simply from noise. The network shows the conflict, it does not explain it. And the circular decomposition can only draw the splits that fit the chosen circular order; the rest are reported separately.'],
+      'A network <b>is not a phylogeny with hybridization</b>: the boxes can come from hybridization, from incomplete lineage sorting, from recombination or simply from noise. The network shows the conflict, it does not explain it. And the circular decomposition can only draw the splits that fit the chosen circular order; the rest are reported separately.'],
     ref: 'Bandelt & Dress 1992; Huson & Bryant 2006',
   });
 

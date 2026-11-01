@@ -228,7 +228,7 @@
     const start = el('p5Start').value;
     bits.push(L2(
       `La búsqueda se detuvo cuando ningún reordenamiento mejoraba: eso es un óptimo <i>local</i>. Vuelve a correrla desde un árbol al azar (arriba, «árbol inicial») y compara: si llega al mismo sitio, el resultado es sólido.`,
-      `The search stopped when no rearrangement improved it: that is a <i>local</i> optimum. Run it again from a random tree ("starting tree" above) and compare: if it lands in the same place, the result is solid.`));
+      `The search stopped when no rearrangement improved it: that is a <i>local</i> optimum. Run it again from a random tree (“starting tree” above) and compare: if it lands in the same place, the result is solid.`));
     if (start !== 'random') bits.push(L2(
       'Ahora mismo partió de un árbol razonable, no al azar.', 'Right now it started from a reasonable tree, not a random one.'));
     const v = el('p5Verdict');
@@ -318,7 +318,7 @@
           (single.BIC - res.BIC > 0
             ? `El BIC baja ${fmtFixed(single.BIC - res.BIC, 1)} unidades al dar a cada partición su modelo: el reparto vale lo que cuesta en parámetros.`
             : `El BIC <i>no</i> mejora al particionar: con estos datos, un solo modelo basta y el reparto solo añade parámetros.`),
-          `The relative rates are normalised to a mean of one: <b>${esc(fastest.name)}</b> evolves ${fmtFixed(fastest.rate / slowest.rate, 1)} times faster than <b>${esc(slowest.name)}</b>. ` +
+          `The relative rates are normalized to a mean of one: <b>${esc(fastest.name)}</b> evolves ${fmtFixed(fastest.rate / slowest.rate, 1)} times faster than <b>${esc(slowest.name)}</b>. ` +
           (single.BIC - res.BIC > 0
             ? `The BIC drops by ${fmtFixed(single.BIC - res.BIC, 1)} when each partition gets its own model: the split is worth what it costs in parameters.`
             : `The BIC does <i>not</i> improve with partitioning: for these data one model is enough and the split only adds parameters.`));
@@ -586,10 +586,10 @@
         (rejected.length
           ? `Con SH se rechazan al 5 %: ${rejected.map(c => '«' + esc(c.name) + '»').join(', ')}. Rechazar quiere decir que los datos <i>sí</i> distinguen, no solo que prefieren otro.`
           : 'Ninguno de los demás se rechaza al 5 %: los datos no distinguen entre ellos, y presentar uno solo como «el» árbol sería exagerar.'),
-        `The best is "${esc(cands[tt.best].name)}". ` +
+        `The best is “${esc(cands[tt.best].name)}”. ` +
         (rejected.length
-          ? `SH rejects at 5 %: ${rejected.map(c => '"' + esc(c.name) + '"').join(', ')}. Rejection means the data <i>do</i> distinguish, not merely that they prefer another.`
-          : 'None of the others is rejected at 5 %: the data cannot tell them apart, and presenting one as "the" tree would overstate the case.')));
+          ? `SH rejects at 5 %: ${rejected.map(c => '“' + esc(c.name) + '”').join(', ')}. Rejection means the data <i>do</i> distinguish, not merely that they prefer another.`
+          : 'None of the others is rejected at 5 %: the data cannot tell them apart, and presenting one as “the” tree would overstate the case.')));
       btn.disabled = false;
       commit();
       if (w) w.done();

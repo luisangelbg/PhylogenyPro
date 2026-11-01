@@ -508,7 +508,7 @@ const OTUImg = {};
       tog.appendChild(l);
       return l;
     };
-    mkTog(TT('blanco y negro', 'greyscale'), adj.gray, v => update(current, { adj: { gray: v } }).then(render));
+    mkTog(TT('blanco y negro', 'grayscale'), adj.gray, v => update(current, { adj: { gray: v } }).then(render));
     mkTog(TT('quitar el fondo', 'remove the background'), adj.removeBg, v => update(current, { adj: { removeBg: v } }).then(render));
     if (adj.removeBg) {
       const l = document.createElement('label');
@@ -526,7 +526,7 @@ const OTUImg = {};
       `<label class="inline-label"><span></span><input type="text" class="oi-credit" value="${esc(rec.credit || '')}"></label>` +
       `<label class="inline-label"><span></span><input type="text" class="oi-lic" value="${esc(rec.license || '')}"></label>`;
     meta.querySelectorAll('span')[0].textContent = TT('crédito', 'credit');
-    meta.querySelectorAll('span')[1].textContent = TT('licencia', 'licence');
+    meta.querySelectorAll('span')[1].textContent = TT('licencia', 'license');
     meta.querySelector('.oi-credit').addEventListener('change', e => update(current, { credit: e.target.value }));
     meta.querySelector('.oi-lic').addEventListener('change', e => update(current, { license: e.target.value }));
     host.appendChild(meta);

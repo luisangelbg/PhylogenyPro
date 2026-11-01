@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
     LABG.work.scene = 'tree';
     LABG.work.tips = [
       ['El Estudio de árboles del Bloque 12 redibuja cualquier árbol de la sesión con grupos de color e imágenes de las puntas.',
-        'The tree studio in Block 12 redraws any tree of the session with coloured groups and pictures of the tips.'],
+        'The tree studio in Block 12 redraws any tree of the session with colored groups and pictures of the tips.'],
       ['El Estudio de figuras del Bloque 12 cambia la paleta, la fuente y el fondo de las figuras de los doce bloques a la vez.',
         'The figure studio in Block 12 changes the palette, the font and the background of the figures of all twelve blocks at once.'],
       ['El signo de interrogación junto a un resultado abre su ficha: qué mide, cómo se lee y en qué escala cae.',

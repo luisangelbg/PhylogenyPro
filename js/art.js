@@ -648,7 +648,7 @@
     s += cell(218, 12, 'accent', L('ITS / ETS', 'ITS / ETS'), L('nuclear, rápido', 'nuclear, fast'));
     s += cell(60, 92, 'primary', L('genes nucleares', 'nuclear genes'), L('biparental, recombina', 'biparental, recombines'));
     s += cell(166, 92, 'c8', L('codones', 'codons'), L('selección dN/dS', 'dN/dS selection'));
-    s += txt(W / 2, 172, L('cada partición declara su genoma y la app lo respeta en todo el análisis', 'each partition declares its genome and the app honours it throughout'), 'art-mut', 8, 'middle');
+    s += txt(W / 2, 172, L('cada partición declara su genoma y la app lo respeta en todo el análisis', 'each partition declares its genome and the app honors it throughout'), 'art-mut', 8, 'middle');
     return wrap(`0 0 ${W} ${H}`, s);
   }
 

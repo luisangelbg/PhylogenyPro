@@ -266,7 +266,7 @@
         ? ` Ojo: ${notMono.map(m => Groups.nameOf(g, m.group)).join(', ')} no ${notMono.length === 1 ? 'es' : 'son'} monofilético(s), así que el color no marca un clado.`
         : ' Todos son clados.'),
       `${g.k} group(s): ${parts}.` + (notMono.length
-        ? ` Note: ${notMono.map(m => Groups.nameOf(g, m.group)).join(', ')} ${notMono.length === 1 ? 'is' : 'are'} not monophyletic, so the colour does not mark a clade.`
+        ? ` Note: ${notMono.map(m => Groups.nameOf(g, m.group)).join(', ')} ${notMono.length === 1 ? 'is' : 'are'} not monophyletic, so the color does not mark a clade.`
         : ' Every one of them is a clade.')));
   }
   /* the tree as the studio's rooting and ladderising leave it */
@@ -468,7 +468,7 @@
   function buildReport() {
     const lang = el('p12Lang').value;
     const sections = Report.methods(state, {});
-    const refs = Report.references(sections);
+    const refs = Report.references(sections, lang);
     const figs = el('p12RepFigures').checked
       ? figures().map(f => ({ svg: Export.inlineVars(f.svg, Export.readVars()), caption: f.caption || f.name, name: f.name }))
       : [];

@@ -155,7 +155,7 @@
      ================================================================ */
   const MEASURES = [
     ['rf', 'Robinson–Foulds', (a, b, n) => Cmp.rf(a, b, n).rf, true],
-    ['rfnorm', T('RF normalizada', 'RF normalised'), (a, b, n) => Cmp.rf(a, b, n).normalised, false],
+    ['rfnorm', T('RF normalizada', 'RF normalized'), (a, b, n) => Cmp.rf(a, b, n).normalised, false],
     ['quartet', T('cuartetos', 'quartets'), (a, b, n) => Cmp.quartetDistance(a, b, n).different, true],
     ['wrf', T('RF pesada', 'weighted RF'), (a, b, n) => Cmp.weightedRF(a, b, n), false],
     ['kf', T('puntaje de rama', 'branch score'), (a, b, n) => Cmp.branchScore(a, b, n), false],
@@ -467,7 +467,7 @@
     ]);
     buildTable('p11QTable', [
       { key: 'name', label: T('árbol', 'tree') },
-      { key: 'score', label: T('cuartetos a favor', 'quartets in favour'), num: true },
+      { key: 'score', label: T('cuartetos a favor', 'quartets in favor'), num: true },
       { key: 'prop', label: T('proporción', 'proportion'), num: true },
       { key: 'rf', label: T('RF contra el hallado', 'RF against the one found'), num: true },
     ], scores.slice().sort((a, b) => b.score - a.score).map(s => {
@@ -497,7 +497,7 @@
       en.push('The search did not improve on any of the given trees, so the best of them was already at a local optimum of this criterion.');
     }
     es.push('Conviene recordar que esto es una búsqueda por intercambios de vecinos desde un punto de partida, no el programa dinámico exacto de ASTRAL: con muchos taxones puede quedarse en un óptimo local.');
-    en.push("It is worth remembering that this is a nearest-neighbour search from a starting point, not ASTRAL's exact dynamic program: with many taxa it can settle in a local optimum.");
+    en.push("It is worth remembering that this is a nearest-neighbor search from a starting point, not ASTRAL's exact dynamic program: with many taxa it can settle in a local optimum.");
     v.innerHTML = `<b>${L2('Cómo se lee', 'How to read it')}</b> ${L2(es.join(' '), en.join(' '))}`;
     el('p11Export').style.display = '';
   }
@@ -600,7 +600,7 @@
       labels: names, conflicting: [...conflictIdx],
       caption: kind === 'consensus'
         ? T('ciclo exterior de la red de consenso; en color, las divisiones que chocan con otra',
-            'outer cycle of the consensus network; coloured, the splits that clash with another')
+            'outer cycle of the consensus network; colored, the splits that clash with another')
         : T('ciclo exterior de la descomposición circular', 'outer cycle of the circular decomposition'),
     });
     registerFigure('network', el('p11NetFig').innerHTML);

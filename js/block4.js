@@ -165,7 +165,7 @@
           `A CI of ${fmtFixed(idx.CI, 3)} means that ${fmtPct(1 - idx.CI)} of the changes are homoplasy: convergence and reversal. In molecules that is normal, and it falls as taxa are added; what matters is the RI (${fmtFixed(idx.RI, 3)}), which measures how much of the similarity does have tree structure.`));
         if (res.nTrees > 1) bits.push(L2(
           `Hay <b>${res.nTrees}</b> árboles igual de cortos: ninguno es «el» resultado. Lo que se publica es el consenso, más abajo.`,
-          `There are <b>${res.nTrees}</b> equally short trees: none of them is "the" answer. What gets published is the consensus, below.`));
+          `There are <b>${res.nTrees}</b> equally short trees: none of them is “the” answer. What gets published is the consensus, below.`));
         const v = el('p4ParsVerdict');
         v.style.display = '';
         v.innerHTML = `<b>${L2('Cómo se lee', 'How to read it')}</b> ` + bits.join(' ');
@@ -257,7 +257,7 @@
       renderSupportTable();
       showMessage(msg, 'success', L2(
         `Soporte de Bremer calculado examinando ${br.examined} árboles vecinos.`,
-        `Bremer support computed by examining ${br.examined} neighbouring trees.`));
+        `Bremer support computed by examining ${br.examined} neighboring trees.`));
       btn.disabled = false;
       commit();
       if (w) w.done();
@@ -340,7 +340,7 @@
     const worst = rows.reduce((a, b) => (b.agree < a.agree ? b : a), rows[0]);
     if (worst.agree < 0.7) showMessage(msg, 'warning', L2(
       `«${esc(worst.a)}» y «${esc(worst.b)}» solo coinciden en ${fmtPct(worst.agree, 0)} de sus clados. Cuando dos criterios difieren tanto, mira las ramas largas: suele ser atracción de ramas largas en la parsimonia, o distancias saturadas.`,
-      `"${esc(worst.a)}" and "${esc(worst.b)}" agree on only ${fmtPct(worst.agree, 0)} of their clades. When two criteria disagree this much, look at the long branches: it is usually long-branch attraction in parsimony, or saturated distances.`));
+      `“${esc(worst.a)}” and “${esc(worst.b)}” agree on only ${fmtPct(worst.agree, 0)} of their clades. When two criteria disagree this much, look at the long branches: it is usually long-branch attraction in parsimony, or saturated distances.`));
   }
 
   /* ================================================================

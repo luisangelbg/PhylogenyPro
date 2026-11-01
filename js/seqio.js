@@ -379,7 +379,7 @@ const SeqIO = {};
       case 'genbank': r = parseGenbank(text); break;
       case 'table': r = parseTable(text); break;
       case 'newick': return { format, taxa: [], seqs: [], trees: [{ name: 'tree', newick: clean(text).trim() }], warnings: [] };
-      default: throw new Error('No se reconoció el formato del archivo. / The file format was not recognised.');
+      default: throw new Error('No se reconoció el formato del archivo. / The file format was not recognized.');
     }
     const out = Object.assign({ format, charsets: [], trees: [], codes: { missing: '?', gap: '-', matchchar: null }, warnings: [] }, r);
     if (!out.taxa.length) throw new Error('No sequences were found in the file.');
@@ -401,7 +401,7 @@ const SeqIO = {};
       const ref = out.seqs[0];
       out.seqs = out.seqs.map((s, i) => i === 0 ? s : s.split('').map((c, j) => c === '.' ? (ref[j] || '?') : c).join(''));
       out.warnings.push({ es: 'Los puntos se leyeron como "igual que la primera secuencia".',
-        en: 'Dots were read as "same as the first sequence".' });
+        en: 'Dots were read as “same as the first sequence”.' });
     }
     if (!out.type) out.type = guessType(out.seqs);
 
@@ -412,7 +412,7 @@ const SeqIO = {};
       if (seen[base] == null) { seen[base] = 0; return base; }
       seen[base]++;
       out.warnings.push({ es: `El nombre «${base}» venía repetido; el segundo se renombró.`,
-        en: `The name "${base}" was repeated; the second one was renamed.` });
+        en: `The name “${base}” was repeated; the second one was renamed.` });
       return base + '_' + (seen[base] + 1);
     });
 

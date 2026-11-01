@@ -39,7 +39,7 @@ const Report = {};
      never printed, which is why every entry carries its key rather than a
      position in a list. */
   const REFS = {
-    phylogenypro: 'Barrera-Guzmán, L. Á. (2026). PhylogenyPro: a browser-based platform for molecular phylogenetics, from the alignment to the dated tree (version 1.4.0). Zenodo. https://doi.org/10.5281/zenodo.23005815',
+    phylogenypro: 'Barrera-Guzmán, L.Á. (2026). PhylogenyPro: filogenia molecular en el navegador, del alineamiento al árbol fechado (versión 1.4.0). Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815',
     felsenstein1981: 'Felsenstein, J. (1981). Evolutionary trees from DNA sequences: a maximum likelihood approach. Journal of Molecular Evolution 17: 368–376.',
     felsenstein1985: 'Felsenstein, J. (1985). Phylogenies and the comparative method. The American Naturalist 125: 1–15.',
     felsenstein1985b: 'Felsenstein, J. (1985). Confidence limits on phylogenies: an approach using the bootstrap. Evolution 39: 783–791.',
@@ -92,6 +92,11 @@ const Report = {};
     green2010: 'Green, R. E. et al. (2010). A draft sequence of the Neandertal genome. Science 328: 710–722.',
     durand2011: 'Durand, E. Y., Patterson, N., Reich, D. & Slatkin, M. (2011). Testing for ancient admixture between closely related populations. Molecular Biology and Evolution 28: 2239–2252.',
     han2009: 'Han, M. V. & Zmasek, C. M. (2009). phyloXML: XML for evolutionary biology and comparative genomics. BMC Bioinformatics 10: 356.',
+  };
+  /* the program's own citation, the same as the «How to cite» box of the home page in
+     each language; every other reference is printed as published */
+  const REFS_EN = {
+    phylogenypro: 'Barrera-Guzmán, L.Á. (2026). PhylogenyPro: molecular phylogenetics in the browser, from the alignment to the dated tree (version 1.4.0). Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815',
   };
 
   /* Block 8 keeps the diversification models by their English names */
@@ -160,7 +165,7 @@ const Report = {};
       en.push(`The substitution model was chosen by ${crit} among the candidates the program fits on a fixed topology; the selected one was <b>${b.name || b.model}</b>${b.lnL != null ? ` (lnL = ${num(b.lnL)})` : ''}.`);
       if (b.alpha != null) {
         es.push(`La heterogeneidad de tasas entre sitios se modeló con una distribución gamma discreta de cuatro categorías (α = ${num(b.alpha)}).`);
-        en.push(`Rate heterogeneity among sites was modelled with a four-category discrete gamma distribution (α = ${num(b.alpha)}).`);
+        en.push(`Rate heterogeneity among sites was modeled with a four-category discrete gamma distribution (α = ${num(b.alpha)}).`);
       }
       if (st.models.scheme && st.models.scheme.length > 1) {
         es.push(`El esquema de particiones se obtuvo por fusión codiciosa, y quedó en ${st.models.scheme.length} subconjuntos.`);
@@ -175,7 +180,7 @@ const Report = {};
       const es = [], en = [];
       if (st.quick.distance) {
         es.push(`Se construyó un árbol de distancias por ${st.quick.distance.name || 'neighbor joining'} sobre distancias corregidas.`);
-        en.push(`A distance tree was built by ${st.quick.distance.name || 'neighbour joining'} over corrected distances.`);
+        en.push(`A distance tree was built by ${st.quick.distance.name || 'neighbor joining'} over corrected distances.`);
       }
       if (st.quick.parsimony) {
         const p = st.quick.parsimony;
@@ -194,7 +199,7 @@ const Report = {};
       const m = st.ml;
       const es = [], en = [];
       es.push(`El árbol de máxima verosimilitud se buscó con intercambios NNI y SPR con radio de reinjerto, partiendo del árbol de distancias y optimizando las longitudes de rama y los parámetros del modelo en cada paso; la verosimilitud final fue lnL = ${num(m.lnL)}${m.visited ? ` tras evaluar ${m.visited} topologías` : ''}.`);
-      en.push(`The maximum-likelihood tree was searched with NNI and SPR rearrangements under a regraft radius, starting from the distance tree and optimising branch lengths and model parameters at each step; the final likelihood was lnL = ${num(m.lnL)}${m.visited ? ` after evaluating ${m.visited} topologies` : ''}.`);
+      en.push(`The maximum-likelihood tree was searched with NNI and SPR rearrangements under a regraft radius, starting from the distance tree and optimizing branch lengths and model parameters at each step; the final likelihood was lnL = ${num(m.lnL)}${m.visited ? ` after evaluating ${m.visited} topologies` : ''}.`);
       if (m.partitioned) {
         es.push(`El análisis particionado ajustó un modelo y un multiplicador de velocidad por partición sobre una topología y unas longitudes relativas compartidas (lnL = ${num(m.partitioned.lnL)}, ${m.partitioned.k} parámetros).`);
         en.push(`The partitioned analysis fitted one model and one rate multiplier per partition over a shared topology and shared relative branch lengths (lnL = ${num(m.partitioned.lnL)}, ${m.partitioned.k} parameters).`);
@@ -268,7 +273,7 @@ const Report = {};
         : d.method === 'pl' ? 'verosimilitud penalizada, con el parámetro de suavizado elegido por validación cruzada'
           : 'mínimos cuadrados';
       const methEn = d.method === 'relaxed' ? 'an uncorrelated lognormal relaxed clock, sampled by MCMC'
-        : d.method === 'pl' ? 'penalised likelihood, with the smoothing parameter chosen by cross-validation'
+        : d.method === 'pl' ? 'penalized likelihood, with the smoothing parameter chosen by cross-validation'
           : 'least squares';
       es.push(`Los tiempos de divergencia se estimaron por ${methEs}${d.calibrations && d.calibrations.length ? `, con ${d.calibrations.length} ${d.calibrations.length === 1 ? 'calibración' : 'calibraciones'}` : ', sin calibraciones externas, de modo que las edades son proporciones de la profundidad de la raíz y no años'}.`);
       en.push(`Divergence times were estimated by ${methEn}${d.calibrations && d.calibrations.length ? `, with ${d.calibrations.length} ${d.calibrations.length === 1 ? 'calibration' : 'calibrations'}` : ', with no external calibration, so the ages are proportions of the root depth and not years'}.`);
@@ -307,7 +312,7 @@ const Report = {};
       if (tr.continuous) {
         const c = tr.continuous;
         es.push(`Para el carácter continuo «${c.character}» se ajustaron por máxima verosimilitud los modelos de movimiento browniano, Ornstein–Uhlenbeck y estallido temprano, comparados por AIC; el preferido fue ${c.best}.`);
-        en.push(`For the continuous character "${c.character}", Brownian motion, Ornstein–Uhlenbeck and early-burst models were fitted by maximum likelihood and compared by AIC; the preferred one was ${c.best}.`);
+        en.push(`For the continuous character “${c.character}”, Brownian motion, Ornstein–Uhlenbeck and early-burst models were fitted by maximum likelihood and compared by AIC; the preferred one was ${c.best}.`);
       }
       if (tr.signal) {
         es.push(`La señal filogenética se midió con la K de Blomberg (K = ${num(tr.signal.K)}, p = ${num(tr.signal.pK)} por permutación) y con la λ de Pagel (λ = ${num(tr.signal.lambda)}, p = ${num(tr.signal.pLambda)} por razón de verosimilitudes).`);
@@ -316,12 +321,12 @@ const Report = {};
       if (tr.regression) {
         const r = tr.regression;
         es.push(`La relación entre «${r.y}» y «${r.x}» se estimó por contrastes independientes y por mínimos cuadrados generalizados filogenéticos, que dan la misma pendiente (${num(r.pgls.slope)}, p = ${num(r.pgls.p)}); la regresión sin corregir daba ${num(r.ols.slope)} (p = ${num(r.ols.p)}).`);
-        en.push(`The relationship between "${r.y}" and "${r.x}" was estimated by independent contrasts and by phylogenetic generalised least squares, which give the same slope (${num(r.pgls.slope)}, p = ${num(r.pgls.p)}); the uncorrected regression gave ${num(r.ols.slope)} (p = ${num(r.ols.p)}).`);
+        en.push(`The relationship between “${r.y}” and “${r.x}” was estimated by independent contrasts and by phylogenetic generalized least squares, which give the same slope (${num(r.pgls.slope)}, p = ${num(r.pgls.p)}); the uncorrected regression gave ${num(r.ols.slope)} (p = ${num(r.ols.p)}).`);
       }
       if (tr.discrete) {
         const d = tr.discrete;
         es.push(`Para el carácter discreto «${d.character}» (${d.levels.length} estados) se ajustaron modelos Mk con tasas iguales, simétricas y todas distintas, comparados por AIC (mejor: ${d.best}); los estados ancestrales se calcularon como probabilidades marginales${tr.simmap ? `, y ${tr.simmap.reps} historias por mapeo estocástico dieron ${num(tr.simmap.changes.mean)} cambios por historia en promedio` : ''}.`);
-        en.push(`For the discrete character "${d.character}" (${d.levels.length} states), Mk models with equal, symmetric and all-different rates were fitted and compared by AIC (best: ${d.best}); ancestral states were computed as marginal probabilities${tr.simmap ? `, and ${tr.simmap.reps} histories by stochastic mapping gave ${num(tr.simmap.changes.mean)} changes per history on average` : ''}.`);
+        en.push(`For the discrete character “${d.character}” (${d.levels.length} states), Mk models with equal, symmetric and all-different rates were fitted and compared by AIC (best: ${d.best}); ancestral states were computed as marginal probabilities${tr.simmap ? `, and ${tr.simmap.reps} histories by stochastic mapping gave ${num(tr.simmap.changes.mean)} changes per history on average` : ''}.`);
       }
       const refs = [];
       if (tr.continuous) refs.push('felsenstein1985', 'hansen1997', 'harmon2010');
@@ -337,7 +342,7 @@ const Report = {};
       const b = st.biogeo;
       const es = [], en = [];
       es.push(`La biogeografía histórica se analizó sobre ${b.areas.length} áreas (${b.areas.join(', ')}), con un tamaño máximo de rango de ${b.maxAreas} y ${b.nStates} estados${b.includeNull ? ', incluido el rango nulo' : ''}.`);
-      en.push(`Historical biogeography was analysed over ${b.areas.length} areas (${b.areas.join(', ')}), with a maximum range size of ${b.maxAreas} and ${b.nStates} states${b.includeNull ? ', the null range included' : ''}.`);
+      en.push(`Historical biogeography was analyzed over ${b.areas.length} areas (${b.areas.join(', ')}), with a maximum range size of ${b.maxAreas} and ${b.nStates} states${b.includeNull ? ', the null range included' : ''}.`);
       es.push(`Se ajustaron por máxima verosimilitud ${b.models.length} modelos de la familia DEC, DIVALIKE y BAYAREALIKE, con y sin dispersión fundadora (+J), comparados por AICc; el mejor fue <b>${b.best}</b>.`);
       en.push(`${b.models.length} models of the DEC, DIVALIKE and BAYAREALIKE family, with and without founder-event dispersal (+J), were fitted by maximum likelihood and compared by AICc; the best was <b>${b.best}</b>.`);
       if (/\+J/.test(b.best || '')) {
@@ -368,7 +373,7 @@ const Report = {};
       }
       if (c.quartet) {
         es.push(`Se estimó además un árbol de especies a partir de las frecuencias de cuartetos entre los árboles disponibles, mediante una búsqueda por intercambios de vecinos (${pct(c.quartet.proportion)} de los cuartetos decididos a favor del árbol hallado). La búsqueda es heurística y no equivale al programa dinámico exacto de ASTRAL.`);
-        en.push(`A species tree was also estimated from the quartet frequencies among the available trees, by a nearest-neighbour search (${pct(c.quartet.proportion)} of the decided quartets in favour of the tree found). The search is a heuristic and is not equivalent to ASTRAL's exact dynamic program.`);
+        en.push(`A species tree was also estimated from the quartet frequencies among the available trees, by a nearest-neighbor search (${pct(c.quartet.proportion)} of the decided quartets in favor of the tree found). The search is a heuristic and is not equivalent to ASTRAL's exact dynamic program.`);
       }
       if (c.network) {
         es.push(c.network.kind === 'consensus'
@@ -401,10 +406,10 @@ const Report = {};
   }
 
   /* the bibliography of exactly what was cited, in alphabetical order */
-  function references(sections) {
+  function references(sections, lang) {
     const ids = new Set();
     sections.forEach(s => (s.refs || []).forEach(r => ids.add(r)));
-    return [...ids].map(id => ({ id, text: REFS[id] })).filter(r => r.text)
+    return [...ids].map(id => ({ id, text: (lang === 'en' && REFS_EN[id]) || REFS[id] })).filter(r => r.text)
       .sort((a, b) => a.text.localeCompare(b.text, 'es'));
   }
 
@@ -428,7 +433,7 @@ const Report = {};
     opts = opts || {};
     const lang = opts.lang === 'en' ? 'en' : 'es';
     const sections = opts.sections || methods(st, opts);
-    const refs = references(sections);
+    const refs = references(sections, lang);
     const figs = opts.figures || [];
     const title = opts.title || (lang === 'en' ? 'Phylogenetic analysis' : 'Análisis filogenético');
     const when = (opts.date || new Date()).toISOString().slice(0, 10);
@@ -533,7 +538,7 @@ footer { margin-top: 3em; border-top: 1px solid #ccc; padding-top: .8em; }
       `${st.bayes.runs} × ${st.bayes.generations} ${en ? 'generations' : 'generaciones'}`);
     if (st.dated) add(en ? 'Dating' : 'Datación',
       st.dated.method === 'relaxed' ? (en ? 'relaxed clock' : 'reloj relajado')
-        : st.dated.method === 'pl' ? (en ? 'penalised likelihood' : 'verosimilitud penalizada')
+        : st.dated.method === 'pl' ? (en ? 'penalized likelihood' : 'verosimilitud penalizada')
           : (en ? 'least squares' : 'mínimos cuadrados'));
     if (st.diversification && st.diversification.best) add(en ? 'Diversification model' : 'Modelo de diversificación',
       en ? st.diversification.best : (DIVERS_ES[st.diversification.best] || st.diversification.best));
@@ -543,7 +548,7 @@ footer { margin-top: 3em; border-top: 1px solid #ccc; padding-top: .8em; }
     return rows;
   }
 
-  Object.assign(Report, { REFS, methods, references, methodsText, html, summary, titleOf, REPORT_CSS });
+  Object.assign(Report, { REFS, REFS_EN, methods, references, methodsText, html, summary, titleOf, REPORT_CSS });
   g.Report = Report;
 }
 ReportCore(typeof window !== 'undefined' ? window : self);

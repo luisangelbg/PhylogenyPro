@@ -83,7 +83,7 @@
     if (!parsed || !parsed.taxa.length || !parsed.areas.length) {
       showMessage(msg, 'error', L2(
         'No se reconoció la tabla. Se espera el formato de LAGRANGE (una línea con el número de taxones, el de áreas y sus nombres entre paréntesis, y luego una fila por especie con ceros y unos) o una tabla separada por comas con una columna por área.',
-        'The table was not recognised. Either the LAGRANGE format (a line with the number of taxa, the number of areas and their names in brackets, then one row per species of zeros and ones) or a comma-separated table with one column per area.'));
+        'The table was not recognized. Either the LAGRANGE format (a line with the number of taxa, the number of areas and their names in brackets, then one row per species of zeros and ones) or a comma-separated table with one column per area.'));
       return;
     }
     const tree = chosenTree();
@@ -131,7 +131,7 @@
     if (empty.length) {
       showMessage(msg, 'error', L2(
         `Estas especies no aparecen en ninguna área: ${empty.slice(0, 8).join(', ')}. Una fila de ceros es el rango nulo, que en este modelo significa «extinta», y ninguna punta puede estarlo.`,
-        `These species are in no area at all: ${empty.slice(0, 8).join(', ')}. A row of zeros is the null range, which in this model means "extinct", and no tip can be.`));
+        `These species are in no area at all: ${empty.slice(0, 8).join(', ')}. A row of zeros is the null range, which in this model means “extinct”, and no tip can be.`));
     }
     if (!isDated()) {
       showMessage(msg, 'warn', L2(
@@ -242,7 +242,7 @@
     });
     el('p10MultFig').innerHTML = Plots10.matrixHeat(B10.multipliers, areas, {
       title: T('de la fila a la columna', 'from the row to the column'),
-      caption: T('uno es «sin preferencia»; cero prohíbe el movimiento', 'one is "no preference"; zero forbids the move'),
+      caption: T('uno es «sin preferencia»; cero prohíbe el movimiento', 'one is “no preference”; zero forbids the move'),
     });
   }
 

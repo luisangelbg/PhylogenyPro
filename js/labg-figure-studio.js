@@ -211,13 +211,13 @@
   const PALETTES = [
     { id: '', name: ['La de la figura', 'The figure’s own'], c: [] },
     { id: 'labg', name: ['LABG oro y negro', 'LABG gold and black'], c: ['#D4A848', '#111111', '#9C7128', '#8C8780', '#E6C470', '#5B5750', '#7D5B14', '#C9C3B8'], note: ['La marca de la suite', 'The suite’s brand'] },
-    { id: 'okabe', name: ['Okabe e Ito', 'Okabe and Ito'], c: ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#000000'], cvd: true, note: ['Distinguible con daltonismo (Okabe e Ito, 2008)', 'Colour-blind safe (Okabe & Ito, 2008)'] },
-    { id: 'tolb', name: ['Tol brillante', 'Tol bright'], c: ['#4477AA', '#EE6677', '#228833', '#CCBB44', '#66CCEE', '#AA3377', '#BBBBBB'], cvd: true, note: ['Distinguible con daltonismo (Tol, 2021)', 'Colour-blind safe (Tol, 2021)'] },
-    { id: 'tolm', name: ['Tol tenue', 'Tol muted'], c: ['#332288', '#88CCEE', '#44AA99', '#117733', '#999933', '#DDCC77', '#CC6677', '#882255', '#AA4499'], cvd: true, note: ['Nueve colores suaves, distinguibles con daltonismo', 'Nine soft colours, colour-blind safe'] },
+    { id: 'okabe', name: ['Okabe e Ito', 'Okabe and Ito'], c: ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#000000'], cvd: true, note: ['Distinguible con daltonismo (Okabe e Ito, 2008)', 'Color-blind safe (Okabe & Ito, 2008)'] },
+    { id: 'tolb', name: ['Tol brillante', 'Tol bright'], c: ['#4477AA', '#EE6677', '#228833', '#CCBB44', '#66CCEE', '#AA3377', '#BBBBBB'], cvd: true, note: ['Distinguible con daltonismo (Tol, 2021)', 'Color-blind safe (Tol, 2021)'] },
+    { id: 'tolm', name: ['Tol tenue', 'Tol muted'], c: ['#332288', '#88CCEE', '#44AA99', '#117733', '#999933', '#DDCC77', '#CC6677', '#882255', '#AA4499'], cvd: true, note: ['Nueve colores suaves, distinguibles con daltonismo', 'Nine soft colors, color-blind safe'] },
     { id: 'tolv', name: ['Tol vibrante', 'Tol vibrant'], c: ['#0077BB', '#33BBEE', '#009988', '#EE7733', '#CC3311', '#EE3377', '#BBBBBB'], cvd: true, note: ['Para pantallas y presentaciones', 'For screens and slides'] },
-    { id: 'viridis', name: ['Viridis (ordenada)', 'Viridis (ordered)'], c: ['#440154', '#46327E', '#365C8D', '#277F8E', '#1FA187', '#4AC16D', '#A0DA39', '#FDE725'], cvd: true, gray: true, note: ['Ordenada, legible en gris y con daltonismo', 'Ordered, readable in grey and colour-blind safe'] },
+    { id: 'viridis', name: ['Viridis (ordenada)', 'Viridis (ordered)'], c: ['#440154', '#46327E', '#365C8D', '#277F8E', '#1FA187', '#4AC16D', '#A0DA39', '#FDE725'], cvd: true, gray: true, note: ['Ordenada, legible en gris y con daltonismo', 'Ordered, readable in gray and color-blind safe'] },
     { id: 'cividis', name: ['Cividis (ordenada)', 'Cividis (ordered)'], c: ['#00204D', '#31446B', '#575C6D', '#7C7B78', '#A69D75', '#D3C164', '#FFEA46'], cvd: true, gray: true, note: ['Pensada para la visión con deuteranopía', 'Designed for deuteranopic vision'] },
-    { id: 'grises', name: ['Grises', 'Greys'], c: ['#111111', '#555555', '#888888', '#AAAAAA', '#333333', '#777777', '#CCCCCC'], gray: true, note: ['Para impresión en blanco y negro', 'For black-and-white print'] },
+    { id: 'grises', name: ['Grises', 'Grays'], c: ['#111111', '#555555', '#888888', '#AAAAAA', '#333333', '#777777', '#CCCCCC'], gray: true, note: ['Para impresión en blanco y negro', 'For black-and-white print'] },
   ];
   const FONTS = [
     ['', ['La de la figura', 'The figure’s own'], ''],
@@ -230,7 +230,7 @@
     p: ['Protanopía', 'Protanopia', '0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0'],
     d: ['Deuteranopía', 'Deuteranopia', '0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0'],
     t: ['Tritanopía', 'Tritanopia', '1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0'],
-    a: ['Acromatopsia (gris)', 'Achromatopsia (grey)', '0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0'],
+    a: ['Acromatopsia (gris)', 'Achromatopsia (gray)', '0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0'],
   };
   /* preajustes de un clic: tamaño, resolución, formato, texto mínimo, líneas, paleta y fondo */
   const PRESETS = [
@@ -242,8 +242,8 @@
     { id: 'slides', name: ['Presentación', 'Slides'], w: 254, dpi: 192, fmt: 'png', minPt: 16, line: 1.6, desc: ['254 mm (1920 px) · PNG · texto ≥ 16 pt', '254 mm (1920 px) · PNG · text ≥ 16 pt'] },
     { id: 'poster', name: ['Póster', 'Poster'], w: 300, dpi: 300, fmt: 'pdf', minPt: 20, line: 1.8, desc: ['300 mm · 300 ppp · PDF · texto ≥ 20 pt', '300 mm · 300 dpi · PDF · text ≥ 20 pt'] },
     { id: 'web', name: ['Web y redes', 'Web and social'], w: 127, dpi: 240, fmt: 'png', minPt: 10, desc: ['1200 px · PNG · texto ≥ 10 pt', '1200 px · PNG · text ≥ 10 pt'] },
-    { id: 'cvdsafe', name: ['Apta para daltonismo', 'Colour-blind safe'], pal: 'okabe', desc: ['Paleta de Okabe e Ito', 'Okabe and Ito palette'] },
-    { id: 'gray', name: ['Impresión en gris', 'Greyscale print'], pal: 'grises', desc: ['Paleta de grises', 'Grey palette'] },
+    { id: 'cvdsafe', name: ['Apta para daltonismo', 'Color-blind safe'], pal: 'okabe', desc: ['Paleta de Okabe e Ito', 'Okabe and Ito palette'] },
+    { id: 'gray', name: ['Impresión en gris', 'Grayscale print'], pal: 'grises', desc: ['Paleta de grises', 'Gray palette'] },
     { id: 'transp', name: ['Fondo transparente', 'Transparent background'], fmt: 'png', bg: 'none', desc: ['PNG sin fondo', 'PNG with no background'] },
   ];
   const WIDTHS = [[85, ['1 columna', '1 column']], [114, ['1.5 columnas', '1.5 columns']], [180, ['2 columnas', '2 columns']]];
@@ -1362,7 +1362,7 @@
   const SECTIONS = () => [
     { id: 'app', icon: 'sliders-horizontal', title: T('Ajustes de la figura', 'Figure settings'), sub: T('los de la app', 'the app’s own') },
     { id: 'docks', icon: 'layers', title: '', sub: '' },
-    { id: 'palette', icon: 'palette', title: T('Paleta y color', 'Palette and colour'), sub: T('del estudio', 'studio') },
+    { id: 'palette', icon: 'palette', title: T('Paleta y color', 'Palette and color'), sub: T('del estudio', 'studio') },
     { id: 'text', icon: 'type', title: T('Texto y líneas', 'Text and lines'), sub: T('del estudio', 'studio') },
     { id: 'legend', icon: 'list', title: T('Leyenda', 'Legend'), sub: T('del estudio', 'studio') },
     { id: 'size', icon: 'ruler', title: T('Tamaño y exportación', 'Size and export'), sub: '' },
@@ -1597,7 +1597,7 @@
     const C = ST.el && ST.el.tagName.toLowerCase() === 'svg' ? seriesColors(ST.el) : [];
     b.innerHTML = '<div class="lfs-pals" role="radiogroup" aria-label="' + esc(T('Paleta', 'Palette')) + '">' + PALETTES.map(p => '<button type="button" class="lfs-pal" role="radio" data-pal="' + p.id + '" aria-checked="' + (ST.fig.pal === p.id) + '" title="' + esc(p.note ? TT(p.note) : '') + '">' +
       '<span class="lfs-strip">' + (p.c.length ? p.c.slice(0, 8).map(c => '<i style="background:' + c + '"></i>').join('') : C.slice(0, 8).map(c => '<i style="background:' + c + '"></i>').join('') || '<i></i>') + '</span><span class="lfs-pal-n">' + esc(TT(p.name)) + (p.cvd ? ' ' + ico('eye', 'lfs-mini') : '') + '</span></button>').join('') + '</div>' +
-      '<p class="lfs-note">' + esc(C.length ? T('Esta figura usa ' + C.length + ' colores de serie; la paleta los cambia en el mismo orden.', 'This figure uses ' + C.length + ' series colours; the palette replaces them in the same order.') : T('No se encontraron colores de serie que cambiar.', 'No series colours were found to change.')) + '</p>' +
+      '<p class="lfs-note">' + esc(C.length ? T('Esta figura usa ' + C.length + ' colores de serie; la paleta los cambia en el mismo orden.', 'This figure uses ' + C.length + ' series colors; the palette replaces them in the same order.') : T('No se encontraron colores de serie que cambiar.', 'No series colors were found to change.')) + '</p>' +
       row(T('Ver como con…', 'View as with…'), '<select data-st="cvd"><option value="">' + esc(T('Visión típica', 'Typical vision')) + '</option>' + Object.keys(CVD).map(k => '<option value="' + k + '"' + (ST.cvd === k ? ' selected' : '') + '>' + esc(T(CVD[k][0], CVD[k][1])) + '</option>').join('') + '</select>', 'lfs-r-select') +
       '<p class="lfs-note lfs-note-s">' + esc(T('La simulación solo cambia la vista: no se exporta.', 'The simulation only changes the view: it is not exported.')) + '</p>';
   }
@@ -1631,9 +1631,9 @@
     if (lg.tagged && DOCKS[0].ok()) return 'figedit';
     return 'svg';
   }
-  const LEG_IN = [['tl', 'Dentro, arriba a la izquierda', 'Inside, top left'], ['tc', 'Dentro, arriba al centro', 'Inside, top centre'], ['tr', 'Dentro, arriba a la derecha', 'Inside, top right'],
+  const LEG_IN = [['tl', 'Dentro, arriba a la izquierda', 'Inside, top left'], ['tc', 'Dentro, arriba al centro', 'Inside, top center'], ['tr', 'Dentro, arriba a la derecha', 'Inside, top right'],
     ['ml', 'Dentro, a la izquierda', 'Inside, left'], ['orig', 'Donde la dibujó la app', 'Where the app drew it'], ['mr', 'Dentro, a la derecha', 'Inside, right'],
-    ['bl', 'Dentro, abajo a la izquierda', 'Inside, bottom left'], ['bc', 'Dentro, abajo al centro', 'Inside, bottom centre'], ['br', 'Dentro, abajo a la derecha', 'Inside, bottom right']];
+    ['bl', 'Dentro, abajo a la izquierda', 'Inside, bottom left'], ['bc', 'Dentro, abajo al centro', 'Inside, bottom center'], ['br', 'Dentro, abajo a la derecha', 'Inside, bottom right']];
   const LEG_OUT = [['right', 'Fuera, a la derecha', 'Outside, right'], ['below', 'Debajo, en fila', 'Below, in a row']];
   const legName = p => { const x = LEG_IN.concat(LEG_OUT).find(e => e[0] === p); return x ? T(x[1], x[2]) : p === 'none' ? T('Oculta', 'Hidden') : p; };
   function renderLegend() {
@@ -1656,7 +1656,7 @@
       row(T('Fuera de la gráfica', 'Outside the plot'), '<div class="lfs-seg lfs-legout">' + LEG_OUT.map(e => '<button type="button" data-leg="' + e[0] + '" aria-pressed="' + (pos === e[0]) + '"' + (outOk ? '' : ' disabled title="' + esc(T('Esta figura no tiene viewBox: la leyenda solo se mueve dentro', 'This figure has no viewBox: the legend only moves inside')) + '"') + '>' + esc(T(e[1], e[2])) + '</button>').join('') + '</div>', 'lfs-r-seg') +
       '<div class="lfs-row lfs-r-check"><label><input type="checkbox" data-leg="show"' + (pos !== 'none' ? ' checked' : '') + '><span>' + esc(T('Mostrar la leyenda', 'Show the legend')) + '</span></label></div>' +
       '<p class="lfs-note">' + esc(av === 'native' ? T('La app la vuelve a dibujar en ese lugar: se ve en la vista previa y sale así al exportar.', 'The app draws it again in that place: it shows in the preview and is exported that way.')
-        : T('El centro de la cuadrícula la deja donde la dibujó la app. También se arrastra sobre la figura.', 'The centre of the grid leaves it where the app drew it. It can also be dragged on the figure.')) + '</p>' +
+        : T('El centro de la cuadrícula la deja donde la dibujó la app. También se arrastra sobre la figura.', 'The center of the grid leaves it where the app drew it. It can also be dragged on the figure.')) + '</p>' +
       ((L.ox || L.oy) ? '<div class="lfs-row lfs-r-btn"><button type="button" class="lfs-pbtn" data-leg="nudge0">' + ico('move') + esc(T('Quitar el ajuste a mano', 'Remove the hand adjustment')) + '</button></div>' : '');
   }
   /* un lugar nuevo empieza sin el ajuste a mano */
@@ -1695,7 +1695,7 @@
       row(T('Resolución', 'Resolution'), '<div class="lfs-seg">' + [300, 600, 1200].map(d => '<button type="button" data-exp="dpi" data-v="' + d + '" aria-pressed="' + (E.dpi === d) + '"' + (isVec ? ' disabled' : '') + '>' + d + '</button>').join('') + '</div><small class="lfs-unit">' + esc(T('ppp', 'dpi')) + '</small>', 'lfs-r-seg') +
       row(T('Fondo', 'Background'), '<div class="lfs-seg">' + [['white', ['Blanco', 'White']], ['screen', ['Como se ve', 'As shown']], ['none', ['Transparente', 'Transparent']]].map(([v, n]) => '<button type="button" data-exp="bg" data-v="' + v + '" aria-pressed="' + (E.bg === v) + '">' + esc(TT(n)) + '</button>').join('') + '</div>', 'lfs-r-seg') +
       /* la app en tema oscuro: la figura puede salir con los colores del tema claro */
-      (darkTheme() && lib === 'svg' && !nativeFmt() ? row(T('Colores', 'Colours'), '<div class="lfs-seg">' + [['light', ['Del tema claro', 'Light theme'], ['Como en el tema claro de la app, para papel', 'As in the app’s light theme, for paper']], ['screen', ['Como se ven', 'As shown'], ['Como se ven ahora, en tema oscuro', 'As they look now, in dark theme']]].map(([v, n, tip]) => '<button type="button" data-exp="colors" data-v="' + v + '" aria-pressed="' + ((E.colors || 'light') === v) + '" title="' + esc(TT(tip)) + '">' + esc(TT(n)) + '</button>').join('') + '</div>', 'lfs-r-seg lfs-r-colors') : '') +
+      (darkTheme() && lib === 'svg' && !nativeFmt() ? row(T('Colores', 'Colors'), '<div class="lfs-seg">' + [['light', ['Del tema claro', 'Light theme'], ['Como en el tema claro de la app, para papel', 'As in the app’s light theme, for paper']], ['screen', ['Como se ven', 'As shown'], ['Como se ven ahora, en tema oscuro', 'As they look now, in dark theme']]].map(([v, n, tip]) => '<button type="button" data-exp="colors" data-v="' + v + '" aria-pressed="' + ((E.colors || 'light') === v) + '" title="' + esc(TT(tip)) + '">' + esc(TT(n)) + '</button>').join('') + '</div>', 'lfs-r-seg lfs-r-colors') : '') +
       '<div class="lfs-readout"></div>' +
       (ST.native ? '<p class="lfs-note lfs-note-native">' + ico('check') + '<span>' + esc(T('La dibuja ' + (ST.native.label || 'la app') + ': al exportar, el estudio le pide la figura a este tamaño y resolución, no la amplía. En SVG y PDF sale vectorial y el texto conserva su tamaño en puntos.', 'Drawn by ' + (ST.native.label || 'the app') + ': on export the studio asks for the figure at this size and resolution instead of enlarging it. SVG and PDF come out as vectors and the text keeps its size in points.')) + '</span></p>' +
         (ST.native.preview !== false && nativeCan(ST.native, 'png') && !ST.noLift ? '<div class="lfs-row lfs-r-check"><label><input type="checkbox" data-exp="pv"' + (ST.pvOn ? ' checked' : '') + '><span>' + esc(T('Ver en el papel cómo sale a este tamaño', 'Show on the paper how it comes out at this size')) + '</span></label></div>' : '')
@@ -1745,11 +1745,11 @@
   }
   /* lo que dice la lectura del tamaño con la app en tema oscuro */
   function themeNote() {
-    if (lightOn()) return '<span class="lfs-ok">' + ico('check') + esc(T('Sale con los colores del tema claro de la app; la pantalla sigue en oscuro.', 'Exported with the app’s light-theme colours; the screen stays dark.')) + '</span>';
+    if (lightOn()) return '<span class="lfs-ok">' + ico('check') + esc(T('Sale con los colores del tema claro de la app; la pantalla sigue en oscuro.', 'Exported with the app’s light-theme colors; the screen stays dark.')) + '</span>';
     if (ST.exp.bg !== 'white') return '';
     return '<span class="lfs-warn">' + ico('info') + esc(ST.rec && ST.rec.lib === 'svg'
-      ? T('Con los colores como se ven (tema oscuro), el texto claro casi no se lee sobre blanco: elige colores «Del tema claro» o el fondo «Como se ve».', 'With the colours as shown (dark theme), light text barely shows on white: choose “Light theme” colours or the “As shown” background.')
-      : T('La app está en tema oscuro y esta figura es una imagen: sus colores no cambian al exportar. Para fondo blanco, cambia la app a tema claro o elige «Como se ve».', 'The app is in dark theme and this figure is an image: its colours do not change on export. For a white background, switch the app to light theme or choose “As shown”.')) + '</span>';
+      ? T('Con los colores como se ven (tema oscuro), el texto claro casi no se lee sobre blanco: elige colores «Del tema claro» o el fondo «Como se ve».', 'With the colors as shown (dark theme), light text barely shows on white: choose “Light theme” colors or the “As shown” background.')
+      : T('La app está en tema oscuro y esta figura es una imagen: sus colores no cambian al exportar. Para fondo blanco, cambia la app a tema claro o elige «Como se ve».', 'The app is in dark theme and this figure is an image: its colors do not change on export. For a white background, switch the app to light theme or choose “As shown”.')) + '</span>';
   }
   /* el texto más chico, en puntos, al tamaño de salida */
   function minPt(svg) {
@@ -1983,7 +1983,7 @@
       if (k === 'fmt') setExp({ fmt: v }, T('Formato: ', 'Format: ') + v.toUpperCase());
       else if (k === 'dpi') setExp({ dpi: +v }, v + ' ' + T('ppp', 'dpi'));
       else if (k === 'bg') setExp({ bg: v }, T('Fondo: ', 'Background: ') + ex.textContent);
-      else if (k === 'colors') setExp({ colors: v }, T('Colores: ', 'Colours: ') + ex.textContent);
+      else if (k === 'colors') setExp({ colors: v }, T('Colores: ', 'Colors: ') + ex.textContent);
       else if (k === 'pdf') setExp({ pdf: v }, 'PDF: ' + ex.textContent);
       else if (k === 'wmm') setExp({ w: ST.exp.unit === 'in' ? +(+v / MM_IN).toFixed(2) : +v, h: 0 }, T('Ancho: ', 'Width: ') + v + ' mm');
       return;

@@ -260,7 +260,7 @@
     el('p9Simmap').style.display = 'none';
     el('p9Export').style.display = '';
     if (!cont.length && !disc.length) {
-      showMessage(msg, 'error', L2('No se reconoció ninguna columna de caracteres.', 'No character column was recognised.'));
+      showMessage(msg, 'error', L2('No se reconoció ninguna columna de caracteres.', 'No character column was recognized.'));
     }
   }
   function fillSelect(id, cols, pick) {
@@ -353,7 +353,7 @@
     ], cmp.rows.map(r => ({
       model: r.model,
       what: r.model === 'BM' ? T('deriva sin rumbo', 'aimless drift')
-        : r.model === 'OU' ? T('atracción a un óptimo', 'pull towards an optimum')
+        : r.model === 'OU' ? T('atracción a un óptimo', 'pull toward an optimum')
           : T('la tasa decae con el tiempo', 'the rate decays over time'),
       par: r.model === 'BM' ? `σ² = ${fmtNum(r.sigma2)}`
         : r.model === 'OU' ? `σ² = ${fmtNum(r.sigma2)}, α = ${fmtNum(r.alpha)}${r.atBound ? ' *' : ''}`
@@ -372,7 +372,7 @@
       partsEn.push(`No model wins: the AIC gap between the best and the next is ${fmtFixed(cmp.rows[1].dAIC, 2)}, and below two units there is nothing to choose with. With ${a.x.length} species that is the usual outcome, and the honest thing is to keep Brownian motion, the simplest one.`);
     } else if (cmp.best.model === 'OU') {
       partsEs.push(`OU gana por ${fmtFixed(cmp.rows[1].dAIC, 2)} unidades de AIC. Su vida media es ${fmtNum(ouR.halfLife)} frente a una profundidad del árbol de ${fmtNum(um.depth)}: el carácter olvida la mitad de su historia en ese tiempo. Esto se suele leer como selección estabilizadora, pero un OU también aparece cuando el carácter tiene un límite físico o cuando la muestra no cubre bien el grupo.`);
-      partsEn.push(`OU wins by ${fmtFixed(cmp.rows[1].dAIC, 2)} AIC units. Its half-life is ${fmtNum(ouR.halfLife)} against a tree depth of ${fmtNum(um.depth)}: the character forgets half of its history in that time. This is usually read as stabilising selection, but an OU also appears when a character has a physical ceiling or when the sample does not cover the group well.`);
+      partsEn.push(`OU wins by ${fmtFixed(cmp.rows[1].dAIC, 2)} AIC units. Its half-life is ${fmtNum(ouR.halfLife)} against a tree depth of ${fmtNum(um.depth)}: the character forgets half of its history in that time. This is usually read as stabilizing selection, but an OU also appears when a character has a physical ceiling or when the sample does not cover the group well.`);
     } else {
       partsEs.push(`El estallido temprano gana por ${fmtFixed(cmp.rows[1].dAIC, 2)} unidades de AIC${ebR && ebR.atBound ? ', pero su parámetro se quedó pegado al borde del intervalo permitido, que es la manera que tiene el ajuste de decir que no hay decaimiento que estimar' : ''}.`);
       partsEn.push(`The early burst wins by ${fmtFixed(cmp.rows[1].dAIC, 2)} AIC units${ebR && ebR.atBound ? ', but its parameter stuck to the edge of the permitted interval, which is how the fit says there is no decay to estimate' : ''}.`);
@@ -726,7 +726,7 @@
       statTiles('p9SimTiles', [
         [T('Cambios por historia', 'Changes per history'), fmtFixed(sm.changes.mean, 2), `± ${fmtFixed(sm.changes.sd, 2)}`],
         [T('Longitud del árbol', 'Tree length'), fmtNum(total), isDated() ? unit() : T('sust./sitio', 'subst./site')],
-        ...levels.map((lv, i) => [T(`Tiempo en «${lv}»`, `Time in "${lv}"`), fmtNum(sm.timeInState[i]),
+        ...levels.map((lv, i) => [T(`Tiempo en «${lv}»`, `Time in “${lv}”`), fmtNum(sm.timeInState[i]),
           fmtPct(sm.proportion[i])]),
       ]);
       el('p9SimPane').style.display = '';

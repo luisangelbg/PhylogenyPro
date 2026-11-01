@@ -34,7 +34,7 @@
     { n: 5, art: 'blkLikelihood', tag: ['verosimilitud', 'likelihood'],
       t: ['Máxima verosimilitud', 'Maximum likelihood'],
       d: ['Búsqueda de topología con NNI y SPR desde varios arranques, longitudes y parámetros optimizados a la vez, particiones con tasas ligadas o libres; soporte por bootstrap, bootstrap ultrarrápido, SH-aLRT y aBayes; pruebas de topología KH, SH y AU, y árboles restringidos para poner a prueba una hipótesis de monofilia.',
-        'Topology search with NNI and SPR from several starts, branch lengths and parameters optimised together, partitions with linked or free rates; support by bootstrap, ultrafast bootstrap, SH-aLRT and aBayes; KH, SH and AU topology tests, and constrained trees to put a hypothesis of monophyly to the test.'] },
+        'Topology search with NNI and SPR from several starts, branch lengths and parameters optimized together, partitions with linked or free rates; support by bootstrap, ultrafast bootstrap, SH-aLRT and aBayes; KH, SH and AU topology tests, and constrained trees to put a hypothesis of monophyly to the test.'] },
     { n: 6, art: 'blkBayes', tag: ['bayesiano', 'Bayesian'],
       t: ['Inferencia bayesiana', 'Bayesian inference'],
       d: ['MCMC sobre el espacio de árboles con cadenas acopladas (MC³) repartidas en hilos del navegador, distribuciones previas explícitas, diagnóstico de convergencia en vivo (traza, ESS, ASDSF entre corridas), consenso de mayoría con probabilidades posteriores y bitácora exportable a Tracer.',
@@ -62,7 +62,7 @@
     { n: 12, art: 'blkReport', tag: ['publicar', 'publish'],
       t: ['Figuras e informe', 'Figures and report'],
       d: ['Estudio de árboles con presentación rectangular, circular o no enraizada, clados coloreados y colapsados, soportes múltiples, barras de credibilidad, escala geológica, anillos e imágenes de las puntas; exportación en Newick, NEXUS y PhyloXML, figuras hasta 900 ppp, informe con la metodología redactada y ZIP reproducible.',
-        'A tree studio with rectangular, circular or unrooted layouts, coloured and collapsed clades, several support values, credibility bars, a geological scale, rings and images at the tips; export as Newick, NEXUS and PhyloXML, figures at up to 900 dpi, a report with the methods already written and a reproducible ZIP.'] },
+        'A tree studio with rectangular, circular or unrooted layouts, colored and collapsed clades, several support values, credibility bars, a geological scale, rings and images at the tips; export as Newick, NEXUS and PhyloXML, figures at up to 900 dpi, a report with the methods already written and a reproducible ZIP.'] },
   ];
 
   /* ---------------- what can be analysed ---------------- */
@@ -83,7 +83,7 @@
     { g: 'cp', n: 'trnH-psbA', d: ['El espaciador más variable del cloroplasto; con muchos indeles.', 'The most variable chloroplast spacer; full of indels.'] },
     { g: 'cp', n: 'ndhF · atpB · rpl16 · rps16 · ycf1', d: ['El resto del repertorio habitual en sistemática de plantas.', 'The rest of the usual repertoire in plant systematics.'] },
     { g: 'nr', n: 'ITS · ITS2 · ETS', d: ['Nuclear ribosomal: rápido y muy usado, pero con copias divergentes y evolución concertada incompleta.', 'Nuclear ribosomal: fast and widely used, but with divergent copies and incomplete concerted evolution.'] },
-    { g: 'nu', n: 'waxy · PHYC · LEAFY · G3pdh', d: ['Nucleares de copia baja: biparentales, detectan hibridación.', 'Low-copy nuclear genes: biparental, they detect hybridisation.'] },
+    { g: 'nu', n: 'waxy · PHYC · LEAFY · G3pdh', d: ['Nucleares de copia baja: biparentales, detectan hibridación.', 'Low-copy nuclear genes: biparental, they detect hybridization.'] },
     { g: 'mt', n: 'matR · nad1 · cox1 · atp1', d: ['Mitocondriales de planta: los más lentos, útiles en filogenias profundas.', 'Plant mitochondrial: the slowest, useful in deep phylogenies.'] },
   ];
   const GENOME_NAMES = {
@@ -112,7 +112,7 @@
     { art: 'mProteinModel', fam: 'mod', n: ['Modelos de proteína', 'Protein models'], s: ['LG, WAG, JTT, cpREV, mtREV', 'LG, WAG, JTT, cpREV, mtREV'] },
     { art: 'mMk', fam: 'mod', n: ['Modelo Mk de morfología', 'Mk model for morphology'], s: ['Lewis 2001, con corrección Mkv', 'Lewis 2001, with the Mkv correction'] },
     { art: 'mDistance', fam: 'tre', n: ['Matrices de distancia', 'Distance matrices'], s: ['p, JC, K2P, TN93, LogDet', 'p, JC, K2P, TN93, LogDet'] },
-    { art: 'mNJ', fam: 'tre', n: ['Vecino más cercano', 'Neighbour joining'], s: ['Saitou y Nei 1987', 'Saitou and Nei 1987'] },
+    { art: 'mNJ', fam: 'tre', n: ['Vecino más cercano', 'Neighbor joining'], s: ['Saitou y Nei 1987', 'Saitou and Nei 1987'] },
     { art: 'mBionj', fam: 'tre', n: ['BIONJ', 'BIONJ'], s: ['NJ con varianzas', 'NJ with variances'] },
     { art: 'mUPGMA', fam: 'tre', n: ['UPGMA y WPGMA', 'UPGMA and WPGMA'], s: ['solo si hay reloj', 'only under a clock'] },
     { art: 'mME', fam: 'tre', n: ['Mínima evolución', 'Minimum evolution'], s: ['equilibrada, con NNI', 'balanced, with NNI'] },
@@ -187,7 +187,7 @@
     ['cpu', ['Aprovecha todos los núcleos de tu computadora', 'It uses every core of your computer'],
       ['El bootstrap y las cadenas calientes se reparten en hilos del navegador, y cada análisis largo dice cuánto va a tardar antes de empezar.', 'Bootstrap replicates and heated chains are spread across browser threads, and every long analysis says how long it will take before it starts.']],
     ['fig', ['Figuras listas para publicar', 'Publication-ready figures'],
-      ['Estudio de árboles editable en colores, fuentes y etiquetas; hasta 900 ppp en PNG, TIFF o SVG.', 'A tree studio with editable colours, fonts and labels; up to 900 dpi as PNG, TIFF or SVG.']],
+      ['Estudio de árboles editable en colores, fuentes y etiquetas; hasta 900 ppp en PNG, TIFF o SVG.', 'A tree studio with editable colors, fonts and labels; up to 900 dpi as PNG, TIFF or SVG.']],
     ['doc', ['Informe reproducible', 'Reproducible report'],
       ['Metodología redactada con los ajustes reales, las citas de cada método y la semilla de cada corrida.', 'Methods written with the actual settings, the citation of every method and the seed of every run.']],
     ['lock', ['Tus datos no salen de tu computadora', 'Your data never leave your computer'],
@@ -203,7 +203,7 @@
     ['Bayesiano', 'Bayesian'],
   ];
   const COMPARE = [
-    [['Qué optimiza', 'What it optimises'],
+    [['Qué optimiza', 'What it optimizes'],
       P('Ajuste a una matriz de distancias', 'Fit to a distance matrix'),
       P('El menor número de cambios', 'The fewest changes'),
       P('La probabilidad de los datos dado el árbol', 'The probability of the data given the tree'),

@@ -32,7 +32,7 @@
     const out = [];
     if (state.dated && state.dated.tree) {
       out.push(['dated', T(`Bloque 7 · ${state.dated.method === 'relaxed' ? 'reloj relajado' : state.dated.method === 'pl' ? 'verosimilitud penalizada' : 'mínimos cuadrados'}`,
-        `Block 7 · ${state.dated.method === 'relaxed' ? 'relaxed clock' : state.dated.method === 'pl' ? 'penalised likelihood' : 'least squares'}`), state.dated.tree]);
+        `Block 7 · ${state.dated.method === 'relaxed' ? 'relaxed clock' : state.dated.method === 'pl' ? 'penalized likelihood' : 'least squares'}`), state.dated.tree]);
     }
     return out;
   }
@@ -200,7 +200,7 @@
         ' Y una advertencia que vale para todos: que un modelo dependiente de la densidad gane no demuestra que la diversidad tenga un techo; la extinción produce curvas parecidas y estos datos rara vez las separan.',
         `<b>${esc(modelName(best.name))}</b> wins with an Akaike weight of ${fmtPct(best.w, 0)}. ` +
         (second && second.dAIC < 2
-          ? `The next, ${esc(modelName(second.name))}, is ${fmtFixed(second.dAIC, 2)} AIC units away: below two, the data cannot tell them apart and presenting one as "the" model would overstate the case.`
+          ? `The next, ${esc(modelName(second.name))}, is ${fmtFixed(second.dAIC, 2)} AIC units away: below two, the data cannot tell them apart and presenting one as “the” model would overstate the case.`
           : `The next is ${fmtFixed(second ? second.dAIC : 0, 2)} units away, so the difference is real.`) +
         ' And a warning that holds for all of them: a density-dependent model winning does not prove that diversity has a ceiling; extinction produces similar curves and these data rarely separate them.');
 

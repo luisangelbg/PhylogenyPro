@@ -174,7 +174,7 @@
             `El reloj estricto se rechaza (${pEq(res.p)}): forzar que todas las puntas queden a la misma distancia de la raíz cuesta ${fmtFixed(res.stat / 2, 1)} unidades de verosimilitud. ` +
             'Esto es lo normal en datos reales y <b>no</b> impide fechar: lo que impide es fechar con un reloj estricto. Usa la verosimilitud penalizada o el reloj relajado de abajo, que dejan que la velocidad cambie entre ramas.',
             `The strict clock is rejected (${pEq(res.p)}): forcing every tip to the same distance from the root costs ${fmtFixed(res.stat / 2, 1)} log-likelihood units. ` +
-            'That is the normal outcome with real data and does <b>not</b> stop you dating: it stops you dating with a strict clock. Use the penalised likelihood or the relaxed clock below, which let the rate change between branches.')
+            'That is the normal outcome with real data and does <b>not</b> stop you dating: it stops you dating with a strict clock. Use the penalized likelihood or the relaxed clock below, which let the rate change between branches.')
           : L2(
             `No hay motivo para rechazar el reloj estricto (${pEq(res.p)}). Eso no lo demuestra —la prueba tiene poca potencia con pocos taxones—, pero permite usar el método más sencillo y explicar por qué.`,
             `There is no reason to reject the strict clock (${pEq(res.p)}). That does not prove it — the test has little power with few taxa — but it lets you use the simplest method and say why.`));
@@ -382,7 +382,7 @@
     }
 
     const w = window.LABG ? LABG.work({
-      title: method === 'pl' ? T('Fechando por verosimilitud penalizada', 'Dating by penalised likelihood')
+      title: method === 'pl' ? T('Fechando por verosimilitud penalizada', 'Dating by penalized likelihood')
         : T('Fechando por mínimos cuadrados', 'Dating by least squares'),
       delay: 300,
     }) : null;
@@ -411,7 +411,7 @@
     const unit = relative ? '' : ' ' + (el('p7Unit').value || 'Ma');
     const tiles = [
       [T('Edad de la raíz', 'Root age'), fmtFixed(res.rootAge, 3) + unit, relative ? T('relativa', 'relative') : '', 'ok'],
-      [T('Método', 'Method'), method === 'pl' ? T('penalizada', 'penalised') : T('mínimos cuadrados', 'least squares'),
+      [T('Método', 'Method'), method === 'pl' ? T('penalizada', 'penalized') : T('mínimos cuadrados', 'least squares'),
         method === 'pl' ? `λ = ${fmtFixed(res.lambda, 3)}` : ''],
       [T('Tiempo', 'Time'), `${secs.toFixed(2)} s`, ''],
     ];
@@ -431,7 +431,7 @@
     v.style.display = '';
     v.innerHTML = `<b>${L2('Cómo se lee', 'How to read it')}</b> ` + (relative
       ? L2('Sin calibración, estas cifras son proporciones de la profundidad del árbol. Sirven para comparar nodos entre sí, no para escribir «hace X millones de años».',
-        'Without a calibration these numbers are proportions of the depth of the tree. They serve to compare nodes with each other, not to write "X million years ago".')
+        'Without a calibration these numbers are proportions of the depth of the tree. They serve to compare nodes with each other, not to write “X million years ago”.')
       : L2(
         `La raíz queda en ${fmtFixed(res.rootAge, 2)}${unit}. Un método puntual como este da una cifra por nodo y ninguna incertidumbre: ` +
         'la que importa viene de las calibraciones, y solo el reloj relajado bayesiano la propaga. Si vas a publicar edades, córrelo.',
@@ -531,7 +531,7 @@
       el('p7Lambda').value = cv.best.lambda;
       showMessage(msg, 'success', L2(
         `La validación cruzada elige λ = ${cv.best.lambda}. Valores pequeños dejan que cada rama tenga su velocidad; valores grandes empujan hacia un reloj estricto.`,
-        `Cross-validation chooses λ = ${cv.best.lambda}. Small values let each branch have its own rate; large ones push towards a strict clock.`));
+        `Cross-validation chooses λ = ${cv.best.lambda}. Small values let each branch have its own rate; large ones push toward a strict clock.`));
       el('p7DateProgress').textContent = '';
       btn.disabled = false;
       if (w) w.done();

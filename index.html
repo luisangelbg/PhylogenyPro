@@ -45,7 +45,7 @@
         <div class="seg lang-seg" role="group" aria-label="Idioma / Language">
           <button type="button" data-lang="es" title="Español">ES</button><button type="button" data-lang="en" title="English">EN</button>
         </div>
-        <button type="button" class="icon-btn theme-btn" id="themeBtn" title="Cambiar entre tema claro y oscuro" aria-label="Cambiar entre tema claro y oscuro">
+        <button type="button" class="icon-btn theme-btn" id="themeBtn" data-es-title="Cambiar entre tema claro y oscuro" data-en-title="Switch between light and dark theme" title="Cambiar entre tema claro y oscuro" aria-label="Cambiar entre tema claro y oscuro">
           <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
           <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
         </button>
@@ -209,7 +209,7 @@
   <div class="feature-grid" id="featureGrid"></div>
 
   <!-- ---------- what can be analysed ---------- -->
-  <h2 class="section-title"><span data-l="es">Qué puedes analizar</span><span data-l="en">What you can analyse</span></h2>
+  <h2 class="section-title"><span data-l="es">Qué puedes analizar</span><span data-l="en">What you can analyze</span></h2>
   <p class="section-sub"><span data-l="es">Un mismo motor de verosimilitud sirve para cuatro y para veinte estados, así que el ADN, las proteínas, los
     codones y la morfología viajan por el mismo camino y pueden combinarse en un análisis por particiones.</span><span data-l="en">One likelihood engine serves four states and twenty, so DNA, proteins, codons and morphology travel the same
     road and can be combined in a partitioned analysis.</span></p>
@@ -223,7 +223,7 @@
     a fin.</span><span data-l="en">The chloroplast and the mitochondrion are inherited from one parent and do not recombine; the nucleus comes
     from both and does recombine. They are <b>different histories</b>, and forcing them into a single concatenation
     hides exactly what says the most about the evolution of a group. PhylogenyPro asks for the genome of each
-    partition and honours it from beginning to end.</span></p>
+    partition and honors it from beginning to end.</span></p>
   <div class="marker-grid" id="markerGrid"></div>
 
   <!-- ---------- method gallery ---------- -->
@@ -241,7 +241,7 @@
   <h2 class="section-title"><span data-l="es">Hasta dónde llega (y hasta dónde no)</span><span data-l="en">How far it goes (and how far it does not)</span></h2>
   <p class="section-sub"><span data-l="es">Estos límites se midieron en una computadora de escritorio común, no son una promesa de folleto. La app
     estima el tiempo antes de lanzar cualquier análisis largo, muestra el avance y se puede cancelar.</span><span data-l="en">These limits were measured on an ordinary desktop computer; they are not a brochure promise. The app
-    estimates the time before launching any long analysis, shows the progress and can be cancelled.</span></p>
+    estimates the time before launching any long analysis, shows the progress and can be canceled.</span></p>
   <div class="card" style="padding:14px 16px"><div class="table-scroll" id="limitTable"></div>
     <p class="limit-note"><span data-l="es">Para filogenómica de cientos de taxones y millones de sitios, sigue usando IQ-TREE o RAxML en un clúster:
       esta app no compite ahí y no pretende hacerlo.</span><span data-l="en">For phylogenomics with hundreds of taxa and millions of sites, keep using IQ-TREE or RAxML on a cluster:
@@ -255,7 +255,7 @@
   <h2 class="section-title" id="theory"><span data-l="es">La teoría, en corto</span><span data-l="en">The theory, in short</span></h2>
   <p class="section-sub"><span data-l="es">Lo necesario para entender lo que hace cada bloque y para defender los resultados ante un revisor. Sin
     fórmulas de más, pero sin bajarle al rigor.</span><span data-l="en">What you need to understand each block and to defend the results in front of a reviewer. No extra formulas,
-    but no less rigour either.</span></p>
+    but no less rigor either.</span></p>
 
   <div class="card theory-card">
 
@@ -276,7 +276,7 @@
             no enraizados; la raíz se pone después, con un grupo externo o con un reloj.</span><span data-l="en"><b>An unrooted tree says nothing about who descends from whom.</b> Most methods produce unrooted trees;
             the root is added afterwards, with an outgroup or with a clock.</span></li>
           <li><span data-l="es"><b>El árbol de un gen no es el árbol de las especies.</b> Coalescencia incompleta, hibridación y
-            duplicaciones hacen que difieran, y ese desacuerdo es información, no un error.</span><span data-l="en"><b>A gene tree is not the species tree.</b> Incomplete lineage sorting, hybridisation and duplication make
+            duplicaciones hacen que difieran, y ese desacuerdo es información, no un error.</span><span data-l="en"><b>A gene tree is not the species tree.</b> Incomplete lineage sorting, hybridization and duplication make
             them differ, and that disagreement is information, not a mistake.</span></li>
           <li><span data-l="es"><b>Girar una rama no cambia el árbol.</b> Dos figuras que se ven distintas pueden ser el mismo árbol; lo
             que importa son los grupos, no el orden en que se dibujaron.</span><span data-l="en"><b>Rotating a branch does not change the tree.</b> Two figures that look different can be the same tree; what
@@ -352,8 +352,8 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
         <p><span data-l="es"><b>La inferencia bayesiana</b> invierte la pregunta: en vez de "qué árbol hace más probables los datos", da
           "qué tan probable es cada árbol dados los datos". A cambio hay que declarar distribuciones previas y hay que
           convencerse de que la cadena convergió. Su ventaja práctica es que la incertidumbre sale con el resultado, no
-          después, y que permite fechar y modelar cosas que la verosimilitud clásica no alcanza.</span><span data-l="en"><b>Bayesian inference</b> turns the question around: instead of "which tree makes the data most probable", it
-          gives "how probable each tree is given the data". In exchange you must declare priors and must convince
+          después, y que permite fechar y modelar cosas que la verosimilitud clásica no alcanza.</span><span data-l="en"><b>Bayesian inference</b> turns the question around: instead of “which tree makes the data most probable”, it
+          gives “how probable each tree is given the data”. In exchange you must declare priors and must convince
           yourself the chain converged. Its practical advantage is that uncertainty comes out with the result, not
           afterwards, and that it can date and model things classical likelihood cannot reach.</span></p>
       </div>
@@ -397,7 +397,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
           distribución (uniforme con tope, exponencial desplazada, lognormal) y no a un número. Las otras fuentes son
           eventos geológicos fechados, tasas publicadas para el mismo marcador y edades secundarias tomadas de otro
           estudio —estas últimas, con la advertencia de que arrastran su propia incertidumbre.</span><span data-l="en">Dates do not come from the sequences: they come from the <b>calibrations</b>. A fossil assigned to a clade says
-          "this node is at least this old", never "it is exactly this old"; that is why it becomes a distribution
+          “this node is at least this old”, never “it is exactly this old”; that is why it becomes a distribution
           (uniform with a cap, offset exponential, lognormal) and not a number. The other sources are dated geological
           events, published rates for the same marker and secondary ages taken from another study — the last of these
           carrying their own uncertainty with them.</span></p>
@@ -426,11 +426,11 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
           <li><span data-l="es">Cuando difieren, el conflicto tiene nombre: <b>captura de cloroplasto</b> (una especie lleva el cloroplasto
             de otra por hibridación antigua), <b>introgresión</b>, <b>retención de polimorfismo ancestral</b> o simple falta de
             señal. El Bloque 11 ayuda a distinguirlos.</span><span data-l="en">When they differ, the conflict has names: <b>chloroplast capture</b> (a species carries another's chloroplast
-            after ancient hybridisation), <b>introgression</b>, <b>incomplete lineage sorting</b>, or simply a lack of signal.
+            after ancient hybridization), <b>introgression</b>, <b>incomplete lineage sorting</b>, or simply a lack of signal.
             Block 11 helps tell them apart.</span></li>
           <li><span data-l="es">El ITS tiene copias dentro del mismo genoma; si la evolución concertada no las homogeneizó, estás
-            alineando parálogos. Revisa las dobles señales antes de confiar en él.</span><span data-l="en">ITS has copies within the same genome; if concerted evolution has not homogenised them, you are aligning
-            paralogues. Check for double signals before trusting it.</span></li>
+            alineando parálogos. Revisa las dobles señales antes de confiar en él.</span><span data-l="en">ITS has copies within the same genome; if concerted evolution has not homogenized them, you are aligning
+            paralogs. Check for double signals before trusting it.</span></li>
         </ul>
       </div>
     </details>
@@ -450,13 +450,13 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
         <div class="callout warn"><b><span data-l="es">Una advertencia que la app repite donde toca</span><span data-l="en">A warning the app repeats where it belongs</span></b>
           <span data-l="es">Comparar DEC contra DEC+J por AIC ha sido criticado con razones estadísticas de fondo (Ree y Sanmartín,
           2018): +J casi siempre gana porque concentra probabilidad en un solo evento instantáneo. Usa la comparación,
-          pero no la conviertas en el argumento central de tu artículo.</span><span data-l="en">Comparing DEC against DEC+J by AIC has been criticised on solid statistical grounds (Ree and Sanmartín,
+          pero no la conviertas en el argumento central de tu artículo.</span><span data-l="en">Comparing DEC against DEC+J by AIC has been criticized on solid statistical grounds (Ree and Sanmartín,
           2018): +J almost always wins because it concentrates probability on a single instantaneous event. Use the
           comparison, but do not make it the central argument of your paper.</span></div>
         <p><span data-l="es">Lo que más cambia el resultado no es el modelo sino <b>cómo definiste las áreas</b> y <b>qué restricciones de
           conexión pusiste en cada intervalo de tiempo</b>. Eso se decide con criterio biogeográfico, y hay que declararlo
           en el artículo.</span><span data-l="en">What changes the result most is not the model but <b>how you defined the areas</b> and <b>which connections you
-          allowed in each time slice</b>. That is a biogeographic judgement, and it must be stated in the paper.</span></p>
+          allowed in each time slice</b>. That is a biogeographic judgment, and it must be stated in the paper.</span></p>
       </div>
     </details>
 
@@ -478,7 +478,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
             ITS o con la tercera posición del codón.</span><span data-l="en"><b>Using a saturated marker.</b> Check the transition plot before inferring anything deep from ITS or from third
             codon positions.</span></li>
           <li><span data-l="es"><b>Dar por convergida una cadena bayesiana porque "ya corrió mucho".</b> Mira el ESS y el ASDSF entre
-            corridas independientes.</span><span data-l="en"><b>Assuming a Bayesian chain converged because "it ran for a long time".</b> Look at the ESS and at the ASDSF
+            corridas independientes.</span><span data-l="en"><b>Assuming a Bayesian chain converged because “it ran for a long time”.</b> Look at the ESS and at the ASDSF
             between independent runs.</span></li>
           <li><span data-l="es"><b>Dibujar politomías como si estuvieran resueltas.</b> Colapsa las ramas sin soporte: dicen algo real.</span><span data-l="en"><b>Drawing polytomies as if they were resolved.</b> Collapse the unsupported branches: they are telling you
             something real.</span></li>
@@ -563,7 +563,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <!-- ---------- 2.2 partitions ---------- -->
   <div class="card" id="cardParts" style="display:none">
     <h2><span data-l="es">2 · Particiones</span><span data-l="en">2 · Partitions</span></h2>
-    <p class="hint"><span data-l="es">Dile a la app <b>de qué genoma viene cada partición</b>. No es un adorno: el cloroplasto y la mitocondria se heredan por un solo progenitor y no recombinan, el núcleo sí, y por eso cuentan historias que pueden no coincidir. Todo lo que sigue respeta esa diferencia.</span><span data-l="en">Tell the app <b>which genome each partition comes from</b>. It is not decoration: the chloroplast and the mitochondrion are inherited from one parent and do not recombine, the nucleus does, and so they tell histories that may not agree. Everything that follows honours that difference.</span></p>
+    <p class="hint"><span data-l="es">Dile a la app <b>de qué genoma viene cada partición</b>. No es un adorno: el cloroplasto y la mitocondria se heredan por un solo progenitor y no recombinan, el núcleo sí, y por eso cuentan historias que pueden no coincidir. Todo lo que sigue respeta esa diferencia.</span><span data-l="en">Tell the app <b>which genome each partition comes from</b>. It is not decoration: the chloroplast and the mitochondrion are inherited from one parent and do not recombine, the nucleus does, and so they tell histories that may not agree. Everything that follows honors that difference.</span></p>
     <div class="part-list" id="partList"></div>
     <div class="btn-row">
       <button class="btn btn-secondary btn-sm" id="concatBtn"><span data-l="es">Concatenar todas</span><span data-l="en">Concatenate all</span></button>
@@ -595,11 +595,11 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
     </div>
 
     <div class="aln-bar">
-      <label class="inline-label"><span data-l="es">color</span><span data-l="en">colour</span>
+      <label class="inline-label"><span data-l="es">color</span><span data-l="en">color</span>
         <select id="alnMode">
           <option value="base" data-es="por residuo" data-en="by residue">por residuo</option>
           <option value="identity" data-es="diferencias con el consenso" data-en="differences from consensus">diferencias con el consenso</option>
-          <option value="none" data-es="sin color" data-en="no colour">sin color</option>
+          <option value="none" data-es="sin color" data-en="no color">sin color</option>
         </select></label>
       <label class="inline-label"><input type="checkbox" id="alnMarks" checked> <span data-l="es">marcar variables e informativos</span><span data-l="en">mark variable and informative</span></label>
       <label class="inline-label"><input type="checkbox" id="alnFrameChk"> <span data-l="es">posiciones de codón</span><span data-l="en">codon positions</span></label>
@@ -759,8 +759,8 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
         <select id="m3Ncat"><option>4</option><option>6</option><option>8</option></select></label>
       <label class="inline-label"><span data-l="es">árbol de partida</span><span data-l="en">starting tree</span>
         <select id="m3Tree">
-          <option value="bionj" selected data-es="BIONJ, optimizado por ML" data-en="BIONJ, ML-optimised">BIONJ optimizado</option>
-          <option value="nj" data-es="vecino más cercano" data-en="neighbour joining">vecino más cercano</option>
+          <option value="bionj" selected data-es="BIONJ, optimizado por ML" data-en="BIONJ, ML-optimized">BIONJ optimizado</option>
+          <option value="nj" data-es="vecino más cercano" data-en="neighbor joining">vecino más cercano</option>
           <option value="upgma" data-es="UPGMA" data-en="UPGMA">UPGMA</option>
         </select></label>
       <button class="btn btn-primary btn-sm" id="m3Run"><span data-l="es">Elegir el modelo</span><span data-l="en">Choose the model</span></button>
@@ -844,7 +844,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <label class="inline-label"><span data-l="es">método</span><span data-l="en">method</span>
         <select id="p4Method">
           <option value="bionj" selected>BIONJ</option>
-          <option value="nj" data-es="vecino más cercano (NJ)" data-en="neighbour joining (NJ)">NJ</option>
+          <option value="nj" data-es="vecino más cercano (NJ)" data-en="neighbor joining (NJ)">NJ</option>
           <option value="me" data-es="mínima evolución" data-en="minimum evolution">mínima evolución</option>
           <option value="upgma">UPGMA</option>
           <option value="wpgma">WPGMA</option>
@@ -943,7 +943,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <label class="inline-label"><span data-l="es">soportes</span><span data-l="en">support</span>
         <select id="p4SupportAs">
           <option value="node" selected data-es="números" data-en="numbers">números</option>
-          <option value="dot" data-es="puntos de color" data-en="coloured dots">puntos</option>
+          <option value="dot" data-es="puntos de color" data-en="colored dots">puntos</option>
           <option value="none" data-es="ninguno" data-en="none">ninguno</option>
         </select></label>
       <label class="inline-label"><span data-l="es">raíz</span><span data-l="en">root</span>
@@ -990,7 +990,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p5Search" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">1 · El árbol de máxima verosimilitud</span><span data-l="en">1 · The maximum-likelihood tree</span></h2>
-        <p class="hint"><span data-l="es">La búsqueda parte de un árbol razonable y prueba reordenamientos: primero NNI, que intercambia ramas vecinas, y después SPR, que corta una rama entera y la vuelve a pegar en otro sitio. Cada candidato se puntúa reoptimizando solo las ramas que el movimiento tocó —así lo hacen PhyML y RAxML—, y el árbol ganador se reajusta entero al final.</span><span data-l="en">The search starts from a reasonable tree and tries rearrangements: first NNI, which swaps neighbouring branches, then SPR, which cuts a whole branch off and grafts it elsewhere. Each candidate is scored by reoptimising only the branches the move touched — the way PhyML and RAxML do it — and the winner is refitted in full at the end.</span></p></div>
+        <p class="hint"><span data-l="es">La búsqueda parte de un árbol razonable y prueba reordenamientos: primero NNI, que intercambia ramas vecinas, y después SPR, que corta una rama entera y la vuelve a pegar en otro sitio. Cada candidato se puntúa reoptimizando solo las ramas que el movimiento tocó —así lo hacen PhyML y RAxML—, y el árbol ganador se reajusta entero al final.</span><span data-l="en">The search starts from a reasonable tree and tries rearrangements: first NNI, which swaps neighboring branches, then SPR, which cuts a whole branch off and grafts it elsewhere. Each candidate is scored by reoptimizing only the branches the move touched — the way PhyML and RAxML do it — and the winner is refitted in full at the end.</span></p></div>
       <label class="inline-label"><span data-l="es">partición</span><span data-l="en">partition</span><select id="p5Part"></select></label>
     </div>
 
@@ -1038,7 +1038,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p5Partitioned" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">2 · Un modelo por partición</span><span data-l="en">2 · One model per partition</span></h2>
-        <p class="hint"><span data-l="es">Un gen de cloroplasto y el ITS nuclear no evolucionan al mismo ritmo ni con la misma composición: obligarlos a un solo modelo es la forma más común de obtener con mucha confianza una respuesta equivocada. Aquí todas las particiones comparten una topología y unas ramas relativas, y cada una tiene su modelo y su multiplicador de velocidad, normalizado para que la velocidad media sea uno.</span><span data-l="en">A chloroplast gene and nuclear ITS do not evolve at the same rate nor with the same composition: forcing one model on both is the commonest way to get a confident wrong answer. Here every partition shares one topology and one set of relative branch lengths, and each has its own model and its own rate multiplier, normalised so that the mean rate is one.</span></p></div>
+        <p class="hint"><span data-l="es">Un gen de cloroplasto y el ITS nuclear no evolucionan al mismo ritmo ni con la misma composición: obligarlos a un solo modelo es la forma más común de obtener con mucha confianza una respuesta equivocada. Aquí todas las particiones comparten una topología y unas ramas relativas, y cada una tiene su modelo y su multiplicador de velocidad, normalizado para que la velocidad media sea uno.</span><span data-l="en">A chloroplast gene and nuclear ITS do not evolve at the same rate nor with the same composition: forcing one model on both is the commonest way to get a confident wrong answer. Here every partition shares one topology and one set of relative branch lengths, and each has its own model and its own rate multiplier, normalized so that the mean rate is one.</span></p></div>
     </div>
     <div class="aln-bar">
       <button class="btn btn-primary btn-sm" id="p5RunPart"><span data-l="es">Ajustar el modelo particionado</span><span data-l="en">Fit the partitioned model</span></button>
@@ -1112,7 +1112,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <label class="inline-label"><span data-l="es">como</span><span data-l="en">as</span>
         <select id="p5SupportAs">
           <option value="node" selected data-es="números" data-en="numbers">números</option>
-          <option value="dot" data-es="puntos de color" data-en="coloured dots">puntos</option>
+          <option value="dot" data-es="puntos de color" data-en="colored dots">puntos</option>
         </select></label>
       <label class="inline-label"><span data-l="es">raíz</span><span data-l="en">root</span>
         <select id="p5Root">
@@ -1144,7 +1144,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
 
   <div class="panel-title"><div class="pt-num">6</div>
     <div><h2><span data-l="es">Inferencia bayesiana</span><span data-l="en">Bayesian inference</span></h2>
-      <p><span data-l="es">No «el mejor árbol», sino la probabilidad de cada árbol dados los datos y lo que se supuso antes de verlos.</span><span data-l="en">Not "the best tree", but the probability of every tree given the data and what was assumed before seeing them.</span></p></div></div>
+      <p><span data-l="es">No «el mejor árbol», sino la probabilidad de cada árbol dados los datos y lo que se supuso antes de verlos.</span><span data-l="en">Not “the best tree”, but the probability of every tree given the data and what was assumed before seeing them.</span></p></div></div>
 
   <div class="card" id="p6NoData" style="display:none">
     <div class="soon-box">
@@ -1411,13 +1411,13 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p7Date" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">4 · Fechar el árbol</span><span data-l="en">4 · Dating the tree</span></h2>
-        <p class="hint"><span data-l="es">Tres caminos, del más rápido al más honesto con la incertidumbre. Los mínimos cuadrados dan una respuesta en un instante. La verosimilitud penalizada deja que la velocidad cambie de rama en rama y castiga los cambios bruscos, con un parámetro de suavizado que se elige por validación cruzada. El reloj relajado bayesiano da una distribución para cada nodo, que es lo único que se debería publicar cuando las calibraciones son inciertas.</span><span data-l="en">Three routes, from the fastest to the most honest about uncertainty. Least squares gives an answer instantly. Penalised likelihood lets the rate change from branch to branch and punishes abrupt changes, with a smoothing parameter chosen by cross-validation. The Bayesian relaxed clock gives a distribution for every node, which is the only thing that should be published when the calibrations are uncertain.</span></p></div>
+        <p class="hint"><span data-l="es">Tres caminos, del más rápido al más honesto con la incertidumbre. Los mínimos cuadrados dan una respuesta en un instante. La verosimilitud penalizada deja que la velocidad cambie de rama en rama y castiga los cambios bruscos, con un parámetro de suavizado que se elige por validación cruzada. El reloj relajado bayesiano da una distribución para cada nodo, que es lo único que se debería publicar cuando las calibraciones son inciertas.</span><span data-l="en">Three routes, from the fastest to the most honest about uncertainty. Least squares gives an answer instantly. Penalized likelihood lets the rate change from branch to branch and punishes abrupt changes, with a smoothing parameter chosen by cross-validation. The Bayesian relaxed clock gives a distribution for every node, which is the only thing that should be published when the calibrations are uncertain.</span></p></div>
     </div>
     <div class="aln-bar">
       <label class="inline-label"><span data-l="es">método</span><span data-l="en">method</span>
         <select id="p7Method">
           <option value="lsd" selected data-es="mínimos cuadrados" data-en="least squares">mínimos cuadrados</option>
-          <option value="pl" data-es="verosimilitud penalizada" data-en="penalised likelihood">penalizada</option>
+          <option value="pl" data-es="verosimilitud penalizada" data-en="penalized likelihood">penalizada</option>
           <option value="relaxed" data-es="reloj relajado bayesiano" data-en="Bayesian relaxed clock">relajado bayesiano</option>
         </select></label>
       <label class="inline-label" id="p7LambdaWrap" style="display:none"><span data-l="es">suavizado λ</span><span data-l="en">smoothing λ</span>
@@ -1621,7 +1621,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p9Cont" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">2 · Un carácter continuo sobre el árbol</span><span data-l="en">2 · A continuous character on the tree</span></h2>
-        <p class="hint"><span data-l="es">Tres modelos sobre el mismo carácter. El <b>movimiento browniano</b> es la deriva pura: el carácter se aleja sin rumbo y la varianza crece con el tiempo. El de <b>Ornstein–Uhlenbeck</b> añade una atracción hacia un óptimo, y su vida media dice en cuánto tiempo se olvida la mitad de la historia. El <b>estallido temprano</b> hace que la tasa decaiga, que es lo que se espera de una radiación adaptativa. Se comparan por AIC —y conviene recordar que con pocas especies los tres se distinguen mal.</span><span data-l="en">Three models on the same character. <b>Brownian motion</b> is pure drift: the character wanders and its variance grows with time. <b>Ornstein–Uhlenbeck</b> adds a pull towards an optimum, and its half-life says how long it takes to forget half of the history. The <b>early burst</b> lets the rate decay, which is what an adaptive radiation predicts. They are compared by AIC — and with few species the three are hard to tell apart.</span></p></div>
+        <p class="hint"><span data-l="es">Tres modelos sobre el mismo carácter. El <b>movimiento browniano</b> es la deriva pura: el carácter se aleja sin rumbo y la varianza crece con el tiempo. El de <b>Ornstein–Uhlenbeck</b> añade una atracción hacia un óptimo, y su vida media dice en cuánto tiempo se olvida la mitad de la historia. El <b>estallido temprano</b> hace que la tasa decaiga, que es lo que se espera de una radiación adaptativa. Se comparan por AIC —y conviene recordar que con pocas especies los tres se distinguen mal.</span><span data-l="en">Three models on the same character. <b>Brownian motion</b> is pure drift: the character wanders and its variance grows with time. <b>Ornstein–Uhlenbeck</b> adds a pull toward an optimum, and its half-life says how long it takes to forget half of the history. The <b>early burst</b> lets the rate decay, which is what an adaptive radiation predicts. They are compared by AIC — and with few species the three are hard to tell apart.</span></p></div>
       <label class="inline-label"><span data-l="es">carácter</span><span data-l="en">character</span><select id="p9ContVar"></select></label>
     </div>
     <div class="aln-bar">
@@ -1642,7 +1642,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p9Signal" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">3 · Cuánta señal filogenética hay</span><span data-l="en">3 · How much phylogenetic signal there is</span></h2>
-        <p class="hint"><span data-l="es">Las dos medidas usuales no preguntan lo mismo. La <b>K de Blomberg</b> compara la varianza que el carácter tiene alrededor de la media filogenética con la que el movimiento browniano produciría en este árbol: K = 1 es exactamente browniano, por debajo hay menos parecido entre parientes del que el árbol implica y por encima, más. La <b>λ de Pagel</b> encoge las covarianzas hacia una estrella y estima cuánto de la estructura del árbol hace falta: λ = 1 es browniano y λ = 0, ninguna señal. Un carácter puede dar K &lt; 1 y λ ≈ 1 a la vez.</span><span data-l="en">The two usual measures do not ask the same question. <b>Blomberg's K</b> compares the variance the character has around the phylogenetic mean with what Brownian motion would give on this tree: K = 1 is exactly Brownian, below it relatives resemble each other less than the tree implies, above it more. <b>Pagel's λ</b> shrinks the covariances towards a star and estimates how much of the tree's structure is needed: λ = 1 is Brownian and λ = 0 is no signal. A character can give K &lt; 1 and λ ≈ 1 at once.</span></p></div>
+        <p class="hint"><span data-l="es">Las dos medidas usuales no preguntan lo mismo. La <b>K de Blomberg</b> compara la varianza que el carácter tiene alrededor de la media filogenética con la que el movimiento browniano produciría en este árbol: K = 1 es exactamente browniano, por debajo hay menos parecido entre parientes del que el árbol implica y por encima, más. La <b>λ de Pagel</b> encoge las covarianzas hacia una estrella y estima cuánto de la estructura del árbol hace falta: λ = 1 es browniano y λ = 0, ninguna señal. Un carácter puede dar K &lt; 1 y λ ≈ 1 a la vez.</span><span data-l="en">The two usual measures do not ask the same question. <b>Blomberg's K</b> compares the variance the character has around the phylogenetic mean with what Brownian motion would give on this tree: K = 1 is exactly Brownian, below it relatives resemble each other less than the tree implies, above it more. <b>Pagel's λ</b> shrinks the covariances toward a star and estimates how much of the tree's structure is needed: λ = 1 is Brownian and λ = 0 is no signal. A character can give K &lt; 1 and λ ≈ 1 at once.</span></p></div>
     </div>
     <div class="aln-bar">
       <label class="inline-label"><span data-l="es">permutaciones</span><span data-l="en">permutations</span>
@@ -1662,7 +1662,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p9Two" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">4 · Dos caracteres, una relación</span><span data-l="en">4 · Two characters, one relationship</span></h2>
-        <p class="hint"><span data-l="es">La regresión ordinaria entre dos caracteres cuenta cada especie como un dato nuevo, y no lo es. Los <b>contrastes independientes</b> de Felsenstein restan las especies hermanas para volver los datos independientes; los <b>mínimos cuadrados generalizados</b> hacen lo mismo dejando los residuos correlacionados como dice el árbol. Su pendiente es <i>el mismo número</i>, y aquí se comprueba. La regresión sin corregir se dibuja al lado para que se vea cuánto cambia.</span><span data-l="en">An ordinary regression between two characters counts every species as a new datum, and it is not. Felsenstein's <b>independent contrasts</b> subtract sister species to make the data independent again; <b>generalised least squares</b> does the same by letting the residuals be correlated as the tree says. Their slope is <i>the same number</i>, and that is checked here. The uncorrected regression is drawn beside it so the difference can be seen.</span></p></div>
+        <p class="hint"><span data-l="es">La regresión ordinaria entre dos caracteres cuenta cada especie como un dato nuevo, y no lo es. Los <b>contrastes independientes</b> de Felsenstein restan las especies hermanas para volver los datos independientes; los <b>mínimos cuadrados generalizados</b> hacen lo mismo dejando los residuos correlacionados como dice el árbol. Su pendiente es <i>el mismo número</i>, y aquí se comprueba. La regresión sin corregir se dibuja al lado para que se vea cuánto cambia.</span><span data-l="en">An ordinary regression between two characters counts every species as a new datum, and it is not. Felsenstein's <b>independent contrasts</b> subtract sister species to make the data independent again; <b>generalized least squares</b> does the same by letting the residuals be correlated as the tree says. Their slope is <i>the same number</i>, and that is checked here. The uncorrected regression is drawn beside it so the difference can be seen.</span></p></div>
     </div>
     <div class="aln-bar">
       <label class="inline-label"><span data-l="es">respuesta (y)</span><span data-l="en">response (y)</span><select id="p9VarY"></select></label>
@@ -1711,7 +1711,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p9Simmap" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">6 · Mapeo estocástico: historias completas, no solo nodos</span><span data-l="en">6 · Stochastic mapping: whole histories, not just nodes</span></h2>
-        <p class="hint"><span data-l="es">Una probabilidad en un nodo no dice cuándo cambió el carácter ni cuántas veces. El mapeo estocástico sortea historias enteras a lo largo de las ramas, condicionadas a lo que se ve en las puntas, y al repetirlo muchas veces convierte «probablemente el estado 0 aquí» en cuánto tiempo pasó cada linaje en cada estado y cuántos cambios hicieron falta.</span><span data-l="en">A probability at a node says nothing about when the character changed or how often. Stochastic mapping draws whole histories along the branches, conditioned on what the tips show, and repeating it many times turns "probably state 0 here" into how long each lineage spent in each state and how many changes it took.</span></p></div>
+        <p class="hint"><span data-l="es">Una probabilidad en un nodo no dice cuándo cambió el carácter ni cuántas veces. El mapeo estocástico sortea historias enteras a lo largo de las ramas, condicionadas a lo que se ve en las puntas, y al repetirlo muchas veces convierte «probablemente el estado 0 aquí» en cuánto tiempo pasó cada linaje en cada estado y cuántos cambios hicieron falta.</span><span data-l="en">A probability at a node says nothing about when the character changed or how often. Stochastic mapping draws whole histories along the branches, conditioned on what the tips show, and repeating it many times turns “probably state 0 here” into how long each lineage spent in each state and how many changes it took.</span></p></div>
     </div>
     <div class="aln-bar">
       <label class="inline-label"><span data-l="es">réplicas</span><span data-l="en">replicates</span>
@@ -1836,7 +1836,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p10Anc" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">4 · Dónde estuvo cada linaje</span><span data-l="en">4 · Where each lineage was</span></h2>
-        <p class="hint"><span data-l="es">En cada nodo se dibuja un pastel con los rangos que tienen alguna probabilidad; el gris reúne todos los que no llegan al umbral. Las cajitas pequeñas sobre las ramas hijas son las <i>esquinas</i>: el rango con el que empieza cada hija justo después de la división, que es la mitad de la historia que una reconstrucción por nodos se calla.</span><span data-l="en">At every node a pie shows the ranges with any probability; the grey slice gathers everything below the threshold. The small boxes on the daughter branches are the <i>corners</i>: the range each daughter starts with immediately after the split, which is the half of the story a node-only reconstruction leaves out.</span></p></div>
+        <p class="hint"><span data-l="es">En cada nodo se dibuja un pastel con los rangos que tienen alguna probabilidad; el gris reúne todos los que no llegan al umbral. Las cajitas pequeñas sobre las ramas hijas son las <i>esquinas</i>: el rango con el que empieza cada hija justo después de la división, que es la mitad de la historia que una reconstrucción por nodos se calla.</span><span data-l="en">At every node a pie shows the ranges with any probability; the gray slice gathers everything below the threshold. The small boxes on the daughter branches are the <i>corners</i>: the range each daughter starts with immediately after the split, which is the half of the story a node-only reconstruction leaves out.</span></p></div>
       <label class="inline-label"><span data-l="es">modelo</span><span data-l="en">model</span><select id="p10AncModel"></select></label>
     </div>
     <div class="aln-bar">
@@ -1930,7 +1930,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
       <label class="inline-label"><span data-l="es">medida</span><span data-l="en">measure</span>
         <select id="p11Measure">
           <option value="rf" selected data-es="Robinson–Foulds" data-en="Robinson–Foulds">Robinson–Foulds</option>
-          <option value="rfnorm" data-es="Robinson–Foulds normalizada" data-en="Robinson–Foulds, normalised">RF normalizada</option>
+          <option value="rfnorm" data-es="Robinson–Foulds normalizada" data-en="Robinson–Foulds, normalized">RF normalizada</option>
           <option value="quartet" data-es="cuartetos discrepantes" data-en="disagreeing quartets">cuartetos</option>
           <option value="wrf" data-es="Robinson–Foulds pesada" data-en="weighted Robinson–Foulds">RF pesada</option>
           <option value="kf" data-es="puntaje de rama (Kuhner–Felsenstein)" data-en="branch score (Kuhner–Felsenstein)">puntaje de rama</option>
@@ -1998,7 +1998,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p11Quartet" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">5 · Un árbol de especies a partir de los cuartetos</span><span data-l="en">5 · A species tree from the quartets</span></h2>
-        <p class="hint"><span data-l="es">Cuando los genes discrepan por clasificación incompleta de linajes, concatenarlos <i>empeora</i> las cosas: el árbol equivocado sale con apoyo del 100 %. La alternativa es contar, para cada conjunto de cuatro especies, cuál de las tres resoluciones eligen los genes, y buscar el árbol que recoge más votos. Aquí la búsqueda es por intercambios de vecinos desde un punto de partida, no el programa dinámico exacto de ASTRAL, y conviene decirlo.</span><span data-l="en">When genes disagree because of incomplete lineage sorting, concatenating them makes things <i>worse</i>: the wrong tree comes out with 100 % support. The alternative is to count, for every set of four species, which of the three resolutions the genes choose, and look for the tree that collects the most votes. The search here is by nearest-neighbour interchanges from a starting point, not ASTRAL's exact dynamic program, and that is worth saying.</span></p></div>
+        <p class="hint"><span data-l="es">Cuando los genes discrepan por clasificación incompleta de linajes, concatenarlos <i>empeora</i> las cosas: el árbol equivocado sale con apoyo del 100 %. La alternativa es contar, para cada conjunto de cuatro especies, cuál de las tres resoluciones eligen los genes, y buscar el árbol que recoge más votos. Aquí la búsqueda es por intercambios de vecinos desde un punto de partida, no el programa dinámico exacto de ASTRAL, y conviene decirlo.</span><span data-l="en">When genes disagree because of incomplete lineage sorting, concatenating them makes things <i>worse</i>: the wrong tree comes out with 100 % support. The alternative is to count, for every set of four species, which of the three resolutions the genes choose, and look for the tree that collects the most votes. The search here is by nearest-neighbor interchanges from a starting point, not ASTRAL's exact dynamic program, and that is worth saying.</span></p></div>
       <label class="inline-label"><span data-l="es">empezar desde</span><span data-l="en">start from</span><select id="p11QStart"></select></label>
     </div>
     <div class="aln-bar">
@@ -2043,7 +2043,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
   <div class="card" id="p11Abba" style="display:none">
     <div class="card-head">
       <div><h2><span data-l="es">7 · ¿Clasificación de linajes o introgresión? La prueba ABBA-BABA</span><span data-l="en">7 · Lineage sorting or introgression? The ABBA-BABA test</span></h2>
-        <p class="hint"><span data-l="es">Con el árbol (((P1,P2),P3),O), un sitio en el que P2 y P3 comparten el estado derivado (ABBA) y otro en el que lo comparten P1 y P3 (BABA) son igual de incongruentes, y bajo clasificación incompleta de linajes son igual de probables. Que uno sea mucho más frecuente que el otro es la huella de la introgresión —y también la que dejan un exogrupo mal elegido, tasas muy desiguales o un error de alineamiento, así que conviene descartarlos antes de contarlo como hibridación.</span><span data-l="en">With the tree (((P1,P2),P3),O), a site where P2 and P3 share the derived state (ABBA) and one where P1 and P3 do (BABA) are equally incongruent, and under incomplete lineage sorting equally likely. One being much commoner than the other is the signature of introgression — and also the one a badly chosen outgroup, very unequal rates or an alignment error leave, so those are worth ruling out before calling it hybridisation.</span></p></div>
+        <p class="hint"><span data-l="es">Con el árbol (((P1,P2),P3),O), un sitio en el que P2 y P3 comparten el estado derivado (ABBA) y otro en el que lo comparten P1 y P3 (BABA) son igual de incongruentes, y bajo clasificación incompleta de linajes son igual de probables. Que uno sea mucho más frecuente que el otro es la huella de la introgresión —y también la que dejan un exogrupo mal elegido, tasas muy desiguales o un error de alineamiento, así que conviene descartarlos antes de contarlo como hibridación.</span><span data-l="en">With the tree (((P1,P2),P3),O), a site where P2 and P3 share the derived state (ABBA) and one where P1 and P3 do (BABA) are equally incongruent, and under incomplete lineage sorting equally likely. One being much commoner than the other is the signature of introgression — and also the one a badly chosen outgroup, very unequal rates or an alignment error leave, so those are worth ruling out before calling it hybridization.</span></p></div>
     </div>
     <div class="aln-bar">
       <label class="inline-label">P1<select id="p11P1"></select></label>
@@ -2119,7 +2119,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
             <select id="p12SupportAs">
               <option value="node" selected data-es="número junto al nodo" data-en="number beside the node">número</option>
               <option value="percent" data-es="número, como porcentaje" data-en="number, as a percentage">porcentaje</option>
-              <option value="dot" data-es="punto de color" data-en="coloured dot">punto</option>
+              <option value="dot" data-es="punto de color" data-en="colored dot">punto</option>
               <option value="none" data-es="no mostrarlo" data-en="do not show it">no mostrarlo</option>
             </select></label>
           <label class="inline-label"><span data-l="es">umbral</span><span data-l="en">threshold</span>
@@ -2152,10 +2152,10 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
             <select id="p12Outgroup" multiple size="3" style="min-width:150px"></select></label>
         </div>
         <div class="aln-bar">
-          <label class="inline-label"><span data-l="es">colorear clado</span><span data-l="en">colour clade</span>
+          <label class="inline-label"><span data-l="es">colorear clado</span><span data-l="en">color clade</span>
             <select id="p12ColourClade"></select></label>
-          <button class="btn btn-secondary btn-sm" id="p12AddColour"><span data-l="es">Añadir color</span><span data-l="en">Add colour</span></button>
-          <button class="btn btn-ghost btn-sm" id="p12ClearColour"><span data-l="es">Quitar colores</span><span data-l="en">Clear colours</span></button>
+          <button class="btn btn-secondary btn-sm" id="p12AddColour"><span data-l="es">Añadir color</span><span data-l="en">Add color</span></button>
+          <button class="btn btn-ghost btn-sm" id="p12ClearColour"><span data-l="es">Quitar colores</span><span data-l="en">Clear colors</span></button>
           <label class="inline-label"><span data-l="es">título</span><span data-l="en">title</span>
             <input type="text" id="p12Title" placeholder="" style="width:170px"></label>
           <label class="inline-label"><input type="checkbox" id="p12AlignTips">
@@ -2178,7 +2178,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
             </select></label>
           <label class="inline-label">k
             <input type="number" id="p12K" value="3" min="1" max="24" step="1" style="width:64px"></label>
-          <label class="inline-label"><span data-l="es">color en</span><span data-l="en">colour on</span>
+          <label class="inline-label"><span data-l="es">color en</span><span data-l="en">color on</span>
             <select id="p12GroupShow">
               <option value="branches" data-es="ramas y nombres" data-en="branches and names">ramas y nombres</option>
               <option value="strip" data-es="ramas, nombres y tira" data-en="branches, names and strip">ramas, nombres y tira</option>
@@ -2259,8 +2259,8 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
         <p class="hint"><span data-l="es">Lo que se cambie aquí vale para <b>todas las figuras de los doce bloques</b>, no solo para el árbol:
           los colores, la letra, el grosor del trazo y el fondo. Y lo que veas es lo que llevará el PNG o el TIFF que exportes, porque el color se
           escribe dentro del archivo antes de que salga de la página.</span><span data-l="en">What you change here applies to <b>every figure in the
-          twelve blocks</b>, not only to the tree: the colours, the type, the stroke width and the background. And what you see is what the exported
-          PNG or TIFF will carry, because the colour is written into the file before it leaves the page.</span></p>
+          twelve blocks</b>, not only to the tree: the colors, the type, the stroke width and the background. And what you see is what the exported
+          PNG or TIFF will carry, because the color is written into the file before it leaves the page.</span></p>
       </div>
     </div>
 
@@ -2281,7 +2281,7 @@ GTR    + <span data-l="es">los seis tipos de cambio con su propia tasa</span><sp
     </div>
     <p class="hint" id="p12PaletteNote"></p>
 
-    <div class="studio-sep"><span data-l="es">Los diez colores, uno por uno</span><span data-l="en">The ten colours, one by one</span></div>
+    <div class="studio-sep"><span data-l="es">Los diez colores, uno por uno</span><span data-l="en">The ten colors, one by one</span></div>
     <p class="hint"><span data-l="es">Son los que usan los grupos del árbol, las series de las curvas, los estados de un carácter y las áreas de
       biogeografía, en este orden. Cambia el que quieras; el resto sigue la paleta.</span><span data-l="en">These are what the tree groups, the curve
       series, the states of a character and the biogeographic areas use, in this order. Change whichever you like; the rest follow the palette.</span></p>

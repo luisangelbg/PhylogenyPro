@@ -116,7 +116,7 @@
           `Esa distancia no es un detalle: el prior tirará de las ramas hacia su media y arrastrará consigo a κ y a α. ` +
           `Para estos datos una media de rama cercana a ${fmtFixed(mlLen / nB, 2)} es mucho más razonable.`,
           `<b>Careful:</b> the maximum-likelihood tree of Block 5 measures ${fmtFixed(mlLen, 2)}, and this prior expects ${fmtFixed(expected, 2)}. ` +
-          `That gap is not a detail: the prior will pull the branches towards its mean and drag κ and α with them. ` +
+          `That gap is not a detail: the prior will pull the branches toward its mean and drag κ and α with them. ` +
           `For these data a mean branch length near ${fmtFixed(mlLen / nB, 2)} is far more reasonable.`);
       }
     }
@@ -456,7 +456,7 @@
       `El muestreo visitó <b>${fmtNum(B6.nTopologies, 0)}</b> topologías distintas; la más frecuente se llevó ${fmtPct(B6.mapP, 1)} del posterior, y hacen falta <b>${fmtNum(B6.credible, 0)}</b> para juntar el 95 %. ` +
       (B6.nTopologies > 1 ? 'Cuando el conjunto creíble tiene muchas topologías, publicar una sola como «el árbol» es esconder el resultado.' : ''),
       `The sampler visited <b>${fmtNum(B6.nTopologies, 0)}</b> distinct topologies; the commonest took ${fmtPct(B6.mapP, 1)} of the posterior, and <b>${fmtNum(B6.credible, 0)}</b> are needed to make up 95 %. ` +
-      (B6.nTopologies > 1 ? 'When the credible set holds many topologies, publishing one as "the" tree hides the result.' : '')));
+      (B6.nTopologies > 1 ? 'When the credible set holds many topologies, publishing one as “the” tree hides the result.' : '')));
   }
 
   function renderSplitTable() {
@@ -567,7 +567,7 @@
       `Gana <b>${esc(modelLabel(best.spec))}</b>, en ${(ms / 1000).toFixed(1)} s. ` +
       'La verosimilitud marginal ya penaliza los parámetros de más por sí sola: no hay que añadirle nada, a diferencia del AIC.',
       `<b>${esc(modelLabel(best.spec))}</b> wins, in ${(ms / 1000).toFixed(1)} s. ` +
-      'The marginal likelihood already penalises extra parameters on its own: nothing has to be added to it, unlike the AIC.'));
+      'The marginal likelihood already penalizes extra parameters on its own: nothing has to be added to it, unlike the AIC.'));
     commit();
   }
 

@@ -630,7 +630,7 @@
       cancelBtn.addEventListener('click', () => {
         if (ended) return; w.cancelled = true;
         try { o.cancel(); } catch (e) { /* la app decide */ }
-        LABG.announce(LABG.t('Cancelado', 'Cancelled')); w.close();
+        LABG.announce(LABG.t('Cancelado', 'Canceled')); w.close();
       });
     }
     sc.loop(); tick();
