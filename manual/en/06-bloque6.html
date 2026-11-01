@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-6" data-pestana="6" data-orden="6" style="--acento: var(--b6)">
+  <div class="cap-apertura">
+    <div class="cap-num">6</div>
+    <div class="cap-etiqueta">Chapter six · Block 6</div>
+    <h1>Bayesian inference</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Not “the best tree,” but the probability of each tree given the data <b>and what was assumed before seeing them</b>. That second term is what sets the method apart and what forces you to write down the assumptions that other methods leave implicit. This chapter explains the priors, the chain and its coupling, the four numbers that tell whether it converged, how posterior probabilities are read—they are not bootstrap values—and Bayes factors.</p>
+    <div class="cap-franja"><span class="k6"></span><span class="k7"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">6.1</span>What changes with respect to likelihood</li>
+      <li><span class="n">6.2</span>What is assumed before seeing the data</li>
+      <li><span class="n">6.3</span>The chain and its coupling</li>
+      <li><span class="n">6.4</span>Did it converge? The four numbers</li>
+      <li><span class="n">6.5</span>Posterior probabilities</li>
+      <li><span class="n">6.6</span>Bayes factors</li>
+      <li><span class="n">6.7</span>Taking the result away</li>
+      <li><span class="n">6.8</span>How the sampler was checked to be correct</li>
+      <li><span class="n">6.9</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.1 -->
+  <h2 id="s6-1"><span class="num">6.1</span>What changes with respect to likelihood</h2>
+
+  <p>Maximum likelihood asks: <i>which tree makes these data most probable?</i> Bayesian inference asks the opposite: <i>how probable is each tree, given these data?</i> To answer that, something more is needed: a <b>prior distribution</b> stating what was believed before looking at the data.</p>
+
+  <p>The result is not a tree but a <b>distribution</b> over trees, branch lengths and parameters. From it come the posterior probabilities of each clade and the credible intervals of each age, which is what makes this block the natural companion of Block 7.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The prior is not a weakness of the method: it is an obligation to write it down</div>
+    <p>Those who criticize the Bayesian approach for “depending on assumptions” tend to forget that likelihood also makes assumptions—the model, independence among sites, compositional homogeneity—it just does not force you to declare them. Here you have to write them down, and that is an advantage: the assumptions are in plain sight and can be discussed.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.2 -->
+  <h2 id="s6-2"><span class="num">6.2</span>What is assumed before seeing the data</h2>
+
+  <p>The first section of the panel is the list of priors. The <span class="ui">Use the model from Block 5</span> button copies the model already chosen; the next three fields set the priors:</p>
+
+  <ul class="lista">
+    <li><span class="ui">mean branch length (exponential)</span>: the mean of the exponential on each branch length.</li>
+    <li><span class="ui">mean of α (exponential)</span>: the prior on the shape of the gamma.</li>
+    <li><span class="ui">mean of the rates (exponential)</span>: the prior on the rates of the substitution model.</li>
+  </ul>
+
+  <p>In addition, the program uses a <b>uniform prior on topologies</b>—all equally probable before seeing the data—and a <b>Dirichlet</b> on the base frequencies.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The branch-length prior is not harmless</div>
+    <p>It is the assumption that most quietly bends a result. With the exponential of mean 0.1—MrBayes’s default—and <b>divergent</b> data, the posterior of the total tree length comes out at <b>half</b> that of the maximum-likelihood tree: the prior pulls the branches down and wins. This is documented (Brown et al. 2010; Marshall 2010), and the panel warns about it before running, comparing the prior with the length that Block 5 measured.</p>
+    <p>The solution is not to remove the prior—that cannot be done—but to <b>choose it deliberately</b> and check that the result does not change with another reasonable one.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.3 -->
+  <h2 id="s6-3"><span class="num">6.3</span>The chain and its coupling</h2>
+
+  <p>The sampler is Metropolis–Hastings over topologies, branch lengths and model parameters. At each step it proposes a change and accepts or rejects it according to a rule that guarantees that, in the long run, the frequency with which it visits each tree is that tree’s posterior probability.</p>
+
+  <p>There are six controls:</p>
+
+  <table class="tabla">
+    <caption><b>Table 6.1.</b> The chain controls.</caption>
+    <thead><tr><th style="width:28%">Control</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">generations</span></td><td>How many steps each chain takes. More is better and slower.</td></tr>
+      <tr><td><span class="ui">burn-in</span></td><td>The first generations, while the chain climbs from where it was released, are thrown away.</td></tr>
+      <tr><td><span class="ui">sample every</span></td><td>How many steps between saved samples. Saving all of them adds no information, because they are correlated.</td></tr>
+      <tr><td><span class="ui">runs</span></td><td>How many <b>independent</b> chains, started separately. With fewer than two, convergence cannot be checked.</td></tr>
+      <tr><td><span class="ui">chains per run</span></td><td>The coupled chains (MC³) of each run.</td></tr>
+      <tr><td><span class="ui">heating</span></td><td>How much the posterior of the heated chains is “flattened.”</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>What coupling (MC³) is for</div>
+    <p>A single chain can get trapped on one peak of the posterior and never leave, because to reach another peak it would have to cross a valley of low probability. Coupling runs several chains at once: one <b>cold</b> chain, which is the one that samples, and several <b>heated</b> ones that see a flattened posterior and move much more freely. Every so often, two chains swap positions. This way the cold chain can jump to a peak the heated one found, without ceasing to sample the correct distribution.</p>
+  </div>
+
+  <p>Each run executes in its own browser thread, so four runs make use of four cores.</p>
+
+  <!-- ------------------------------------------------------------------ 6.4 -->
+  <h2 id="s6-4"><span class="num">6.4</span>Did it converge? The four numbers</h2>
+
+  <p>The program puts the diagnostics <b>before</b> the tree, and not on a whim: a Bayesian tree from a chain that did not converge is a pretty picture of nothing.</p>
+
+  <table class="tabla">
+    <caption><b>Table 6.2.</b> The four convergence numbers and their threshold.</caption>
+    <thead><tr><th style="width:16%">Number</th><th style="width:16%">Target</th><th>What it says</th></tr></thead>
+    <tbody>
+      <tr><td><b>ESS</b></td><td><b>≥ 200</b></td><td>How many <b>independent</b> samples the ones the chain took are worth. Ten thousand correlated samples may be worth thirty.</td></tr>
+      <tr><td><b>PSRF</b> (R̂)</td><td><b>&lt; 1.01</b></td><td>Compares the variance within each chain with the variance among independent chains. If all explore the same thing, it tends to 1.</td></tr>
+      <tr><td><b>ASDSF</b></td><td><b>&lt; 0.01</b></td><td>How much two runs contradict each other on the support of each branch. It is the number MrBayes prints while running.</td></tr>
+      <tr><td><b>The trace</b></td><td>—</td><td>The plot of the log-likelihood against generation. Where it stops climbing and starts to oscillate, that is where burn-in ends.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Trusting a flat trace</div>
+    <p>A flat trace does not prove convergence: it may be a <b>stuck</b> chain that has spent a million generations without leaving a local optimum. That is why you need <b>several independent runs</b> and the PSRF, which compares among them. And the PSRF needs the runs to start at <b>different</b> places: if all of them start from the same tree, they can give 1.00 and all be equally wrong.</p>
+  </div>
+
+  <p>A high ESS is not enough on its own either: it says that the chain <b>mixed well where it was</b>, not that it covered the whole space.</p>
+
+  <!-- ------------------------------------------------------------------ 6.5 -->
+  <h2 id="s6-5"><span class="num">6.5</span>Posterior probabilities</h2>
+
+  <p>The tree that is reported is the <b>majority-rule consensus</b> of the samples, with the frequency of each clade as its posterior probability. The conventional support threshold is <b>0.95</b>.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>A posterior is not a bootstrap</div>
+    <p>They are different scales and are not compared. For the same branch, the posterior probability is usually <b>considerably higher</b> than the bootstrap: it is not that the Bayesian method “supports more,” it is that it answers another question. Moreover, the posterior is known to be <b>overconfident</b> when the model is misspecified: it can give 1.00 to a branch that the bootstrap supports at 60%. A 1.00 is not a guarantee; it is a statement conditional on the model and the priors.</p>
+  </div>
+
+  <p>The panel also shows the <b>credible set</b> of trees: how many distinct trees are needed to accumulate 95% of the posterior. If three are needed, the result is firm; if eight hundred are needed, the topology is far from resolved, however well supported the consensus may look on some branches.</p>
+
+  <!-- ------------------------------------------------------------------ 6.6 -->
+  <h2 id="s6-6"><span class="num">6.6</span>Bayes factors</h2>
+
+  <p>AIC and BIC compare models with a shortcut: they penalize the number of parameters. The Bayes factor compares them by <b>integrating over all possible values of those parameters</b> according to the prior, which is more costly and more correct.</p>
+
+  <p>The quantity being integrated is the <b>marginal likelihood</b>, and the program estimates it by <b>stepping stones</b> (Xie et al. 2011): a series of intermediate distributions between the prior and the posterior, with the <span class="ui">steps</span> and <span class="ui">generations per step</span> controls. Never by the harmonic mean, which is notoriously bad.</p>
+
+  <table class="tabla">
+    <caption><b>Table 6.3.</b> The Kass and Raftery scale on 2·ln(BF).</caption>
+    <thead><tr><th style="width:22%">2·ln(BF)</th><th>Evidence in favor of the better model</th></tr></thead>
+    <tbody>
+      <tr><td>less than 2</td><td>Not worth mentioning.</td></tr>
+      <tr><td>2 to 6</td><td>Positive.</td></tr>
+      <tr><td>6 to 10</td><td>Strong.</td></tr>
+      <tr><td>more than 10</td><td>Very strong.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparing Bayes factors computed with different priors</div>
+    <p>The marginal likelihood is <b>much more sensitive to the prior</b> than the posterior, because it integrates over it. Two people with the same model and different priors can obtain opposite Bayes factors. And the estimate has its own error: repeating it with another seed tells you how much, and it is worth doing before publishing a 2·ln(BF) of 7.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.7 -->
+  <h2 id="s6-7"><span class="num">6.7</span>Taking the result away</h2>
+
+  <p>The block exports the consensus tree with its posterior probabilities and a <b>Tracer-compatible log</b>, so the diagnostics can be reviewed with the tool the community uses. The tree passes on to Block 7 just like the maximum-likelihood one, and for dating it is often preferable, because the Bayesian relaxed clock gives a distribution per node instead of a point.</p>
+
+  <!-- ------------------------------------------------------------------ 6.8 -->
+  <h2 id="s6-8"><span class="num">6.8</span>How the sampler was checked to be correct</h2>
+
+  <p>An MCMC sampler is hard to validate: there is no reference number to compare against, because the result is a distribution. This block was checked in three different ways, and all three are in the validation folder.</p>
+
+  <h3>1 · Switching off the likelihood</h3>
+  <p>If the likelihood is disconnected, the sampler <b>must reproduce its own prior exactly</b>, because there are no longer any data to pull it away. It is the most severe test it can be given, and it passes. In the recorded run—400,000 generations; the bench is stochastic, so another run gives different last decimals—:</p>
+
+  <ul class="lista">
+    <li>The <b>three unrooted topologies</b> of four taxa come out at 0.3374, 0.3335 and 0.3292, against an expected 1/3.</li>
+    <li>With six taxa, <b>all 105</b> possible topologies are visited, with a mean frequency of 0.00952, against 1/105 = 0.00952.</li>
+    <li>Branch lengths give a mean of 0.10060 against the exponential of mean 0.1, and the total tree length 0.50302 against the 0.5 of the corresponding Gamma(5, 0.1).</li>
+  </ul>
+
+  <h3>2 · Comparing the diagnostics with <i>coda</i></h3>
+  <p>The HPD and PSRF are computed on a series that R and the browser build in the same way, and they come out <b>identical</b> to those of <code>coda</code>, which is the reference implementation.</p>
+
+  <h3>3 · Auditing the chain move by move</h3>
+  <p>An audit compares the likelihood the chain keeps on record—computed incrementally, for speed—with a computation from scratch, at every move. The mismatch is <b>zero</b> in all of them.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>A finding only the sampler could uncover</div>
+    <p>During those tests the chain gave likelihoods <b>thirty units above</b> the supposed maximum of Block 5. It was not a bug: the chain <b>estimates the base frequencies</b>, while the maximum-likelihood fit kept them fixed at the empirical ones. That is where the <b>+F</b> checkbox of Block 5 came from, which now lets you estimate them there too.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 6.9 -->
+  <h2 id="s6-9"><span class="num">6.9</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Looking at the tree before the diagnostics</div>
+    <p>The panel puts them in that order on purpose. With an ESS below 200, a PSRF above 1.01 or an ASDSF above 0.01, you do not look at the tree: you lengthen the run.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Running a single chain</div>
+    <p>Without at least two independent runs there is no PSRF or ASDSF, and therefore no way of knowing whether it converged. A single chain with a beautiful trace may have been stuck for a million generations.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reporting a posterior as if it were a bootstrap</div>
+    <p>“95% support” without saying which measure it is invites the reader to read it on the wrong scale. Write “posterior probability of 0.95,” and if there is also a bootstrap, give the two separately.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Leaving the default branch-length prior without looking at it</div>
+    <p>With divergent data, the exponential of mean 0.1 can halve the tree length. The panel compares the prior with what Block 5 measured and warns <b>before</b> running: that warning must be read.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Discarding 25% out of habit</div>
+    <p>Discarding a quarter of the generations is the convention, but <b>looking at the trace is better than the convention</b>. Sometimes burn-in ends at 2% and good data are being thrown away; sometimes it has not ended at 50%.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

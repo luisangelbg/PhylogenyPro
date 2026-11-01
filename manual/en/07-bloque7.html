@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-7" data-pestana="7" data-orden="7" style="--acento: var(--b7)">
+  <div class="cap-apertura">
+    <div class="cap-num">7</div>
+    <div class="cap-etiqueta">Chapter seven · Block 7</div>
+    <h1>The molecular clock and dating</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A phylogram measures change; a chronogram measures time. Getting from one to the other needs three things that molecular data do <b>not</b> contain: a root, a model of how the rate varies, and at least one external calibration. This chapter goes through those three steps in order, explains the assistant that reviews calibrations before they are used, and ends by insisting on the one thing that must never be missing from a published date: its interval.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k8"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">7.1</span>What the clock cannot give you on its own</li>
+      <li><span class="n">7.2</span>The root</li>
+      <li><span class="n">7.3</span>Does the clock hold?</li>
+      <li><span class="n">7.4</span>The calibrations</li>
+      <li><span class="n">7.5</span>The calibration assistant</li>
+      <li><span class="n">7.6</span>The three dating methods</li>
+      <li><span class="n">7.7</span>Reading the chronogram</li>
+      <li><span class="n">7.8</span>How well it does, measured</li>
+      <li><span class="n">7.9</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.1 -->
+  <h2 id="s7-1"><span class="num">7.1</span>What the clock cannot give you on its own</h2>
+
+  <p>The branches of the tree produced by Blocks 5 and 6 are measured in <b>substitutions per site</b>. Not in years. A branch of 0.08 can be a million years of fast evolution or fifty of slow evolution, and the sequences, by themselves, <b>cannot tell</b> those two cases apart.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The confounding of rate and time</div>
+    <p>What a branch measures is <b>rate × time</b>. With one observed number and two unknowns, outside information is needed to separate them. That is the whole difficulty of molecular dating, and it explains why a date depends more on its calibrations than on any statistical refinement.</p>
+  </div>
+
+  <p>That is why the block asks for three things in this order: a <b>root</b>, because without it there is no direction and no ages; an answer to <b>does the clock hold?</b>, which decides which method to use; and at least one <b>calibration</b>, without which ages come out as proportions of the depth of the tree and not in years.</p>
+
+  <!-- ------------------------------------------------------------------ 7.2 -->
+  <h2 id="s7-2"><span class="num">7.2</span>The root</h2>
+
+  <p>A tree without a root has no direction and therefore no ages. The <span class="ui">root by</span> menu offers four routes:</p>
+
+  <table class="tabla">
+    <caption><b>Table 7.1.</b> The four ways of placing the root.</caption>
+    <thead><tr><th style="width:27%">Method</th><th>When, and with what care</th></tr></thead>
+    <tbody>
+      <tr><td><b>outgroup</b></td><td>The honest way when you have one. It is a hypothesis, and it can be wrong: an outgroup that is too distant introduces a long branch and can attract the most divergent taxon of the ingroup.</td></tr>
+      <tr><td><b>midpoint</b></td><td>Places the root at the center of the longest path. Convenient, but it <b>assumes a clock</b>—exactly what is about to be tested. Use it to explore, not to publish.</td></tr>
+      <tr><td><b>tip dates</b></td><td>When the tips have different dates—viruses, ancient DNA, dated fossils—the data themselves say where the root goes. You write one date per taxon, one per line.</td></tr>
+      <tr><td><b>leave it as it is</b></td><td>If the tree already came rooted from another block or from a file.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The root-to-tip regression</h3>
+  <p>With dates at the tips, the program plots the distance from the root to each tip against its date. If there is a clock, the two rise together in a straight line and <b>the slope is the rate</b>. The r² tells how much of the variation time explains.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The r² of this regression is optimistic</div>
+    <p>The root-to-tip distances of two sister taxa are <b>not independent</b>: they share almost the whole path. That is why the r² comes out higher than it should and <b>must not be used as a formal test</b> of the clock. It is useful for looking, for spotting odd tips and for estimating an approximate rate.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.3 -->
+  <h2 id="s7-3"><span class="num">7.3</span>Does the clock hold?</h2>
+
+  <p>The test compares two fits of the <b>same tree</b>: one with free branches, one length per branch, and another forced to be <b>ultrametric</b>, where all tips sit at the same height. The difference in log-likelihood, multiplied by two, is tested against a χ² with <i>n</i>−2 degrees of freedom.</p>
+
+  <p>A small p-value rejects the strict clock and calls for a relaxed clock.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reading “not rejected” as “there is a clock”</div>
+    <p>It does not prove it. The test has <b>little power with few taxa</b>: with twelve species it rejects almost nothing. Conversely, with many sites it almost always rejects, because it detects tiny deviations of no practical importance. The panel says so in those words when the result is not significant.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.4 -->
+  <h2 id="s7-4"><span class="num">7.4</span>The calibrations</h2>
+
+  <p>Without at least one, ages do not exist: substitutions per site and millions of years are two different scales and nothing links them. The program accepts four sources of years and four prior shapes.</p>
+
+  <table class="tabla">
+    <caption><b>Table 7.2.</b> The four prior shapes and what they assert.</caption>
+    <thead><tr><th style="width:26%">Shape</th><th>What it says about the node</th></tr></thead>
+    <tbody>
+      <tr><td><b>fixed age</b></td><td>It has exactly this age, with no uncertainty. Almost never true in biology.</td></tr>
+      <tr><td><b>uniform interval</b></td><td>It lies between these two ages, with no preferred point. The shape of a geological event.</td></tr>
+      <tr><td><b>offset lognormal</b></td><td>It is no younger than the offset, with a long tail backward. The shape of a fossil.</td></tr>
+      <tr><td><b>offset exponential</b></td><td>The same, with the mass more concentrated near the offset.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>A fossil gives the <i>minimum</i> age, not the age</div>
+    <p>This is the idea to take away from this chapter. When that individual died, the lineage <b>already existed</b>, and it may have existed long before: what the fossil proves is that the node is no younger than it. That is why asymmetric, offset priors are used, which allow the node to be much older but not younger. Entering the fossil’s age as a <b>fixed age</b> asserts that the lineage arose exactly when that individual died, and squeezes the whole tree toward the present.</p>
+  </div>
+
+  <p>To select the node you choose the <span class="ui">taxa of the clade</span>—none means the root. If those taxa do not form a clade in the tree, the program says so instead of calibrating something other than what was asked.</p>
+
+  <!-- ------------------------------------------------------------------ 7.5 -->
+  <h2 id="s7-5"><span class="num">7.5</span>The calibration assistant</h2>
+
+  <p>Above the calibration controls there is an assistant whose purpose is that nobody has to guess what M and S mean. <b>It decides nothing</b>: it tells you what you have just written.</p>
+
+  <h3>It proposes the shape according to where the age comes from</h3>
+  <p>You choose it in <span class="ui">the age comes from</span> and the program explains why that source calls for that shape:</p>
+
+  <table class="tabla">
+    <caption><b>Table 7.3.</b> What the assistant proposes according to the source.</caption>
+    <thead><tr><th style="width:30%">The age comes from</th><th style="width:24%">It proposes</th><th>Because</th></tr></thead>
+    <tbody>
+      <tr><td>A fossil assigned to this clade</td><td>offset lognormal</td><td>It is a minimum bound, not a point.</td></tr>
+      <tr><td>A geological event</td><td>uniform interval</td><td>It is a window with a beginning and an end.</td></tr>
+      <tr><td>An age taken from another study</td><td>normal</td><td>It carries the uncertainty of that work, and it is wise to <b>widen</b> it, not narrow it.</td></tr>
+      <tr><td>An age known for certain</td><td>fixed age</td><td>Only to fix a reference scale.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>It says, in years, what the prior asserts</h3>
+  <p>This is the most useful part. “Offset lognormal, M = 1.6, S = 0.7, offset 20” means nothing to almost anyone; below the controls the translation appears, recalculated with every keystroke:</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">→</span>What you read on screen</div>
+    <p><i>This prior says the node's age lies, with 95 % probability, between <b>21.3</b> and <b>39.5</b> Ma, with a median of <b>25.0</b> Ma, and cannot be younger than 20 Ma.</i></p>
+  </div>
+
+  <h3>And it warns about the mistakes that ruin a dating</h3>
+  <ul class="lista">
+    <li>A <b>fossil entered as a fixed age</b>, or with a symmetric normal prior, which would allow a node younger than the fossil.</li>
+    <li>An <b>offset of zero</b>, which imposes no minimum age: it allows the node to be from yesterday.</li>
+    <li>A <b>normal whose lower tail reaches into the future</b>, that is, into negative ages.</li>
+    <li>A prior <b>so wide it barely informs</b>, or so narrow it feigns a certainty nobody has.</li>
+    <li>The confusion of <b>crown and stem</b>: the taxa you select calibrate the crown node—the most recent common ancestor of the group. If your fossil is <b>sister</b> to the group and not a member of it, what it calibrates is the <b>stem</b>, which is older, and for that you also have to select the sister group.</li>
+    <li>That this is going to be the <b>only</b> calibration, and therefore that the whole scale of the tree depends on it.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Why there is no fossil database</div>
+    <p>And there will not be one. Assigning a fossil to a node is a taxonomic judgment about that fossil’s characters and about which clade it is sister to: it is the part that is debated in papers and the part a reviewer examines. A lookup table would invite publishing a date that nobody looked at. The program helps with everything surrounding that judgment; the judgment is yours.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.6 -->
+  <h2 id="s7-6"><span class="num">7.6</span>The three dating methods</h2>
+
+  <p>Three routes, from the fastest to the most honest about uncertainty.</p>
+
+  <h3>Least squares</h3>
+  <p>Fits the ages by minimizing a least-squares function on the branch lengths (To et al. 2016). It gives a point estimate in seconds, even with five hundred taxa. It is what you use to see the order of magnitude, or when the tree is too large for the others.</p>
+
+  <h3>Penalized likelihood</h3>
+  <p>Lets the rate change between branches but <b>penalizes</b> abrupt changes (Sanderson 2002). The <span class="ui">smoothing λ</span> parameter controls how much: a large λ approaches a strict clock, a small λ lets each branch have its own rate.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>λ is not chosen by eye</div>
+    <p>It is chosen by <b>cross-validation</b>, removing one branch at a time and seeing which λ predicts best. The <span class="ui">choose it by cross-validation</span> button does exactly that and plots the curve. If the minimum of that curve falls at one end of the range tried, the range was too narrow and has to be widened.</p>
+  </div>
+
+  <h3>Bayesian relaxed clock</h3>
+  <p>An uncorrelated lognormal clock (Drummond et al. 2006): each branch draws its rate from a lognormal, independently of its neighbor. It is the slowest and the only one that returns a <b>distribution per node</b> instead of a point, which is what should be published when calibrations are uncertain—that is, almost always.</p>
+
+  <!-- ------------------------------------------------------------------ 7.7 -->
+  <h2 id="s7-7"><span class="num">7.7</span>Reading the chronogram</h2>
+
+  <p>The tiles summarize: the <b>root age</b>, the <b>method</b>, the computing <b>time</b>, the <b>mean rate</b> in substitutions per site per unit of time, and the <b>rate variation</b>, a coefficient of variation that says how far the tree departs from a strict clock: near 0, there practically was a clock; above 0.5, rates are very unequal and a strict clock would have given wrong dates.</p>
+
+  <p>The chronogram is drawn on the <b>geological time scale</b>—the bands of the International Chronostratigraphic Chart—with uncertainty bars at each node.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publishing an age without its interval</div>
+    <p>A node dated at 30 Ma with an interval of 28 to 32 is well determined; the same 30 Ma with an interval of 8 to 70 says almost nothing, even though the mean looks just as round. <b>An age without an interval is not a result.</b> And the interval only captures the uncertainty <i>within</i> the model and the calibrations you gave: it does not include the error of having chosen a calibration badly, which is usually the largest of all.</p>
+  </div>
+
+  <p>Without any calibration, the panel fixes the root at 1 and warns that the ages are <b>proportions of the depth of the tree</b>, not years: they serve to compare nodes with each other, not to write “X million years ago.”</p>
+
+  <!-- ------------------------------------------------------------------ 7.8 -->
+  <h2 id="s7-8"><span class="num">7.8</span>How well it does, measured</h2>
+
+  <p>Checked against <i>ape</i> and <i>phangorn</i>, with the results in the validation folder:</p>
+
+  <ul class="lista">
+    <li><b>Rooting by tip dates reproduces <code>ape::rtt</code></b>: slope −0.00158106 against −0.00158106, with a difference of 3·10⁻⁹, and r² 0.783919 against 0.783919.</li>
+    <li><b>Penalized likelihood agrees with <code>ape::chronos</code></b>: over 15 clades, the maximum age difference is 0.0382 with the root at 1, and the correlation between the two series of ages is r² = 0.9906.</li>
+    <li>In the clock test, the program’s own ultrametric fit is <b>better than that of <code>optim.pml(optRooted = TRUE)</code> by 11.8 units</b> of log-likelihood on the same rooted tree, and both reject the clock.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>A bug the validation uncovered</div>
+    <p>The rooting search filtered by the <b>sign</b> of the slope, assuming that root-to-tip distance grows with the date. It grows with calendar dates and <b>shrinks</b> with ages counted backward, so the filter discarded all the correct rootings: it gave an r² of 0.006 where ape reaches 0.784. Now the sign only indicates which convention the dates follow, and the rate is the absolute value of the slope.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 7.9 -->
+  <h2 id="s7-9"><span class="num">7.9</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Using the midpoint and then testing the clock</div>
+    <p>Midpoint rooting <b>assumes</b> a clock. Testing the clock on a tree rooted that way is asking the method what the method already took for granted. With an outgroup, the test is legitimate.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>A single calibration</div>
+    <p>The whole scale of the tree hangs on it, and its error propagates to every node with nothing to offset it. Two or three well-spread calibrations are much better than one, however good, because they also check each other.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Calibrating with a secondary age without widening its uncertainty</div>
+    <p>An age taken from another study carries the tree, the model and the calibrations of that work. Copying its interval as it is pretends that uncertainty does not exist. The assistant proposes a 12% deviation and recommends widening it, not reducing it.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confusing crown age with stem age</div>
+    <p>The crown is the most recent common ancestor of the living species of the group; the stem, its divergence from the sister group, and it is always older. The diversification rates of Block 8 are computed with one or the other and <b>give different results</b>. You have to say which one was used.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reporting another study’s rate as if it were data</div>
+    <p>A rate published for “the same marker” was estimated in another group, with other sampling and other calibrations. It is the largest source of error in a dating and the least reported.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

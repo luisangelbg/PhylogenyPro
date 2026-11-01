@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-8" data-pestana="8" data-orden="8" style="--acento: var(--b8)">
+  <div class="cap-apertura">
+    <div class="cap-num">8</div>
+    <div class="cap-etiqueta">Chapter eight · Block 8</div>
+    <h1>Diversification</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A chronogram does not only say when: the way its branching times are distributed says how fast the group diversified, and whether that pace changed. This chapter explains the lineages-through-time curve, the γ statistic and the trap that comes with it—<b>missing species imitate a slowdown exactly</b>—the five models that are compared, the estimators that work with a single age and a richness, and why extinction rates from a tree of living species cannot be trusted.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k8"></span><span class="k9"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">8.1</span>What is read in the branching times</li>
+      <li><span class="n">8.2</span>Lineages through time and the γ statistic</li>
+      <li><span class="n">8.3</span>The incomplete-sampling trap</li>
+      <li><span class="n">8.4</span>The five models</li>
+      <li><span class="n">8.5</span>λ, μ, r and ε: what can be believed</li>
+      <li><span class="n">8.6</span>When there is only an age and a richness</li>
+      <li><span class="n">8.7</span>A rate for every species: DR</li>
+      <li><span class="n">8.8</span>How well it does, measured</li>
+      <li><span class="n">8.9</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.1 -->
+  <h2 id="s8-1"><span class="num">8.1</span>What is read in the branching times</h2>
+
+  <p>This whole block is read off the <b>branching times</b> of the chronogram, so you need to have gone through Block 7. Without dates there is nothing to analyze: lengths in substitutions do not say at what pace diversity appeared.</p>
+
+  <p>The question being answered is a single one, in many forms: did the group always diversify at the same pace, or was there an early burst that slowed down, or a recent acceleration? And behind it, the uncomfortable one: how much extinction was there, and can it be known?</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The tree being analyzed is the survivors’ tree</div>
+    <p>A chronogram of living species is a <b>reconstructed tree</b>: the lineages that went extinct left no tips and are not there. Almost all the difficulty of the block comes from that amputation, and it explains why net diversification is estimated well and extinction, badly.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.2 -->
+  <h2 id="s8-2"><span class="num">8.2</span>Lineages through time and the γ statistic</h2>
+
+  <p>The <b>lineages-through-time</b> curve counts how many lineages existed at each moment in the past. Drawn on a <b>logarithmic scale</b>, a constant rate gives a <b>straight line</b>: that is the reference against which everything else is judged.</p>
+
+  <ul class="lista">
+    <li>If the curve <b>bends down</b> near the present, the nodes piled up early: the group diversified early and then slowed down.</li>
+    <li>If it bends up, the opposite happened.</li>
+  </ul>
+
+  <p>Pybus and Harvey’s (2000) <b>γ</b> statistic puts a number on that. It compares where the nodes fall with where they would fall under a constant rate. Under a constant rate γ follows a standard normal distribution, so that:</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>How γ is read</div>
+    <p><b>γ &lt; −1.645</b> rejects a constant rate in favor of a <b>slowdown</b>, one-tailed, at 5%.<br>
+    Between −1.645 and 1.645, compatible with a constant rate.<br>
+    Above 1.645, acceleration toward the present.</p>
+  </div>
+
+  <p>If there are several trees—from a bootstrap or from a posterior—the panel also draws a <b>band</b> over the sample, which is much more informative than the curve of a single tree.</p>
+
+  <!-- ------------------------------------------------------------------ 8.3 -->
+  <h2 id="s8-3"><span class="num">8.3</span>The incomplete-sampling trap</h2>
+
+  <p>This is the section that saves papers.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>Missing species imitate a slowdown <i>exactly</i></div>
+    <p>When the whole group is not sampled, the missing species come mostly <b>from the recent nodes</b>, because young clades have few species and losing one is enough to erase a node. The result is a curve that flattens near the present—indistinguishable from a real slowdown. With 60% sampling, γ will come out negative even if the rate was perfectly constant.</p>
+  </div>
+
+  <p>That is why the <b>MCCR test</b> (Monte Carlo constant rates) exists. Instead of comparing γ against the standard normal, it simulates constant-rate trees <b>with the same incomplete sampling as the data</b>, measures their γ, and compares the observed γ against that distribution. The panel asks for:</p>
+
+  <ul class="lista">
+    <li><span class="ui">species in the clade (in total, not those in the tree)</span>: the real number of described species, which is the figure you have to look up in the literature.</li>
+    <li><span class="ui">replicates</span>: how many trees are simulated to build the null distribution.</li>
+  </ul>
+
+  <p>The result is a <b>critical value at 5%</b> that will be <b>more negative</b> than −1.645, and how much more negative it is says how much slowdown the sampling explained on its own. If your observed γ does not cross that critical value, there is no slowdown to report.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Giving the wrong total number of species</div>
+    <p>The whole test depends on that figure. If you enter the species in the tree instead of those in the group, the test undercorrects and you will “find” the false slowdown again. If you exaggerate the total, it overcorrects and you will lose a real slowdown.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.4 -->
+  <h2 id="s8-4"><span class="num">8.4</span>The five models</h2>
+
+  <p>The <span class="ui">Fit the five models</span> button compares, on the same branching times:</p>
+
+  <table class="tabla">
+    <caption><b>Table 8.1.</b> The five diversification models.</caption>
+    <thead><tr><th style="width:30%">Model</th><th>What it assumes</th></tr></thead>
+    <tbody>
+      <tr><td><b>Pure birth</b> (Yule)</td><td>A single speciation rate and <b>no extinction</b>.</td></tr>
+      <tr><td><b>Birth–death</b></td><td>Constant speciation and extinction, with the likelihood of Nee et al. for the reconstructed tree.</td></tr>
+      <tr><td><b>Density-dependent, logistic</b></td><td>The rate falls as niches fill up, toward a carrying capacity (Rabosky &amp; Lovette 2008).</td></tr>
+      <tr><td><b>Density-dependent, exponential</b></td><td>The same, with an exponential decay instead of a logistic one.</td></tr>
+      <tr><td><b>Two rates</b></td><td>The rate changes once, at a moment that <b>is estimated</b> from the data.</td></tr>
+    </tbody>
+  </table>
+
+  <p>They are compared by AIC with Akaike weights, as in Block 3: what you read is the difference from the best and the weight of the winner, not the absolute value.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The two-rate model estimates where the shift is</div>
+    <p>And that is why it has an unfair advantage: it will always find the best possible place to put the jump, even in data generated with a constant rate. AIC penalizes the extra parameter, but not the fact of having searched for it. A high weight for this model is a clue, not a proof.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.5 -->
+  <h2 id="s8-5"><span class="num">8.5</span>λ, μ, r and ε: what can be believed</h2>
+
+  <p>The birth–death model estimates four related quantities:</p>
+
+  <table class="tabla">
+    <caption><b>Table 8.2.</b> The four parameters, and how far they can be believed.</caption>
+    <thead><tr><th style="width:14%">Symbol</th><th style="width:34%">What it is</th><th>Reliability</th></tr></thead>
+    <tbody>
+      <tr><td><b>λ</b></td><td>Speciation rate</td><td>Reasonable.</td></tr>
+      <tr><td><b>μ</b></td><td>Extinction rate</td><td><b>Very unreliable</b> with trees of living species only.</td></tr>
+      <tr><td><b>r</b> = λ − μ</td><td>Net diversification</td><td>The best estimated, and the one you should report.</td></tr>
+      <tr><td><b>ε</b> = μ/λ</td><td>Turnover</td><td>Poorly estimated, and it often comes out as 0.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>An ε estimated at zero does not mean there was no extinction</div>
+    <p>It means that <b>the survivors’ tree cannot see it</b>. It is the same problem as the e of biogeography in Chapter 10: the lineages that disappeared left no trace in the tips. With fossils, the estimate changes completely. Reporting r with confidence and ε with reservations is the honest thing to do.</p>
+  </div>
+
+  <p>The panel also gives the <b>doubling time</b>, ln(2)/r: how long the group takes to double its number of lineages at the estimated rate. It is the same information as r, stated in units you can picture—and compared with the age of the group, it tells you at once whether the rate explains the current diversity.</p>
+
+  <!-- ------------------------------------------------------------------ 8.6 -->
+  <h2 id="s8-6"><span class="num">8.6</span>When there is only an age and a richness</h2>
+
+  <p>Sometimes there is no tree of the group: only its age and how many species it has are known. The estimators of <b>Magallón and Sanderson (2001)</b> make do with that, and they are the ones used to compare hundreds of clades at once.</p>
+
+  <p>The panel asks for the number of <span class="ui">species</span>, the age, and—crucially—whether <span class="ui">the age is of</span> the <b>crown</b> or the <b>stem</b>.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Confusing crown with stem</div>
+    <p>The <b>crown</b> is the most recent common ancestor of the living species of the group; the <b>stem</b> is its divergence from the sister group, and it is always older. With the stem, the same richness is spread over more time and <b>the rate comes out lower</b>. The two estimators are different and the program explicitly asks which one it is. A “group age” without a qualifier, taken from another paper, cannot be reused.</p>
+  </div>
+
+  <p>The estimator also needs an assumed value of ε, precisely because it cannot be estimated: the custom is to report the result with ε = 0 and with ε = 0.9, to show how much it depends on the assumption.</p>
+
+  <!-- ------------------------------------------------------------------ 8.7 -->
+  <h2 id="s8-7"><span class="num">8.7</span>A rate for every species: DR</h2>
+
+  <p>The previous models give one rate for the whole group. The <b>DR</b> statistic (Jetz et al. 2012) hands out a rate among the <b>tips</b>: for each species it weights the branches on the path to the root, giving more weight to the recent ones.</p>
+
+  <p>It is read <b>in relative terms</b>: which tips have high DR compared with the others <b>in the same tree</b>. The absolute values depend on the scale of the tree and are not compared across studies.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>DR is not a per-species diversification rate</div>
+    <p>Even though it is very often used as one. It has been shown to estimate <b>speciation</b> better than net diversification, and to behave poorly when extinction is high (Title &amp; Rabosky 2019). As a descriptive measure for ranking tips it is useful; as an estimator of r, it is not.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.8 -->
+  <h2 id="s8-8"><span class="num">8.8</span>How well it does, measured</h2>
+
+  <p>Checked against <i>ape</i> and <i>geiger</i>, with the results in the validation folder:</p>
+
+  <ul class="lista">
+    <li>The <b>γ</b> statistic gives <b>0.44734655</b>, identical to that of <code>ape::gammaStat</code>.</li>
+    <li>The <b>pure-birth</b> model reproduces λ, its standard error and its log-likelihood identical to <code>ape::yule</code>.</li>
+    <li>The <b>birth–death</b> model gives 0.24684678 against 0.24684645 from <code>ape::birthdeath</code>, and r = 0.20638381 against 0.20638489, with the same log-likelihood.</li>
+    <li>The <b>Magallón and Sanderson</b> estimators agree with <code>geiger::bd.ms</code> to 10⁻⁷, and the branching times to 1.2·10⁻⁹.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>A bug that only showed in the bias</div>
+    <p>The tree simulator, used by the MCCR test, left the extinct lineages in—so more tips came out than requested, and the trees were not ultrametric—and, worse, <b>stopped the clock right at the last speciation</b> instead of drawing a present at random. That last point biased γ: it gave a mean of <b>+0.32</b> on constant-rate trees, where it should give 0, and would have bent every Monte Carlo test in the same direction. With the present drawn properly, γ gives a mean of −0.066 and a standard deviation of 0.9999, against 0.073 and 0.952 from <code>ape::rphylo</code>.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 8.9 -->
+  <h2 id="s8-9"><span class="num">8.9</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reporting a negative γ without the MCCR test</div>
+    <p>It is the most common mistake of the block and the easiest to avoid. If you did not sample 100% of the group, your negative γ may be entirely an artifact of sampling. The MCCR test is two clicks away.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Interpreting μ or ε as biological quantities</div>
+    <p>From a tree of living species, the extinction rate is not estimated: it is assumed. Report r, say which ε you assumed, and show how the result changes with another.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparing DR across studies</div>
+    <p>It depends on the scale of the tree and on the sampling. It serves to rank the tips of <b>your</b> tree, not to say that your genus diversifies faster than your neighbor’s.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Analyzing a chronogram whose dates do not hold up</div>
+    <p>This whole block inherits the uncertainty of Block 7. If the ages have intervals as wide as the tree, γ and the five models are describing noise. Before interpreting a slowdown, look at the intervals of the ages that produce it.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Telling a slowdown as an “adaptive radiation”</div>
+    <p>A curve that flattens is compatible with niche saturation, but also with incomplete sampling, with recent extinction and with a badly calibrated chronogram. The pattern does not identify the process, and the block measures the pattern.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

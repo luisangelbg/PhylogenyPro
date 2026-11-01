@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-5" data-pestana="5" data-orden="5" style="--acento: var(--b5)">
+  <div class="cap-apertura">
+    <div class="cap-num">5</div>
+    <div class="cap-etiqueta">Chapter five · Block 5</div>
+    <h1>Maximum likelihood</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The tree that gets published. Under an explicit model, likelihood searches for the topology and branch lengths that make the observed data most probable, and—unlike parsimony—it is <b>consistent</b> as long as the model is reasonable. This chapter explains the search, the fit with one model per partition, the <b>four</b> support measures with their four different thresholds, and how to formally test another author’s hypothesis.</p>
+    <div class="cap-franja"><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k11"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">5.1</span>What it optimizes, and why it matters</li>
+      <li><span class="n">5.2</span>The model and the starting tree</li>
+      <li><span class="n">5.3</span>The search: NNI, SPR and the radius</li>
+      <li><span class="n">5.4</span>Reading the result</li>
+      <li><span class="n">5.5</span>One model per partition</li>
+      <li><span class="n">5.6</span>The four support measures</li>
+      <li><span class="n">5.7</span>Testing a hypothesis</li>
+      <li><span class="n">5.8</span>Threads, and why it takes as long as it does</li>
+      <li><span class="n">5.9</span>How well it does, measured</li>
+      <li><span class="n">5.10</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.1 -->
+  <h2 id="s5-1"><span class="num">5.1</span>What it optimizes, and why it matters</h2>
+
+  <p>The likelihood of a tree is the probability of having observed <b>these data</b> if that tree and that model were true. The maximum-likelihood tree is the one that makes that probability highest. It is reported as a logarithm, always negative, and less negative is better.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>A lnL on its own means nothing</div>
+    <p>Its absolute value depends on the number of sites and taxa. It only makes sense to <b>compare</b> likelihoods computed on exactly the same data. A lnL of −18,674 is neither “bad” nor “good”: it is the one for these data under this model, and it is only useful against another from the same alignment.</p>
+  </div>
+
+  <p>The decisive advantage over parsimony is the one from Chapter 1: under the correct model, likelihood is <b>consistent</b>, that is, with enough data it converges to the true tree even when there are unequal long branches. Parsimony, in that same geometry, converges with growing certainty to the wrong tree.</p>
+
+  <p>The condition “under the correct model” is not rhetoric. If the model is misspecified—unmodeled compositional heterogeneity, uncorrected saturation—likelihood is wrong too, and with more data it is wrong with more confidence. That is why Block 3 comes before this one.</p>
+
+  <!-- ------------------------------------------------------------------ 5.2 -->
+  <h2 id="s5-2"><span class="num">5.2</span>The model and the starting tree</h2>
+
+  <p>The first row of controls sets the model: <span class="ui">model</span> (GTR, HKY, LG…), <span class="ui">+G with</span> so many <span class="ui">categories</span>, <span class="ui">+I</span>, and the <span class="ui">frequencies</span>, which can be <span class="ui">empirical</span>—counted in the alignment—or <span class="ui">equal</span>. The <span class="ui">Use the model chosen in Block 3</span> button copies what won there, which is almost always the right thing to do.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>The <span class="ui">estimate them (+F)</span> checkbox</div>
+    <p>By default the base frequencies are <b>counted</b> from the alignment, which is what <code>phangorn::optim.pml</code> does without <code>optBf</code>, and that is why the program’s results match its own. Turning on <b>+F</b> estimates them by maximum likelihood together with everything else, which usually gives a slightly better lnL. It is off by default to preserve that comparability, not because it is worse.</p>
+  </div>
+
+  <p>The <span class="ui">starting tree</span> can be the <span class="ui">parsimony (Block 4)</span> tree, the <span class="ui">distance (Block 4)</span> tree, BIONJ, or a <span class="ui">random</span> one. This is no minor detail: the search is heuristic, and where it starts determines which local optimum it may get stuck in. Trying two different starting points and reaching the same lnL is the best evidence that the search was enough.</p>
+
+  <!-- ------------------------------------------------------------------ 5.3 -->
+  <h2 id="s5-3"><span class="num">5.3</span>The search: NNI, SPR and the radius</h2>
+
+  <p>The search starts from the starting tree and tries rearrangements: first <b>NNI</b>, which swaps neighboring branches, and then <b>SPR</b>, which cuts a whole branch off and grafts it back somewhere else. The <span class="ui">rearrangements</span> menu lets you use NNI only or NNI + SPR.</p>
+
+  <p>Two controls govern the cost:</p>
+  <ul class="lista">
+    <li><span class="ui">SPR radius</span>: the maximum distance, in number of branches, at which regrafting is allowed. A small radius is fast and explores little; a large one explores a lot and takes long. Five is a reasonable balance.</li>
+    <li><span class="ui">max rounds</span>: how many complete passes of rearrangements are made before stopping.</li>
+  </ul>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Why the search is fast without cheating</div>
+    <p>Scoring each candidate by reoptimizing the whole tree would be unfeasible. The program does what PhyML and RAxML do: for each move, it <b>reoptimizes only the branches the move touched</b>, relying on the incremental computation of the likelihood engine. SPR also runs in <b>two passes</b>: first all candidates are scored with the inherited branch lengths—RAxML’s “lazy SPR”—and then only the best dozen are scored again with their neighborhood reoptimized. The winning tree is refitted in full at the end.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.4 -->
+  <h2 id="s5-4"><span class="num">5.4</span>Reading the result</h2>
+
+  <p>The tiles summarize the run: the <b>log-likelihood</b>, the number of <b>parameters</b> (branches plus model), <b>AIC</b> and <b>BIC</b>, how many <b>rounds</b> were needed and how many topologies were evaluated, the <b>time</b>, and the estimated model parameters—the gamma <b>α</b> and <b>κ</b> or the relative rates.</p>
+
+  <p>Below the tiles, the panel writes out in prose what they mean. Two things deserve attention:</p>
+
+  <ul class="lista">
+    <li>The number of <b>rounds</b>. If the search ended in a single round, it may not have explored anything; if it used up the maximum, it was probably still improving and you should raise it.</li>
+    <li>The <b>α</b>. Below 1 there is strong heterogeneity among sites, and not modeling it would have distorted the long branches.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ 5.5 -->
+  <h2 id="s5-5"><span class="num">5.5</span>One model per partition</h2>
+
+  <p>A chloroplast gene and nuclear ITS do not evolve at the same rate nor with the same composition. The partitioned fit acknowledges this without breaking the tree: all partitions <b>share the topology and the branch proportions</b>, but each has its own model and a <b>rate multiplier</b>, normalized to a site-weighted mean of one.</p>
+
+  <p>So a partition with a multiplier of 0.3 evolves at a third of the mean rate, and one with 2.5, two and a half times faster.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Why the fit starts out “tied”</div>
+    <p>Releasing all partitions from the very start made the search fall into a worse optimum. The program starts with all of them sharing one model during the first passes and releases them afterward. It is an implementation detail, but it explains why the partitioned result never falls below the single model it contains.</p>
+  </div>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Partitioning does not resolve a real conflict</div>
+    <p>Giving each gene its own rate does not free it from <b>sharing the tree</b>. If two genes have genuinely different histories—chloroplast capture, hybridization—the partitioned analysis averages them more elegantly, but it averages them all the same. Uncovering them is the job of Block 11.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.6 -->
+  <h2 id="s5-6"><span class="num">5.6</span>The four support measures</h2>
+
+  <p>This is the section of the chapter that prevents the most mistakes. The program computes four measures, and <b>they do not mean the same thing nor are they read against the same threshold</b>.</p>
+
+  <table class="tabla">
+    <caption><b>Table 5.1.</b> The four support measures, with their conventional threshold.</caption>
+    <thead><tr><th style="width:23%">Measure</th><th style="width:13%">Threshold</th><th>What it measures</th></tr></thead>
+    <tbody>
+      <tr><td><b>Classical bootstrap</b></td><td><b>≥ 70</b></td><td>In what percentage of alignments resampled with replacement the branch reappears. Conservative: 70 is already fair support.</td></tr>
+      <tr><td><b>Ultrafast bootstrap</b> (UFBoot)</td><td><b>≥ 95</b></td><td>An approximation by RELL, built to be <b>nearly unbiased</b>. Its scale is not that of the classical bootstrap.</td></tr>
+      <tr><td><b>SH-aLRT</b></td><td><b>≥ 80</b></td><td>Compares the likelihood of the tree with that of the two NNI rearrangements of that branch. A different question, not another version of the same one.</td></tr>
+      <tr><td><b>aBayes</b></td><td>—</td><td>A fast Bayesian approximation on the same local comparison.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>The most common mistake with UFBoot</div>
+    <p>Reading it with the classical bootstrap threshold. Because UFBoot is nearly unbiased, it is <b>less conservative</b>: a UFBoot of 90% is not equivalent to a bootstrap of 90% but to considerably <b>less</b> support. That is why its threshold is 95 and not 70. The header of the on-screen table has the threshold written in, precisely so they are not confused.</p>
+  </div>
+
+  <p>Current practice in the literature is to require <b>both</b>: SH-aLRT ≥ 80 <b>and</b> UFBoot ≥ 95. They are different information—one measures whether the branch improves the likelihood, the other whether the signal holds up under resampling—and a branch that passes both is much better supported than one that passes only one.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>What none of the four measures</div>
+    <p>Whether the tree is correct. All four measure the <b>internal consistency</b> of the signal under the method and model used. If the model is wrong, all four will support the wrong branch, and with more data they will support it more. High support is necessary, not sufficient.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.7 -->
+  <h2 id="s5-7"><span class="num">5.7</span>Testing a hypothesis</h2>
+
+  <p>Here the block stops describing and starts testing. The question is: do my data <b>reject</b> the tree proposed by another author, or the one my hypothesis proposes?</p>
+
+  <p>It is done in two steps:</p>
+  <ol class="pasos">
+    <li>Select the <span class="ui">taxa of the group being tested</span> and press <span class="ui">Search for the best tree under that constraint</span>: the program searches for the best tree <b>forcing</b> that group to be monophyletic. That is the best possible case for the hypothesis.</li>
+    <li>Press <span class="ui">Compare the trees (KH, SH, AU)</span>: the three tests contrast the constrained tree against the unconstrained one, using RELL replicates.</li>
+  </ol>
+
+  <p>A p-value below 0.05 rejects the alternative tree. Of the three, the <b>AU</b> test is the one that best corrects for selection bias and the one you should report; KH and SH are there because they are still requested.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>“Not rejected” is not “just as good”</div>
+    <p>With few data almost nothing is rejected, and with many almost everything is. A nonsignificant result says that <b>your data are not enough to rule out</b> that hypothesis, not that it is correct. And the set of trees to compare must be fixed <b>before</b> looking at the results: choosing afterward what to compare is exactly the bias the AU test tries to correct.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 5.8 -->
+  <h2 id="s5-8"><span class="num">5.8</span>Threads, and why it takes as long as it does</h2>
+
+  <p>The bootstrap and the Bayesian chains are spread over browser <b>threads</b>, built from the program’s own code. Two measured facts are worth knowing:</p>
+
+  <ul class="lista">
+    <li>A freshly created thread <b>runs interpreted</b> and only reaches optimized code after a few seconds of repeating the same loops. That is why <b>16 replicates on 16 threads take longer than the same 16 on six</b>: each thread pays its whole warm-up and throws it away. The program never assigns fewer than three jobs per thread.</li>
+    <li>One hundred maximum-likelihood bootstrap replicates take minutes. This is JavaScript, not C, and the page says so before starting, with an estimate and a cancel button.</li>
+  </ul>
+
+  <p>If the browser does not allow threads—some configurations block them—the work is done in the page, slower but without failing.</p>
+
+  <!-- ------------------------------------------------------------------ 5.9 -->
+  <h2 id="s5-9"><span class="num">5.9</span>How well it does, measured</h2>
+
+  <p>The validation of this block checks against <i>phangorn</i> on the same rbcL alignment. The result, which is in the validation folder and can be reproduced:</p>
+
+  <table class="tabla">
+    <caption><b>Table 5.2.</b> The maximum-likelihood search compared with phangorn 2.12.1, on rbcL.</caption>
+    <thead><tr><th style="width:44%">Search</th><th style="width:26%">lnL reached</th><th>Comment</th></tr></thead>
+    <tbody>
+      <tr><td><code>phangorn::optim.pml</code> with NNI</td><td>−7126.989550</td><td>The package’s standard search.</td></tr>
+      <tr><td><code>phangorn</code>, stochastic search</td><td>−7108.802104</td><td>Its most exhaustive search.</td></tr>
+      <tr><td><b>PhylogenyPro</b>, NNI + SPR, 52 s</td><td><b>−7108.800752</b></td><td>Better than NNI by 18 units, and slightly better than the stochastic one.</td></tr>
+    </tbody>
+  </table>
+
+  <p>The difference from the NNI search—eighteen log-likelihood units—is not a nuance: it is the difference between staying in a local optimum and getting out of it, and it is exactly what SPR buys.</p>
+
+  <!-- ------------------------------------------------------------------ 5.10 -->
+  <h2 id="s5-10"><span class="num">5.10</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reading UFBoot with the bootstrap threshold</div>
+    <p>Already said, and repeated because it is the most common: 70 for the classical bootstrap, <b>95</b> for the ultrafast one, 80 for SH-aLRT. Three measures, three thresholds.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Searching only once, from a single starting tree</div>
+    <p>The search is heuristic and does not guarantee the optimum. If two different starting points reach different lnL values, the higher one rules and the search had not finished. Reaching the same one is the only reasonable evidence that it had.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Comparing lnL across different alignments</div>
+    <p>Removing three columns changes the lnL, and not because the tree is worse. Likelihoods are only compared on exactly the same data: same alignment, same columns, same taxa.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Presenting a constrained tree as “the tree”</div>
+    <p>The constrained tree is the best case <b>for the hypothesis being tested</b>, not an estimate. It is computed in order to compare it, and what gets published is the comparison—the lnL of both and the p-value of the AU test—not the constrained tree by itself.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Believing that high support validates the model</div>
+    <p>It is the other way around: support is computed <b>assuming</b> the model. If Block 3 warned of compositional heterogeneity or saturation, a UFBoot of 100 does not refute it; it repeats it with more confidence.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

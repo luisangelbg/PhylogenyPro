@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PhylogenyPro · User’s Manual · Chapter 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+</head>
+<body>
+
+<section class="capitulo" id="cap-9" data-pestana="9" data-orden="9" style="--acento: var(--b9)">
+  <div class="cap-apertura">
+    <div class="cap-num">9</div>
+    <div class="cap-etiqueta">Chapter nine · Block 9</div>
+    <h1>Trait evolution</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Two sister species are not two independent observations: they share almost all of their history. This whole block follows from that sentence. It fits three models of continuous evolution, measures phylogenetic signal in two ways that do not ask the same question, compares an ordinary regression with the one that corrects for relatedness, and reconstructs discrete ancestral states with their pie charts and with complete histories drawn on the tree.</p>
+    <div class="cap-franja"><span class="k7"></span><span class="k9"></span><span class="k10"></span></div>
+    <ul class="cap-contenido">
+      <li><span class="n">9.1</span>Why species are not independent data</li>
+      <li><span class="n">9.2</span>The character table</li>
+      <li><span class="n">9.3</span>Three models for a continuous character</li>
+      <li><span class="n">9.4</span>How much phylogenetic signal there is</li>
+      <li><span class="n">9.5</span>Two characters, one relationship</li>
+      <li><span class="n">9.6</span>A discrete character: the Mk model</li>
+      <li><span class="n">9.7</span>Ancestral states and stochastic mapping</li>
+      <li><span class="n">9.8</span>How well it does, measured</li>
+      <li><span class="n">9.9</span>Common mistakes</li>
+    </ul>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.1 -->
+  <h2 id="s9-1"><span class="num">9.1</span>Why species are not independent data</h2>
+
+  <p>Suppose you measure seed size in forty species and relate it to plant height. An ordinary regression treats those forty species as forty independent observations. They are not: if thirty belong to the same genus and inherited both the large seed and the height from their common ancestor, what you have is not thirty data points but, at bottom, <b>one</b> repeated thirty times.</p>
+
+  <div class="caja idea">
+    <div class="caja-t"><span class="ico">✦</span>The practical consequence</div>
+    <p>Ignoring relatedness <b>inflates significance</b>: p-values come out much smaller than they should, and relationships get published that do not hold up. The methods in this block are not a statistical refinement: they are the correction of a counting error.</p>
+  </div>
+
+  <p>You work on a tree, preferably the <b>dated</b> one from Block 7, because the models speak of rates per unit of time.</p>
+
+  <!-- ------------------------------------------------------------------ 9.2 -->
+  <h2 id="s9-2"><span class="num">9.2</span>The character table</h2>
+
+  <p>One row per species and one column per character, separated by commas, semicolons or tabs. The program infers the type of each column—continuous or discrete—, recognizes missing data and matches the names with the tree, <b>forgiving the difference between <code>Bursera_palmeri</code> and <code>Bursera palmeri</code></b>, which is the one that wastes the most time.</p>
+
+  <p>Whatever does not match is <b>listed</b>, not silently swallowed. And each analysis <b>prunes the tree</b> to the tips that have the character it needs, and says how many it kept.</p>
+
+  <!-- ------------------------------------------------------------------ 9.3 -->
+  <h2 id="s9-3"><span class="num">9.3</span>Three models for a continuous character</h2>
+
+  <table class="tabla">
+    <caption><b>Table 9.1.</b> The three models, in the parameterization of <i>geiger</i>.</caption>
+    <thead><tr><th style="width:26%">Model</th><th>What process it describes</th></tr></thead>
+    <tbody>
+      <tr><td><b>Brownian motion</b> (BM)</td><td>Pure drift: the character wanders at random, and the variance between two species grows with the time since they split. A single parameter, σ².</td></tr>
+      <tr><td><b>Ornstein–Uhlenbeck</b> (OU)</td><td>A force, α, that pulls the character toward an optimum. It is the model of stabilizing selection.</td></tr>
+      <tr><td><b>Early burst</b> (EB)</td><td>The rate <b>decays</b> with time: a lot of change at the beginning and little afterward. It is the model of adaptive radiation.</td></tr>
+    </tbody>
+  </table>
+
+  <p>They are compared by AIC with Akaike weights, and the panel writes the verdict in words.</p>
+
+  <h3>The half-life, instead of α</h3>
+  <p>OU’s α is hard to interpret by eye. The program reports the <b>half-life</b>, ln(2)/α: the time the character takes to travel half the way toward its optimum. And it is read <b>by comparing it with the depth of the tree</b>:</p>
+
+  <ul class="lista">
+    <li>Half-life much shorter than the depth: strong stabilizing selection, and the tree hardly matters for predicting a species’ value.</li>
+    <li>Half-life longer than the depth: OU is <b>indistinguishable</b> from Brownian motion, and its α means nothing.</li>
+  </ul>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Two warnings about OU</div>
+    <p>First: OU and early burst <b>assume contemporaneous tips</b>. On a non-ultrametric phylogram their parameters do not mean what they say, and the block measures the spread of the tip heights and warns you.</p>
+    <p>Second: with fewer than fifty species OU is often preferred for <b>statistical, not biological</b> reasons. It is a model very good at fitting noise, and winning by AIC is not the same as describing a real process (Cooper et al. 2016).</p>
+  </div>
+
+  <p>When α hits the limit of the range explored, the card prints “—” instead of a number and says that α ended up at the limit: a number there would be an invention.</p>
+
+  <h3>The traitgram</h3>
+  <p>The figure that puts the character and the tree <b>in the same plane</b>: time on one axis, the value of the character on the other, and the branches of the tree drawn between the reconstructed values. It shows at a glance whether there was convergence, and the tip labels are spread out so they do not overlap.</p>
+
+  <!-- ------------------------------------------------------------------ 9.4 -->
+  <h2 id="s9-4"><span class="num">9.4</span>How much phylogenetic signal there is</h2>
+
+  <p>“Phylogenetic signal” is how much more relatives resemble each other than would be expected by chance. The two usual measures <b>do not ask the same question</b>, and that is why they can seem contradictory without being so.</p>
+
+  <table class="tabla">
+    <caption><b>Table 9.2.</b> The two measures of phylogenetic signal.</caption>
+    <thead><tr><th style="width:20%">Measure</th><th style="width:26%">What it manipulates</th><th>How it is read</th></tr></thead>
+    <tbody>
+      <tr><td><b>Pagel’s λ</b></td><td>The <b>shape</b> of the tree: it multiplies the covariances between species without touching the variances.</td><td>λ = 1 is pure Brownian motion; λ = 0, a character distributed as if the phylogeny did not exist. It is tested against 0 and against 1 with a likelihood ratio.</td></tr>
+      <tr><td><b>Blomberg’s K</b></td><td>The <b>magnitude</b> of the variance: it compares the observed one with the one Brownian motion predicts on that tree.</td><td>K = 1 is exactly Brownian; K &gt; 1, relatives resemble each other <b>more</b> than Brownian motion expects. It comes with a permutation test.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>K &lt; 1 with λ ≈ 1 is not a contradiction</div>
+    <p>They are different questions about the same data: λ looks at the <b>shape</b> of the tree and K at the <b>magnitude</b> of the variance. A character can be distributed exactly as the tree predicts—λ = 1—and at the same time vary less among species than Brownian motion expected—K &lt; 1. The panel explains this when it happens, because it is one of the most puzzling readings.</p>
+  </div>
+
+  <p>The plot of <b>K under the null hypothesis</b> draws the distribution of K when the values are shuffled among species, and places the observed one on it. Without that plot, a K of 0.8 does not tell you whether it is a lot or a little.</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>Signal is pattern, not process</div>
+    <p>λ = 1 <b>does not prove</b> neutral drift, and a low λ may be due to measurement error and not to biology. With fewer than twenty species, moreover, both measures are estimated with very little precision.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.5 -->
+  <h2 id="s9-5"><span class="num">9.5</span>Two characters, one relationship</h2>
+
+  <p>The panel fits <b>three</b> regressions on the same two characters and puts them side by side:</p>
+
+  <ol class="pasos">
+    <li>The <b>ordinary</b> one, which counts each species as a new data point.</li>
+    <li>Felsenstein’s <b>independent contrasts</b>: they turn the values of <i>n</i> species into <i>n</i>−1 differences between sister nodes, each scaled by its branch lengths. Those differences <b>are</b> independent, and their regression is fitted <b>through the origin</b>, because the sign of a contrast is arbitrary and an intercept would mean nothing.</li>
+    <li><b>PGLS</b>, which solves the same problem by another route: a generalized regression whose covariance matrix is that of the tree.</li>
+  </ol>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>The Garland and Ives identity</div>
+    <p>Contrasts and PGLS <b>are not two similar approximations</b>: under Brownian motion they give <b>exactly the same slope</b>. The program checks this in the interface itself and shows it: the slope of the contrasts through the origin and that of PGLS with λ = 1 have to be the same number. When they are not, something is wrong, and it is a check worth looking at.</p>
+  </div>
+
+  <p>Comparing the p-value of the ordinary regression with that of PGLS shows, at a single glance, how much the significance was being exaggerated.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Believing that PGLS fixes other things</div>
+    <p>It corrects <b>non-independence</b>. It does not correct causality, an omitted variable or measurement error. And if the phylogenetic signal of the residual turns out to be nil, PGLS and least squares give the same thing: the correction does not always change the conclusion, and that too is a result.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.6 -->
+  <h2 id="s9-6"><span class="num">9.6</span>A discrete character: the Mk model</h2>
+
+  <p>Lewis’s (2001) Mk model treats the states of a character the way a substitution model treats nucleotides: a matrix of transition rates between states. Three variants:</p>
+
+  <ul class="lista">
+    <li><b>ER</b>: a single rate for all changes.</li>
+    <li><b>SYM</b>: the rate from <i>i</i> to <i>j</i> equal to that from <i>j</i> to <i>i</i>.</li>
+    <li><b>ARD</b>: all different. With <i>k</i> states there are <i>k</i>(<i>k</i>−1) parameters: with four states, twelve.</li>
+  </ul>
+
+  <p>They are compared by AIC. With few species ER almost always wins, and not because the biology is simple: because there are not enough data to estimate more.</p>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Not checking whether the rate blew up</div>
+    <p>A rate that goes to infinity is the symptom of a <b>saturated</b> character: it has changed so many times that the tree no longer keeps any memory of its history. The nodes all come out at 0.5 and the reconstruction says nothing. That is not a failure of the program: it is the data saying they do not know.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>A convention worth knowing</div>
+    <p>The log-likelihood reported by <code>ape::ace</code> is that of <code>phytools::fitMk</code> <b>plus log(k)</b>, and the whole difference is the flat prior at the root. It is not that one of them is wrong: they are two conventions. The program reports both, so you can compare with either package without surprises.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.7 -->
+  <h2 id="s9-7"><span class="num">9.7</span>Ancestral states and stochastic mapping</h2>
+
+  <h3>The pie charts</h3>
+  <p>Each internal node carries a pie chart with the probability of each state. The version reported is the <b>marginal</b> one, which integrates over everything else in the tree. A pie that is almost a single color is a firm reconstruction; one that is split means that <b>the data do not know</b>, and that split <b>is the result</b>, not a defect of the drawing.</p>
+
+  <p>The program draws the pies on purpose, instead of writing the winning state: that way a node at 55% <b>looks</b> like what it is. Uncertainty grows toward the root, which is often exactly the node of interest.</p>
+
+  <h3>Stochastic mapping</h3>
+  <p>Instead of giving a probability per node, it draws <b>complete histories</b> of the character on the tree—where and when each change happened—consistent with the tips and with the model (Huelsenbeck et al. 2003). Five hundred histories in less than a second.</p>
+
+  <p>What is reported is the <b>average over the histories</b>: the expected number of changes, how much time the tree spent in each state, and how often each branch contains a change. That is considerably more informative than a single state per node: it turns “the ancestor was probably yellow” into “the lineage spent 70% of its history in yellow and there were about four changes.”</p>
+
+  <div class="caja aviso">
+    <div class="caja-t"><span class="ico">!</span>The histories are only as good as the Mk that generates them</div>
+    <p>If the rates are badly estimated, <b>all</b> the histories will be off in the same direction, and the average does not reveal it. The spread among histories measures the uncertainty <i>within</i> the model, not that of the model.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.8 -->
+  <h2 id="s9-8"><span class="num">9.8</span>How well it does, measured</h2>
+
+  <p>This block is the one with the most reference implementations to face, and it was checked against all four: <b>geiger</b>, <b>ape</b>, <b>nlme</b> and <b>phytools</b>, with <b>42 checks</b> and no disagreement.</p>
+
+  <ul class="lista">
+    <li>The <b>independent contrasts</b> reproduce <code>ape::pic</code>.</li>
+    <li><b>PGLS</b> is identical to <code>nlme::gls</code> in slope, standard error, t and p.</li>
+    <li>Its slope matches that of the contrasts through the origin, just as the <b>Garland and Ives identity</b> requires.</li>
+    <li>The <b>marginal states</b> match <code>ape::ace</code> and <code>phytools::ancr</code>, which in turn agree with each other.</li>
+    <li>The three continuous models reproduce the parameterization of <code>geiger::fitContinuous</code>.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Three bugs the validation uncovered</div>
+    <p><b>Early burst lost all its digits</b> when the parameter was small: the expression (e<sup>a·s</sup>−1)/a was computed as written, and for a tiny |a| that means subtracting two nearly equal numbers. It was replaced by the function that exists precisely for that.</p>
+    <p><b>The t distribution function came out symmetric about zero</b>, because the incomplete beta only sees t². The p-values were correct by sheer luck, because it was always called with |t|.</p>
+    <p><b>The OU α was bounded between fixed numbers</b> instead of numbers relative to the depth of the tree, and it once reported a half-life of <b>691,179 substitutions</b> on a tree 0.08 deep. Now the limit is relative, and if α hits it, the card says so instead of printing the figure.</p>
+  </div>
+
+  <!-- ------------------------------------------------------------------ 9.9 -->
+  <h2 id="s9-9"><span class="num">9.9</span>Common mistakes</h2>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Publishing an ordinary regression across species</div>
+    <p>It still appears in journals. If the data are species and a phylogeny is available, the ordinary regression miscounts and its p-value is too small. The panel shows the three regressions together precisely so the difference can be seen.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Fitting OU on a non-ultrametric tree</div>
+    <p>OU and early burst assume that all tips are contemporaneous. On a phylogram, their parameters do not mean what they say. The block warns you; you have to read the warning.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Concluding “stabilizing selection” because OU won</div>
+    <p>With few species OU often wins for statistical reasons. Look at the <b>half-life</b> against the depth of the tree: if it is longer, OU is indistinguishable from Brownian motion and there is nothing to conclude.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Reporting the winning ancestral state without its probability</div>
+    <p>“The ancestor was yellow” is very different from “the ancestor was yellow with probability 0.55.” The pie charts are drawn so that this difference cannot be hidden, and the complete figure is what gets published.</p>
+  </div>
+
+  <div class="caja error">
+    <div class="caja-t"><span class="ico">✕</span>Forgetting that the tree was pruned</div>
+    <p>Each analysis uses only the tips that have the character it needs. If out of eighty species only forty have seed size measured, your λ was estimated on forty. The panel says so; you should report it too.</p>
+  </div>
+
+</section>
+
+</body>
+</html>
