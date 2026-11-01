@@ -84,14 +84,15 @@
   <!-- ------------------------------------------------------------------ 7.4 -->
   <h2 id="s7-4"><span class="num">7.4</span>Las calibraciones</h2>
 
-  <p>Sin al menos una, las edades no existen: las sustituciones por sitio y los millones de años son dos escalas distintas y nada las une. El programa acepta cuatro fuentes de años y cuatro formas de prior.</p>
+  <p>Sin al menos una, las edades no existen: las sustituciones por sitio y los millones de años son dos escalas distintas y nada las une. El programa acepta cuatro fuentes de años y, en el menú <span class="ui">tipo</span>, cinco formas de prior.</p>
 
   <table class="tabla">
-    <caption><b>Tabla 7.2.</b> Las cuatro formas de prior y lo que afirman.</caption>
+    <caption><b>Tabla 7.2.</b> Las cinco formas de prior y lo que afirman.</caption>
     <thead><tr><th style="width:26%">Forma</th><th>Qué dice del nodo</th></tr></thead>
     <tbody>
       <tr><td><b>edad fija</b></td><td>Tiene exactamente esta edad, sin incertidumbre. Casi nunca es cierto en biología.</td></tr>
       <tr><td><b>intervalo uniforme</b></td><td>Está entre estas dos edades, sin preferir ningún punto. La forma de un acontecimiento geológico.</td></tr>
+      <tr><td><b>normal</b></td><td>Está alrededor de una media, con una desviación (<span class="ui">media / M</span> y <span class="ui">sd / S</span>), igual de probable hacia lo más joven que hacia lo más viejo. La forma de una edad tomada de otro estudio; nunca la de un fósil, porque permitiría que el nodo fuera más joven que él.</td></tr>
       <tr><td><b>lognormal desplazada</b></td><td>No es más joven que el desplazamiento, con una cola larga hacia atrás. La forma de un fósil.</td></tr>
       <tr><td><b>exponencial desplazada</b></td><td>Igual, con la masa más concentrada cerca del desplazamiento.</td></tr>
     </tbody>
@@ -116,10 +117,10 @@
     <caption><b>Tabla 7.3.</b> Lo que el asistente propone según la procedencia.</caption>
     <thead><tr><th style="width:30%">La edad viene de</th><th style="width:24%">Propone</th><th>Porque</th></tr></thead>
     <tbody>
-      <tr><td>Un fósil asignado al clado</td><td>lognormal desplazada</td><td>Es una cota mínima, no un punto.</td></tr>
+      <tr><td>Un fósil asignado a este clado</td><td>lognormal desplazada</td><td>Es una cota mínima, no un punto.</td></tr>
       <tr><td>Un acontecimiento geológico</td><td>intervalo uniforme</td><td>Es una ventana con principio y fin.</td></tr>
       <tr><td>Una edad tomada de otro estudio</td><td>normal</td><td>Arrastra la incertidumbre de aquel trabajo, y conviene <b>ensancharla</b>, no estrecharla.</td></tr>
-      <tr><td>Una edad conocida con certeza</td><td>edad fija</td><td>Sólo para fijar una escala de referencia.</td></tr>
+      <tr><td>Una edad que se conoce con certeza</td><td>edad fija</td><td>Sólo para fijar una escala de referencia.</td></tr>
     </tbody>
   </table>
 
@@ -128,7 +129,7 @@
 
   <div class="caja ejemplo">
     <div class="caja-t"><span class="ico">→</span>Lo que se lee en pantalla</div>
-    <p><i>Este prior dice que la edad del nodo está, con 95 % de probabilidad, entre <b>21.3</b> y <b>39.7</b> Ma, con mediana <b>25.0</b> Ma, y no puede ser más joven que 20 Ma.</i></p>
+    <p><i>Este prior dice que la edad del nodo está, con 95 % de probabilidad, entre <b>21.3</b> y <b>39.5</b> Ma, con mediana <b>25.0</b> Ma, y no puede ser más joven que 20.0 Ma.</i></p>
   </div>
 
   <h3>Y avisa de los errores que arruinan una datación</h3>

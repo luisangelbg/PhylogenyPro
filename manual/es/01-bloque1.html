@@ -166,6 +166,7 @@
       <tr><td><b>Qué optimiza</b></td><td>Ajuste a una matriz de distancias</td><td>El menor número de cambios</td><td>La probabilidad de los datos dado el árbol</td><td>La probabilidad del árbol dados los datos</td></tr>
       <tr><td><b>Usa un modelo</b></td><td>Sí, al corregir las distancias</td><td>No, o sólo pesos</td><td>Sí, explícito</td><td>Sí, explícito y con previas</td></tr>
       <tr><td><b>Consistente con ramas largas desiguales</b></td><td>Depende de la corrección</td><td><b>No: zona de Felsenstein</b></td><td>Sí, bajo el modelo correcto</td><td>Sí, bajo el modelo correcto</td></tr>
+      <tr><td><b>Medida de incertidumbre</b></td><td>Bootstrap</td><td>Bootstrap, jackknife, Bremer</td><td>Bootstrap, UFBoot, SH-aLRT</td><td>Probabilidad posterior</td></tr>
       <tr><td><b>Longitudes en sustituciones</b></td><td>Sí</td><td>En pasos, no en sustituciones</td><td>Sí</td><td>Sí, con intervalo</td></tr>
       <tr><td><b>Permite fechar</b></td><td>Sólo con métodos aproximados</td><td>No</td><td>Sí (reloj, LSD)</td><td>Sí, con incertidumbre</td></tr>
       <tr><td><b>Costo</b></td><td>Segundos</td><td>Segundos a minutos</td><td>Minutos</td><td>De minutos a horas</td></tr>
@@ -178,15 +179,15 @@
   <!-- ------------------------------------------------------------------ 1.7 -->
   <h2 id="s1-7"><span class="num">1.7</span>Hasta dónde llega, y hasta dónde no</h2>
 
-  <p>La tabla de límites de la portada no es una promesa comercial: son <b>tiempos medidos</b> en una computadora de escritorio común, no estimaciones optimistas. Conviene mirarla antes de cargar una matriz grande.</p>
+  <p>La tabla de límites de la portada no es una promesa comercial: son <b>tiempos medidos</b> en una computadora de escritorio común. Conviene mirarla antes de cargar una matriz grande.</p>
 
   <table class="tabla">
-    <caption><b>Tabla 1.4.</b> Tamaños que la aplicación maneja, medidos. «Cómodo» es lo que se hace sin pensarlo; «al límite» es lo que se puede hacer teniendo paciencia.</caption>
-    <thead><tr><th style="width:40%">Análisis</th><th style="width:16%">Cómodo</th><th style="width:16%">Al límite</th><th>Tiempo</th></tr></thead>
+    <caption><b>Tabla 1.4.</b> Tamaños que la aplicación maneja, medidos. «Cómodo» se hace sin pensarlo; «con aviso» aún se puede, con paciencia.</caption>
+    <thead><tr><th style="width:40%">Análisis</th><th style="width:16%">Cómodo (taxones)</th><th style="width:16%">Con aviso</th><th>Tiempo típico</th></tr></thead>
     <tbody>
-      <tr><td>Distancias, NJ, parsimonia</td><td>≤ 300 taxones</td><td>≤ 1 000</td><td>Segundos</td></tr>
+      <tr><td>Distancias, NJ, parsimonia</td><td>≤ 300</td><td>≤ 1 000</td><td>Segundos</td></tr>
       <tr><td>Verosimilitud + bootstrap ultrarrápido</td><td>≤ 120</td><td>≤ 300</td><td>Minutos</td></tr>
-      <tr><td>Verosimilitud + bootstrap clásico</td><td>≤ 60</td><td>≤ 120</td><td>Minutos, con varios hilos</td></tr>
+      <tr><td>Verosimilitud + bootstrap clásico</td><td>≤ 60</td><td>≤ 120</td><td>Minutos con varios hilos</td></tr>
       <tr><td>Bayesiano (MC³)</td><td>≤ 50</td><td>≤ 100</td><td>De minutos a horas</td></tr>
       <tr><td>Datación por mínimos cuadrados</td><td>≤ 500</td><td>≤ 1 000</td><td>Segundos</td></tr>
       <tr><td>Datación bayesiana</td><td>≤ 60</td><td>≤ 120</td><td>De minutos a horas</td></tr>
@@ -201,7 +202,7 @@
   <!-- ------------------------------------------------------------------ 1.8 -->
   <h2 id="s1-8"><span class="num">1.8</span>La galería de métodos y las referencias</h2>
 
-  <p>La galería lista <b>todo</b> lo que la aplicación calcula, agrupado por familia —datos, modelos, inferencia, soporte, tiempos, caracteres, biogeografía, comparación—, con un filtro para ver una sola familia. Sirve para dos cosas: comprobar de un vistazo si el método que necesitas está, y encontrar en qué bloque vive.</p>
+  <p>La galería lista <b>todo</b> lo que la aplicación calcula, agrupado en ocho familias —datos, modelos, árboles rápidos, inferencia, tiempo, macroevolución, biogeografía, y comparar y publicar—, con un filtro para ver una sola familia. Sirve para dos cosas: comprobar de un vistazo si el método que necesitas está, y encontrar en qué bloque vive.</p>
 
   <p>Al final de la portada hay <b>94 referencias</b>, también agrupadas por familia. No están de adorno: cada método que la aplicación implementa cita el artículo en que se publicó, y el informe del Bloque 12 arma su bibliografía tomando de esa misma lista <b>sólo lo que efectivamente se usó</b> en tu corrida.</p>
 
@@ -232,22 +233,22 @@
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Saltarse la portada</div>
-    <p>Es el error que hace todo el mundo, incluidos los que llevan años haciendo filogenia. Los dos laboratorios tardan diez minutos y cambian la forma de mirar los resultados de los once bloques siguientes. Si sólo tienes tiempo para uno, que sea el de la zona de Felsenstein.</p>
+    <p>Es el error que hace todo el mundo. Los dos laboratorios tardan diez minutos y cambian la forma de mirar los resultados de los once bloques siguientes. Si sólo tienes tiempo para uno, que sea el de la zona de Felsenstein.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Leer la tabla de límites como una promesa</div>
-    <p>Los tiempos se midieron en una computadora concreta con un alineamiento concreto. Tu máquina y tus datos son otros. La tabla sirve para saber si estás en el orden de magnitud correcto, no para planear una fecha de entrega.</p>
+    <p>Los tiempos se midieron en una computadora concreta con un alineamiento concreto. La tabla sirve para saber si estás en el orden de magnitud correcto, no para planear una fecha de entrega.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Concluir que «la parsimonia es mala»</div>
-    <p>El laboratorio 1 no demuestra eso. Demuestra que la parsimonia es <b>inconsistente bajo una geometría concreta</b> de ramas. Fuera de esa geometría se comporta bien, es rapidísima, y para matrices morfológicas —donde no hay un modelo de sustitución creíble— sigue siendo la herramienta correcta. El capítulo 4 vuelve sobre esto.</p>
+    <p>El laboratorio 1 no demuestra eso. Demuestra que la parsimonia es <b>inconsistente bajo una geometría concreta</b> de ramas. Fuera de esa geometría se comporta bien y, para matrices morfológicas —donde no hay un modelo de sustitución creíble— sigue siendo la herramienta correcta. El capítulo 4 vuelve sobre esto.</p>
   </div>
 
   <div class="caja error">
     <div class="caja-t"><span class="ico">✕</span>Elegir el marcador por costumbre del laboratorio</div>
-    <p>«Siempre usamos ITS» no es un argumento. ITS es rápido y resuelve entre especies cercanas, pero tiene copias divergentes y evolución concertada incompleta, y para un nodo profundo dará una respuesta segura y equivocada. La lista de marcadores de la portada dice, para cada uno, en qué rango de profundidad es informativo.</p>
+    <p>«Siempre usamos ITS» no es un argumento: ITS resuelve entre especies cercanas, pero en un nodo profundo dará una respuesta segura y equivocada. La portada dice a qué profundidad informa cada marcador.</p>
   </div>
 
 </section>

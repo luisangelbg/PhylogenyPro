@@ -86,7 +86,20 @@
   </table>
 
   <h3>A.3 · Atajos de teclado</h3>
-  <p>Prácticamente no hay, y conviene decirlo en vez de inventar una lista: el programa se maneja con el ratón. Lo único que responde al teclado es <b><code>Esc</code></b>, que cierra la ficha de ayuda de interpretación y el gestor de imágenes, y la <b>barra espaciadora o <code>Intro</code></b> sobre una tarjeta de la portada, que abre ese bloque.</p>
+  <p>El programa se maneja sobre todo con el ratón, pero estos atajos sirven en cualquier bloque. <code>[</code> y <code>?</code> no responden mientras escribes en un campo.</p>
+
+  <table class="compacta">
+    <thead><tr><th style="width:1.5in">Tecla</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><code>Alt</code> + <code>←</code> / <code>→</code></td><td>Bloque anterior o siguiente, desde cualquier parte. En el modo enfocado, sección anterior o siguiente (en los extremos, el bloque).</td></tr>
+      <tr><td><code>←</code> / <code>→</code>, <code>Inicio</code>, <code>Fin</code></td><td>Con el foco en la barra de bloques: recorrerla, o ir al primer o al último bloque.</td></tr>
+      <tr><td><code>Ctrl</code> + <code>K</code></td><td>Abre <span class="ui">Buscar</span>: bloques, secciones, controles y acciones, incluso desde un campo.</td></tr>
+      <tr><td><code>[</code></td><td>Contrae o muestra la barra de bloques.</td></tr>
+      <tr><td><code>?</code></td><td>Muestra la lista de atajos y la ayuda de dónde estás.</td></tr>
+      <tr><td><code>Esc</code></td><td>Cierra ventanas y paneles (ayuda de interpretación, gestor de imágenes, lista de atajos); en la espera de un análisis largo, equivale a <span class="ui">Cancelar</span>.</td></tr>
+      <tr><td><code>Intro</code> o espacio</td><td>Sobre una tarjeta de la portada, abre ese bloque.</td></tr>
+    </tbody>
+  </table>
 
   <!-- ================================================================= B -->
   <h2 id="ap-b"><span class="num">B</span>El catálogo de modelos</h2>
@@ -300,7 +313,7 @@
   <table class="compacta">
     <thead><tr><th style="width:2in">Lo que ves</th><th>Qué suele ser</th></tr></thead>
     <tbody>
-      <tr><td><b>«No se encontró ese taxón»</b> al cruzar dos archivos</td><td>Casi siempre el guion bajo: <code>Bursera_palmeri</code> frente a <code>Bursera palmeri</code>. El Bloque 9 lo perdona; los demás lo dicen por su nombre. Corrige el archivo, no la lista.</td></tr>
+      <tr><td><b>«Sin fila en la tabla»</b> (Bloque 9) o <b>«Sin áreas en la tabla»</b> (Bloque 10), seguido de nombres de puntas</td><td>Esas puntas del árbol no se encontraron en la tabla. Los dos bloques ya perdonan espacios frente a guiones bajos (<code>Bursera_palmeri</code> frente a <code>Bursera palmeri</code>) y mayúsculas, así que casi siempre es una errata, una abreviatura o una fila que falta. Corrige el archivo, no la lista. El Bloque 9 poda el árbol a las puntas que tienen el carácter; el Bloque 10 necesita un rango por punta.</td></tr>
       <tr><td>El <b>árbol sale con una politomía</b> enorme</td><td>Un consenso con muchas divisiones por debajo del umbral. No es un error: es que los datos no resuelven ese nodo.</td></tr>
       <tr><td>La <b>cadena bayesiana no converge</b></td><td>Mira el ESS y el PSRF antes que nada. Si el ESS es bajo sólo en un parámetro, suele bastar con correr más; si el PSRF es alto, las cadenas están en sitios distintos y el problema es el modelo o el prior.</td></tr>
       <tr><td>Las <b>ramas salen larguísimas</b> en el análisis bayesiano</td><td>El prior de longitud de rama. Con datos divergentes, una exponencial de media 0.1 tira del árbol entero hacia abajo. El panel compara con el árbol de máxima verosimilitud antes de correr: hazle caso.</td></tr>
@@ -390,11 +403,12 @@
   </div>
 
   <h3>G.3 · Cómo citarlo</h3>
-  <p>En la raíz del programa hay un archivo <code>CITATION.cff</code> y un <code>codemeta.json</code> con los datos completos y legibles por máquina; muchos gestores de referencias los leen directamente. La forma corta:</p>
+  <p>En la raíz del programa hay un archivo <code>CITATION.cff</code> y un <code>codemeta.json</code> con los datos completos y legibles por máquina; muchos gestores de referencias los leen directamente. La forma corta, del programa y de este manual:</p>
 
   <div class="caja teoria">
     <div class="caja-t"><span class="ico">∑</span>Cita sugerida</div>
-    <p>Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: filogenia molecular en el navegador, del alineamiento al árbol fechado</i> (versión 1.4.0). Zenodo. https://doi.org/10.5281/zenodo.23005815</p>
+    <p>Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro: filogenia molecular en el navegador, del alineamiento al árbol fechado</i> (versión 1.4.0). Universidad Autónoma Chapingo. Zenodo. https://doi.org/10.5281/zenodo.23005815</p>
+    <p style="margin-top:0.08in">Barrera-Guzmán, L.Á. (2026). <i>PhylogenyPro. Manual de usuario</i> (1.ª ed.). Distribuido con PhylogenyPro, versión 1.4.0. https://doi.org/10.5281/zenodo.23005815</p>
     <p style="margin-top:0.08in">Ése es el <b>DOI de concepto</b>: lleva siempre a la versión más reciente, y es el que conviene citar. Si necesitas fijar exactamente la versión con la que corriste tu análisis —que es lo correcto cuando el resultado tiene que poder repetirse—, toma el DOI propio de esa versión del registro en Zenodo. El de la 1.4.0 es <code>10.5281/zenodo.23005816</code>.</p>
   </div>
 
