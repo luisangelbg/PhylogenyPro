@@ -84,14 +84,15 @@
   <!-- ------------------------------------------------------------------ 7.4 -->
   <h2 id="s7-4"><span class="num">7.4</span>The calibrations</h2>
 
-  <p>Without at least one, ages do not exist: substitutions per site and millions of years are two different scales and nothing links them. The program accepts four sources of years and four prior shapes.</p>
+  <p>Without at least one, ages do not exist: substitutions per site and millions of years are two different scales and nothing links them. The program accepts four sources of years and, in the <span class="ui">type</span> menu, five prior shapes.</p>
 
   <table class="tabla">
-    <caption><b>Table 7.2.</b> The four prior shapes and what they assert.</caption>
+    <caption><b>Table 7.2.</b> The five prior shapes and what they assert.</caption>
     <thead><tr><th style="width:26%">Shape</th><th>What it says about the node</th></tr></thead>
     <tbody>
       <tr><td><b>fixed age</b></td><td>It has exactly this age, with no uncertainty. Almost never true in biology.</td></tr>
       <tr><td><b>uniform interval</b></td><td>It lies between these two ages, with no preferred point. The shape of a geological event.</td></tr>
+      <tr><td><b>normal</b></td><td>It lies around a mean, with a deviation (<span class="ui">mean / M</span> and <span class="ui">sd / S</span>), equally likely toward younger and older ages. The shape of an age taken from another study; never that of a fossil, because it would allow the node to be younger than the fossil.</td></tr>
       <tr><td><b>offset lognormal</b></td><td>It is no younger than the offset, with a long tail backward. The shape of a fossil.</td></tr>
       <tr><td><b>offset exponential</b></td><td>The same, with the mass more concentrated near the offset.</td></tr>
     </tbody>
@@ -128,7 +129,7 @@
 
   <div class="caja ejemplo">
     <div class="caja-t"><span class="ico">→</span>What you read on screen</div>
-    <p><i>This prior says the node's age lies, with 95 % probability, between <b>21.3</b> and <b>39.5</b> Ma, with a median of <b>25.0</b> Ma, and cannot be younger than 20 Ma.</i></p>
+    <p><i>This prior says the node's age lies, with 95 % probability, between <b>21.3</b> and <b>39.5</b> Ma, with a median of <b>25.0</b> Ma, and cannot be younger than 20.0 Ma.</i></p>
   </div>
 
   <h3>And it warns about the mistakes that ruin a dating</h3>
